@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 export default function Navbar() {
   return (
     <>
-  <nav className={`${style.navbar} navbar navbar-expand-sm navbar-light  `}>
+  <nav className={`${style.navbar} navbar navbar-expand-sm navbar-light  mb-5 `}>
   <div className="container ">
     <Link className="navbar-brand " to={'/home'}>Knowladge</Link>
     <button className="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
