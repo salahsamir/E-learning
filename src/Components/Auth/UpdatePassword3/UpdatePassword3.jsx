@@ -85,7 +85,7 @@ export default function UpdatePassword3() {
              <TextField
           id="outlined-password-input"
           label="cPassword"
-          type="cpassword"
+          type="password"
           autoComplete="current-password"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
