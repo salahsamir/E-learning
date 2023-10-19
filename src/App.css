@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Blinker:wght@300;400&family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:ital@0;1&family=Roboto:ital,wght@0,400;1,300;1,400&family=Young+Serif&display=swap');
+body{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #F2F2F2;
+  background-image: url('./../public/light-patten.svg');
+  background-position: center;
+  background-size: cover;
+  color: #8AB0BF !important;
+}
