@@ -1,43 +1,41 @@
-import React from 'react'
-import style from './Navbar.module.css'
-import { Link } from 'react-router-dom'
+import React from "react";
+import styles from "./Navbar.module.css";
+import { Link as RouterLink } from "react-router-dom";
+import { AppBar, Box, Typography } from "@mui/material";
+import SearchBar from "./SearchBar/SearchBar";
+import ActionsRight from "./ActionsRight/ActionsRight";
+import Link from "@mui/material/Link";
+
 export default function Navbar() {
   return (
-    <>
-  <nav className={`${style.navbar} navbar navbar-expand-sm navbar-light  mb-5 `}>
-  <div className="container ">
-    <Link className="navbar-brand " to={'/home'}>Knowladge</Link>
-    <button className="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
-      <span className="navbar-toggler-icon" />
-    </button>
-    <div className="collapse navbar-collapse" id="collapsibleNavId">
-      <ul className="navbar-nav m-auto mt-2 mt-lg-0">
-        <li className="nav-item">
-          <Link className="nav-link " to={'home'} aria-current="page">Home <span className="visually-hidden">(current)</span></Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" href="#">Link</Link>
-        </li>
-     
-      </ul>
-      <ul className="navbar-nav m mt-2 mt-lg-0">
-        
-        <li className="nav-item">
-          <Link className="nav-link" to={'/login'}>Login</Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to={'/registar'}>Registar</Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" >Logout</Link>
-        </li>
-      </ul>
-     
-    </div>
-  </div>
-</nav>
-
-    
-    </>
-  )
+    <AppBar
+      elevation={5}
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        height: "60px",
+        paddingX: "1em",
+      }}
+    >
+      <Box>
+        <Typography variant="h1" fontSize={"2em"}>
+          <Link
+            to={"/"}
+            component={RouterLink}
+            sx={{
+              textDecoration: "none",
+              color: (theme) =>
+                theme.palette.mode === "dark" ? "white" : "black",
+            }}
+          >
+            Eduvation
+          </Link>
+        </Typography>
+      </Box>
+      <SearchBar />
+      <ActionsRight />
+    </AppBar>
+  );
 }

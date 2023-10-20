@@ -1,32 +1,17 @@
+import "./App.css";
+import { RouterProvider } from "react-router-dom";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { theme } from "./theme/theme";
+import { useSelector } from "react-redux";
+import router from "./util/router";
 
-import './App.css';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import Layout from './Components/layout/Layout.jsx';
-import Home from './Components/Home/Home.jsx';
-import Login from './Components/Auth/Login/Login.jsx';
-import Registar from './Components/Auth/Registar/Registar.jsx';
-import Forget from './Components/Auth/Forget/Forget.jsx';
-import SendCod2 from './Components/Auth/SendCod2/SendCod2.jsx';
-import UpdatePassword3 from './Components/Auth/UpdatePassword3/UpdatePassword3.jsx';
 function App() {
- const router=createBrowserRouter([
-  {path:'/',element:<Layout/>,children:[
-    {path:"home",element:<Home/>},
-    {path:'/login',index:true,element:<Login/>},
-    {path:"registar",element:<Registar/>},
-    {path:"forget",element:<Forget/>},
-    {path:"send",element:<SendCod2/>},
-    {path:"Update",element:<UpdatePassword3/>},
-  ]}
- ])
-   return (
-
-   <>
-  
-
-   <RouterProvider router={router}/>   
- 
-   </>
+  const themeMode = useSelector((state) => state.ui.themeMode);
+  return (
+    <ThemeProvider theme={theme(themeMode)}>
+      <CssBaseline />
+      <RouterProvider router={router} />
+    </ThemeProvider>
   );
 }
 
