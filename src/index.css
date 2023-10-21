@@ -1,13 +1,3 @@
-body {
-  margin: 0;
-
-  font-family: -apple-system, BlinkMacSystemFont, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji";
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 a {
-  text-decoration: none;
+  text-decoration: none !important;
 }

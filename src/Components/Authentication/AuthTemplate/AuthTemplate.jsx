@@ -1,8 +1,7 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
 import React from "react";
-import SigninForm from "../../Components/SigninForm/SigninForm";
-import loginImage from "../../assets/signin-dark.jpg";
-function Signin() {
+import authImage from "../../../assets/signin-dark.jpg";
+function AuthTemplate(props) {
   return (
     <Grid container sx={{ minHeight: "calc(100vh - 60px)" }}>
       <Grid
@@ -10,9 +9,10 @@ function Signin() {
         xs={0}
         md={6}
         sx={{
-          backgroundImage: "url(" + loginImage + ")",
+          backgroundImage: "url(" + authImage + ")",
           backgroundSize: "cover",
           backgroundPosition: "center",
+          backgroundAttachment: "scroll",
           display: { sm: "none", md: "flex" },
           justifyContent: "center",
           alignItems: "center",
@@ -29,22 +29,10 @@ function Signin() {
           textAlign: "center",
         }}
       >
-        <Typography
-          variant="h1"
-          fontSize={"2.2em"}
-          mt={8}
-          mb={3}
-          fontWeight={700}
-        >
-          Eduvation
-        </Typography>
-        <Typography variant="h5" mt={2} mb={5}>
-          Welcome back!
-        </Typography>
-        <SigninForm />
+        {props.children}
       </Grid>
     </Grid>
   );
 }
 
-export default Signin;
+export default AuthTemplate;

@@ -1,66 +1,93 @@
 import React, { useState } from "react";
-import { Form, Link, useNavigate } from "react-router-dom";
+import { Form, Link as RouterLink, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import Divider from "@mui/material/Divider";
 import {
   Button,
   Checkbox,
+  Divider,
   FormControlLabel,
+  Link,
   Stack,
   Typography,
 } from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
+import { LoadingButton } from "@mui/lab";
 import { Google } from "@mui/icons-material";
-
-export default function SigninForm() {
+export default function SignupForm() {
   let nav = useNavigate();
   let [loading, setLoading] = useState(false);
   let [error, setError] = useState("");
-
+  // Define the validation schema
   const validationSchema = yup.object().shape({
+    userName: yup.string().required("Username is required"),
     email: yup
       .string()
       .email("Invalid email format")
       .required("Email is required"),
     password: yup.string().required("Password is required"),
+    cpassword: yup
+      .string()
+      .oneOf([yup.ref("password"), null], "Passwords must match")
+      .required("Confirm password is required"),
+    // age: yup
+    //   .number()
+    //   .positive("Age must be a positive number")
+    //   .required("Age is required"),
   });
 
-  const handleSignin = async (values) => {
+  const handleSignup = async (values) => {
     setLoading(true);
     let { data } = await axios
-      .post(`https://task2-three-lemon.vercel.app/auth/signin`, values)
+      .post(`https://task2-three-lemon.vercel.app/auth/signup`, values)
       .catch((err) => {
         setError(err.response.data.message);
         setLoading(false);
       });
-
     if (data.message === "success") {
       setLoading(false);
-      nav("/home");
+      nav("/login");
     }
   };
   const formik = useFormik({
     initialValues: {
+      userName: "",
       email: "",
       password: "",
+      cpassword: "",
+      // age: "",
     },
 
     validationSchema,
-    onSubmit: handleSignin,
+    onSubmit: handleSignup,
   });
+
   return (
-    <Form onSubmit={formik.handleSubmit} method="post" autoComplete="off">
+    <Form onSubmit={formik.handleSubmit}>
       <Stack spacing={2} direction="column" alignItems="center">
+        <TextField
+          name="userName"
+          label="Username"
+          type="text"
+          required
+          error={formik.errors.userName !== undefined}
+          helperText={formik.errors.userName ? formik.errors.userName : ""}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.userName}
+          autoComplete="userName"
+          variant="outlined"
+          sx={{ width: { xs: "90%", sm: "400px" } }}
+        />
         <TextField
           name="email"
           label="email"
           type="email"
           required
           error={formik.errors.email !== undefined}
+          helperText={formik.errors.email ? formik.errors.email : ""}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.email}
@@ -75,9 +102,24 @@ export default function SigninForm() {
           autoComplete="current-password"
           required
           error={formik.errors.password !== undefined}
+          helperText={formik.errors.password ? formik.errors.password : ""}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.password}
+          variant="outlined"
+          sx={{ width: { xs: "90%", sm: "400px" } }}
+        />
+        <TextField
+          name="cpassword"
+          label="Confirm Password"
+          type="password"
+          autoComplete="current-password"
+          required
+          error={formik.errors.cpassword !== undefined}
+          helperText={formik.errors.cpassword ? formik.errors.cpassword : ""}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.cpassword}
           variant="outlined"
           sx={{ width: { xs: "90%", sm: "400px" } }}
         />
@@ -86,19 +128,15 @@ export default function SigninForm() {
             width: { xs: "90%", sm: "400px" },
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
+            justifyContent: "flex-start",
           }}
         >
           <FormControlLabel
             control={<Checkbox />}
-            label="Remember me"
-            name="rememberMe"
+            label="I agree to the terms and conditions"
+            name="terms"
+            required
           />
-          <Typography variant="body2" sx={{ float: "right" }}>
-            <Link to={"/forget"} className="float-end">
-              Forget password?
-            </Link>
-          </Typography>
         </Box>
 
         <LoadingButton
@@ -113,7 +151,7 @@ export default function SigninForm() {
             marginBottom: "80px",
           }}
         >
-          SIGN IN
+          SIGN UP
         </LoadingButton>
         <Divider sx={{ width: { xs: "90%", sm: "400px" } }}>OR</Divider>
         <Button
@@ -130,8 +168,12 @@ export default function SigninForm() {
         >
           Sign in with Google
         </Button>
-        <Typography variant="body1" my={5}>
-          Still without account? <Link to={"/signup"}> Create one</Link>
+        <Typography variant="body1" marginY={"20px !important"}>
+          Already have an account?{" "}
+          <Link component={RouterLink} to={"/signin"}>
+            {" "}
+            Sign in
+          </Link>
         </Typography>
       </Stack>
     </Form>

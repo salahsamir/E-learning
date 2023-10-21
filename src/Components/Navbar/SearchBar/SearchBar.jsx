@@ -52,26 +52,15 @@ function SearchBar() {
   return (
     <Search>
       <SearchIconWrapper>
-        <SearchOutlined />
+        <SearchOutlined sx={{ color: (theme) => theme.palette.primary.svg }} />
       </SearchIconWrapper>
       <StyledInputBase
         placeholder="Search…"
         inputProps={{ "aria-label": "search" }}
+        color="primary"
       />
     </Search>
   );
-  // return (
-  //   <Box sx={{ height: "40px", width: "320px", border: "1px solid #8C8C88" }}>
-  //     <Icon>
-  //       <Search />
-  //     </Icon>
-  //     <InputBase
-  //       type="search"
-  //       placeholder="Search..."
-  //       sx={{ marginLeft: "10px" }}
-  //     />
-  //   </Box>
-  // );
 }
 
 export default SearchBar;

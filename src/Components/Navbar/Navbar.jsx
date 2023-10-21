@@ -17,6 +17,8 @@ export default function Navbar() {
         alignItems: "center",
         height: "60px",
         paddingX: "1em",
+        backgroundColor: (theme) =>
+          theme.palette.mode === "light" ? "#f7ffe5" : "#28313f",
       }}
     >
       <Box>
