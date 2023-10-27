@@ -4,16 +4,15 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
-import { Alert, Link, Stack, Typography } from "@mui/material";
+import { Alert ,Link, Stack, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import { useDispatch } from "react-redux";
-import { forgetPasswordActions } from "../../../store/forgetPasswordSlice";
-
-export default function ForgetPasswordForm() {
+import AuthTemplate from "../../../Components/Authentication/AuthTemplate/AuthTemplate.jsx";
+import SendIcon from '@mui/icons-material/Send';
+import { BaseApi } from "../../../util/BaseApi.js";
+import toast from "react-hot-toast";
+export default function SendEmail() {
   let nav = useNavigate();
   let [loading, setLoading] = useState(false);
-  let [error, setError] = useState("");
-  const dispatch = useDispatch();
   const validationSchema = yup.object().shape({
     email: yup
       .string()
@@ -23,20 +22,29 @@ export default function ForgetPasswordForm() {
 
   const HandelRegistar = async (values) => {
     setLoading(true);
-    // let { data } = await axios
-    //   .post(`https://task2-three-lemon.vercel.app/auth/signin`, values)
-    //   .catch((err) => {
-    //     setError(err.response.data.message);
-    //     setLoading(false);
-    //   });
-
-    dispatch(forgetPasswordActions.setEmailStatus(true));
-    setLoading(false);
-
-    // if (data.message === "success") {
-    //   dispatch(forgetPasswordActions.setEmailStatus(true));
-    //   setLoading(false);
-    // }
+    let { data } = await axios
+      .patch(`${BaseApi}/auth/forgetCode`, values)
+      .catch((err) => {
+        toast.error(err.response.data.message,{ style: {
+          borderRadius: '10px',
+          background: 'green',
+          color: '#fff',
+        }})
+        setLoading(false);
+      });
+    
+    if (data.message === "Done") {
+      setLoading(false);
+      toast.success('Successfully ! please check your Email',{
+        icon: '👏',
+        style: {
+          borderRadius: '10px',
+          background: 'green',
+          color: '#fff',
+        },
+      })
+      nav('/sendCode')
+    }
   };
   const formik = useFormik({
     initialValues: {
@@ -49,7 +57,20 @@ export default function ForgetPasswordForm() {
 
   return (
     <>
-      <Typography variant="body1" sx={{ width: { xs: "90%", sm: "400px" } }}>
+      <AuthTemplate>
+      <Stack alignItems="center" height={"100%"} gap={5}>
+      
+          <Typography
+            variant="h1"
+            fontSize={"2.2em"}
+            mt={8}
+            mb={3}
+            fontWeight={700}
+          >
+            Eduvation
+          </Typography>
+      
+          <Typography variant="body1" color='GrayText' sx={{ width: { xs: "90%", sm: "400px" } }}>
         Enter the email address associated with your account and we will send
         you a link to reset your password.
       </Typography>
@@ -76,25 +97,33 @@ export default function ForgetPasswordForm() {
           sx={{ width: "100%" }}
         />
         <LoadingButton
-          loading={loading}
+          loading={loading?loading:''}
           variant="contained"
           type="submit"
           sx={{
+            color:"white",
             width: "250px",
             height: "48x",
             borderRadius: "25px",
             fontSize: "20px",
           }}
+          endIcon={<SendIcon/>}
         >
-          Submit
+          Send   
         </LoadingButton>
       </Stack>
       <Typography variant="body1" marginY={"20px !important"}>
         Still without account?{" "}
+
         <Link component={RouterLink} to={"/signup"}>
           Create one
         </Link>
       </Typography>
+        
+      
+      </Stack>
+    </AuthTemplate>
+ 
     </>
   );
 }

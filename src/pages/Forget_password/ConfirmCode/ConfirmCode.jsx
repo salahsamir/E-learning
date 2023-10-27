@@ -4,34 +4,47 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
-import { Stack, Typography } from "@mui/material";
+import { Alert, Stack, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import { useDispatch } from "react-redux";
-import { forgetPasswordActions } from "../../store/forgetPasswordSlice";
-
+import AuthTemplate from './../../../Components/Authentication/AuthTemplate/AuthTemplate.jsx'
+import SendIcon from '@mui/icons-material/Send';
+import { BaseApi } from "../../../util/BaseApi.js";
+import toast from "react-hot-toast";
 export default function ConfirmCode() {
   let nav = useNavigate();
   let [loading, setLoading] = useState(false);
-  let [error, setError] = useState("");
+
   const validationSchema = yup.object().shape({
-    code: yup.number().required("Verification code is required"),
+    code: yup.number().required("Verification code is required").min(5),
   });
-  const dispatch = useDispatch();
   const HandelRegistar = async (values) => {
     setLoading(true);
-    // let { data } = await axios
-    //   .post(`https://task2-three-lemon.vercel.app/auth/signin`, values)
-    //   .catch((err) => {
-    //     setError(err.response.data.message);
-    //     setLoading(false);
-    //   });
-    dispatch(forgetPasswordActions.setCodeStatus(true));
-    setLoading(false);
+    let { data } = await axios
+      .patch(`${BaseApi}/auth/verifyCode`, values)
+      .catch((err) => {
+        toast.error(err.response.data.message,{ style: {
+          borderRadius: '10px',
+          background: 'green',
+          color: '#fff',
+        }})
+        setLoading(false);
+      });
+     
+    if (data.message === "Done") {
+      localStorage.setItem('TokenCode',data.token)
 
-    // if (data.message === "success") {
-    //   dispatch(forgetPasswordActions.setCodeStatus(true));
-    //   setLoading(false);
-    // }
+      setLoading(false);
+      toast.success('Well Done!',{
+        icon: '👏',
+        style: {
+          borderRadius: '10px',
+          background: 'green',
+          color: '#fff',
+        },
+      })
+      nav('/updatePassword')
+  
+  }
   };
   const formik = useFormik({
     initialValues: {
@@ -44,7 +57,19 @@ export default function ConfirmCode() {
 
   return (
     <>
-      <Typography variant="body1" sx={{ width: { xs: "90%", sm: "400px" } }}>
+      <AuthTemplate>
+      <Stack alignItems="center" height={"100%"} gap={5}>
+          <Typography
+            variant="h1"
+            fontSize={"2.2em"}
+            mt={8}
+            mb={3}
+            fontWeight={700}
+          >
+            Eduvation
+          </Typography>
+       
+          <Typography variant="body1" color={'GrayText'} sx={{ width: { xs: "90%", sm: "400px" } }}>
         We have sent you a code to your email. please type the code here to
         reset your password.
       </Typography>
@@ -70,7 +95,7 @@ export default function ConfirmCode() {
           sx={{ width: "100%" }}
         />
         <LoadingButton
-          loading={loading}
+          loading={loading?loading:''}
           variant="contained"
           type="submit"
           sx={{
@@ -78,11 +103,16 @@ export default function ConfirmCode() {
             height: "48x",
             borderRadius: "25px",
             fontSize: "20px",
+            color:"white"
           }}
+          endIcon={<SendIcon/>}
         >
-          Submit
+          Send
         </LoadingButton>
       </Stack>
+      </Stack>
+    </AuthTemplate>
+   
     </>
   );
 }

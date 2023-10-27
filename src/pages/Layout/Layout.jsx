@@ -7,7 +7,7 @@ export default function Layout() {
   return (
     <>
       <Navbar />
-      <Box pt={"60px"}>
+      <Box >
         <Outlet />
       </Box>
     </>

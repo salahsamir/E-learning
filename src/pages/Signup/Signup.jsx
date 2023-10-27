@@ -7,14 +7,13 @@ function Signup() {
     <AuthTemplate>
       <Typography
         variant="h1"
-        fontSize={"2.2em"}
-        mt={8}
-        mb={3}
-        fontWeight={700}
+        fontSize={"2em"}
+        mt={2}
+        fontWeight={600}
       >
         Eduvation
       </Typography>
-      <Typography variant="h5" mt={2} mb={5}>
+      <Typography variant="h5" color="GrayText" mt={2} mb={2}>
         Welcome to our site!
       </Typography>
       <SignupForm />

@@ -6,7 +6,7 @@ import axios from "axios";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import {
-  Button,
+  Alert,
   Checkbox,
   Divider,
   FormControlLabel,
@@ -15,49 +15,55 @@ import {
   Typography,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import { Google } from "@mui/icons-material";
+import { BaseApi } from "../../../util/BaseApi.js";
+import toast from "react-hot-toast";
 export default function SignupForm() {
   let nav = useNavigate();
   let [loading, setLoading] = useState(false);
-  let [error, setError] = useState("");
-  // Define the validation schema
   const validationSchema = yup.object().shape({
     userName: yup.string().required("Username is required"),
     email: yup
       .string()
       .email("Invalid email format")
       .required("Email is required"),
-    password: yup.string().required("Password is required"),
-    cpassword: yup
+    password: yup.string().required("Password is required").min(8,"Please: length greater than 8"),
+    cPassword: yup
       .string()
       .oneOf([yup.ref("password"), null], "Passwords must match")
       .required("Confirm password is required"),
-    // age: yup
-    //   .number()
-    //   .positive("Age must be a positive number")
-    //   .required("Age is required"),
   });
-
   const handleSignup = async (values) => {
     setLoading(true);
     let { data } = await axios
-      .post(`https://task2-three-lemon.vercel.app/auth/signup`, values)
-      .catch((err) => {
-        setError(err.response.data.message);
-        setLoading(false);
-      });
-    if (data.message === "success") {
+    .post(`${BaseApi}/auth/SignUp`, values)
+    .catch((err) => {
+      toast.error(err.response.data.message,{ style: {
+        borderRadius: '10px',
+        background: 'green',
+        color: '#fff',
+      }},)
       setLoading(false);
-      nav("/login");
+    });
+    if(data.message==="Done"){
+      setLoading(false);
+      toast.success('Successfully ! please check your Email',{
+        icon: '👏',
+        style: {
+          borderRadius: '10px',
+          background: 'green',
+          color: '#fff',
+        },
+      })
+      nav('/signin')
     }
+  
   };
   const formik = useFormik({
     initialValues: {
       userName: "",
       email: "",
       password: "",
-      cpassword: "",
-      // age: "",
+      cPassword: "",
     },
 
     validationSchema,
@@ -66,12 +72,13 @@ export default function SignupForm() {
 
   return (
     <Form onSubmit={formik.handleSubmit}>
-      <Stack spacing={2} direction="column" alignItems="center">
+     
+      <Stack spacing={1} padding={"4px"} direction="column" alignItems="center">
         <TextField
           name="userName"
           label="Username"
           type="text"
-          required
+          
           error={formik.errors.userName !== undefined}
           helperText={formik.errors.userName ? formik.errors.userName : ""}
           onChange={formik.handleChange}
@@ -79,13 +86,14 @@ export default function SignupForm() {
           value={formik.values.userName}
           autoComplete="userName"
           variant="outlined"
-          sx={{ width: { xs: "90%", sm: "400px" } }}
+          size="small"
+          sx={{ width: { xs: "90%", sm: "400px" }}}
         />
         <TextField
           name="email"
           label="email"
           type="email"
-          required
+          
           error={formik.errors.email !== undefined}
           helperText={formik.errors.email ? formik.errors.email : ""}
           onChange={formik.handleChange}
@@ -93,6 +101,7 @@ export default function SignupForm() {
           value={formik.values.email}
           autoComplete="email"
           variant="outlined"
+          size="small"
           sx={{ width: { xs: "90%", sm: "400px" } }}
         />
         <TextField
@@ -100,29 +109,32 @@ export default function SignupForm() {
           label="Password"
           type="password"
           autoComplete="current-password"
-          required
+          
           error={formik.errors.password !== undefined}
           helperText={formik.errors.password ? formik.errors.password : ""}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.password}
           variant="outlined"
+            size="small"
           sx={{ width: { xs: "90%", sm: "400px" } }}
         />
         <TextField
-          name="cpassword"
+          name="cPassword"
           label="Confirm Password"
           type="password"
           autoComplete="current-password"
-          required
-          error={formik.errors.cpassword !== undefined}
-          helperText={formik.errors.cpassword ? formik.errors.cpassword : ""}
+          
+          error={formik.errors.cPassword !== undefined}
+          helperText={formik.errors.cPassword ? formik.errors.cPassword : ""}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values.cpassword}
+          value={formik.values.cPassword}
           variant="outlined"
+            size="small"
           sx={{ width: { xs: "90%", sm: "400px" } }}
         />
+
         <Box
           sx={{
             width: { xs: "90%", sm: "400px" },
@@ -130,11 +142,13 @@ export default function SignupForm() {
             alignItems: "center",
             justifyContent: "flex-start",
           }}
+         
         >
           <FormControlLabel
             control={<Checkbox />}
             label="I agree to the terms and conditions"
             name="terms"
+            variant="body2"
             required
           />
         </Box>
@@ -142,33 +156,22 @@ export default function SignupForm() {
         <LoadingButton
           variant="contained"
           type="submit"
-          loading={loading}
+          size="small"
+          loading={loading?loading:''}
           sx={{
-            width: "250px",
-            height: "56px",
+            width: "200px",
+            
             borderRadius: "25px",
-            fontSize: "20px",
-            marginBottom: "80px",
+           
+            fontSize: "18px",
+            marginBottom: "15px",
           }}
         >
           SIGN UP
         </LoadingButton>
-        <Divider sx={{ width: { xs: "90%", sm: "400px" } }}>OR</Divider>
-        <Button
-          startIcon={<Google />}
-          sx={{
-            height: "56px",
-            fontSize: "1em",
-            fontWeight: 600,
-            color: (theme) =>
-              theme.palette.mode === "dark"
-                ? "white"
-                : theme.palette.primary.main,
-          }}
-        >
-          Sign in with Google
-        </Button>
-        <Typography variant="body1" marginY={"20px !important"}>
+        <Divider  sx={{ width: { xs: "90%", sm: "400px" } }}>OR</Divider>
+    
+        <Typography variant="body2" color='gray' marginY={"5px !important"}>
           Already have an account?{" "}
           <Link component={RouterLink} to={"/signin"}>
             {" "}

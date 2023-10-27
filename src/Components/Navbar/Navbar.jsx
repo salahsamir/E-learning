@@ -11,11 +11,12 @@ export default function Navbar() {
     <AppBar
       elevation={5}
       sx={{
+        position:"sticky",//1
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        height: "60px",
+        height: "50px",
         paddingX: "1em",
         backgroundColor: (theme) =>
           theme.palette.mode === "light" ? "#f7ffe5" : "#28313f",

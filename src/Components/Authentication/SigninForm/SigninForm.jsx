@@ -9,6 +9,7 @@ import Divider from "@mui/material/Divider";
 import Checkbox from "@mui/material/Checkbox";
 
 import {
+  Alert,
   Button,
   FormControlLabel,
   Link,
@@ -16,32 +17,45 @@ import {
   Typography,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Google } from "@mui/icons-material";
 
+import { BaseApi } from "../../../util/BaseApi.js";
+import toast from "react-hot-toast";
 export default function SigninForm() {
   let nav = useNavigate();
   let [loading, setLoading] = useState(false);
-  let [error, setError] = useState("");
 
   const validationSchema = yup.object().shape({
     email: yup
       .string()
       .email("Invalid email format")
       .required("Email is required"),
-    password: yup.string().required("Password is required"),
+    password: yup.string().required("Password is required").min(8,"Please length greater than 8"),
   });
 
   const handleSignin = async (values) => {
     setLoading(true);
     let { data } = await axios
-      .post(`https://task2-three-lemon.vercel.app/auth/signin`, values)
+      .post(`${BaseApi}/auth/Login`, values)
       .catch((err) => {
-        setError(err.response.data.message);
+        toast.error(err.response.data.message,{ style: {
+          borderRadius: '10px',
+          background: 'green',
+          color: '#fff',
+        }})
         setLoading(false);
       });
-
-    if (data.message === "success") {
+       
+    if (data.message === "Done") {
       setLoading(false);
+      toast.success('Successfully !',{
+        icon: '👏',
+        style: {
+          borderRadius: '10px',
+          background: 'green',
+          color: '#fff',
+        },
+      })
+      localStorage.setItem('token',data.BrearerToken)
       nav("/home");
     }
   };
@@ -100,7 +114,7 @@ export default function SigninForm() {
           />
           <Typography variant="body2" sx={{ float: "right" }}>
             <Link
-              to={"/forget-password"}
+              to={"/sendEmail"}
               className="float-end"
               component={RouterLink}
             >
@@ -112,7 +126,7 @@ export default function SigninForm() {
         <LoadingButton
           variant="contained"
           type="submit"
-          loading={loading}
+          loading={loading?loading:''}
           sx={{
             width: "250px",
             height: "56px",
@@ -124,20 +138,7 @@ export default function SigninForm() {
           SIGN IN
         </LoadingButton>
         <Divider sx={{ width: { xs: "90%", sm: "400px" } }}>OR</Divider>
-        <Button
-          startIcon={<Google />}
-          sx={{
-            height: "56px",
-            fontSize: "1em",
-            fontWeight: 600,
-            color: (theme) =>
-              theme.palette.mode === "dark"
-                ? "white"
-                : theme.palette.primary.main,
-          }}
-        >
-          Sign in with Google
-        </Button>
+      
         <Typography variant="body1" marginY={"20px !important"}>
           Still without account?{" "}
           <Link component={RouterLink} to={"/signup"}>
