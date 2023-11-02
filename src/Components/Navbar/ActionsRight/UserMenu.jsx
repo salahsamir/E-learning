@@ -18,6 +18,9 @@ import {
   Paper,
 } from "@mui/material";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { changeDate } from "../../../store/UserData.jsx";
 
 const SolidDvider = styled(Divider)(({ theme }) => ({
   borderColor: "#bcbcce",
@@ -25,6 +28,14 @@ const SolidDvider = styled(Divider)(({ theme }) => ({
 }));
 
 function UserMenu() {
+ let dispatch=useDispatch()
+  const nav=useNavigate()
+  let SignOut=()=>{
+    localStorage.removeItem('token')
+    dispatch(changeDate())
+    nav('/signin')
+
+  }
   return (
     <Paper
       sx={{
@@ -80,10 +91,10 @@ function UserMenu() {
           <ListItemText>Support</ListItemText>
         </MenuItem>
         <SolidDvider />
-        <MenuItem>
+        <MenuItem onClick={()=>{SignOut()}}>
           <ListItemIcon>
             <LogoutOutlined />
-          </ListItemIcon>
+          </ListItemIcon >
           <ListItemText>Sign Out</ListItemText>
         </MenuItem>
       </MenuList>

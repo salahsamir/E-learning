@@ -7,22 +7,23 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Divider from "@mui/material/Divider";
 import Checkbox from "@mui/material/Checkbox";
-
 import {
-  Alert,
-  Button,
   FormControlLabel,
   Link,
   Stack,
   Typography,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-
 import { BaseApi } from "../../../util/BaseApi.js";
 import toast from "react-hot-toast";
+import { useSelector,useDispatch } from "react-redux";
+import {savaData} from "../../../store/UserData.jsx"
 export default function SigninForm() {
   let nav = useNavigate();
   let [loading, setLoading] = useState(false);
+ let {Data}=useSelector((state)=>state.UserData)
+ let dispatch=useDispatch()
+
 
   const validationSchema = yup.object().shape({
     email: yup
@@ -39,8 +40,8 @@ export default function SigninForm() {
       .catch((err) => {
         toast.error(err.response.data.message,{ style: {
           borderRadius: '10px',
-          background: 'green',
-          color: '#fff',
+          background: '#1B0A26',
+          color: '#F2C791',
         }})
         setLoading(false);
       });
@@ -51,12 +52,13 @@ export default function SigninForm() {
         icon: '👏',
         style: {
           borderRadius: '10px',
-          background: 'green',
-          color: '#fff',
+          background: '#1B0A26',
+          color: '#F2C791',
         },
       })
       localStorage.setItem('token',data.BrearerToken)
-      nav("/home");
+      dispatch(savaData())
+      nav("/");
     }
   };
   const formik = useFormik({
@@ -70,14 +72,14 @@ export default function SigninForm() {
   });
   return (
     <Form onSubmit={formik.handleSubmit} method="post" autoComplete="off">
-      <Stack spacing={2} direction="column" alignItems="center">
+      <Stack spacing={1} direction="column" alignItems="center">
         <TextField
           name="email"
           label="email"
           type="email"
           required
-          error={formik.errors.email !== undefined}
-          helperText={formik.errors.email ? formik.errors.email : ""}
+          error={formik.errors.email && formik.touched.email  !== undefined}
+          helperText={formik.errors.email&& formik.touched.email ? formik.errors.email : ""}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.email}
@@ -85,20 +87,21 @@ export default function SigninForm() {
           variant="outlined"
           sx={{ width: { xs: "90%", sm: "400px" } }}
         />
+        
         <TextField
           name="password"
           label="Password"
           type="password"
           autoComplete="current-password"
           required
-          error={formik.errors.password !== undefined}
-          helperText={formik.errors.password ? formik.errors.password : ""}
+          error={formik.errors.password && formik.touched.password !== undefined}
+          helperText={formik.errors.password&& formik.touched.password ? formik.errors.password : ""}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.password}
           variant="outlined"
           sx={{ width: { xs: "90%", sm: "400px" } }}
-        />
+        /> 
         <Box
           sx={{
             width: { xs: "90%", sm: "400px" },

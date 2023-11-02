@@ -3,12 +3,13 @@ import {
     LightModeOutlined,
     NotificationsNoneOutlined,
   } from "@mui/icons-material";
-  import { Avatar, ButtonBase, IconButton, Popover, Stack } from "@mui/material";
+  import { Avatar, ButtonBase, IconButton, Popover, Stack, Typography } from "@mui/material";
   import React, { useState } from "react";
-  import { useNavigate } from "react-router-dom";
+  import { Link as RouterLink, useNavigate } from "react-router-dom";
   import { getAuthToken } from "../../../util/auth";
   import { useDispatch, useSelector } from "react-redux";
   import { uiActions } from "../../../store/uiSlice";
+  import Link from "@mui/material/Link";
   import UserMenu from "./UserMenu";
   
   function ActionsRight() {
@@ -17,7 +18,7 @@ import {
     const navigate = useNavigate();
     const [menuIsOpen, setMenuIsOpen] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
-  
+    let {Data}=useSelector((state)=>state.UserData)
     function avatarClickHandler(event) {
       if (!getAuthToken()) {
         navigate("/signin");
@@ -39,8 +40,11 @@ import {
               }}
             />
           )}
+          
         </IconButton>
-        <IconButton>
+        {
+          Data?<>
+             <IconButton>
           <NotificationsNoneOutlined
             sx={{ fontSize: "28px", color: (theme) => theme.palette.primary.svg }}
           />
@@ -66,6 +70,31 @@ import {
         >
           <UserMenu />
         </Popover>
+          </>
+          
+          :<>
+           <Typography variant="h6" padding={'10px'}>
+           <Link   component={RouterLink}  sx={{
+              textDecoration: "none",
+           
+              color: (theme) =>
+                theme.palette.mode === "dark" ? "white" : "black",
+            }} to={"/signin"}>
+            Login
+          </Link>
+        </Typography>
+        <Typography variant="h6" padding={'10px'}>
+        <Link   component={RouterLink}  sx={{
+              textDecoration: "none",
+              color: (theme) =>
+                theme.palette.mode === "dark" ? "white" : "black",
+            }} to={"/signup"}>
+            Registar
+          </Link>
+        </Typography>
+          </>
+        }
+     
       </Stack>
     );
   }

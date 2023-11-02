@@ -24,8 +24,8 @@ export default function ConfirmCode() {
       .catch((err) => {
         toast.error(err.response.data.message,{ style: {
           borderRadius: '10px',
-          background: 'green',
-          color: '#fff',
+          background: '#1B0A26',
+          color: '#F2C791',
         }})
         setLoading(false);
       });
@@ -38,8 +38,8 @@ export default function ConfirmCode() {
         icon: '👏',
         style: {
           borderRadius: '10px',
-          background: 'green',
-          color: '#fff',
+          background: '#1B0A26',
+          color: '#F2C791',
         },
       })
       nav('/updatePassword')
@@ -89,8 +89,8 @@ export default function ConfirmCode() {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.code}
-          error={formik.errors.code !== undefined}
-          helperText={formik.errors.code ? formik.errors.code : ""}
+          error={formik.errors.code && formik.touched.code  !== undefined}
+          helperText={formik.errors.code&& formik.touched.code ? formik.errors.code : ""}
           name="code"
           sx={{ width: "100%" }}
         />

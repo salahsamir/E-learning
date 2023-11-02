@@ -31,8 +31,8 @@ export default function UpdatePasswordForm() {
     .catch((err) => {
       toast.error(err.response.data.message,{ style: {
         borderRadius: '10px',
-        background: 'green',
-        color: '#fff',
+        background: '#1B0A26',
+        color: '#F2C791',
       }})
       setLoading(false);
     });
@@ -43,8 +43,8 @@ export default function UpdatePasswordForm() {
       icon: '👏',
       style: {
         borderRadius: '10px',
-        background: 'green',
-        color: '#fff',
+        background: '#1B0A26',
+        color: '#F2C791',
       },
     })
     nav('/signin')
@@ -93,8 +93,8 @@ export default function UpdatePasswordForm() {
           type="password"
           autoComplete="current-password"
           required
-          error={formik.errors.password !== undefined}
-          helperText={formik.errors.password ? formik.errors.password : ""}
+          error={formik.errors.password && formik.touched.password !== undefined}
+          helperText={formik.errors.password && formik.touched.password? formik.errors.password: ""}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.password}
@@ -107,8 +107,8 @@ export default function UpdatePasswordForm() {
           type="password"
           autoComplete="current-password"
           required
-          error={formik.errors.cPassword !== undefined}
-          helperText={formik.errors.cPassword ? formik.errors.cPassword : ""}
+          error={formik.errors.cPassword && formik.touched.cPassword  !== undefined}
+          helperText={formik.errors.cPassword&& formik.touched.cPassword ? formik.errors.cPassword : ""}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.cPassword}

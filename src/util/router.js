@@ -7,18 +7,25 @@ import ConfirmCode from '../pages/Forget_password/ConfirmCode/ConfirmCode';
 import UpdatePasswordForm from '../pages/Forget_password/UpdatePasswordForm/UpdatePasswordForm';
 import SendEmail from "../pages/Forget_password/SendEmail/SendEmail.jsx";
 import NotFound from "../pages/NotFound/NotFound.jsx";
+import { Navigate } from "react-router-dom";
+let ProtectedRouter=(props)=>{
 
-
+  if(localStorage.getItem('token')==null){
+    return <Navigate to="/signin"  />
+  }else{
+    return props.children
+  }
+}
 const router = createBrowserRouter([
   {
-    path: "/",
+    path:'',
     element: <Layout />,
     children: [
       {
-        path: "home", element: <Home />,
+        index: true, element: <ProtectedRouter><Home /></ProtectedRouter>,
       },
-      { path: "signin", index: true, element: <Signin /> },
-      { path: "signup", element: <Signup /> },
+      { path: "signin", element: <Signin/> },
+      { path: "signup", element: <Signup/> },
       { path: "sendEmail", element: <SendEmail /> },
       { path: "sendCode", element: <ConfirmCode /> },
       { path: "updatePassword", element: <UpdatePasswordForm /> },

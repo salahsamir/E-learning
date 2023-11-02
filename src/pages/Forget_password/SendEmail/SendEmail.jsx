@@ -27,8 +27,8 @@ export default function SendEmail() {
       .catch((err) => {
         toast.error(err.response.data.message,{ style: {
           borderRadius: '10px',
-          background: 'green',
-          color: '#fff',
+          background: '#1B0A26',
+          color: '#F2C791',
         }})
         setLoading(false);
       });
@@ -39,8 +39,8 @@ export default function SendEmail() {
         icon: '👏',
         style: {
           borderRadius: '10px',
-          background: 'green',
-          color: '#fff',
+          background: '#1B0A26',
+          color: '#F2C791',
         },
       })
       nav('/sendCode')
@@ -90,8 +90,8 @@ export default function SendEmail() {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.email}
-          error={formik.errors.email !== undefined}
-          helperText={formik.errors.email ? formik.errors.email : ""}
+          error={formik.errors.email && formik.touched.email  !== undefined}
+          helperText={formik.errors.email&& formik.touched.email ? formik.errors.email : ""}
           name="email"
           type="email"
           sx={{ width: "100%" }}

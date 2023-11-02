@@ -39,8 +39,8 @@ export default function SignupForm() {
     .catch((err) => {
       toast.error(err.response.data.message,{ style: {
         borderRadius: '10px',
-        background: 'green',
-        color: '#fff',
+        background: '#1B0A26',
+        color: '#F2C791',
       }},)
       setLoading(false);
     });
@@ -50,8 +50,8 @@ export default function SignupForm() {
         icon: '👏',
         style: {
           borderRadius: '10px',
-          background: 'green',
-          color: '#fff',
+          background: '#1B0A26',
+          color: '#F2C791',
         },
       })
       nav('/signin')
@@ -79,8 +79,8 @@ export default function SignupForm() {
           label="Username"
           type="text"
           
-          error={formik.errors.userName !== undefined}
-          helperText={formik.errors.userName ? formik.errors.userName : ""}
+          error={formik.errors.userName && formik.touched.userName  !== undefined}
+          helperText={formik.errors.userName&& formik.touched.userName ? formik.errors.userName : ""}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.userName}
@@ -94,8 +94,8 @@ export default function SignupForm() {
           label="email"
           type="email"
           
-          error={formik.errors.email !== undefined}
-          helperText={formik.errors.email ? formik.errors.email : ""}
+          error={formik.errors.email && formik.touched.email  !== undefined}
+          helperText={formik.errors.email&& formik.touched.email ? formik.errors.email : ""}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.email}
@@ -110,8 +110,8 @@ export default function SignupForm() {
           type="password"
           autoComplete="current-password"
           
-          error={formik.errors.password !== undefined}
-          helperText={formik.errors.password ? formik.errors.password : ""}
+          e  error={formik.errors.password && formik.touched.password  !== undefined}
+          helperText={formik.errors.password&& formik.touched.password ? formik.errors.password : ""}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.password}
@@ -125,8 +125,8 @@ export default function SignupForm() {
           type="password"
           autoComplete="current-password"
           
-          error={formik.errors.cPassword !== undefined}
-          helperText={formik.errors.cPassword ? formik.errors.cPassword : ""}
+          error={formik.errors.cPassword && formik.touched.cPassword  !== undefined}
+          helperText={formik.errors.cPassword&& formik.touched.cPassword ? formik.errors.cPassword : ""}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.cPassword}

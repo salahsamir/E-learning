@@ -37,8 +37,8 @@ export default function Navbar() {
           </Link>
         </Typography>
       </Box>
-      <SearchBar />
-      <ActionsRight />
+      <SearchBar  />
+      <ActionsRight  />
     </AppBar>
   );
 }

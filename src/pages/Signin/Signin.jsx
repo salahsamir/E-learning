@@ -16,7 +16,7 @@ function Signin() {
       <Typography variant="h5" color='gray' mt={2} mb={2}>
         Welcome back!
       </Typography>
-      <SigninForm />
+      <SigninForm  />
     </AuthTemplate>
   );
 }

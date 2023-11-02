@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import uiSlice from "./uiSlice";
-import forgetPasswordSlice from "./forgetPasswordSlice";
+import { userReducer } from "./UserData.jsx";
+
 
 const store = configureStore({
   reducer: {
     ui: uiSlice.reducer,
-    forgetPassword: forgetPasswordSlice.reducer,
+    UserData:userReducer
   },
 });
 
 export default store;
+

@@ -1,16 +1,16 @@
-import { Search, SearchOutlined } from "@mui/icons-material";
+import { SearchOutlined } from "@mui/icons-material";
 import {
-  Autocomplete,
-  Box,
-  Icon,
+
   InputBase,
   alpha,
   styled,
 } from "@mui/material";
 import React from "react";
-import SearchIcon from "@mui/icons-material/Search";
+
+import { useSelector } from "react-redux";
 
 function SearchBar() {
+  let {Data}=useSelector((state)=>state.UserData)
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
     borderRadius: "20px",
@@ -50,16 +50,24 @@ function SearchBar() {
     },
   }));
   return (
-    <Search>
-      <SearchIconWrapper>
-        <SearchOutlined sx={{ color: (theme) => theme.palette.primary.svg }} />
-      </SearchIconWrapper>
-      <StyledInputBase
-        placeholder="Search…"
-        inputProps={{ "aria-label": "search" }}
-        color="primary"
-      />
-    </Search>
+
+<>
+{Data?
+  <Search>
+  <SearchIconWrapper>
+    <SearchOutlined sx={{ color: (theme) => theme.palette.primary.svg }} />
+  </SearchIconWrapper>
+  <StyledInputBase
+    placeholder="Search…"
+    inputProps={{ "aria-label": "search" }}
+    color="primary"
+  />
+</Search>
+:""
+}
+
+</>
+  
   );
 }
 
