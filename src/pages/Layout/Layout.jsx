@@ -6,8 +6,8 @@ import { Box } from "@mui/material";
 export default function Layout() {
   return (
     <>
-      <Navbar/>
-      <Box >
+      <Navbar />
+      <Box pt={"60px"}>
         <Outlet />
       </Box>
     </>

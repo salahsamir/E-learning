@@ -1,29 +1,11 @@
 import { SearchOutlined } from "@mui/icons-material";
-import {
-
-  InputBase,
-  alpha,
-  styled,
-} from "@mui/material";
+import { Box, InputBase, alpha, styled } from "@mui/material";
 import React from "react";
-
-import { useSelector } from "react-redux";
-
 function SearchBar() {
-  let {Data}=useSelector((state)=>state.UserData)
-  const Search = styled("div")(({ theme }) => ({
+  const Search = styled(Box)(({ theme }) => ({
     position: "relative",
     borderRadius: "20px",
-    backgroundColor: alpha(theme.palette.background.default, 0.15),
-
-    marginLeft: 0,
     width: "fit-content",
-    borderColor: theme.palette.primary.light,
-    [theme.breakpoints.down("sm")]: {
-      marginLeft: theme.spacing(1),
-      width: "auto",
-      display: "none",
-    },
   }));
 
   const SearchIconWrapper = styled("div")(({ theme }) => ({
@@ -38,36 +20,29 @@ function SearchBar() {
   }));
 
   const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    border: `1px solid ${theme.palette.primary.border}`,
     borderRadius: "20px",
-    backgroundColor: "transparent",
-
     "& .MuiInputBase-input": {
       padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
       paddingLeft: `calc(1em + ${theme.spacing(4)})`,
       paddingRight: "1em",
     },
   }));
   return (
-
-<>
-{Data?
-  <Search>
-  <SearchIconWrapper>
-    <SearchOutlined sx={{ color: (theme) => theme.palette.primary.svg }} />
-  </SearchIconWrapper>
-  <StyledInputBase
-    placeholder="Search…"
-    inputProps={{ "aria-label": "search" }}
-    color="primary"
-  />
-</Search>
-:""
-}
-
-</>
-  
+    <Search display={{ xs: "none", sm: "block" }}>
+      <SearchIconWrapper>
+        <SearchOutlined sx={{ color: (theme) => theme.palette.primary.svg }} />
+      </SearchIconWrapper>
+      <StyledInputBase
+        placeholder="Search…"
+        inputProps={{ "aria-label": "search" }}
+        color="primary"
+        aria-label="search"
+        name="search"
+        sx={{
+          backgroundColor: (theme) => alpha(theme.palette.background.b1, 0.75),
+        }}
+      />
+    </Search>
   );
 }
 
