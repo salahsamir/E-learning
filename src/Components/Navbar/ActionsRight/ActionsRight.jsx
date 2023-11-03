@@ -1,102 +1,151 @@
 import {
-    DarkModeOutlined,
-    LightModeOutlined,
-    NotificationsNoneOutlined,
-  } from "@mui/icons-material";
-  import { Avatar, ButtonBase, IconButton, Popover, Stack, Typography } from "@mui/material";
-  import React, { useState } from "react";
-  import { Link as RouterLink, useNavigate } from "react-router-dom";
-  import { getAuthToken } from "../../../util/auth";
-  import { useDispatch, useSelector } from "react-redux";
-  import { uiActions } from "../../../store/uiSlice";
-  import Link from "@mui/material/Link";
-  import UserMenu from "./UserMenu";
-  
-  function ActionsRight() {
-    const themeMode = useSelector((state) => state.ui.themeMode);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const [menuIsOpen, setMenuIsOpen] = useState(false);
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    let {Data}=useSelector((state)=>state.UserData)
-    function avatarClickHandler(event) {
-      if (!getAuthToken()) {
-        navigate("/signin");
-      } else {
-        setAnchorEl(event.currentTarget);
-        setMenuIsOpen(true);
-      }
+  DarkModeOutlined,
+  LightModeOutlined,
+  NotificationsNoneOutlined,
+  ShoppingCartOutlined,
+} from "@mui/icons-material";
+import {
+  Avatar,
+  Badge,
+  ButtonBase,
+  IconButton,
+  Popover,
+  Stack,
+} from "@mui/material";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getAuthToken } from "../../../util/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { uiActions } from "../../../store/uiSlice";
+import UserMenu from "./UserMenu";
+import CartModal from "../../CartModal/CartModal";
+import NotificationsMenu from "../../NotificationsMenu/NotificationsMenu";
+
+function ActionsRight() {
+  const themeMode = useSelector((state) => state.ui.themeMode);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [userMenuIsOpen, setUserMenuIsOpen] = useState(false);
+  const [avatarEl, setAvatarEl] = React.useState(null);
+
+  const [notifiMenuIsOpen, setNotifiMenuIsOpen] = useState(false);
+  const [notifiEl, setNotifiEl] = React.useState(null);
+
+  const [cartIsShown, setCartIsShown] = useState(false);
+  const itemsCount = useSelector((state) => state.cart.itemsCount);
+
+  function avatarClickHandler(event) {
+    if (!getAuthToken()) {
+      navigate("/signin");
+    } else {
+      setAvatarEl(event.currentTarget);
+      setUserMenuIsOpen(true);
     }
-  
-    return (
-      <Stack direction="row" spacing={1}>
-        <IconButton onClick={() => dispatch(uiActions.toggleThemeMode())}>
-          {themeMode === "dark" && <DarkModeOutlined sx={{ fontSize: "28px" }} />}
+  }
+  function notifiClickHandler(event) {
+    setNotifiEl(event.currentTarget);
+    setNotifiMenuIsOpen(true);
+  }
+  return (
+    <>
+      <CartModal
+        open={cartIsShown}
+        onClose={() => setCartIsShown((state) => !state)}
+      />
+      <Stack direction="row" alignItems="center">
+        <IconButton
+          aria-label="theme mode"
+          onClick={() => dispatch(uiActions.toggleThemeMode())}
+        >
+          {themeMode === "dark" && (
+            <DarkModeOutlined sx={{ fontSize: { xs: "24px", sm: "28px" } }} />
+          )}
           {themeMode !== "dark" && (
             <LightModeOutlined
               sx={{
-                fontSize: "28px",
+                fontSize: { xs: "24px", sm: "28px" },
                 color: (theme) => theme.palette.primary.svg,
               }}
             />
           )}
-          
         </IconButton>
-        {
-          Data?<>
-             <IconButton>
-          <NotificationsNoneOutlined
-            sx={{ fontSize: "28px", color: (theme) => theme.palette.primary.svg }}
-          />
+        <IconButton
+          aria-label="shopping cart"
+          onClick={() => setCartIsShown(true)}
+        >
+          <Badge badgeContent={itemsCount} color="primary">
+            <ShoppingCartOutlined
+              sx={{
+                fontSize: { xs: "24px", sm: "28px" },
+                color: (theme) => theme.palette.primary.svg,
+              }}
+            />
+          </Badge>
+        </IconButton>
+        <IconButton aria-label="notifications" onClick={notifiClickHandler}>
+          <Badge
+            badgeContent={1}
+            color="error"
+            sx={{
+              "& .MuiBadge-badge": {
+                right: 3,
+                top: 2,
+              },
+            }}
+          >
+            <NotificationsNoneOutlined
+              sx={{
+                fontSize: { xs: "24px", sm: "28px" },
+                color: (theme) => theme.palette.primary.svg,
+              }}
+            />
+          </Badge>
         </IconButton>
         <ButtonBase
+          aria-label="user menu"
           onClick={avatarClickHandler}
           sx={{
             backgroundColor: "transparent",
             borderRadius: "30px",
+            ml: 1,
           }}
         >
-          <Avatar></Avatar>
+          <Avatar
+            sx={{
+              height: { xs: "30px", sm: "40px" },
+              width: { xs: "30px", sm: "40px" },
+            }}
+          ></Avatar>
         </ButtonBase>
         <Popover
-          open={menuIsOpen}
-          anchorEl={anchorEl}
+          open={userMenuIsOpen}
+          anchorEl={avatarEl}
           sx={{ top: 12 }}
           anchorOrigin={{
             vertical: "bottom",
             horizontal: "center",
           }}
-          onClose={() => setMenuIsOpen(false)}
+          onClose={() => setUserMenuIsOpen(false)}
         >
           <UserMenu />
         </Popover>
-          </>
-          
-          :<>
-           <Typography variant="h6" padding={'10px'}>
-           <Link   component={RouterLink}  sx={{
-              textDecoration: "none",
-           
-              color: (theme) =>
-                theme.palette.mode === "dark" ? "white" : "black",
-            }} to={"/signin"}>
-            Login
-          </Link>
-        </Typography>
-        <Typography variant="h6" padding={'10px'}>
-        <Link   component={RouterLink}  sx={{
-              textDecoration: "none",
-              color: (theme) =>
-                theme.palette.mode === "dark" ? "white" : "black",
-            }} to={"/signup"}>
-            Registar
-          </Link>
-        </Typography>
-          </>
-        }
-     
+        <Popover
+          open={notifiMenuIsOpen}
+          anchorEl={notifiEl}
+          sx={{ top: 12 }}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          onClose={() => setNotifiMenuIsOpen(false)}
+        >
+          <NotificationsMenu />
+        </Popover>
       </Stack>
-    );
-  }
-  
-  export default ActionsRight;
+    </>
+  );
+}
+
+export default ActionsRight;

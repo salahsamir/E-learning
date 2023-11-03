@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "./Navbar.module.css";
 import { Link as RouterLink } from "react-router-dom";
 import { AppBar, Box, Typography } from "@mui/material";
 import SearchBar from "./SearchBar/SearchBar";
@@ -9,21 +8,20 @@ import Link from "@mui/material/Link";
 export default function Navbar() {
   return (
     <AppBar
-      elevation={5}
+      elevation={0}
       sx={{
-        position:"sticky",//1
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        height: "50px",
+        height: "60px",
         paddingX: "1em",
-        backgroundColor: (theme) =>
-          theme.palette.mode === "light" ? "#f7ffe5" : "#28313f",
+        borderBottom: "1px solid #bcbcce44",
+        backgroundColor: (theme) => theme.palette.background.default,
       }}
     >
       <Box>
-        <Typography variant="h1" fontSize={"2em"}>
+        <Typography variant="h1" fontSize={{ xs: "1.5em", sm: "2em" }}>
           <Link
             to={"/"}
             component={RouterLink}
@@ -37,8 +35,8 @@ export default function Navbar() {
           </Link>
         </Typography>
       </Box>
-      <SearchBar  />
-      <ActionsRight  />
+      <SearchBar />
+      <ActionsRight />
     </AppBar>
   );
 }

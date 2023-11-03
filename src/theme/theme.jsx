@@ -7,8 +7,11 @@ export const theme = (mode) =>
       ...(mode === "light"
         ? {
             background: {
-              default: "#f7ffe5",
+              default: "#f4f4f8",
               b1: "#fff",
+              b2: "#e1ecc7",
+              b3: "#f7ffe5",
+              autofill: "#f4f4f8",
             },
             primary: {
               main: "#007D53",
@@ -20,12 +23,12 @@ export const theme = (mode) =>
           }
         : {
             background: {
-              default: "#28313f",
-              searchBar: "#f4f5fa",
-              b1: "#2e3e45",
+              default: "#232333",
+              b1: "#2b2c40",
+              b2: "#2b2c40",
+              autofill: "#232333",
             },
             primary: {
-              // main: "#30B1B5",
               main: "#1BB385",
               border: "#bcbcce",
               light: "#189AB4",
@@ -37,6 +40,18 @@ export const theme = (mode) =>
           }),
     },
     components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          body: {
+            "::-webkit-scrollbar-thumb": {
+              backgroundColor: mode === "light" ? "#c4c4c4" : "#626585",
+            },
+            "*::-webkit-scrollbar-thumb": {
+              backgroundColor: mode === "light" ? "#c4c4c4" : "#626585",
+            },
+          },
+        },
+      },
       MuiButton: {
         variants: [
           {
