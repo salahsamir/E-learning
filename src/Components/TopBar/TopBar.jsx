@@ -1,14 +1,15 @@
-import { Button, Stack } from "@mui/material";
+import { Button, Stack ,Breadcrumbs, Typography } from "@mui/material";
 import React from "react";
-import { Link } from "react-router-dom";
-
+import Link from '@mui/material/Link';
+import {  Link as RouterLink } from "react-router-dom";
 function TopBar({ display }) {
   return (
-    <>
+    <Stack>
       <Stack
         justifyContent="center"
         direction="row"
-        height="40px"
+        alignItems="center"
+        height="50px"
         width="100%"
         position={"fixed"}
         zIndex={100}
@@ -18,72 +19,32 @@ function TopBar({ display }) {
           borderBottom: "1px solid #bcbcce22",
         }}
       >
-        <Button
-          color="inherit"
-          sx={{ height: "100%" }}
-          LinkComponent={Link}
-          href="/"
-        >
-          Business
-        </Button>
-        <Button
-          color="inherit"
-          sx={{ height: "100%" }}
-          LinkComponent={Link}
-          href="/"
-        >
-          Technology
-        </Button>
-        <Button
-          color="inherit"
-          sx={{ height: "100%" }}
-          LinkComponent={Link}
-          href="/"
-        >
-          Education
-        </Button>
-        <Button
-          color="inherit"
-          sx={{ height: "100%" }}
-          LinkComponent={Link}
-          href="/"
-        >
-          Arts
-        </Button>
-        <Button
-          color="inherit"
-          sx={{ height: "100%" }}
-          LinkComponent={Link}
-          href="/"
-        >
-          Marketing
-        </Button>
-        <Button
-          color="inherit"
-          sx={{ height: "100%" }}
-          LinkComponent={Link}
-          href="/"
-        >
-          Design
-        </Button>
-        <Button
-          color="inherit"
-          sx={{ height: "100%" }}
-          LinkComponent={Link}
-          href="/"
-        >
-          Science
-        </Button>
-        <Button
-          color="inherit"
-          sx={{ height: "100%" }}
-          LinkComponent={Link}
-          href="/"
-        >
-          Lifestyle
-        </Button>
+    
+  <Breadcrumbs aria-label="breadcrumb" separator={' '}>
+  <Link underline="none" color="inherit"  component={RouterLink} to={`/course/Web Development`} >
+  Web Development
+  </Link>
+  <Link underline="none" color="inherit"  component={RouterLink} to={`course/Data Science`}>
+  Data Science
+  </Link>
+  <Link underline="none" color="inherit"  component={RouterLink} to={`/course/Mobile Development`}>
+  Mobile Development
+  </Link>
+  <Link underline="none" color="inherit"  component={RouterLink} to={`/course/Database Design`}>
+  Database Design
+  </Link>
+  <Link underline="none" color="inherit"  component={RouterLink} to={`/course/Software Testing`}>
+  Software Testing
+  </Link>
+
+
+</Breadcrumbs>
+       
+      
       </Stack>
-    </>
+    
+</Stack>
+ 
   );
 }
 
