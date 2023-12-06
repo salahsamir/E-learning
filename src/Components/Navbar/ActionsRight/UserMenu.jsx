@@ -18,6 +18,8 @@ import {
   Paper,
 } from "@mui/material";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const SolidDvider = styled(Divider)(({ theme }) => ({
   borderColor: "#bcbcce",
@@ -25,6 +27,7 @@ const SolidDvider = styled(Divider)(({ theme }) => ({
 }));
 
 function UserMenu() {
+ 
   return (
     <Paper
       sx={{
@@ -80,7 +83,7 @@ function UserMenu() {
           <ListItemText>Support</ListItemText>
         </MenuItem>
         <SolidDvider />
-        <MenuItem>
+        <MenuItem >
           <ListItemIcon>
             <LogoutOutlined />
           </ListItemIcon>
