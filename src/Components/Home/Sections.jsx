@@ -8,7 +8,6 @@ import {
   CircularProgress,
   Divider,
   Grid,
-
   Stack,
   Typography,
   Rating,
@@ -16,11 +15,11 @@ import {
 } from "@mui/material";
 import React from "react";
 import Slider from "react-slick";
-import SectionCources from "./SectionCourses.jsx";
+import SectionCourses from "./SectionCourses.jsx";
 import StarIcon from "@mui/icons-material/Star";
-import  { useEffect } from 'react';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 function CircularProgressWithLabel(props) {
   return (
     <Box
@@ -66,28 +65,38 @@ export default function Sections() {
     });
   }, []);
   return (
-    <Container >
-      <Stack  mx={'10px'}  spacing={1} pb={"10px"} >
-      <Typography
-data-aos="zoom-in"
-         variant="h1" color={"primary"} textAlign={"center"}
-            >
-              Who are we{" "}
-            </Typography>
-            <Divider color={"yellow"}></Divider>
-  
-      <Grid spacing={3}  container >
+    <Container>
+      <Stack mx={"10px"} spacing={1} pb={"20px"}>
+        <Typography
+          data-aos="zoom-in"
+          variant="h2"
+          color={"primary"}
+          textAlign={"center"}
+        >
+          Who are we{" "}
+        </Typography>
+        <Divider color={"yellow"}></Divider>
+        <Grid spacing={3} container>
           <Grid item sm={6}>
-           <Stack justifyContent={'center'} sx={{ width: "90%", height: "100%" }} data-aos="fade-right">
-         
-            <Typography variant="h6">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit magnam animi, architecto officia cum optio tenetur fugit laudantium officiis autem labore enim eius blanditiis. Porro molestias error quibusdam, vitae assumenda itaque blanditiis dolorum, rem optio aliquam totam sequi facere dolore animi corrupti ad sint, expedita quaerat id perspiciatis? Praesentium, ducimus.
-              
-            </Typography>
-           </Stack>
+            <Stack
+              justifyContent={"center"}
+              sx={{ width: "90%", height: "100%" }}
+              data-aos="fade-right"
+            >
+              <Typography variant="h6">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit
+                magnam animi, architecto officia cum optio tenetur fugit
+                laudantium officiis autem labore enim eius blanditiis. Porro
+                molestias error quibusdam, vitae assumenda itaque blanditiis
+                dolorum, rem optio aliquam totam sequi facere dolore animi
+                corrupti ad sint, expedita quaerat id perspiciatis? Praesentium,
+                ducimus.
+              </Typography>
+            </Stack>
           </Grid>
-          <Grid item sm={6}  >
-            <Avatar data-aos="fade-left"
+          <Grid item sm={6}>
+            <Avatar
+              data-aos="fade-left"
               variant="rounded"
               sx={{ width: "90%", height: "100%" }}
               alt="Remy Sharp"
@@ -95,21 +104,23 @@ data-aos="zoom-in"
             />
           </Grid>
         </Grid>
-
-    
-     
       </Stack>
       <Divider>
-          <Button variant="contained"></Button>
-        </Divider>
-      <SectionCources />
-      <Stack  mx={'10px'}  spacing={1} pb={"10px"}>
-        <Typography textAlign={'center'} data-aos="zoom-in" variant="h1" color="primary">
+        <Button variant="contained"></Button>
+      </Divider>
+      <SectionCourses />
+      <Stack mx={"10px"} spacing={1} pb={"20px"}>
+        <Typography
+          textAlign={"center"}
+          data-aos="zoom-in"
+          variant="h2"
+          color="primary"
+        >
           Step by step with you
         </Typography>
         <Divider color={"yellow"}></Divider>
 
-        <Grid container >
+        <Grid container>
           <Grid item xs={6} sm={4}>
             <Box width={"95%"} data-aos="zoom-in-right">
               <CircularProgressWithLabel value={"1"} />
@@ -119,7 +130,7 @@ data-aos="zoom-in"
                 sx={{ width: "100%", height: "50%" }}
                 src="https://t3.ftcdn.net/jpg/03/70/47/40/240_F_370474000_Ie0F7Piq7uBYXrrEz2UuaPAQuFeNix8r.jpg"
               />
-              <Typography variant="h6">
+              <Typography variant="body">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
                 aliquid dolore placeat? Alias tempora distinctio exercitationem
                 dignissimos eos sit ratione.
@@ -136,7 +147,7 @@ data-aos="zoom-in"
                 sx={{ width: "100%", height: "50%" }}
                 src="https://t3.ftcdn.net/jpg/03/46/14/92/240_F_346149288_n1vwzR3hrrpr7eoyHQe6vhlwCuvTi7jL.jpg"
               />
-              <Typography variant="h6">
+              <Typography variant="body">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
                 aliquid dolore placeat? Alias tempora distinctio exercitationem
                 dignissimos eos sit ratione.
@@ -153,7 +164,7 @@ data-aos="zoom-in"
                 sx={{ width: "100%", height: "50%" }}
                 src="https://t4.ftcdn.net/jpg/03/73/34/59/240_F_373345944_fBsiOQneRX06wr7vrTwaIJjq7i9RPOhv.jpg"
               />
-              <Typography variant="h6">
+              <Typography variant="body">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
                 aliquid dolore placeat? Alias tempora distinctio exercitationem
                 dignissimos eos sit ratione.
@@ -163,10 +174,15 @@ data-aos="zoom-in"
         </Grid>
       </Stack>
       <Divider>
-          <Button variant="contained"></Button>
-        </Divider>
-      <Stack mx={'10px'}  spacing={1} pb={"10px"}>
-        <Typography data-aos="zoom-in" textAlign={"center"} variant="h2" color={"primary"}>
+        <Button variant="contained"></Button>
+      </Divider>
+      <Stack mx={"10px"} spacing={1} pb={"20px"}>
+        <Typography
+          data-aos="zoom-in"
+          textAlign={"center"}
+          variant="h2"
+          color={"primary"}
+        >
           Dedicated Mentorship
         </Typography>
         <Divider color={"yellow"}></Divider>
@@ -259,61 +275,62 @@ data-aos="zoom-in"
             </Card>
           </Slider>
         </Stack>
-      
       </Stack>
       <Divider>
-          <Button variant="contained"></Button>
-        </Divider>
-      
-        <Stack mx={'10px'}  spacing={3} p={"40px"} >
-          <Grid container>
-            <Grid item sm={6} xs={12} md={4} direction={"column"} m={"auto"}>
-              <Typography variant="h3">Testimonials</Typography>
-              <Typography variant="h6">
-                <StarIcon /> course rating
-              </Typography>
-            </Grid>
-            <Grid item py={'20px'}  sm={6} xs={12} md={4}  textAlign={"center"}>
-              <Avatar
-                sx={{ width: "50%", height: "50%" , m:"auto" }}
-                src="https://t3.ftcdn.net/jpg/04/17/45/82/240_F_417458226_vV0392LwESBo3qTSj1mA5Wyd7TAj5w0q.jpg"
-              />
+        <Button variant="contained"></Button>
+      </Divider>
 
-              <Typography variant="h4" py={"5px"}>
-                Eslam
-              </Typography>
-              <Typography>
-                {" "}
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Corrupti ut voluptate fugiat similique dolor accusantium rerum{" "}
-              </Typography>
-              <br />
-              <Rating name="read-only" value={5} readOnly   />
-            </Grid>
-            <Grid item sm={6} xs={12} md={4} textAlign={"center"}>
-              <Avatar
-                sx={{ width: "50%", height: "50%", m:"auto"  }}
-                src="https://t4.ftcdn.net/jpg/01/36/68/49/240_F_136684951_y3qIuZC8YTjUCPOPvR4jv7Z24p52dt6S.jpg"
-              />
-
-              <Typography variant="h4" py={"5px"}>
-                Layla
-              </Typography>
-              <Typography>
-                {" "}
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Corrupti ut voluptate fugiat similique dolor accusantium rerum
-              </Typography>
-              <br />
-              <Rating name="read-only" value={5} readOnly  />
-            </Grid>
+      <Stack mx={"10px"} spacing={3} p={"40px"}>
+        <Grid container>
+          <Grid item sm={6} xs={12} md={4} direction={"column"} m={"auto"}>
+            <Typography variant="h3">Testimonials</Typography>
+            <Typography variant="h6">
+              <span style={{ color: "yellow" }}>
+                <StarIcon />
+              </span>{" "}
+              course rating
+            </Typography>
           </Grid>
-        </Stack>
-      
-      
+          <Grid item py={"20px"} sm={6} xs={12} md={4} textAlign={"center"}>
+            <Avatar
+              sx={{ width: "50%", height: "50%", m: "auto" }}
+              src="https://t3.ftcdn.net/jpg/04/17/45/82/240_F_417458226_vV0392LwESBo3qTSj1mA5Wyd7TAj5w0q.jpg"
+            />
+
+            <Typography variant="h4" py={"5px"}>
+              Eslam
+            </Typography>
+            <Typography>
+              {" "}
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti
+              ut voluptate fugiat similique dolor accusantium rerum{" "}
+            </Typography>
+            <br />
+            <Rating name="read-only" value={5} readOnly />
+          </Grid>
+          <Grid item sm={6} xs={12} md={4} textAlign={"center"}>
+            <Avatar
+              sx={{ width: "50%", height: "50%", m: "auto" }}
+              src="https://t4.ftcdn.net/jpg/01/36/68/49/240_F_136684951_y3qIuZC8YTjUCPOPvR4jv7Z24p52dt6S.jpg"
+            />
+
+            <Typography variant="h4" py={"5px"}>
+              Layla
+            </Typography>
+            <Typography>
+              {" "}
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti
+              ut voluptate fugiat similique dolor accusantium rerum
+            </Typography>
+            <br />
+            <Rating name="read-only" value={5} readOnly />
+          </Grid>
+        </Grid>
+      </Stack>
+
       <Divider>
-          <Button variant="contained"></Button>
-        </Divider>
+        <Button variant="contained"></Button>
+      </Divider>
     </Container>
   );
 }
