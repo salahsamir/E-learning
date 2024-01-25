@@ -1,43 +1,36 @@
-// import React from 'react'
-// import {Typography,Stack,Container } from '@mui/material'
-// import VideoCourses from '../../Components/Video/VideoCourses.jsx'
-
-// export default function Video() {
-//   return (
-//     <>
-//     <Stack spacing={1} direction="row" my={"40px"} >
-//      <Container py={"20px"}>
-//      <VideoCourses/>
-//      </Container>
-//     </Stack>
-    
-//        </>
-//   )
-// }
-
-import { Container, Grid, Stack } from '@mui/material'
 import React from 'react'
+import ReactPlayer from "react-player";
+import "./Video.css";
 
-import VideoSection1 from '../../Components/Video/VideoSection1.jsx'
-import VideoSection2 from '../../Components/Video/VideoSection2.jsx'
-
+import { Button, Container } from "@mui/material";
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { useNavigate } from 'react-router-dom';
 export default function Video() {
+  let nav=useNavigate()
+  let goToAssignment=()=>{
+    nav('/assignment')
+  }
   return (
-  
-      <Stack spacing={1} direction={'row'} mt={3}>
-        <Container>
-          <Grid container>
-            <Grid item md={10} xs={12}>
-          <VideoSection2/>
-            </Grid>
-            <Grid item md={2} xs={12}>
-          <VideoSection1/>
-            </Grid>
-          </Grid>
-        
-        </Container>
+     <div className="video_container my-4 py-4">
 
-      </Stack>
-  
+     <div>
+       <h2>Introdction</h2>
+     </div>
+     <Container maxWidth="md" justify="center">
+       <div className="player__wrapper">
+       <ReactPlayer
+           className="player"
+           url="https://www.youtube.com/watch?v=TpD5ITq6VEQ"
+           width="100%"
+           height="400px"
+           playing={true}
+           controls={true}
+         />
+    
+     </div>
+   </Container>
+
+   <Button variant="contained" className='my-2' onClick={()=>{goToAssignment()}}> Next <NavigateNextIcon/></Button>
+ </div>
   )
 }

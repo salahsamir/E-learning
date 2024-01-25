@@ -10,6 +10,9 @@ import NotFound from "../pages/NotFound/NotFound.jsx";
 import { Navigate } from "react-router-dom";
 import CoursesPage from "../pages/Courses/CoursesPage.jsx";
 import Video from "../pages/Videos/Video.jsx";
+import CoursesParts from "../Components/CoursesParts/CoursesParts.jsx";
+
+import Assignment from "../pages/Assignment/Assignment.jsx";
 let ProtectedRouter = (props) => {
   if (localStorage.getItem("token") == null) {
     return <Navigate to="/signin" />;
@@ -33,6 +36,9 @@ const router = createBrowserRouter([
       { path: "updatePassword", element: <UpdatePasswordForm /> },
       {path:"course/:value",element:<CoursesPage/>},
       {path:"video",element:<Video/>},
+      {path:"assignment",element:<Assignment/>},
+
+      {path:"courseparts",element:<CoursesParts/>},
       { path: "*", element: <NotFound /> },
     ],
   },

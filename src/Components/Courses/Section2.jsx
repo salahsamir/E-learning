@@ -134,7 +134,7 @@ export default function Section2() {
             background={"#fff"}
 
           >
-            <Box onClick={() => nav("/video")}>
+            <Box onClick={() => nav("/courseparts")}>
               <Box sx={{ position: "relative" }}>
                 <Avatar
                   variant="rounded"
