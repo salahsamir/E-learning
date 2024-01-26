@@ -70,7 +70,9 @@ function NotificationsMenu() {
               description={notification.description}
               url={notification.url}
             />
-            {index !== notifications.length - 1 && <Divider variant="inset" />}
+            {index !== notifications.length - 1 && (
+              <Divider variant="inset" key={index + Math.random() * 10} />
+            )}
           </>
         ))}
       </List>

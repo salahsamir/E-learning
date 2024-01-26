@@ -1,14 +1,14 @@
 import React from "react";
+import styles from "./Navbar.module.css";
 import { Link as RouterLink } from "react-router-dom";
-import { AppBar, Box, Stack, Typography } from "@mui/material";
+import { AppBar, Box, Typography } from "@mui/material";
 import SearchBar from "./SearchBar/SearchBar";
 import ActionsRight from "./ActionsRight/ActionsRight";
 import Link from "@mui/material/Link";
 
-
 export default function Navbar() {
   return (
-     <AppBar
+    <AppBar
       elevation={0}
       sx={{
         display: "flex",
@@ -37,8 +37,7 @@ export default function Navbar() {
         </Typography>
       </Box>
       <SearchBar />
-      <ActionsRight />
+      <ActionsRight cartVisible={true} />
     </AppBar>
-    
   );
 }

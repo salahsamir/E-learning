@@ -3,7 +3,8 @@ a {
 }
 
 *::-webkit-scrollbar {
-  width: 0.5em;
+  width: 0.35em;
+  height: 0.35em;
 }
 
 *::-webkit-scrollbar-track {

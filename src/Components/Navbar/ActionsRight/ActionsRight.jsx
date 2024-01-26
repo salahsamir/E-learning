@@ -20,8 +20,21 @@ import { uiActions } from "../../../store/uiSlice";
 import UserMenu from "./UserMenu";
 import CartModal from "../../CartModal/CartModal";
 import NotificationsMenu from "../../NotificationsMenu/NotificationsMenu";
+import styled from "@emotion/styled";
 
-function ActionsRight() {
+const CustomBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    right: 3,
+    top: 2,
+    fontSize: "0.5em",
+    height: "16px",
+    width: "16px",
+    lineHeight: "16px",
+    minWidth: "16px",
+    padding: 0,
+  },
+}));
+function ActionsRight({ cartVisible }) {
   const themeMode = useSelector((state) => state.ui.themeMode);
 
   const dispatch = useDispatch();
@@ -38,7 +51,7 @@ function ActionsRight() {
 
   function avatarClickHandler(event) {
     if (!getAuthToken()) {
-      navigate("/signin");
+      navigate("/signin/" + "?redirect=" + window.location.pathname);
     } else {
       setAvatarEl(event.currentTarget);
       setUserMenuIsOpen(true);
@@ -56,16 +69,17 @@ function ActionsRight() {
       />
       <Stack direction="row" alignItems="center">
         <IconButton
+          sx={{ p: "4px" }}
           aria-label="theme mode"
           onClick={() => dispatch(uiActions.toggleThemeMode())}
         >
           {themeMode === "dark" && (
-            <DarkModeOutlined sx={{ fontSize: { xs: "24px", sm: "28px" } }} />
+            <DarkModeOutlined sx={{ fontSize: "24px" }} />
           )}
           {themeMode !== "dark" && (
             <LightModeOutlined
               sx={{
-                fontSize: { xs: "24px", sm: "28px" },
+                fontSize: "24px",
                 color: (theme) => theme.palette.primary.svg,
               }}
             />
@@ -74,34 +88,30 @@ function ActionsRight() {
         <IconButton
           aria-label="shopping cart"
           onClick={() => setCartIsShown(true)}
+          sx={{ display: cartVisible ? "block" : "none", p: "4px" }}
         >
-          <Badge badgeContent={itemsCount} color="primary">
+          <CustomBadge badgeContent={itemsCount} color="primary">
             <ShoppingCartOutlined
               sx={{
-                fontSize: { xs: "24px", sm: "28px" },
+                fontSize: "24px",
                 color: (theme) => theme.palette.primary.svg,
               }}
             />
-          </Badge>
+          </CustomBadge>
         </IconButton>
-        <IconButton aria-label="notifications" onClick={notifiClickHandler}>
-          <Badge
-            badgeContent={1}
-            color="error"
-            sx={{
-              "& .MuiBadge-badge": {
-                right: 3,
-                top: 2,
-              },
-            }}
-          >
+        <IconButton
+          aria-label="notifications"
+          onClick={notifiClickHandler}
+          sx={{ p: "4px" }}
+        >
+          <CustomBadge badgeContent={1} color="error">
             <NotificationsNoneOutlined
               sx={{
-                fontSize: { xs: "24px", sm: "28px" },
+                fontSize: "24px",
                 color: (theme) => theme.palette.primary.svg,
               }}
             />
-          </Badge>
+          </CustomBadge>
         </IconButton>
         <ButtonBase
           aria-label="user menu"
@@ -114,8 +124,8 @@ function ActionsRight() {
         >
           <Avatar
             sx={{
-              height: { xs: "30px", sm: "40px" },
-              width: { xs: "30px", sm: "40px" },
+              height: "30px",
+              width: "30px",
             }}
           ></Avatar>
         </ButtonBase>
