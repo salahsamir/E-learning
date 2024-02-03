@@ -20,7 +20,10 @@ import InstructorChapters from "../pages/Instructor/Courses/Chapters/Chapters.js
 import InstructorTopics from "../pages/Instructor/Courses/Chapters/Topics/Topics.jsx";
 import IntructorArticle from "../pages/Instructor/Courses/Chapters/Topics/Article/Article.jsx";
 import InstructorVideo from "../pages/Instructor/Courses/Chapters/Topics/Video/Video.jsx";
+import InstructorWorkshops from "../pages/Instructor/Workshops/Workshops.jsx";
 import Error404 from "../pages/Instructor/Error/Error404.jsx";
+import LiveSessions from "../pages/Instructor/Workshops/Sessions/LiveSessions/LiveSessions.jsx";
+import InstructorEditWorkshopInfo from "../pages/Instructor/Workshops/EditWorkshopInfo/EditWorkshopInfo.jsx";
 
 // let ProtectedRouter = (props) => {
 //   if (localStorage.getItem("token") == null) {
@@ -66,37 +69,79 @@ const router = createBrowserRouter([
       },
       {
         path: "courses",
-        element: <InstructorCourses />,
-      },
-      {
-        path: "courses/:courseId",
         children: [
+          { index: true, element: <InstructorCourses /> },
           {
-            index: true,
-            element: <InstructorChapters />,
+            path: ":courseId",
+            children: [
+              {
+                index: true,
+                element: <InstructorChapters />,
+              },
+              {
+                path: "edit",
+                element: <InstructorEditCourseInfo />,
+              },
+            ],
           },
           {
-            path: "edit",
-            element: <InstructorEditCourseInfo />,
+            path: ":courseId/:chapterId",
+            children: [
+              {
+                index: true,
+                element: <InstructorTopics />,
+              },
+              {
+                path: "article/new",
+                element: <IntructorArticle />,
+              },
+              {
+                path: "article/:articleId",
+                element: <IntructorArticle />,
+              },
+              { path: "video/:videoId", element: <InstructorVideo /> },
+            ],
           },
         ],
       },
       {
-        path: "courses/:courseId/:chapterId",
+        path: "workshops",
         children: [
           {
             index: true,
-            element: <InstructorTopics />,
+            element: <InstructorWorkshops />,
           },
           {
-            path: "article/new",
-            element: <IntructorArticle />,
+            path: ":workshopId",
+            children: [
+              {
+                index: true,
+                element: <InstructorChapters />,
+              },
+              {
+                path: "edit",
+                element: <InstructorEditWorkshopInfo />,
+              },
+            ],
           },
           {
-            path: "article/:articleId",
-            element: <IntructorArticle />,
+            path: ":workshopId/live",
+            children: [
+              {
+                index: true,
+                element: <LiveSessions />,
+              },
+            ],
           },
-          { path: "video/:videoId", element: <InstructorVideo /> },
+          {
+            path: ":workshopId/recoarded",
+            children: [
+              {
+                index: true,
+                element: <LiveSessions />,
+              },
+            ],
+          },
         ],
       },
     ],

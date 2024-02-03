@@ -13,6 +13,7 @@ export const theme = (mode) =>
               b3: "#f7ffe5",
               autofill: "#f4f4f8",
               skeleton: "rgba(0, 0, 0, 0.03)",
+              paper: "#fff",
             },
             primary: {
               main: "#007D53",
@@ -31,6 +32,7 @@ export const theme = (mode) =>
               b2: "#2b2c40",
               autofill: "#232333",
               skeleton: "rgba(255, 255, 255, 0.05)",
+              paper: "#2b2c40",
             },
             primary: {
               main: "#1BB385",

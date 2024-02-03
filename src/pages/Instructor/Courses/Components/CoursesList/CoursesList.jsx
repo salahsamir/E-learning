@@ -28,12 +28,12 @@ const headCells = [
   {
     id: "courseRating",
     disablePadding: false,
-    label: "Course Rating",
+    label: "Rating",
   },
   {
     id: "courseStatus",
     disablePadding: false,
-    label: "Course Status",
+    label: "Status",
   },
   {
     id: "settings",
