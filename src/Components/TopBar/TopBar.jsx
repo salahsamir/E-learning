@@ -1,15 +1,32 @@
 import { Button, Stack ,Breadcrumbs, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from '@mui/material/Link';
 import {  Link as RouterLink } from "react-router-dom";
+import axios from "axios";
+import { BaseApi } from "../../util/BaseApi.js";
 function TopBar({ display }) {
+   
+  let [category,setCategory]=useState([])
+  let getAllCategory=async()=>{
+    let response=await axios.get(`${BaseApi}/category`)
+    .catch((err)=>{
+      console.log(err)
+    })
+    setCategory(response.data.category)
+    // console.log(category);
+  }
+ useEffect(()=>{
+  getAllCategory()
+ })
+
+
   return (
     <Stack>
       <Stack
         justifyContent="center"
         direction="row"
         alignItems="center"
-        height="50px"
+        height="35px"
         width="100%"
         position={"fixed"}
         zIndex={100}
@@ -20,25 +37,24 @@ function TopBar({ display }) {
         }}
       >
     
-  <Breadcrumbs aria-label="breadcrumb" separator={' '}>
-  <Link underline="none" color="inherit"  component={RouterLink} to={`/course/Web Development`} >
-  Web Development
-  </Link>
-  <Link underline="none" color="inherit"  component={RouterLink} to={`course/Data Science`}>
-  Data Science
-  </Link>
-  <Link underline="none" color="inherit"  component={RouterLink} to={`/course/Mobile Development`}>
-  Mobile Development
-  </Link>
-  <Link underline="none" color="inherit"  component={RouterLink} to={`/course/Database Design`}>
-  Database Design
-  </Link>
-  <Link underline="none" color="inherit"  component={RouterLink} to={`/course/Software Testing`}>
-  Software Testing
-  </Link>
+
+    {category?<>
+  <Breadcrumbs aria-label="breadcrumb" separator={''} maxItems={10}>
+   
+    {category.map((item)=>{
+
+      return <Link underline="none" color="inherit"   component={RouterLink} to={`/course/${item.id}`} >
+      {item.name}
+       </Link>
+    })}
+   
+    </Breadcrumbs>
+    
+    </>:" "}
+ 
+ 
 
 
-</Breadcrumbs>
        
       
       </Stack>
