@@ -43,7 +43,7 @@ const router = createBrowserRouter([
       { path: "sendEmail", element: <SendEmail /> },
       { path: "sendCode", element: <ConfirmCode /> },
       { path: "updatePassword", element: <UpdatePasswordForm /> },
-      { path: "course/:value", element: <CoursesPage /> },
+      { path: "course/:id", element: <CoursesPage /> },
       { path: "video", element: <Video /> },
       { path: "assignment", element: <Assignment /> },
 

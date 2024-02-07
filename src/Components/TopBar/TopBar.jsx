@@ -33,7 +33,7 @@ function TopBar({ display }) {
         display={display}
         sx={{
           backgroundColor: (theme) => theme.palette.background.default,
-          borderBottom: "1px solid #bcbcce22",
+          // borderBottom: "1px solid #bcbcce22",
         }}
       >
     
