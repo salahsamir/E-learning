@@ -8,19 +8,21 @@ import Footer from "../../Components/Footer/Footer.jsx";
 export default function Layout() {
   const location = useLocation();
 
-  // Define the paths of the signin and signup routes
-  const signinRoute = "/signin";
-  const signupRoute = "/signup";
+  // Define the paths of the signin, signup, and sendEmail routes
+  const authRoutes = ["/signin", "/signup", "/sendEmail",'/sendCode','/updatePassword'];
 
-  // Check if the current location matches the signin or signup routes
-  const isAuthRoute = location.pathname === signinRoute || location.pathname === signupRoute;
+  // Check if the current location matches any of the auth routes
+  const isAuthRoute = authRoutes.includes(location.pathname);
+
+  // Check if the current location includes a redirect query parameter
+  const hasRedirectQuery = location.search.includes("?redirect=");
 
   return (
     <>
       <Navbar />
       <Box py={"40px"}>
         {/* Conditionally render TopBar based on the route */}
-        {!isAuthRoute && <TopBar display={{ xs: "none", sm: "flex" }} />}
+        {!isAuthRoute && !hasRedirectQuery && <TopBar display={{ xs: "none", sm: "flex" }} />}
         <Outlet />
       </Box>
       <Footer />

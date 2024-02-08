@@ -38,15 +38,23 @@ function CartModal(props) {
     try {
       const response = await axios.get(`${BaseApi}/cart`,{headers});
       setCart(response.data.cart.course);
-     localStorage.setItem('cart',cart.length)
+    
     } catch (error) {
       console.log(error);
     }
   };
 
+  const createOrder=async()=>{
+    try{
+      const response=await axios.post(`${BaseApi}/order`,null,{headers})
+     window.location.href=response.data.result
+    }catch(error){
+      console.log(error)
+  }}
+ const itemsCount = useSelector((state) => state.cart.itemsCount);
   useEffect(() => {
     getAllCart();
-  }, [cart]);
+  }, [itemsCount]);
   return (
     <Modal open={props.open} onClose={props.onClose}>
       <CartWrapper elevation={0}>
@@ -85,6 +93,7 @@ function CartModal(props) {
             <Button
               variant="contained"
               sx={{ width: "fit-content", fontWeight: 600 }}
+              onClick={createOrder}
             >
               Checkout
             </Button>

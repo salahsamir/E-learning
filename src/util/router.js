@@ -51,7 +51,6 @@ const router = createBrowserRouter([
       { path: "course/:id", element: <CoursesPage /> },
       { path: "video", element: <Video /> },
       { path: "assignment", element: <Assignment /> },
-
       { path: "Chapter/:id", element: <Chapter /> },
       { path: "*", element: <NotFound /> },
     ],

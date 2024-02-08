@@ -53,9 +53,15 @@ const cartSlice = createSlice({
     builder.addCase(AddtoCart.fulfilled, (state, action) => {
       state.itemsCount += 1;
     });
+    builder.addCase(AddtoCart.rejected, (state, action) => {
+      state.itemsCount=0;
+    })
     builder.addCase(removeFromCart.fulfilled, (state, action) => {
       state.itemsCount -= 1;
     });
+    builder.addCase(removeFromCart.rejected, (state, action) => {
+      state.itemsCount=0;
+    })
   },
 });
 
