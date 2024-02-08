@@ -8,10 +8,12 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CartItem from "./CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../../store/cartSlice";
+import axios, { Axios } from "axios";
+import { BaseApi } from "../../util/BaseApi.js";
 
 const CartWrapper = styled(Paper)(({ theme }) => ({
   position: "absolute",
@@ -28,25 +30,23 @@ const CartWrapper = styled(Paper)(({ theme }) => ({
 }));
 function CartModal(props) {
   const dispatch = useDispatch();
-  // const dummyCart = [
-  //   {
-  //     title: "React complete Course",
-  //     image:
-  //       "https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&q=80&w=1374&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  //     category: "Web Development",
-  //     price: 40,
-  //     rating: 4.5,
-  //     instructorName: "Salah Eddine",
-  //     instructorImg: "https://avatars.githubusercontent.com/u/47204354?v=4",
-  //     instructorJob: "Web Developer",
-  //     id: 1,
-  //     rating: 4.7,
-  //     reviewersCount: 20,
-  //     videosCount: 120,
-  //     duration: { hours: 20, minutes: 30 },
-  //   },
-  // ];
-  const dummyCart = useSelector((state) => state.cart.cartItems);
+  let[cart,setCart]=useState([])
+  let headers={
+    token:localStorage.getItem('token')
+  }
+  const getAllCart = async () => {
+    try {
+      const response = await axios.get(`${BaseApi}/cart`,{headers});
+      setCart(response.data.cart.course);
+     localStorage.setItem('cart',cart.length)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllCart();
+  }, [cart]);
   return (
     <Modal open={props.open} onClose={props.onClose}>
       <CartWrapper elevation={0}>
@@ -60,21 +60,23 @@ function CartModal(props) {
           height="calc(80vh - 150px )"
           sx={{
             overflowY: "auto",
-            alignItems: dummyCart.length === 0 && "center",
-            justifyContent: dummyCart.length === 0 && "center",
+            alignItems: cart.length === 0 && "center",
+            justifyContent: cart.length === 0 && "center",
           }}
         >
-          {dummyCart.length !== 0 &&
-            dummyCart.map((course) => (
+
+        
+          {cart.length !== 0 &&
+            cart.map((course) => (
               <CartItem course={course} key={course.id} />
             ))}
-          {dummyCart.length === 0 && (
+          {cart.length === 0 && (
             <Typography variant="h5" margin={"auto"} fontWeight={600}>
               The cart is empty!
             </Typography>
           )}
         </Stack>
-        {dummyCart.length !== 0 && (
+        {cart.length !== 0 && (
           <Stack
             height="calc(150px - 32px - 32px)"
             justifyContent="center"

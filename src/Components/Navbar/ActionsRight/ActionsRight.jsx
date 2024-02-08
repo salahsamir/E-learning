@@ -12,7 +12,7 @@ import {
   Popover,
   Stack,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAuthToken } from "../../../util/auth";
 import { useDispatch, useSelector } from "react-redux";
@@ -48,7 +48,8 @@ function ActionsRight({ cartVisible }) {
 
   const [cartIsShown, setCartIsShown] = useState(false);
   const itemsCount = useSelector((state) => state.cart.itemsCount);
-
+  // console.log(itemsCount);
+   
   function avatarClickHandler(event) {
     if (!getAuthToken()) {
       navigate("/signin/" + "?redirect=" + window.location.pathname);

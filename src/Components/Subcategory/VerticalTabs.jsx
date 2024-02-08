@@ -18,8 +18,11 @@ import {
 } from "@mui/material";
 import style from "./Vertical.module.css"
 import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { cartActions } from '../../store/cartSlice.jsx';
 function TabPanel({ children, value, index, ...other }) {
   let nav=useNavigate()
+  const dispatch = useDispatch();
   let headers={
     token:localStorage.getItem('token')
   }
@@ -36,29 +39,30 @@ function TabPanel({ children, value, index, ...other }) {
 
   ///  funct that fire Cart
 
-  let AddToCart = async (id) => {
-    try {
+//   let AddToCart = async (id) => {
+//     try {
        
-        let response = await axios.patch(`${BaseApi}/cart/add/${id}`, null, { headers: headers })
-        toast.success('Successfully added to cart!', {
-            icon: '👏',
-            style: {
-                borderRadius: '10px',
-                background: '#1B0A26',
-                color: '#F2C791',
-            },
-        });
-    } catch (error) {
-        // Display error toast
-        toast.error(error.response.data.message, {
-            style: {
-                borderRadius: '10px',
-                background: '#1B0A26',
-                color: '#F2C791',
-            },
-        });
-    }
-}
+//         let response = await axios.patch(`${BaseApi}/cart/add/${id}`, null, { headers: headers })
+//         toast.success('Successfully added to cart!', {
+//             icon: '👏',
+//             style: {
+//                 borderRadius: '10px',
+//                 background: '#1B0A26',
+//                 color: '#F2C791',
+//             },
+//         });
+        
+//     } catch (error) {
+//         // Display error toast
+//         toast.error(error.response.data.message, {
+//             style: {
+//                 borderRadius: '10px',
+//                 background: '#1B0A26',
+//                 color: '#F2C791',
+//             },
+//         });
+//     }
+// }
 
 
 
@@ -134,7 +138,7 @@ function TabPanel({ children, value, index, ...other }) {
             </Box>
               <Box className={`${style.btn}`}>
 
-            <Divider  color={"yellow"}><Button  variant="contained" onClick={() => AddToCart(ele._id)} >Add To Cart</Button></Divider>
+            <Divider  color={"yellow"}><Button  variant="contained" onClick={() => dispatch(cartActions.addToCart(ele._id))} >Add To Cart</Button></Divider>
               </Box>
           </Grid>
 
