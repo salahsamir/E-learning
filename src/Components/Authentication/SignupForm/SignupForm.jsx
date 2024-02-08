@@ -149,6 +149,7 @@ export default function SignupForm() {
             label="I agree to the terms and conditions"
             name="terms"
             variant="body2"
+            color="secondary.main"
             required
           />
         </Box>
@@ -171,7 +172,7 @@ export default function SignupForm() {
         </LoadingButton>
         <Divider  sx={{ width: { xs: "90%", sm: "400px" } }}>OR</Divider>
     
-        <Typography variant="body2" color='gray' marginY={"5px !important"}>
+        <Typography variant="body2" color='secondary.main' marginY={"5px !important"}>
           Already have an account?{" "}
           <Link component={RouterLink} to={"/signin"}>
             {" "}

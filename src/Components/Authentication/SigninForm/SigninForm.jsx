@@ -85,6 +85,7 @@ export default function SigninForm() {
           value={formik.values.email}
           autoComplete="email"
           variant="outlined"
+          size="small"
           sx={{ width: { xs: "90%", sm: "400px" } }}
         />
         
@@ -100,6 +101,7 @@ export default function SigninForm() {
           onBlur={formik.handleBlur}
           value={formik.values.password}
           variant="outlined"
+          size="small"
           sx={{ width: { xs: "90%", sm: "400px" } }}
         /> 
         <Box
@@ -127,22 +129,24 @@ export default function SigninForm() {
         </Box>
 
         <LoadingButton
-          variant="contained"
-          type="submit"
-          loading={loading?loading:''}
-          sx={{
-            width: "250px",
-            height: "56px",
-            borderRadius: "25px",
-            fontSize: "20px",
-            marginBottom: "80px",
-          }}
+         variant="contained"
+         type="submit"
+         size="small"
+         loading={loading?loading:''}
+         sx={{
+           width: "200px",
+           
+           borderRadius: "25px",
+          
+           fontSize: "18px",
+           marginBottom: "15px",
+         }}
         >
           SIGN IN
         </LoadingButton>
         <Divider sx={{ width: { xs: "90%", sm: "400px" } }}>OR</Divider>
       
-        <Typography variant="body1" marginY={"20px !important"}>
+        <Typography variant="body1" color='secondary.main' marginY={"20px !important"}>
           Still without account?{" "}
           <Link component={RouterLink} to={"/signup"}>
             Create one

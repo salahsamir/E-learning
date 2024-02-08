@@ -27,6 +27,7 @@ function TopBar({ display }) {
         direction="row"
         alignItems="center"
         height="35px"
+        
         width="100%"
         position={"fixed"}
         zIndex={100}

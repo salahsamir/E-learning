@@ -117,9 +117,10 @@ export default function SectionCourses() {
   }, []);
   return (
     <>
-      <Stack mx={"10px"} spacing={1} pb={"10px"}>
+      <Stack m={"10px"} spacing={1} pb={4}>
         <Typography
-          variant="h2"
+          variant="h1"
+          py={2}
           data-aos="zoom-in"
           color={"primary"}
           textAlign={"center"}
@@ -149,7 +150,7 @@ export default function SectionCourses() {
                     backgroundSize: "cover",
                   }}
                 />
-                <Typography textAlign={"center"} py={"10px"} variant="h5">
+                <Typography textAlign={"center"} color={"secondary"} py={"10px"} variant="h5">
                   {ele.category}
                 </Typography>
               </Grid>
