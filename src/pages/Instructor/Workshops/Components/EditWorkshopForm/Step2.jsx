@@ -15,10 +15,13 @@ import { BaseApi } from "../../../../../util/BaseApi";
 const filter = createFilterOptions();
 
 function Step2({ formik }) {
-  const { data: categoriesData } = useGetData(BaseApi + "/category");
+  const {
+    data: categoriesData,
+    loading: loadingCategories,
+    error: errorCategories,
+  } = useGetData(BaseApi + "/category");
   const categoryList = categoriesData?.category;
   const levelList = ["Beginner", "Intermediate", "Expert", "All Levels"];
-  console.log(formik);
   return (
     <Box
       display="flex"
@@ -33,20 +36,22 @@ function Step2({ formik }) {
       {/*----------------------------------Category ------------------------*/}
       <FormControl
         fullWidth
-        error={formik.errors.category !== undefined && formik.touched.category}
+        error={
+          formik.errors.categoryId !== undefined && formik.touched.categoryId
+        }
       >
         <InputLabel id="select-category">Category</InputLabel>
         <Select
           labelId="select-category"
-          id="category"
+          id="categoryId"
           label="Category"
           onChange={(event) =>
-            formik.setFieldValue("category", event.target.value)
+            formik.setFieldValue("categoryId", event.target.value)
           }
           onBlur={formik.handleBlur}
-          value={formik.values.category}
+          value={loadingCategories ? "" : formik.values.categoryId}
           error={
-            formik.errors.category !== undefined && formik.touched.category
+            formik.errors.categoryId !== undefined && formik.touched.categoryId
           }
           MenuProps={{
             PaperProps: {
@@ -62,30 +67,31 @@ function Step2({ formik }) {
             </MenuItem>
           ))}
         </Select>
-        {formik.errors.category && formik.touched.category && (
-          <FormHelperText>{formik.errors.category}</FormHelperText>
+        {formik.errors.categoryId && formik.touched.categoryId && (
+          <FormHelperText>{formik.errors.categoryId}</FormHelperText>
         )}
       </FormControl>
       {/*----------------------------------Subcategory ------------------------*/}
       <FormControl
         fullWidth
         error={
-          formik.errors.subcategory !== undefined && formik.touched.subcategory
+          formik.errors.subCategoryId !== undefined &&
+          formik.touched.subCategoryId
         }
       >
         <InputLabel id="select-subcategory">Subcategory</InputLabel>
         <Select
           labelId="select-subcategory"
-          id="subcategory"
+          id="subCategoryId"
           label="Subcategory"
           onChange={(event) =>
-            formik.setFieldValue("subcategory", event.target.value)
+            formik.setFieldValue("subCategoryId", event.target.value)
           }
           onBlur={formik.handleBlur}
-          value={formik.values.subcategory}
+          value={loadingCategories ? "" : formik.values.subCategoryId}
           error={
-            formik.errors.subcategory !== undefined &&
-            formik.touched.subcategory
+            formik.errors.subCategoryId !== undefined &&
+            formik.touched.subCategoryId
           }
           MenuProps={{
             PaperProps: {
@@ -96,15 +102,15 @@ function Step2({ formik }) {
           }}
         >
           {categoryList
-            ?.find((ele) => ele._id === formik.values.category)
+            ?.find((ele) => ele._id === formik.values.categoryId)
             ?.subCategory.map((category) => (
               <MenuItem value={category._id} key={category._id}>
                 {category.name}
               </MenuItem>
             ))}
         </Select>
-        {formik.errors.subcategory && formik.touched.subcategory && (
-          <FormHelperText>{formik.errors.subcategory}</FormHelperText>
+        {formik.errors.subCategoryId && formik.touched.subCategoryId && (
+          <FormHelperText>{formik.errors.subCategoryId}</FormHelperText>
         )}
       </FormControl>
       {/*----------------------------------Level ------------------------*/}
@@ -140,29 +146,27 @@ function Step2({ formik }) {
           <FormHelperText>{formik.errors.level}</FormHelperText>
         )}
       </FormControl>
-      {/*----------------------------------language ------------------------*/}
+      {/*----------------------------------Languages ------------------------*/}
       <Autocomplete
         multiple
-        id="language"
-        options={languageList.map((option) => option)}
-        value={
-          formik.values.language !== "" ? formik.values.language.split(",") : []
-        }
+        id="languages"
+        options={languagesList.map((option) => option)}
+        value={formik.values.languages}
         onChange={(event, newValue) => {
-          formik.setFieldValue("language", newValue.join(","));
+          formik.setFieldValue("languages", newValue);
         }}
         renderInput={(params) => (
           <TextField
             {...params}
-            label="language"
+            label="Languages"
             placeholder="Add language"
             onBlur={formik.handleBlur}
             error={
-              formik.errors.language !== undefined && formik.touched.language
+              formik.errors.languages !== undefined && formik.touched.languages
             }
             helperText={
-              formik.errors.language && formik.touched.language
-                ? formik.errors.language
+              formik.errors.languages && formik.touched.languages
+                ? formik.errors.languages
                 : ""
             }
           />
@@ -189,7 +193,7 @@ function Step2({ formik }) {
         value={formik.values.tags}
         onChange={(event, newValue) => {
           let newArr = [...newValue];
-          if (newValue[newValue.length - 1].startsWith('Add "')) {
+          if (newValue[newValue.length - 1]?.startsWith('Add "')) {
             newArr = newArr.slice(0, -1);
             newArr.push(
               newValue[newValue.length - 1].split(" ")[1].replaceAll('"', "")
@@ -218,7 +222,7 @@ function Step2({ formik }) {
 
 export default Step2;
 
-const languageList = [
+const languagesList = [
   "English",
   "Spanish",
   "Mandarin Chinese",

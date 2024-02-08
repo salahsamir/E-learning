@@ -33,21 +33,6 @@ function NotificationsMenu() {
       description: "I really like this post!",
       url: "/profile/comments",
     },
-    {
-      id: 5,
-      avatar: "https://i.pravatar.cc/500",
-      title: "New message",
-      description:
-        "Hey! How is it going? I really like this post! Hey! How is it going? I really like this post!",
-      url: "/profile/messages",
-    },
-    {
-      id: 6,
-      avatar: "https://i.pravatar.cc/600",
-      title: "New Comment",
-      description: "I really like this post!",
-      url: "/profile/comments",
-    },
   ];
   return (
     <Paper

@@ -85,7 +85,7 @@ function CustomDrawer(props, ref) {
   const drawerItems = [
     { text: "Dashboard", icon: <Dashboard />, url: "/instructor" },
     { text: "Courses", icon: <VideoLibrary />, url: "courses" },
-    { text: "Meetings", icon: <Groups />, url: "meetings" },
+    { text: "Workshops", icon: <Groups />, url: "workshops" },
     { text: "Analytics", icon: <Analytics />, url: "analytics" },
     { text: "Comments", icon: <Comment />, url: "comments" },
     { text: "Revenue", icon: <AttachMoney />, url: "revenue" },
