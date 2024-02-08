@@ -6,14 +6,14 @@ import { useNavigate, useParams } from 'react-router-dom'
 // import "./Chapter.css";
 
 export default function Chapter() {
-  const {courseId}=useParams()
+  const {id}=useParams()
   
   let [chapter, setchapter] = React.useState([]);
   React.useEffect(() => {
    const fetchData = async () => {
      try {
        const response = await axios.get(
-         `https://education-project.azurewebsites.net/course/${courseId}/chapter/`
+         `https://education-project.azurewebsites.net/course/${id}/chapter/`
        );
      setchapter(response.data.chapters);
     //  console.log(response.data.chapters);

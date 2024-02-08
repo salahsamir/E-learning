@@ -16,19 +16,52 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import style from "./Vertical.module.css"
+import toast from 'react-hot-toast';
 function TabPanel({ children, value, index, ...other }) {
-  // console.log(value, index);
   let nav=useNavigate()
+  let headers={
+    token:localStorage.getItem('token')
+  }
   let[course,setCourse]=useState([])
   const getAllCourse = async () => {
     try {
       const response = await axios.get(`${BaseApi}/course/category/${value}/subCategory/${index}`);
        setCourse(response.data.courses);
-       console.log(response.data.courses);
+  
     } catch (error) {
       console.log(error);
     }
   };
+
+  ///  funct that fire Cart
+
+  let AddToCart = async (id) => {
+    try {
+       
+        let response = await axios.patch(`${BaseApi}/cart/add/${id}`, null, { headers: headers })
+        toast.success('Successfully added to cart!', {
+            icon: '👏',
+            style: {
+                borderRadius: '10px',
+                background: '#1B0A26',
+                color: '#F2C791',
+            },
+        });
+    } catch (error) {
+        // Display error toast
+        toast.error(error.response.data.message, {
+            style: {
+                borderRadius: '10px',
+                background: '#1B0A26',
+                color: '#F2C791',
+            },
+        });
+    }
+}
+
+
+
 
   useEffect(() => {
     getAllCourse();
@@ -44,7 +77,7 @@ function TabPanel({ children, value, index, ...other }) {
       {...other}
     >
       {value !== index && (
-          <Box sx={{ p: 3 }}>  
+          <Box sx={{  }}>  
      <>
       {course?
       <Stack spacing={2} >
@@ -59,17 +92,19 @@ function TabPanel({ children, value, index, ...other }) {
             key={index}
             data-aos="zoom-in-down"
             background={"#fff"}
+            className={`${style.course}`}
 
           >
-            <Box onClick={() => nav("/courseparts")}>
-              <Box sx={{ position: "relative" }}>
+            <Box  py={2} onClick={() => nav(`/Chapter/${ele._id}`)}>
+              <Box >
                 <Avatar
                   variant="rounded"
                   src={ele.coverImageUrl}
                   sx={{
-                    height: "200px",
+                    height: "180px",
                     width: "100%",
                     backgroundSize: "cover",
+                    backgroundPosition: "center",
                     borderTopLeftRadius: '30%'
                   }}
                 />
@@ -82,29 +117,25 @@ function TabPanel({ children, value, index, ...other }) {
                     position: "absolute", left: "10px", top: "90%"
                   }}
                 />
-                <Typography variant="body2" color="text.secondary" sx={{ position: "absolute", right: "10px", top: "100%"}}>{ele.instructorName}</Typography> */}
+               */}
            
               
               </Box>
-              {/* <Stack direction={'row'} justifyContent={'space-between'} pt={"35px"}> */}
-                <Typography variant="h6" color='primary'>{ele.title}</Typography>
-               <Box display={"flex"} justifyContent={"space-between"}>
-
-               <Typography  variant="contained">BestSeller</Typography>
-                <Typography sx={{color:"yellow"}}>{ele.price}$</Typography>
-
+                 <Typography variant="h6" color='primary'>{ele.title}</Typography>
+                 <Typography variant="body2" color="text.secondary" >salah</Typography>
+                {/* <Typography  py={"5px"} color="text.secondary">Chapter :15</Typography> */}
+                <Box display={"flex"} justifyContent={"space-between"}>
+                <Rating value='4.5' size="small" precision={0.5}/>
+                <Typography>4.5</Typography>
+                
                </Box>
-               {/* <Rating value={ele.rating} size="small" precision={0.5}/>
-                <Typography>{ele.rating}</Typography></Box>
-                </Stack>  
-                <Typography  py={"10px"} color="text.secondary">Chapter :15</Typography>
-                <Stack direction={'row'} py={"10px"} justifyContent={'space-between'}> */}
-                 
-    
-                {/* </Stack>       */}
+                <Typography sx={{color:"yellow"}}>{ele.price}$</Typography>
               
             </Box>
-            <Divider color={"yellow"}></Divider>
+              <Box className={`${style.btn}`}>
+
+            <Divider  color={"yellow"}><Button  variant="contained" onClick={() => AddToCart(ele._id)} >Add To Cart</Button></Divider>
+              </Box>
           </Grid>
 
         ))}
@@ -178,7 +209,7 @@ function VerticalTabs({ id }) {
             value={value}
             onChange={handleChange}
             aria-label="Vertical tabs example"
-            sx={{ borderRight: 1, borderColor: 'divider', position: 'absolute', top: '30%' }}
+            sx={{ borderRight: 1, borderColor: 'divider', position: 'absolute', top: '35%' }}
           >
             {subcategory?.map((item, index) => (
               <Tab
