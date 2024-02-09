@@ -1,3 +1,4 @@
+import { Suspense, lazy } from "react";
 import Layout from "../pages/Layout/Layout";
 import Home from "../pages/Home/Home.jsx";
 import { createBrowserRouter } from "react-router-dom";
@@ -12,19 +13,42 @@ import CoursesPage from "../pages/Courses/CoursesPage.jsx";
 import Video from "../pages/Videos/Video.jsx";
 import CoursesParts from "../Components/CoursesParts/CoursesParts.jsx";
 import Assignment from "../pages/Assignment/Assignment.jsx";
+import Loading from "../pages/Loading/Loading.jsx";
 import InstructorLayout from "../pages/Instructor/Layout.jsx";
-import InstructorDashboard from "../pages/Instructor/Dashboard/Dashboard.jsx";
-import InstructorCourses from "../pages/Instructor/Courses/Courses.jsx";
-import InstructorEditCourseInfo from "../pages/Instructor/Courses/EditCourseInfo/EditCourseInfo.jsx";
-import InstructorChapters from "../pages/Instructor/Courses/Chapters/Chapters.jsx";
-import InstructorTopics from "../pages/Instructor/Courses/Chapters/Topics/Topics.jsx";
-import IntructorArticle from "../pages/Instructor/Courses/Chapters/Topics/Article/Article.jsx";
-import InstructorVideo from "../pages/Instructor/Courses/Chapters/Topics/Video/Video.jsx";
-import InstructorWorkshops from "../pages/Instructor/Workshops/Workshops.jsx";
-import Error404 from "../pages/Instructor/Error/Error404.jsx";
-import LiveSessions from "../pages/Instructor/Workshops/Sessions/LiveSessions/LiveSessions.jsx";
-import InstructorEditWorkshopInfo from "../pages/Instructor/Workshops/EditWorkshopInfo/EditWorkshopInfo.jsx";
-
+const InstructorDashboard = lazy(() =>
+  import("../pages/Instructor/Dashboard/Dashboard.jsx")
+);
+const InstructorCourses = lazy(() =>
+  import("../pages/Instructor/Courses/Courses.jsx")
+);
+const InstructorEditCourseInfo = lazy(() =>
+  import("../pages/Instructor/Courses/EditCourseInfo/EditCourseInfo.jsx")
+);
+const InstructorChapters = lazy(() =>
+  import("../pages/Instructor/Courses/Chapters/Chapters.jsx")
+);
+const InstructorTopics = lazy(() =>
+  import("../pages/Instructor/Courses/Chapters/Topics/Topics.jsx")
+);
+const IntructorArticle = lazy(() =>
+  import("../pages/Instructor/Courses/Chapters/Topics/Article/Article.jsx")
+);
+const InstructorVideo = lazy(() =>
+  import("../pages/Instructor/Courses/Chapters/Topics/Video/Video.jsx")
+);
+const InstructorWorkshops = lazy(() =>
+  import("../pages/Instructor/Workshops/Workshops.jsx")
+);
+const Error404 = lazy(() => import("../pages/Instructor/Error/Error404.jsx"));
+const LiveSessions = lazy(() =>
+  import("../pages/Instructor/Workshops/Sessions/LiveSessions/LiveSessions.jsx")
+);
+const InstructorEditWorkshopInfo = lazy(() =>
+  import("../pages/Instructor/Workshops/EditWorkshopInfo/EditWorkshopInfo.jsx")
+);
+const InstructorSessions = lazy(() =>
+  import("../pages/Instructor/Workshops/Sessions/Sessions.jsx")
+);
 // let ProtectedRouter = (props) => {
 //   if (localStorage.getItem("token") == null) {
 //     return <Navigate to="/signin" />;
@@ -32,6 +56,9 @@ import InstructorEditWorkshopInfo from "../pages/Instructor/Workshops/EditWorksh
 //     return props.children;
 //   }
 // };
+const SuspenseWrapper = (props) => {
+  return <Suspense fallback={<Loading />}>{props.children}</Suspense>;
+};
 const router = createBrowserRouter([
   {
     path: "",
@@ -61,26 +88,49 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <InstructorDashboard />,
+        element: (
+          <SuspenseWrapper>
+            <InstructorDashboard />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: "*",
-        element: <Error404 redirectTo={"/instructor"} />,
+        element: (
+          <SuspenseWrapper>
+            <Error404 redirectTo={"/instructor"} />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: "courses",
         children: [
-          { index: true, element: <InstructorCourses /> },
+          {
+            index: true,
+            element: (
+              <SuspenseWrapper>
+                <InstructorCourses />{" "}
+              </SuspenseWrapper>
+            ),
+          },
           {
             path: ":courseId",
             children: [
               {
                 index: true,
-                element: <InstructorChapters />,
+                element: (
+                  <SuspenseWrapper>
+                    <InstructorChapters />{" "}
+                  </SuspenseWrapper>
+                ),
               },
               {
                 path: "edit",
-                element: <InstructorEditCourseInfo />,
+                element: (
+                  <SuspenseWrapper>
+                    <InstructorEditCourseInfo />
+                  </SuspenseWrapper>
+                ),
               },
             ],
           },
@@ -89,17 +139,36 @@ const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: <InstructorTopics />,
+                element: (
+                  <SuspenseWrapper>
+                    <InstructorTopics />
+                  </SuspenseWrapper>
+                ),
               },
               {
                 path: "article/new",
-                element: <IntructorArticle />,
+                element: (
+                  <SuspenseWrapper>
+                    <IntructorArticle />
+                  </SuspenseWrapper>
+                ),
               },
               {
                 path: "article/:articleId",
-                element: <IntructorArticle />,
+                element: (
+                  <SuspenseWrapper>
+                    <IntructorArticle />
+                  </SuspenseWrapper>
+                ),
               },
-              { path: "video/:videoId", element: <InstructorVideo /> },
+              {
+                path: "video/:videoId",
+                element: (
+                  <SuspenseWrapper>
+                    <InstructorVideo />
+                  </SuspenseWrapper>
+                ),
+              },
             ],
           },
         ],
@@ -109,27 +178,43 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <InstructorWorkshops />,
+            element: (
+              <SuspenseWrapper>
+                <InstructorWorkshops />
+              </SuspenseWrapper>
+            ),
           },
           {
             path: ":workshopId",
             children: [
               {
                 index: true,
-                element: <InstructorChapters />,
+                element: (
+                  <SuspenseWrapper>
+                    <InstructorSessions />
+                  </SuspenseWrapper>
+                ),
               },
               {
                 path: "edit",
-                element: <InstructorEditWorkshopInfo />,
+                element: (
+                  <SuspenseWrapper>
+                    <InstructorEditWorkshopInfo />
+                  </SuspenseWrapper>
+                ),
               },
             ],
           },
           {
-            path: ":workshopId/live",
+            path: ":workshopId/live/:sessionId",
             children: [
               {
                 index: true,
-                element: <LiveSessions />,
+                element: (
+                  <SuspenseWrapper>
+                    <LiveSessions />
+                  </SuspenseWrapper>
+                ),
               },
             ],
           },
@@ -138,7 +223,11 @@ const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: <LiveSessions />,
+                element: (
+                  <SuspenseWrapper>
+                    <LiveSessions />
+                  </SuspenseWrapper>
+                ),
               },
             ],
           },
