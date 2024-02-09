@@ -4,7 +4,7 @@ import { ReactComponent as MessageSvg } from "./assets/message.svg";
 import { ReactComponent as GroupSvg } from "./assets/group.svg";
 import { ReactComponent as LinkSvg } from "./assets/link.svg";
 import LiveChat from "../LiveChat/LiveChat";
-import Participants from "../Participants/Participants";
+import ParticipantsPanel from "../ParticipantsPanel/ParticipantsPanel";
 const IconButtonModified = ({ icon, active = false, onClick }) => {
   return (
     <IconButton
@@ -74,7 +74,7 @@ function SidePanel() {
         }}
       >
         {currentActive === "chat" && <LiveChat />}
-        {currentActive === "participants" && <Participants />}
+        {currentActive === "participants" && <ParticipantsPanel />}
         {currentActive === "options" && <div>Options</div>}
       </Box>
     </>

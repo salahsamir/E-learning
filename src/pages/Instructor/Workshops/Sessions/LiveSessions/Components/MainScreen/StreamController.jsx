@@ -26,14 +26,13 @@ function handleDisconnect() {
   console.log("disconnected");
 }
 
-function StreamController({ controls, videoElement }) {
+function StreamController({ videoElement }) {
   const {
     isCameraEnabled,
     isMicrophoneEnabled,
     isScreenShareEnabled,
     localParticipant,
   } = useLocalParticipant();
-
   return (
     <Box
       sx={{
@@ -50,6 +49,11 @@ function StreamController({ controls, videoElement }) {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
+        opacity: "0",
+        transition: "opacity 0.5s",
+        "&:hover": {
+          opacity: "1",
+        },
       }}
     >
       <Box>
@@ -63,7 +67,7 @@ function StreamController({ controls, videoElement }) {
         </IconButton>
         <IconButton
           onClick={() =>
-            localParticipant.setMicrophoneEnabled(!isCameraEnabled)
+            localParticipant.setMicrophoneEnabled(!isMicrophoneEnabled)
           }
         >
           {isMicrophoneEnabled ? (

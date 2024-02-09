@@ -5,6 +5,7 @@ import { AttachMoney, Groups, QueryBuilder } from "@mui/icons-material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import WelcomeCard from "./Components/WelcomeCard/WelcomeCard";
 import NewsCarousel from "./Components/NewsCarousel/NewsCarousel";
+import SalesChart from "./Components/SalesChart/SalesChart";
 function Dashboard() {
   const sliderItems = [
     {
@@ -58,6 +59,9 @@ function Dashboard() {
             title={"Watching Hours"}
             value={"120"}
           />
+        </Grid2>
+        <Grid2 xs={12} md={6}>
+          <SalesChart />
         </Grid2>
       </Grid2>
     </>

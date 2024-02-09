@@ -75,7 +75,6 @@ function BackgroundUpload() {
       startUploading(formData);
     }
   }, [currentUpload.id]);
-  console.log("state: ", currentUploadState);
   // if upload is completed, remove it from uploading list and add it to completed list
   // if there are still files in uploading list, set the first file as current upload
   useEffect(() => {
@@ -130,7 +129,6 @@ function BackgroundUpload() {
       return (event.returnValue = "there are some files uploading");
     }
   };
-  console.log("length", uploadingList.length);
   return (
     <>
       {backgroundUploadIsShown && (
