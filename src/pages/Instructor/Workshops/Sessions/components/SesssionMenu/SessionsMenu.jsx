@@ -11,11 +11,10 @@ import { useState } from "react";
 import DeleteSession from "../DeleteSession/DeleteSession";
 import EditSession from "../EditSession/EditSession";
 
-const SessionsMenu = ({ sessionId, title, setItems }) => {
+const SessionsMenu = ({ id: sessionId, title, setItems }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [DeleteMenuIsShown, setDeleteMenuIsShown] = useState(false);
   const [editFormIsShown, setEditFormIsShown] = useState(false);
-
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

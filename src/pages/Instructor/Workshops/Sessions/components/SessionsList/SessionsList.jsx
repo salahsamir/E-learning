@@ -71,7 +71,12 @@ function SessionsList({
       sessionDate,
       sessionStatus,
       settings: (
-        <SessionsMenu key={id} id={id} setSessionsList={setSessionsList} />
+        <SessionsMenu
+          key={id}
+          id={id}
+          title={sessionName}
+          setItems={setSessionsList}
+        />
       ),
     };
   }

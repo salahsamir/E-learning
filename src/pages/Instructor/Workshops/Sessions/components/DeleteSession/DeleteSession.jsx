@@ -8,18 +8,16 @@ import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
 import { BaseApi } from "../../../../../../util/BaseApi";
 import { LoadingButton } from "@mui/lab";
-import useGetParams from "../../../../../../hooks/useGetParams";
 
 export default function DeleteSession({ open, setOpen, sessionId, setItems }) {
   const [loading, setLoading] = React.useState(false);
-  const params = useGetParams();
   const handleClose = () => {
     setOpen(false);
   };
   const handleDelete = () => {
     setLoading(true);
     axios
-      .delete(BaseApi + `/workshop/${params[0]}/room/${sessionId}`, {
+      .delete(BaseApi + `/room/${sessionId}`, {
         headers: {
           "Application-Type": "application/json",
           token: localStorage.getItem("token"),
@@ -29,7 +27,7 @@ export default function DeleteSession({ open, setOpen, sessionId, setItems }) {
         setLoading(false);
         setItems((prev) => {
           const newList = [...prev];
-          return newList.filter((session) => session.id !== sessionId);
+          return newList.filter((session) => session._id !== sessionId);
         });
         handleClose();
       })

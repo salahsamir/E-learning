@@ -16,7 +16,7 @@ export const theme = (mode) =>
               paper: "#fff",
             },
             primary: {
-              main: "#022340",
+              main: "#007D53",
               light: "#007E92",
               dark: "#09a16b",
               border: "rgb(241, 243, 244)",
@@ -24,9 +24,10 @@ export const theme = (mode) =>
               svg: "#000",
               scrollbar: "#c4c4c4",
             },
+
             secondary: {
               main: "#65888C",
-            }
+            },
           }
         : {
             background: {
@@ -67,10 +68,10 @@ export const theme = (mode) =>
         },
         styleOverrides: {
           root: {
-            color: mode !== "light" ? "#007d53" : "#022340",
+            color: mode === "light" ? "#007d53" : "#1bb385",
             textDecoration: "none",
             "&:hover": {
-              color: mode === "light" ?  "#022340": "#09a16b",
+              color: mode === "light" ? "#09a16b" : "#009766",
             },
           },
         },
