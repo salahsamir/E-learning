@@ -61,15 +61,16 @@ export default function ConfirmCode() {
       <Stack alignItems="center" height={"100%"} gap={5}>
           <Typography
             variant="h1"
-            fontSize={"2.2em"}
+            fontSize={"3em"}
             mt={8}
             mb={3}
-            fontWeight={700}
+            color='primary.main'
+            fontWeight={600}
           >
             Eduvation
           </Typography>
        
-          <Typography variant="body1" color={'GrayText'} sx={{ width: { xs: "90%", sm: "400px" } }}>
+          <Typography variant="body1" color={'secondary.main'} sx={{ width: { xs: "90%", sm: "400px" } }}>
         We have sent you a code to your email. please type the code here to
         reset your password.
       </Typography>

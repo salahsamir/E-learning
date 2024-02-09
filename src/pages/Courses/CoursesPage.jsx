@@ -2,29 +2,22 @@ import { Container, Grid, Stack } from '@mui/material'
 import React from 'react'
 import { useParams } from 'react-router-dom'
 
-import Section2 from '../../Components/Courses/Section2.jsx';
-import VerticalTabs from '../../Components/Courses/VerticalTabs.jsx';
+import VerticalTabs from '../../Components/Subcategory//VerticalTabs.jsx';
 
 export default function CoursesPage() {
-  const {value}=useParams()
+  const {id}=useParams()
+
   return (
-   <Stack spacing={4} my={"60px"} direction="row" justifyContent={'space-between'}>    
-   <Container>
-    <Grid container>
-    <Grid item  md={3} sx={{}}>
+    <Stack spacing={4} my={"60px"} >    
+   
+         <Container>
 
-        <VerticalTabs/>
-    </Grid>
-    <Grid item sm={12} md={9}>
 
-         <Section2/>
-
-</Grid>
-
-   </Grid>
-   </Container>
+         <VerticalTabs id={id} />
+         </Container>
     
-   </Stack>
+     
+    </Stack>
 
   )
 }

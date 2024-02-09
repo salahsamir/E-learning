@@ -66,7 +66,7 @@ export default function Sections() {
   }, []);
   return (
     <Container>
-      <Stack mx={"10px"} spacing={1} pb={"20px"}>
+      <Stack m={"20px"} spacing={1} py={4}>
         <Typography
           data-aos="zoom-in"
           variant="h2"
@@ -82,6 +82,7 @@ export default function Sections() {
               justifyContent={"center"}
               sx={{ width: "90%", height: "100%" }}
               data-aos="fade-right"
+              color='secondary.main'
             >
               <Typography variant="h6">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit
