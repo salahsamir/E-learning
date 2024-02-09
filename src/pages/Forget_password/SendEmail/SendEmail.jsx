@@ -62,15 +62,16 @@ export default function SendEmail() {
       
           <Typography
             variant="h1"
-            fontSize={"2.2em"}
+            fontSize={"3em"}
             mt={8}
             mb={3}
-            fontWeight={700}
+            color="primary.main"
+            fontWeight={600}
           >
             Eduvation
           </Typography>
       
-          <Typography variant="body1" color='GrayText' sx={{ width: { xs: "90%", sm: "400px" } }}>
+          <Typography variant="body1" color='secondary.main' sx={{ width: { xs: "90%", sm: "400px" } }}>
         Enter the email address associated with your account and we will send
         you a link to reset your password.
       </Typography>
@@ -112,7 +113,7 @@ export default function SendEmail() {
           Send   
         </LoadingButton>
       </Stack>
-      <Typography variant="body1" marginY={"20px !important"}>
+      <Typography variant="body1" color='secondary.main' marginY={"20px !important"}>
         Still without account?{" "}
 
         <Link component={RouterLink} to={"/signup"}>

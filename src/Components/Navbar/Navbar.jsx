@@ -15,9 +15,9 @@ export default function Navbar() {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        height: "60px",
-        paddingX: "1em",
-        borderBottom: "1px solid #bcbcce44",
+        height: "45px",
+        paddingX: ".8em",
+        borderBottom: ".5px solid #bcbcce44",
         backgroundColor: (theme) => theme.palette.background.default,
       }}
     >
@@ -26,10 +26,11 @@ export default function Navbar() {
           <Link
             to={"/"}
             component={RouterLink}
+            color={'primary.main'}
             sx={{
               textDecoration: "none",
-              color: (theme) =>
-                theme.palette.mode === "dark" ? "white" : "black",
+            //   color: (theme) =>
+            //     theme.palette.mode === "dark" ? "white" : "black",
             }}
           >
             Eduvation

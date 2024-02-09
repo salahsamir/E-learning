@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+
 import {
   LogoutOutlined,
   MailOutlineOutlined,
@@ -19,16 +20,17 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+
 const SolidDvider = styled(Divider)(({ theme }) => ({
   borderColor: "#bcbcce",
   borderBottomWidth: "2px",
 }));
 
 function UserMenu() {
-  const navigate = useNavigate();
+  let nav=useNavigate()
   const signoutHandler = () => {
     localStorage.removeItem("token");
-    navigate("/");
+    nav("/signin", { replace: true }); 
   };
   return (
     <Paper

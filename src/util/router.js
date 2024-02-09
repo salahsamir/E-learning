@@ -2,16 +2,19 @@ import { Suspense, lazy } from "react";
 import Layout from "../pages/Layout/Layout";
 import Home from "../pages/Home/Home.jsx";
 import { createBrowserRouter } from "react-router-dom";
+
+import { Navigate } from "react-router-dom";
+
+/* salah's routes*/
 import Signin from "../pages/Signin/Signin";
 import Signup from "../pages/Signup/Signup";
 import ConfirmCode from "../pages/Forget_password/ConfirmCode/ConfirmCode";
 import UpdatePasswordForm from "../pages/Forget_password/UpdatePasswordForm/UpdatePasswordForm";
 import SendEmail from "../pages/Forget_password/SendEmail/SendEmail.jsx";
 import NotFound from "../pages/NotFound/NotFound.jsx";
-import { Navigate } from "react-router-dom";
 import CoursesPage from "../pages/Courses/CoursesPage.jsx";
 import Video from "../pages/Videos/Video.jsx";
-import CoursesParts from "../Components/CoursesParts/CoursesParts.jsx";
+import Chapter from "../Components/Chapters/Chapter.jsx";
 import Assignment from "../pages/Assignment/Assignment.jsx";
 import Loading from "../pages/Loading/Loading.jsx";
 import InstructorLayout from "../pages/Instructor/Layout.jsx";
@@ -73,11 +76,10 @@ const router = createBrowserRouter([
       { path: "sendEmail", element: <SendEmail /> },
       { path: "sendCode", element: <ConfirmCode /> },
       { path: "updatePassword", element: <UpdatePasswordForm /> },
-      { path: "course/:value", element: <CoursesPage /> },
+      { path: "course/:id", element: <CoursesPage /> },
       { path: "video", element: <Video /> },
       { path: "assignment", element: <Assignment /> },
-
-      { path: "courseparts", element: <CoursesParts /> },
+      { path: "Chapter/:id", element: <Chapter /> },
       { path: "*", element: <NotFound /> },
     ],
   },

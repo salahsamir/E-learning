@@ -12,7 +12,7 @@ const Image = styled("img")(({ theme }) => ({
 }));
 function CartItem(props) {
   const dispatch = useDispatch();
-  const { id, title, image, category, price, rating, instructorName } =
+  const { courseId, name, image, category, price, rating, instructorName } =
     props.course;
   return (
     <Stack
@@ -38,7 +38,7 @@ function CartItem(props) {
         direction={{ sm: "row" }}
         alignItems={{ xs: "center", sm: "flex-start" }}
       >
-        <Image src={image} alt={title} />
+        <Image src={image} alt={name} />
         <Stack alignItems={{ xs: "center", sm: "flex-start" }}>
           <Typography
             variant={"body2"}
@@ -46,7 +46,7 @@ function CartItem(props) {
             fontWeight="600"
             maxwidth={250}
           >
-            {title}
+            {name}
           </Typography>
           <Typography
             variant={"body2"}
@@ -67,14 +67,14 @@ function CartItem(props) {
       </Stack>
       <Stack alignItems="center">
         <Typography variant={"h5"} fontWeight="600" pt={1} pb={3}>
-          $40
+          {price}
         </Typography>
         <Button
           variant="text"
           color="error"
           size="small"
           sx={{ fontWeight: 600 }}
-          onClick={() => dispatch(cartActions.removeFromCart(id))}
+          onClick={() => dispatch(cartActions.removeFromCart(courseId))}
         >
           Remove
         </Button>
