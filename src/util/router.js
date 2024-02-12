@@ -16,6 +16,7 @@ import CoursesPage from "../pages/Courses/CoursesPage.jsx";
 import Video from "../pages/Videos/Video.jsx";
 import Chapter from "../Components/Chapters/Chapter.jsx";
 import Assignment from "../pages/Assignment/Assignment.jsx";
+// import Profile from "../page/Profile/Profile.jsx";
 import Profile from "../pages/Profile/Profile.jsx";
 /**************************************** */
 import InstructorLayout from "../pages/Instructor/Layout.jsx";
@@ -31,15 +32,6 @@ import Error404 from "../pages/Instructor/Error/Error404.jsx";
 import LiveSessions from "../pages/Instructor/Workshops/Sessions/LiveSessions/LiveSessions.jsx";
 import InstructorEditWorkshopInfo from "../pages/Instructor/Workshops/EditWorkshopInfo/EditWorkshopInfo.jsx";
 
-
-
-// let ProtectedRouter = (props) => {
-//   if (localStorage.getItem("token") == null) {
-//     return <Navigate to="/signin" />;
-//   } else {
-//     return props.children;
-//   }
-// };
 const router = createBrowserRouter([
   {
     path: "",
