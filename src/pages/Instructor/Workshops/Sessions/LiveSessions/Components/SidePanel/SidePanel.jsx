@@ -5,6 +5,7 @@ import { ReactComponent as GroupSvg } from "./assets/group.svg";
 import { ReactComponent as LinkSvg } from "./assets/link.svg";
 import LiveChat from "../LiveChat/LiveChat";
 import ParticipantsPanel from "../ParticipantsPanel/ParticipantsPanel";
+import { useChat } from "@livekit/components-react";
 const IconButtonModified = ({ icon, active = false, onClick }) => {
   return (
     <IconButton
@@ -41,6 +42,7 @@ const IconButtonModified = ({ icon, active = false, onClick }) => {
 };
 function SidePanel() {
   const [currentActive, setCurrentActive] = useState("chat");
+  const liveChat = useChat();
   return (
     <>
       <Box
@@ -73,7 +75,7 @@ function SidePanel() {
           borderRadius: "8px",
         }}
       >
-        {currentActive === "chat" && <LiveChat />}
+        {currentActive === "chat" && <LiveChat liveChat={liveChat} />}
         {currentActive === "participants" && <ParticipantsPanel />}
         {currentActive === "options" && <div>Options</div>}
       </Box>

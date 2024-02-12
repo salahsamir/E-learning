@@ -57,7 +57,7 @@ function Sessions() {
       <NewSession
         open={newFormIsShown}
         setOpen={setNewFormIsShown}
-        setSessionsList={setSessionsList}
+        setItems={setSessionsList}
       />
       <SessionsList
         sessionsList={sessionsList}

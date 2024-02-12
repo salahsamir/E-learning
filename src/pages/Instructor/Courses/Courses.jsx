@@ -22,7 +22,9 @@ function Courses() {
       setCoursesList(coursesData.courses);
     }
   }, [coursesData]);
+  console.log(errorCoursesList);
   if (errorCoursesList?.response?.status < 500) {
+    console.log("errorCoursesList");
     return <ErrorPage error={errorCoursesList} redirectTo="/instructor" />;
   }
   return (

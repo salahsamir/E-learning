@@ -8,11 +8,12 @@ import axios from "axios";
 import { BaseApi } from "../../../../../util/BaseApi";
 import useGetParams from "../../../../../hooks/useGetParams";
 import { Box, CircularProgress } from "@mui/material";
+import useGetData from "../../../../../hooks/useGetData";
 
 function LiveSessions() {
   const [token, setToken] = useState("");
-  const [joined, setJoined] = useState(false);
   const params = useGetParams();
+  const { data: eduRoom } = useGetData(BaseApi + "/room/" + params[0]);
   useEffect(() => {
     axios
       .post(
@@ -57,7 +58,7 @@ function LiveSessions() {
         >
           <Grid2 container spacing={2}>
             <Grid2 xs={12} md={9}>
-              <IndicationCard />
+              <IndicationCard eduRoom={eduRoom?.results} />
               <MainScreen />
               <Grid2 container spacing={2}>
                 <Grid2 xs={12} md={4}></Grid2>

@@ -84,7 +84,7 @@ function SessionsList({
     const item = arr[arr.length - index - 1];
     return createData(
       item._id,
-      item.roomName,
+      item.title,
       item.duration || 0,
       item.totalPart || 0,
       item.sessionDate || "None",

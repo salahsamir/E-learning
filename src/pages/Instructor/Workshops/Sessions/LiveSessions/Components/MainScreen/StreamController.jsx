@@ -1,16 +1,17 @@
 import { useLocalParticipant } from "@livekit/components-react";
 import {
-  EmojiEmotions,
-  Fullscreen,
+  BackHand,
   Mic,
   MicOff,
   MoreHoriz,
+  PushPin,
   ScreenShare,
   StopScreenShare,
   Videocam,
   VideocamOff,
 } from "@mui/icons-material";
 import { Box, IconButton, Button } from "@mui/material";
+import { useState } from "react";
 function openFullscreen(elem) {
   if (elem.requestFullscreen) {
     elem.requestFullscreen();
@@ -26,13 +27,21 @@ function handleDisconnect() {
   console.log("disconnected");
 }
 
-function StreamController({ videoElement }) {
+function StreamController() {
   const {
     isCameraEnabled,
     isMicrophoneEnabled,
     isScreenShareEnabled,
     localParticipant,
   } = useLocalParticipant();
+  const [controlbarPined, setControlbarPined] = useState(false);
+  let raiseHand;
+  if (localParticipant?.metadata) {
+    raiseHand = JSON.parse(localParticipant.metadata)?.raiseHand;
+  }
+  const handleRaiseHand = () => {
+    localParticipant.setMetadata(JSON.stringify({ raiseHand: !raiseHand }));
+  };
   return (
     <Box
       sx={{
@@ -49,7 +58,7 @@ function StreamController({ videoElement }) {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        opacity: "0",
+        opacity: controlbarPined ? "1" : "0",
         transition: "opacity 0.5s",
         "&:hover": {
           opacity: "1",
@@ -57,13 +66,23 @@ function StreamController({ videoElement }) {
       }}
     >
       <Box>
-        <IconButton onClick={() => openFullscreen(videoElement.current)}>
-          <Fullscreen sx={{ color: "white" }} />
+        <IconButton onClick={() => setControlbarPined((old) => !old)}>
+          <PushPin
+            sx={{
+              color: (theme) =>
+                controlbarPined ? theme.palette.primary.main : "white",
+            }}
+          />
         </IconButton>
       </Box>
       <Box>
-        <IconButton>
-          <EmojiEmotions sx={{ color: "white" }} />
+        <IconButton onClick={() => handleRaiseHand()}>
+          <BackHand
+            sx={{
+              color: (theme) =>
+                raiseHand ? theme.palette.primary.main : "white",
+            }}
+          />
         </IconButton>
         <IconButton
           onClick={() =>

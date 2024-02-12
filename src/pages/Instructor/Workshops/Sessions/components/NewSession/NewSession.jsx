@@ -26,22 +26,18 @@ export default function NewSession({ open, setOpen, setItems }) {
     onSubmit: (values) => {
       setLoading(true);
       axios
-        .post(
-          BaseApi + `/room/create`,
-          { workshopId: params[0] },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              token: `${localStorage.getItem("token")}`,
-            },
-          }
-        )
+        .post(BaseApi + `/room/create`, values, {
+          headers: {
+            "Content-Type": "application/json",
+            token: `${localStorage.getItem("token")}`,
+          },
+        })
         .then((res) => {
           setLoading(false);
           setOpen(false);
           setItems((prev) => {
-            const newSession = { ...res.data.chapter };
-            newSession.id = newSession._id;
+            const newSession = { ...res.data.results };
+            console.log(newSession);
             return [...prev, newSession];
           });
         })
