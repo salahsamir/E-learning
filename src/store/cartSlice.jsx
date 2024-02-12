@@ -42,11 +42,11 @@ export const removeFromCart = createAsyncThunk("cart/remove", async (item, thunk
     return thunkAPI.rejectWithValue(error.response.data.message);
   }
 });
-
+const cart=JSON.parse(localStorage.getItem('cart'))
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
-    itemsCount: 0,
+    itemsCount:cart ,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -54,13 +54,13 @@ const cartSlice = createSlice({
       state.itemsCount += 1;
     });
     builder.addCase(AddtoCart.rejected, (state, action) => {
-      state.itemsCount=0;
+      // state.itemsCount=0;
     })
     builder.addCase(removeFromCart.fulfilled, (state, action) => {
       state.itemsCount -= 1;
     });
     builder.addCase(removeFromCart.rejected, (state, action) => {
-      state.itemsCount=0;
+      // state.itemsCount=0;
     })
   },
 });

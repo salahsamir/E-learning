@@ -28,10 +28,14 @@ const SolidDvider = styled(Divider)(({ theme }) => ({
 
 function UserMenu() {
   let nav=useNavigate()
+  let image=localStorage.getItem("image")
   const signoutHandler = () => {
     localStorage.removeItem("token");
     nav("/signin", { replace: true }); 
   };
+  const Profile=()=>{
+    nav("/profile", { replace: true });
+  }
   return (
     <Paper
       sx={{
@@ -41,10 +45,11 @@ function UserMenu() {
         borderRadius: 0,
       }}
     >
+
       <MenuList>
-        <MenuItem>
-          <ListItemIcon>
-            <Avatar sx={{ width: 36, height: 36 }}></Avatar>
+        <MenuItem onClick={()=>{Profile()}}>
+          <ListItemIcon >
+            <Avatar src={image} sx={{ width: 36, height: 36 }}></Avatar>
           </ListItemIcon>
           <ListItemText sx={{ pl: 1 }}>Profile</ListItemText>
         </MenuItem>
