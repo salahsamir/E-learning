@@ -38,7 +38,7 @@ function CartModal(props) {
     try {
       const response = await axios.get(`${BaseApi}/cart`,{headers});
       setCart(response.data.cart.course);
-    
+      localStorage.setItem('cart',response.data.cart.course.length)
     } catch (error) {
       console.log(error);
     }

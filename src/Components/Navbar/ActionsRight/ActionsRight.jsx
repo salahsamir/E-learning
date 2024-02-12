@@ -62,6 +62,8 @@ function ActionsRight({ cartVisible }) {
     setNotifiEl(event.currentTarget);
     setNotifiMenuIsOpen(true);
   }
+  let image=localStorage.getItem("image")
+
   return (
     <>
       <CartModal
@@ -124,6 +126,7 @@ function ActionsRight({ cartVisible }) {
           }}
         >
           <Avatar
+            src={image}
             sx={{
               height: "30px",
               width: "30px",
