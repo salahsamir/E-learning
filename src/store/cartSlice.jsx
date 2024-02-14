@@ -48,6 +48,7 @@ const cartSlice = createSlice({
   initialState: {
     itemsCount:cart ,
   },
+  
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(AddtoCart.fulfilled, (state, action) => {
