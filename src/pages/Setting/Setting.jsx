@@ -8,7 +8,7 @@ export default function Setting() {
   return (
    <Stack spacing={4} my={"60px"} >
   <Container>
-  <SectionImage/>
+  {/* <SectionImage/> */}
   </Container>
 
 
