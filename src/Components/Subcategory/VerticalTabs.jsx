@@ -20,8 +20,11 @@ import style from "./Vertical.module.css"
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { cartActions } from '../../store/cartSlice.jsx';
+import { Favorite, FavoriteBorder, ModeFanOff } from '@mui/icons-material';
+
 function TabPanel({ children, value, index, ...other }) {
   let nav=useNavigate()
+  let[heart,setHeart]=useState(false)
   const dispatch = useDispatch();
   let headers={
     token:localStorage.getItem('token')
@@ -37,36 +40,16 @@ function TabPanel({ children, value, index, ...other }) {
     }
   };
 
-  ///  funct that fire Cart
-
-//   let AddToCart = async (id) => {
-//     try {
-       
-//         let response = await axios.patch(`${BaseApi}/cart/add/${id}`, null, { headers: headers })
-//         toast.success('Successfully added to cart!', {
-//             icon: '👏',
-//             style: {
-//                 borderRadius: '10px',
-//                 background: '#1B0A26',
-//                 color: '#F2C791',
-//             },
-//         });
-        
-//     } catch (error) {
-//         // Display error toast
-//         toast.error(error.response.data.message, {
-//             style: {
-//                 borderRadius: '10px',
-//                 background: '#1B0A26',
-//                 color: '#F2C791',
-//             },
-//         });
-//     }
-// }
-
-
-
-
+  let changeHeart=async(id)=>{
+    try{
+      let response=await axios.patch(`${BaseApi}/user/wishlist/${id}`,null,{headers})
+      if(response.data.message){
+        setHeart(true)
+        toast.success(response.data.message)}
+      }catch(error){
+        toast.error(error.response.data.message)
+      }
+  }
   useEffect(() => {
     getAllCourse();
   }, [value,index]);
@@ -93,12 +76,19 @@ function TabPanel({ children, value, index, ...other }) {
             xs={6}
             md={3}
             p={"20px"}
+            // border= '1px solid #1BB385' 
             key={index}
             data-aos="zoom-in-down"
             background={"#fff"}
             className={`${style.course}`}
 
           >
+           <Box className={`${style.heart}`} onClick={()=>{changeHeart(ele._id)}}>
+              {!heart ? 
+                 <FavoriteBorder color='primary' size="medium"/>
+                 :<Favorite color='primary' size="medium"/>
+              }
+           </Box>
             <Box  py={2} onClick={() => nav(`/Chapter/${ele._id}`)}>
               <Box >
                 <Avatar

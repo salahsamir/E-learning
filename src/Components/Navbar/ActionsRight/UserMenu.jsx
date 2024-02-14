@@ -31,6 +31,9 @@ function UserMenu() {
   let image=localStorage.getItem("image")
   const signoutHandler = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("cart");
+    localStorage.removeItem("image");
+    
     nav("/signin", { replace: true }); 
   };
   const Profile=()=>{
@@ -73,7 +76,7 @@ function UserMenu() {
           <ListItemText>My schedule</ListItemText>
         </MenuItem>
         <SolidDvider />
-        <MenuItem>
+        <MenuItem onClick={() => {nav("/setting", { replace: true })}}>
           <ListItemIcon>
             <SettingsOutlined />
           </ListItemIcon>

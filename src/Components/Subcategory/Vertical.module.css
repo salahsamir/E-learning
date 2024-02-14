@@ -1,13 +1,17 @@
+.course {
+    transition: transform 1s, opacity 1s;
+}
+.course:hover {
+    /* transform: scale(1.1); */
+    border: .5px solid #1BB385 !important;
+}
 
-.btn 
-{
-    transition: transform 1s , opacity 1s;
+.btn, .heart {
+    transition: transform 1s, opacity 1s;
     transform: translateY(100%);
     opacity: 0;
 }
-.course:hover .btn 
-{
+.course:hover .btn, .course:hover .heart {
     opacity: 1;
     transform: translateY(0%);
-
 }

@@ -1,26 +1,16 @@
-import {
-  DarkModeOutlined,
-  LightModeOutlined,
-  NotificationsNoneOutlined,
-  ShoppingCartOutlined,
-} from "@mui/icons-material";
-import {
-  Avatar,
-  Badge,
-  ButtonBase,
-  IconButton,
-  Popover,
-  Stack,
-} from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { getAuthToken } from "../../../util/auth";
-import { useDispatch, useSelector } from "react-redux";
-import { uiActions } from "../../../store/uiSlice";
-import UserMenu from "./UserMenu";
-import CartModal from "../../CartModal/CartModal";
-import NotificationsMenu from "../../NotificationsMenu/NotificationsMenu";
-import styled from "@emotion/styled";
+import React, { useEffect, useState } from 'react';
+import { IconButton, Badge, Popover, ButtonBase, Avatar, Stack } from '@mui/material';
+import { Favorite, NotificationsNoneOutlined, ShoppingCartOutlined, DarkModeOutlined, LightModeOutlined, FavoriteBorder } from '@mui/icons-material';
+import { useDispatch, useSelector } from 'react-redux';
+import { uiActions } from '../../../store/uiSlice';
+import UserMenu from './UserMenu';
+import CartModal from '../../CartModal/CartModal';
+import NotificationsMenu from '../../NotificationsMenu/NotificationsMenu';
+import styled from '@emotion/styled';
+import axios from 'axios';
+import { BaseApi } from '../../../util/BaseApi.js';
+import { useNavigate } from 'react-router-dom';
+import { getAuthToken } from '../../../util/auth';
 
 const CustomBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -34,22 +24,38 @@ const CustomBadge = styled(Badge)(({ theme }) => ({
     padding: 0,
   },
 }));
+
 function ActionsRight({ cartVisible }) {
   const themeMode = useSelector((state) => state.ui.themeMode);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [userMenuIsOpen, setUserMenuIsOpen] = useState(false);
-  const [avatarEl, setAvatarEl] = React.useState(null);
+  const [avatarEl, setAvatarEl] = useState(null);
 
   const [notifiMenuIsOpen, setNotifiMenuIsOpen] = useState(false);
-  const [notifiEl, setNotifiEl] = React.useState(null);
+  const [notifiEl, setNotifiEl] = useState(null);
 
   const [cartIsShown, setCartIsShown] = useState(false);
   const itemsCount = useSelector((state) => state.cart.itemsCount);
-  // console.log(itemsCount);
-   
+  const [wishlistCount, setWishlistCount] = useState(0);
+  const headers = {
+    token: localStorage.getItem('token')
+  };
+
+  useEffect(() => {
+    async function fetchWishlistCount() {
+      try {
+        const response = await axios.get(`${BaseApi}/user/wishlist`, { headers });
+        setWishlistCount(response.data.wishlist.length);
+      } catch (error) {
+        console.error('Error fetching wishlist count:', error);
+      }
+    }
+
+    fetchWishlistCount();
+  }, [headers]);
+
   function avatarClickHandler(event) {
     if (!getAuthToken()) {
       navigate("/signin/" + "?redirect=" + window.location.pathname);
@@ -58,11 +64,11 @@ function ActionsRight({ cartVisible }) {
       setUserMenuIsOpen(true);
     }
   }
+
   function notifiClickHandler(event) {
     setNotifiEl(event.currentTarget);
     setNotifiMenuIsOpen(true);
   }
-  let image=localStorage.getItem("image")
 
   return (
     <>
@@ -88,6 +94,7 @@ function ActionsRight({ cartVisible }) {
             />
           )}
         </IconButton>
+
         <IconButton
           aria-label="shopping cart"
           onClick={() => setCartIsShown(true)}
@@ -95,6 +102,19 @@ function ActionsRight({ cartVisible }) {
         >
           <CustomBadge badgeContent={itemsCount} color="primary">
             <ShoppingCartOutlined
+              sx={{
+                fontSize: "24px",
+                color: (theme) => theme.palette.primary.svg,
+              }}
+            />
+          </CustomBadge>
+        </IconButton>
+        <IconButton
+          aria-label="Heart"
+          sx={{ display: cartVisible ? "block" : "none", p: "4px" }}
+        >
+          <CustomBadge badgeContent={wishlistCount} color="primary">
+            <FavoriteBorder
               sx={{
                 fontSize: "24px",
                 color: (theme) => theme.palette.primary.svg,
@@ -126,7 +146,7 @@ function ActionsRight({ cartVisible }) {
           }}
         >
           <Avatar
-            src={image}
+            src={localStorage.getItem("image")}
             sx={{
               height: "30px",
               width: "30px",

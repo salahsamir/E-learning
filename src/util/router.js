@@ -31,6 +31,7 @@ import InstructorWorkshops from "../pages/Instructor/Workshops/Workshops.jsx";
 import Error404 from "../pages/Instructor/Error/Error404.jsx";
 import LiveSessions from "../pages/Instructor/Workshops/Sessions/LiveSessions/LiveSessions.jsx";
 import InstructorEditWorkshopInfo from "../pages/Instructor/Workshops/EditWorkshopInfo/EditWorkshopInfo.jsx";
+import Setting from "../pages/Setting/Setting.jsx";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,8 @@ const router = createBrowserRouter([
       { path: "assignment", element: <Assignment /> },
       { path: "Chapter/:id", element: <Chapter /> },
       {path:"profile",element:<Profile/>},
+      {path:"setting",element:<Setting/>},
+
       { path: "*", element: <NotFound /> },
     ],
   },
