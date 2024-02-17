@@ -4,10 +4,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { BaseApi } from "../util/BaseApi.js";
 import toast from "react-hot-toast";
-
+const token = localStorage.getItem('token');
+const headers = { token };
 export const addToWishlist = createAsyncThunk("wishlist/add", async (itemId, thunkAPI) => {
-  const token = localStorage.getItem('token');
-  const headers = { token };
+
 
   try {
     await axios.patch(`${BaseApi}/user/wishlist/${itemId}`, null, { headers });
@@ -20,8 +20,6 @@ export const addToWishlist = createAsyncThunk("wishlist/add", async (itemId, thu
 });
 
 export const removeFromWishlist = createAsyncThunk("wishlist/remove", async (itemId, thunkAPI) => {
-  const token = localStorage.getItem('token');
-  const headers = { token };
 
   try {
     await axios.delete(`${BaseApi}/user/wishlist/${itemId}/remove`, { headers });
@@ -29,6 +27,16 @@ export const removeFromWishlist = createAsyncThunk("wishlist/remove", async (ite
     return itemId;
   } catch (error) {
     toast.error(error.response.data.message);
+    return thunkAPI.rejectWithValue(error.response.data.message);
+  }
+});
+export const getWishlist = createAsyncThunk("wishlist/get", async (_, thunkAPI) => {
+  try {
+    const response = await axios.get(`${BaseApi}/user/wishlist/`, { headers });
+    
+    return response.data; // Return the fetched wishlist data
+  } catch (error) {
+    // toast.error(error.response.data.message);
     return thunkAPI.rejectWithValue(error.response.data.message);
   }
 });
@@ -40,7 +48,13 @@ const wishlistSlice = createSlice({
   },
 
   reducers: {},
+ 
   extraReducers: (builder) => {
+    builder.addCase(getWishlist.fulfilled, (state, action) => {
+     
+      state.items = action.payload.wishlist.length;
+    
+    })
     builder.addCase(addToWishlist.fulfilled, (state, action) => {
       state.items += 1;
     });

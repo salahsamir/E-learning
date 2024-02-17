@@ -29,6 +29,7 @@ const SolidDvider = styled(Divider)(({ theme }) => ({
 function UserMenu() {
   let nav=useNavigate()
   let image=localStorage.getItem("image")
+  
   const signoutHandler = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("cart");

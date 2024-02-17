@@ -10,6 +10,9 @@ import { Toaster } from "react-hot-toast";
 import  { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { AllProvider } from "./Context/Context.jsx";
+
+
 function App() {
   const themeMode = useSelector((state) => state.ui.themeMode);
   useEffect(() => {
@@ -19,7 +22,7 @@ function App() {
     <ThemeProvider theme={theme(themeMode)}>
       <CssBaseline />
       <Toaster/>
-      <RouterProvider router={router} />
+      <AllProvider><RouterProvider router={router} /></AllProvider>
     </ThemeProvider>
   );
 }

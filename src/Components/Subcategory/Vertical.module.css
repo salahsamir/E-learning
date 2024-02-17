@@ -3,7 +3,7 @@
 }
 .course:hover {
     /* transform: scale(1.1); */
-    border: .5px solid #1BB385 !important;
+    /* border: .5px solid #1BB385 !important; */
 }
 
 .btn, .heart {
@@ -11,7 +11,17 @@
     transform: translateY(100%);
     opacity: 0;
 }
-.course:hover .btn, .course:hover .heart {
+.course:hover .btn, .course:hover .heart  {
     opacity: 1;
     transform: translateY(0%);
+}
+.icon :hover{
+    transform: scale(1.1);
+}
+.layer{
+    transition:  transform 1s, opacity 1;
+    opacity :0;
+}
+.course:hover .layer {
+    opacity: 1;
 }
