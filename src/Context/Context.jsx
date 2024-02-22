@@ -1,6 +1,7 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import { BaseApi } from "../util/BaseApi.js";
+import toast from "react-hot-toast";
 
 
 export const allContext=createContext()
@@ -11,26 +12,77 @@ export const AllProvider=({children})=>{
     let headers={
         token:localStorage.getItem('token')
     }
+    //////////////////////User//////////////
+    
+    /////////////////wishlist/**************** */
     let [wishlist,setWishlist]=useState(0)
-    function AddToWishlist(id){
-        return axios.patch(`${BaseApi}/user/wishlist/${id}`,null,{headers}).then(res=>res.data).catch(err=>console.log(err))
-    }
+    let [wishlistdata,setWishlistdata]=useState(0)
+    
     function getAllWishlist(){
         return axios.get(`${BaseApi}/user/wishlist`,{headers}).then(res=>res.data).catch(err=>console.log(err))
     }
     let getWishlist=async()=>{
-        let res=await getAllWishlist()
-        if(res?.message=="Done"){
+      let res=await getAllWishlist()
+      if(res?.message=="Done"){
+        setWishlist(res.wishlist.length)
+      }else{
+        setWishlist(0)
+      }
+      setWishlistdata(res.wishlist)
+      console.log(wishlistdata);
+      return res
+  }
+   async function AddToWishlist(id){
+        try {
+            await axios.patch(`${BaseApi}/user/wishlist/${id}`, null, { headers });
+            toast.success('Successfully added to wishlist!', {
+              icon: '👏',
+              style: {
+                borderRadius: '10px',
+                background: '#1B0A26',
+                color: '#F2C791',
+              },
+            });
+           getWishlist()
+          } catch (error) {
+            toast.error(error.response.data.message, {
+              style: {
+                borderRadius: '10px',
+                background: '#1B0A26',
+                color: '#F2C791',
+              },
+            });
            
-            setWishlist(res.wishlist.length)
-        }else{
-            setWishlist(0)
-        }
-      console.log(res);
-        // return res
+          }
     }
+    async function RemoveFromWishlist(id){
+        try {
+            await axios.patch(`${BaseApi}/user/wishlist/${id}/remove`, null, { headers });
+            toast.success('Successfully  removed', {
+              icon: '👏',
+              style: {
+                borderRadius: '10px',
+                background: '#1B0A26',
+                color: '#F2C791',
+              },
+            });
+            // setWishlist(wishlist-1)
+            getWishlist()
+
+          } catch (error) {
+            toast.error(error.response.data.message, {
+              style: {
+                borderRadius: '10px',
+                background: '#1B0A26',
+                color: '#F2C791',
+              },
+            });
+           
+          }
+    }
+    
     useEffect(()=>{
         getWishlist()
     },[headers.token!==''])
-    return <allContext.Provider value={{AddToWishlist,wishlist,setWishlist}}>{children}</allContext.Provider>
+    return <allContext.Provider value={{AddToWishlist,RemoveFromWishlist,wishlist,setWishlist,wishlistdata}}>{children}</allContext.Provider>
 }

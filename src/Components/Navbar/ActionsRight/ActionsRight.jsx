@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { IconButton, Badge, Popover, ButtonBase, Avatar, Stack } from '@mui/material';
+import { IconButton, Badge, Popover, ButtonBase, Avatar, Stack, Menu, MenuItem, Typography, Box, Button } from '@mui/material';
 import { Favorite, NotificationsNoneOutlined, ShoppingCartOutlined, DarkModeOutlined, LightModeOutlined, FavoriteBorder } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiActions } from '../../../store/uiSlice';
@@ -11,6 +11,7 @@ import { getWishlist } from '../../../store/wishlistSlice'; // Import the getWis
 import { getAuthToken } from '../../../util/auth';
 import { useNavigate } from 'react-router-dom';
 import { allContext } from '../../../Context/Context.jsx';
+import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
 const CustomBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
     right: 3,
@@ -34,7 +35,7 @@ function ActionsRight({ cartVisible }) {
   const [notifiEl, setNotifiEl] = useState(null);
   const [cartIsShown, setCartIsShown] = useState(false);
   const itemsCount = useSelector((state) => state.cart.itemsCount);
- const {wishlist}=useContext(allContext)
+ const {wishlist,wishlistdata,RemoveFromWishlist}=useContext(allContext)
   let headers={
     token:getAuthToken()
   }
@@ -51,6 +52,17 @@ function ActionsRight({ cartVisible }) {
     setNotifiEl(event.currentTarget);
     setNotifiMenuIsOpen(true);
   }
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  
+  // console.log(wishlistdata);
 
   return (
     <>
@@ -97,6 +109,11 @@ function ActionsRight({ cartVisible }) {
         <IconButton
           aria-label="Heart"
           sx={{ display: cartVisible ? "block" : "none", p: "4px" }}
+          id="demo-positioned-button"
+          aria-controls={open ? 'demo-positioned-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
         >
           <CustomBadge badgeContent={wishlist} color="primary">
             <FavoriteBorder
@@ -165,6 +182,41 @@ function ActionsRight({ cartVisible }) {
         >
           <NotificationsMenu />
         </Popover>
+        {/* ///////////////////////////// */}
+        <Menu
+        id="demo-positioned-menu"
+        aria-labelledby="demo-positioned-button"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+      >
+        {wishlistdata?<>
+          {wishlistdata.map((item) => (
+            <Stack spacing={1} p={2} onClick={handleClose}>
+              <Box sx={{display:"flex",justifyContent:"space-between"}}>
+              <Typography variant="body1" color={'primary'}>{item.title}</Typography>
+              <Button onClick={() => RemoveFromWishlist(item._id)}><HeartBrokenIcon color='error'/></Button>
+              </Box>
+
+
+
+            </Stack>
+          ))}
+        
+        
+        
+        </>:""}
+        {/* <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={handleClose}>Logout</MenuItem> */}
+      </Menu>
       </Stack>
     </>
   );

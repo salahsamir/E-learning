@@ -28,7 +28,6 @@ import { allContext } from "../../Context/Context.jsx";
 
 function TabPanel({ children, value, index, ...other }) {
   let nav = useNavigate();
-  // let[heart,setHeart]=useState(false)
   const dispatch = useDispatch();
   let wishlist = useContext(allContext);
   let headers = {
@@ -45,14 +44,18 @@ function TabPanel({ children, value, index, ...other }) {
       console.log(error);
     }
   };
+  let GoToCourse = (id) => {
+    nav(`/courseDetails/${id}`);
+   
+  }
 
-  let AddToWishlist = async (id) => {
-    let res = await wishlist.AddToWishlist(id);
-    if (res?.message == "Done") {
-      wishlist.setWishlist(wishlist.wishlist + 1);
-      toast.success(res.message);
-    }
-  };
+  // let AddToWishlist = async (id) => {
+  //   let res = await wishlist.AddToWishlist(id);
+  //   if (res?.message == "Done") {
+  //     wishlist.setWishlist(wishlist.wishlist + 1);
+  //     toast.success(res.message);
+  //   }
+  // };
   useEffect(() => {
     getAllCourse();
   }, [value, index]);
@@ -68,16 +71,16 @@ function TabPanel({ children, value, index, ...other }) {
         <Box sx={{}}>
           <>
             {course ? (
-              <Stack spacing={2}>
-                <Grid container spacing={2}>
+              <Stack>
+                <Grid p={1}>
                   {course.map((ele, index) => (
                     <Grid
                       item
-                      sm={6}
+                      sm={3}
                       xs={6}
                       md={3}
-                      p={"20px"}
-                      // border= '1px solid #1BB385'
+                      p={"5px"}
+                     
                       key={index}
                       data-aos="zoom-in-down"
                       background={"#fff"}
@@ -87,8 +90,7 @@ function TabPanel({ children, value, index, ...other }) {
                    
                       <Box
                         position={"relative"}
-                        py={2}
-                       
+                        
                       >
                         <Box>
                           <Avatar
@@ -99,7 +101,7 @@ function TabPanel({ children, value, index, ...other }) {
                               width: "100%",
                               backgroundSize: "cover",
                               backgroundPosition: "center",
-                              borderTopLeftRadius: "30%",
+                              // borderTopLeftRadius: "20%",
                             }}
                           />
                           {/* <Avatar
@@ -119,7 +121,7 @@ function TabPanel({ children, value, index, ...other }) {
                         <Typography variant="body2" color="text.secondary">
                           salah
                         </Typography>
-                        {/* <Typography  py={"5px"} color="text.secondary">Chapter :15</Typography> */}
+                     
                         <Box display={"flex"} justifyContent={"space-between"}>
                           <Rating value="4.5" size="small" precision={0.5} />
                           <Typography>4.5</Typography>
@@ -136,23 +138,24 @@ function TabPanel({ children, value, index, ...other }) {
                         width={"100%"}
                         height={"100%"}
                         display={"flex"}
-                        // direction={"column"}
+                      
                         justifyContent={"space-around"}
                         alignItems={"center"}
                         
-                        sx={{ background: "rgba(0, 0, 0, 0.7)" }}
+                        sx={{ background: "rgba(10, 10, 10,0.6)" }}
                       >
                         <Box
+
                           
                         className={`${style.icon}`}  onClick={() => {
-                            AddToWishlist(ele._id);
+                          wishlist.AddToWishlist(ele._id)
                           }}
                         >
                           <Favorite color="primary"  sx={{fontSize:"40px"}} />
                         </Box>
                         <Box
                          
-                        className={`${style.icon}`}  onClick={() => nav(`/Chapter/${ele._id}`)}
+                        className={`${style.icon}`}  onClick={() => GoToCourse(ele._id)}
                         >
                           <PageviewIcon  color="primary"  sx={{fontSize:"40px"}} />
                         </Box>
@@ -221,7 +224,7 @@ function VerticalTabs({ id }) {
       {subcategory.length > 0 && (
         <>
           <Grid container>
-            <Grid item md={2} sx={{}}>
+            <Grid item sm={2} md={2} sx={{}}>
               <Tabs
                 orientation="vertical"
                 value={value}
@@ -246,7 +249,7 @@ function VerticalTabs({ id }) {
                 ))}
               </Tabs>
             </Grid>
-            <Grid item sm={12} md={10}>
+            <Grid item sm={10} md={10}>
               <TabPanel value={id} index={index} />
             </Grid>
             <Grid />

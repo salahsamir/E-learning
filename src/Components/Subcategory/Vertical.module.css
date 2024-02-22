@@ -1,10 +1,11 @@
 .course {
-    transition: transform 1s, opacity 1s;
+    transition: transform 5s;
+    overflow: hidden;
+
 }
-.course:hover {
-    /* transform: scale(1.1); */
-    /* border: .5px solid #1BB385 !important; */
-}
+
+
+
 
 .btn, .heart {
     transition: transform 1s, opacity 1s;
@@ -19,9 +20,9 @@
     transform: scale(1.1);
 }
 .layer{
-    transition:  transform 1s, opacity 1;
-    opacity :0;
+    transition:  transform 1s;
+    transform: translateY(-100%);
 }
 .course:hover .layer {
-    opacity: 1;
+    transform: translateY(0%);
 }

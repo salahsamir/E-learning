@@ -10,7 +10,7 @@ function AuthTemplate(props) {
         xs={0}
         md={6}
         sx={{
-          backgroundImage: "url(https://t4.ftcdn.net/jpg/04/82/18/45/240_F_482184571_pEIAB76B4xdQ9lMMVeJTb8xi1uuQYLJ6.jpg)",
+          backgroundImage: "url(https://t4.ftcdn.net/jpg/06/59/96/15/240_F_659961595_CtvvfQF7dJLGA39V1Upmg4DYe0FTR3dq.jpg)",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundAttachment: "scroll",
