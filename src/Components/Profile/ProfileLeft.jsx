@@ -1,33 +1,14 @@
 import { Avatar, Stack, Button, Typography, Link, Box, Divider } from "@mui/material";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BaseApi } from "../../util/BaseApi.js";
+import { allContext } from "../../Context/Context.jsx";
 
 export default function ProfileLeft() {
-  const [user, setUser] = useState(null); // Initialize user state as null
-  const headers = {
-    token: localStorage.getItem("token"),
-  };
 
-  const getUser = async () => {
-    try {
-      const { data } = await axios.get(`${BaseApi}/user`, { headers });
-      setUser(data.newUser);
-      localStorage.setItem(
-        "image",
-        data.newUser.profilePic?.url || "https://i.pravatar.cc/300"
-      );
-    } catch (err) {
-      console.error("Error fetching user data:", err);
-      // Display an error message to the user
-      setUser({ error: "Error fetching user data. Please try again later." });
-    }
-  };
 
-  useEffect(() => {
-    getUser();
-  }, []);
-
+  const {userdata,image}=useContext(allContext)
+ 
   return (
     <Stack spacing={2}  width="100%" height="100%" textAlign="center" m="auto">
       <Typography variant="h2" color="primary" fontWeight="bold">
@@ -46,38 +27,34 @@ export default function ProfileLeft() {
         position={"relative"}
         left={"20%"}
       >
-        {user && !user.error ? (
+        {userdata && !userdata.error ? (
           <>
             <Box display={"flex"} flexDirection={"column"} textAlign={"left"}>
               {" "}
-              <Typography variant="p" fontSize={"25px"}  >UserName: {user.userName}</Typography>
+              <Typography variant="p" fontSize={"25px"}  >UserName: {userdata.userName}</Typography>
               <Divider color="primary.main" sx={{ width: "300px", }}  mb={5}/>
-              <Typography variant="p" fontSize={"25px"}  >FullName: {user.fullName}</Typography> 
+              <Typography variant="p" fontSize={"25px"}  >FullName: {userdata.fullName}</Typography> 
               <Divider color="primary.main" sx={{ width: "300px", }}  mb={5}/>
-              <Typography variant="p" fontSize={"25px"}  >Email: {user.email}</Typography> 
+              <Typography variant="p" fontSize={"25px"}  >Email: {userdata.email}</Typography> 
               <Divider color="primary.main" sx={{ width: "300px", }}  mb={5}/>
-              <Typography variant="p" fontSize={"25px"}  >Age : {user.age }</Typography> 
+              <Typography variant="p" fontSize={"25px"}  >Age : {userdata.age }</Typography> 
               <Divider color="primary.main" sx={{ width: "300px", }}  mb={5}/>
-              <Typography variant="p" fontSize={"25px"}  >Phone: {user.phone}</Typography> 
+              <Typography variant="p" fontSize={"25px"}  >Phone: {userdata.phone}</Typography> 
               <Divider color="primary.main" sx={{ width: "300px", }}  mb={5}/>
-              <Typography variant="p" fontSize={"25px"}  >Gender: {user.gender}</Typography> 
+              <Typography variant="p" fontSize={"25px"}  >Gender: {userdata.gender}</Typography> 
               <Divider color="primary.main" sx={{ width: "300px", }}  mb={5}/>
             
             </Box>
             <Box>
               {" "}
               <Avatar
-                src={user.profilePic?.url || "https://i.pravatar.cc/300"}
+                src={image || "https://i.pravatar.cc/300"}
                 m="auto"
                 sx={{ width: "200px", height: "200px" }}
               />{" "}
             </Box>
           </>
-        ) : user && user.error ? (
-          <Typography variant="body1" color="error">
-            {user.error}
-          </Typography>
-        ) : (
+        ) : userdata ? <Typography>{userdata.error}</Typography> : (
           <Typography variant="body1" color="textSecondary">
             Loading...
           </Typography>

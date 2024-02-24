@@ -23,7 +23,7 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { cartActions } from "../../store/cartSlice.jsx";
 import { Favorite, FavoriteBorder, ModeFanOff } from "@mui/icons-material";
-import { addToWishlist } from "../../store/wishlistSlice.jsx";
+
 import { allContext } from "../../Context/Context.jsx";
 
 function TabPanel({ children, value, index, ...other }) {

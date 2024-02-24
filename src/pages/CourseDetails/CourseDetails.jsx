@@ -9,7 +9,7 @@ export default function CourseDetails() {
   return (
     <>
     
-    <Stack spacing={4} my={"60px"}>
+    <Stack >
         <Container>
             <CourseDetail id={id}/>
         </Container>

@@ -12,8 +12,28 @@ export const AllProvider=({children})=>{
     let headers={
         token:localStorage.getItem('token')
     }
-    //////////////////////User//////////////
     
+    //////////////////////User//////////////
+    let [image,setImage]=useState('')
+    let [userdata,setUserdata]=useState([])
+
+function getUser(){
+    return axios.get(`${BaseApi}/user`,{headers}).then(res=>res.data).catch(err=>console.log(err))
+}
+let getUserData=async()=>{
+    let res=await getUser()
+    if(res?.message=="Done"){
+        setUserdata(res.newUser)
+        setImage(res.newUser.profilePic?.url)
+    }
+    return res
+}
+
+
+
+
+
+
     /////////////////wishlist/**************** */
     let [wishlist,setWishlist]=useState(0)
     let [wishlistdata,setWishlistdata]=useState(0)
@@ -29,7 +49,7 @@ export const AllProvider=({children})=>{
         setWishlist(0)
       }
       setWishlistdata(res.wishlist)
-      console.log(wishlistdata);
+      // console.log(wishlistdata);
       return res
   }
    async function AddToWishlist(id){
@@ -82,7 +102,8 @@ export const AllProvider=({children})=>{
     }
     
     useEffect(()=>{
+        getUserData()
         getWishlist()
     },[headers.token!==''])
-    return <allContext.Provider value={{AddToWishlist,RemoveFromWishlist,wishlist,setWishlist,wishlistdata}}>{children}</allContext.Provider>
+    return <allContext.Provider value={{image ,setImage,getUserData,userdata,AddToWishlist,RemoveFromWishlist,wishlist,setWishlist,wishlistdata}}>{children}</allContext.Provider>
 }

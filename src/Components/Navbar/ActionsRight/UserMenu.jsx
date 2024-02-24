@@ -18,8 +18,9 @@ import {
   MenuList,
   Paper,
 } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { allContext } from "../../../Context/Context.jsx";
 
 const SolidDvider = styled(Divider)(({ theme }) => ({
   borderColor: "#bcbcce",
@@ -28,10 +29,10 @@ const SolidDvider = styled(Divider)(({ theme }) => ({
 
 function UserMenu() {
   let nav=useNavigate()
-  let image=localStorage.getItem("image")
+ 
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
-
+  const {image,setImage}=useContext(allContext)
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -53,9 +54,10 @@ function UserMenu() {
   }
 
   const signoutHandler = () => {
+    // setImage("")
     localStorage.removeItem("token");
     localStorage.removeItem("cart");
-    localStorage.removeItem("image");
+    
     
     nav("/signin", { replace: true });
     handleClose()

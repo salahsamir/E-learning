@@ -7,7 +7,6 @@ import UserMenu from './UserMenu';
 import CartModal from '../../CartModal/CartModal';
 import NotificationsMenu from '../../NotificationsMenu/NotificationsMenu';
 import styled from '@emotion/styled';
-import { getWishlist } from '../../../store/wishlistSlice'; // Import the getWishlist action
 import { getAuthToken } from '../../../util/auth';
 import { useNavigate } from 'react-router-dom';
 import { allContext } from '../../../Context/Context.jsx';
@@ -35,7 +34,7 @@ function ActionsRight({ cartVisible }) {
   const [notifiEl, setNotifiEl] = useState(null);
   const [cartIsShown, setCartIsShown] = useState(false);
   const itemsCount = useSelector((state) => state.cart.itemsCount);
- const {wishlist,wishlistdata,RemoveFromWishlist}=useContext(allContext)
+ const {image,wishlist,wishlistdata,RemoveFromWishlist}=useContext(allContext)
   let headers={
     token:getAuthToken()
   }
@@ -62,7 +61,7 @@ function ActionsRight({ cartVisible }) {
   };
 
   
-  // console.log(wishlistdata);
+ 
 
   return (
     <>
@@ -151,7 +150,7 @@ function ActionsRight({ cartVisible }) {
           }}
         >
           <Avatar
-            src={localStorage.getItem("image")}
+            src={image}
             sx={{
               height: "30px",
               width: "30px",
