@@ -1,6 +1,6 @@
 import { Avatar, Box, Rating, Stack, Typography } from '@mui/material'
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { BaseApi } from '../../util/BaseApi.js'
 import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
@@ -10,11 +10,12 @@ import ListItemText from '@mui/material/ListItemText';
 import Check from '@mui/icons-material/Check';
 import { Button } from '@mui/material';
 import { FavoriteBorder } from '@mui/icons-material';
+import { allContext } from '../../Context/Context.jsx';
 
 export default function CourseDetail({id}) {
   const [data, setdata] = useState([])
   let headers = { token: localStorage.getItem('token') }
-
+  let {AddToCart,AddToWishlist}=useContext(allContext)
   let getDate = async () => {
     let {data} = await axios.get(`${BaseApi}/course/${id}`, { headers }).catch(err => console.log(err))
     setdata(data.course)
@@ -23,7 +24,7 @@ export default function CourseDetail({id}) {
   useEffect(() => {
     getDate()
   }, [])
-
+// console.log(data);
   return (
     <Stack>
       {data ?  
@@ -68,18 +69,16 @@ export default function CourseDetail({id}) {
                         </Typography>
                     </ListItemText>
                 </MenuItem>
-                <MenuItem>
-                <ListItemText>
+             
                         <Box display={"flex"} p={1} justifyContent={"center"}>
-                            <Button variant="contained" color="primary" style={{ marginRight: 10 }}>
+                            <Button variant="contained" color="primary" style={{width: 200, marginRight: 10 }} onClick={() => AddToCart(data._id)}>
                                 <Typography variant="h6">Add To Cart</Typography>
                             </Button>
-                            <Button variant="outlined" color="secondary" style={{ width: 50 }} >
+                            <Button variant="outlined" color="secondary" style={{ width: 50 }} onClick={() => AddToWishlist(data._id)} >
                                 <FavoriteBorder />
                             </Button>
                         </Box>
-                    </ListItemText>
-                </MenuItem>
+                  
                 <MenuItem>
                     <ListItemText>
                         <Button variant="outlined" color="secondary" style={{ width: "100%" }}>
@@ -92,6 +91,9 @@ export default function CourseDetail({id}) {
           </Box>     
 
 
+        </Box>
+        <Box>
+          
         </Box>
       </>
       : ""

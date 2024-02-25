@@ -28,8 +28,8 @@ import { allContext } from "../../Context/Context.jsx";
 
 function TabPanel({ children, value, index, ...other }) {
   let nav = useNavigate();
-  const dispatch = useDispatch();
-  let wishlist = useContext(allContext);
+  // const dispatch = useDispatch();
+  let {AddToWishlist,AddToCart} = useContext(allContext);
   let headers = {
     token: localStorage.getItem("token"),
   };
@@ -49,13 +49,6 @@ function TabPanel({ children, value, index, ...other }) {
    
   }
 
-  // let AddToWishlist = async (id) => {
-  //   let res = await wishlist.AddToWishlist(id);
-  //   if (res?.message == "Done") {
-  //     wishlist.setWishlist(wishlist.wishlist + 1);
-  //     toast.success(res.message);
-  //   }
-  // };
   useEffect(() => {
     getAllCourse();
   }, [value, index]);
@@ -148,7 +141,7 @@ function TabPanel({ children, value, index, ...other }) {
 
                           
                         className={`${style.icon}`}  onClick={() => {
-                          wishlist.AddToWishlist(ele._id)
+                          AddToWishlist(ele._id)
                           }}
                         >
                           <Favorite color="primary"  sx={{fontSize:"40px"}} />
@@ -160,7 +153,7 @@ function TabPanel({ children, value, index, ...other }) {
                           <PageviewIcon  color="primary"  sx={{fontSize:"40px"}} />
                         </Box>
                         <Box className={`${style.icon}`}  onClick={() =>
-                                dispatch(cartActions.addToCart(ele._id))
+                                AddToCart(ele._id)
                               }>
                           <AddShoppingCartIcon color="primary" sx={{fontSize:"40px"}}/>
                          

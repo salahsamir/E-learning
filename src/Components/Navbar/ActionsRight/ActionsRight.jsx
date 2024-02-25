@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { IconButton, Badge, Popover, ButtonBase, Avatar, Stack, Menu, MenuItem, Typography, Box, Button } from '@mui/material';
+import { IconButton, Badge, Popover, ButtonBase, Avatar, Stack, Menu, MenuItem, Typography, Box, Button, Divider } from '@mui/material';
 import { Favorite, NotificationsNoneOutlined, ShoppingCartOutlined, DarkModeOutlined, LightModeOutlined, FavoriteBorder } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiActions } from '../../../store/uiSlice';
@@ -34,7 +34,7 @@ function ActionsRight({ cartVisible }) {
   const [notifiEl, setNotifiEl] = useState(null);
   const [cartIsShown, setCartIsShown] = useState(false);
   const itemsCount = useSelector((state) => state.cart.itemsCount);
- const {image,wishlist,wishlistdata,RemoveFromWishlist}=useContext(allContext)
+ const {image,wishlist,wishlistdata,RemoveFromWishlist,cart}=useContext(allContext)
   let headers={
     token:getAuthToken()
   }
@@ -96,7 +96,7 @@ function ActionsRight({ cartVisible }) {
           onClick={() => setCartIsShown(true)}
           sx={{ display: cartVisible ? "block" : "none", p: "4px" }}
         >
-          <CustomBadge badgeContent={itemsCount} color="primary">
+          <CustomBadge badgeContent={cart} color="primary">
             <ShoppingCartOutlined
               sx={{
                 fontSize: "24px",
@@ -183,6 +183,7 @@ function ActionsRight({ cartVisible }) {
         </Popover>
         {/* ///////////////////////////// */}
         <Menu
+        // m={2}
         id="demo-positioned-menu"
         aria-labelledby="demo-positioned-button"
         anchorEl={anchorEl}
@@ -196,19 +197,20 @@ function ActionsRight({ cartVisible }) {
           vertical: 'top',
           horizontal: 'left',
         }}
+        sx={{ marginTop: 3 }}
       >
         {wishlistdata?<>
+          <Stack spacing={1} p={1} onClick={handleClose}>
           {wishlistdata.map((item) => (
-            <Stack spacing={1} p={2} onClick={handleClose}>
-              <Box sx={{display:"flex",justifyContent:"space-between"}}>
+           <>
+              <Box sx={{display:"flex",justifyContent:"space-between"}} p={1} boxShadow={1}>
               <Typography variant="body1" color={'primary'}>{item.title}</Typography>
               <Button onClick={() => RemoveFromWishlist(item._id)}><HeartBrokenIcon color='error'/></Button>
               </Box>
-
-
-
-            </Stack>
-          ))}
+              <Divider />
+           </>
+))}
+</Stack>
         
         
         
