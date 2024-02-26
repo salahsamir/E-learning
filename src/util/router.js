@@ -16,6 +16,8 @@ import CoursesPage from "../pages/Courses/CoursesPage.jsx";
 import Video from "../pages/Videos/Video.jsx";
 import Chapter from "../Components/Chapters/Chapter.jsx";
 import Assignment from "../pages/Assignment/Assignment.jsx";
+// import Profile from "../page/Profile/Profile.jsx";
+import Profile from "../pages/Profile/Profile.jsx";
 import Loading from "../pages/Loading/Loading.jsx";
 import InstructorLayout from "../pages/Instructor/Layout.jsx";
 const InstructorDashboard = lazy(() =>
@@ -80,6 +82,10 @@ const router = createBrowserRouter([
       { path: "video", element: <Video /> },
       { path: "assignment", element: <Assignment /> },
       { path: "Chapter/:id", element: <Chapter /> },
+      { path: "profile", element: <Profile /> },
+      { path: "setting", element: <Setting /> },
+      { path: "courseDetails/:id", element: <CourseDetails /> },
+
       { path: "*", element: <NotFound /> },
     ],
   },

@@ -8,12 +8,13 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CartItem from "./CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../../store/cartSlice";
 import axios, { Axios } from "axios";
 import { BaseApi } from "../../util/BaseApi.js";
+import { allContext } from "../../Context/Context.jsx";
 
 const CartWrapper = styled(Paper)(({ theme }) => ({
   position: "absolute",
@@ -29,33 +30,25 @@ const CartWrapper = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
 }));
 function CartModal(props) {
-  const dispatch = useDispatch();
-  let[cart,setCart]=useState([])
+
   let headers={
     token:localStorage.getItem('token')
   }
-  const getAllCart = async () => {
-    try {
-      const response = await axios.get(`${BaseApi}/cart`,{headers});
-      setCart(response.data.cart.course);
-    
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
+  let {cart,cartdata,RemoveFromCart}=useContext(allContext)
+
 
   const createOrder=async()=>{
     try{
       const response=await axios.post(`${BaseApi}/order`,null,{headers})
+      console.log(response);
      window.location.href=response.data.result
     }catch(error){
       console.log(error)
   }}
- const itemsCount = useSelector((state) => state.cart.itemsCount);
-  useEffect(() => {
-    getAllCart();
-  }, [itemsCount]);
+
   return (
+  
     <Modal open={props.open} onClose={props.onClose}>
       <CartWrapper elevation={0}>
         <Typography variant="h5" mb={"16px"} fontWeight={600}>
@@ -68,23 +61,23 @@ function CartModal(props) {
           height="calc(80vh - 150px )"
           sx={{
             overflowY: "auto",
-            alignItems: cart.length === 0 && "center",
-            justifyContent: cart.length === 0 && "center",
+            alignItems: cartdata.length === 0 && "center",
+            justifyContent: cartdata.length === 0 && "center",
           }}
         >
 
         
-          {cart.length !== 0 &&
-            cart.map((course) => (
+          {cartdata.length !== 0 &&
+            cartdata.map((course) => (
               <CartItem course={course} key={course.id} />
             ))}
-          {cart.length === 0 && (
+          {cartdata.length === 0 && (
             <Typography variant="h5" margin={"auto"} fontWeight={600}>
               The cart is empty!
             </Typography>
           )}
         </Stack>
-        {cart.length !== 0 && (
+        {cartdata.length !== 0 && (
           <Stack
             height="calc(150px - 32px - 32px)"
             justifyContent="center"

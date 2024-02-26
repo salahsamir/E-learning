@@ -19,7 +19,7 @@ export default function Video() {
         <div className="player__wrapper">
           <ReactPlayer
             className="player"
-            url="https://www.youtube.com/watch?v=TpD5ITq6VEQ"
+            url=""
             width="100%"
             height="400px"
             playing={true}
