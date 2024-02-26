@@ -9,9 +9,9 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import Check from '@mui/icons-material/Check';
 import { Button } from '@mui/material';
-import { FavoriteBorder } from '@mui/icons-material';
+import { FavoriteBorder, RateReviewOutlined } from '@mui/icons-material';
 import { allContext } from '../../Context/Context.jsx';
-
+import StarPurple500Icon from '@mui/icons-material/StarPurple500';
 export default function CourseDetail({id}) {
   const [data, setdata] = useState([])
   let headers = { token: localStorage.getItem('token') }
@@ -20,11 +20,12 @@ export default function CourseDetail({id}) {
     let {data} = await axios.get(`${BaseApi}/course/${id}`, { headers }).catch(err => console.log(err))
     setdata(data.course)
   }
+  // console.log(data);
 
   useEffect(() => {
     getDate()
   }, [])
-// console.log(data);
+
   return (
     <Stack>
       {data ?  
@@ -56,7 +57,7 @@ export default function CourseDetail({id}) {
 
         </Box>
         </Box>
-         <Box position={"absolute"} right={'20%'} top={'20%'} py={4} px={2} height={"420px"}>
+         <Box position={"absolute"} right={'10%'} top={'10%'} py={4} px={2} height={"420px"}>
          <Paper style={{ width: 320, height: "100%" }}>
             <MenuList dense>
                 <Avatar src={data.coverImageUrl} style={{ width: "100%", height: "100%" }} variant='rounded'></Avatar>
@@ -95,6 +96,45 @@ export default function CourseDetail({id}) {
         <Box>
           
         </Box>
+
+        {data.comments?
+     <Stack spacing={2} my={3}>
+      <Typography variant="h4" color="primary">Reviews</Typography>
+      {data.comments.map((item) => (
+        <Box
+        boxShadow={"0 0 20px 0 rgba(0, 0, 0, 0.4)"}
+        p={3}
+          key={item._id}
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width:"50%",
+             borderTopRightRadius: "100px",
+             borderBottomRightRadius: "100px",
+
+            my: "2em",
+            alignItems: "center",}}>
+          
+          <Box>
+          <Typography variant="h5" color="primary">{item.user.userName}</Typography>
+           <Box display={"flex"}>
+                <Typography variant="h6" color="secondary">{item.rating} </Typography>
+                <Typography variant="p"><StarPurple500Icon sx={{color:"yellow"}}/> </Typography>
+                </Box>
+          <Typography variant="h6" color="secondary">{item.comment}</Typography>
+          </Box>
+           <Avatar src={item.user.profilePic.url} sx={{ width: "100px", height: "100px" }} ></Avatar> 
+
+            </Box>
+      ))}
+     </Stack>
+     :""
+
+
+
+}
+       
       </>
       : ""
       }
