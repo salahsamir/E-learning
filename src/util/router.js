@@ -20,6 +20,8 @@ import Assignment from "../pages/Assignment/Assignment.jsx";
 import Profile from "../pages/Profile/Profile.jsx";
 import Loading from "../pages/Loading/Loading.jsx";
 import InstructorLayout from "../pages/Instructor/Layout.jsx";
+import Setting from "../pages/Setting/Setting.jsx";
+import CourseDetails from "../pages/CourseDetails/CourseDetails.jsx";
 const InstructorDashboard = lazy(() =>
   import("../pages/Instructor/Dashboard/Dashboard.jsx")
 );
@@ -54,6 +56,7 @@ const InstructorEditWorkshopInfo = lazy(() =>
 const InstructorSessions = lazy(() =>
   import("../pages/Instructor/Workshops/Sessions/Sessions.jsx")
 );
+
 // let ProtectedRouter = (props) => {
 //   if (localStorage.getItem("token") == null) {
 //     return <Navigate to="/signin" />;
