@@ -65,7 +65,7 @@ export const ControlBar = ({ sendMessage }) => {
         <Send
           sx={{
             height: "0.7em",
-            color: sending ? "text.secondary" : "white",
+            color: "white",
             animation: sending ? "fly 0.5s ease-in-out infinite" : "",
             "@keyframes fly": {
               "0%": { transform: "rotate(-45deg) translate(0px,0px)" },
