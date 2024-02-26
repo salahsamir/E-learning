@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { IconButton, Badge, Popover, ButtonBase, Avatar, Stack } from '@mui/material';
+import React, { useContext, useEffect, useState } from 'react';
+import { IconButton, Badge, Popover, ButtonBase, Avatar, Stack, Menu, MenuItem, Typography, Box, Button, Divider } from '@mui/material';
 import { Favorite, NotificationsNoneOutlined, ShoppingCartOutlined, DarkModeOutlined, LightModeOutlined, FavoriteBorder } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiActions } from '../../../store/uiSlice';
@@ -7,11 +7,10 @@ import UserMenu from './UserMenu';
 import CartModal from '../../CartModal/CartModal';
 import NotificationsMenu from '../../NotificationsMenu/NotificationsMenu';
 import styled from '@emotion/styled';
-import axios from 'axios';
-import { BaseApi } from '../../../util/BaseApi.js';
-import { useNavigate } from 'react-router-dom';
 import { getAuthToken } from '../../../util/auth';
-
+import { useNavigate } from 'react-router-dom';
+import { allContext } from '../../../Context/Context.jsx';
+import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
 const CustomBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
     right: 3,
@@ -29,33 +28,16 @@ function ActionsRight({ cartVisible }) {
   const themeMode = useSelector((state) => state.ui.themeMode);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [userMenuIsOpen, setUserMenuIsOpen] = useState(false);
   const [avatarEl, setAvatarEl] = useState(null);
-
   const [notifiMenuIsOpen, setNotifiMenuIsOpen] = useState(false);
   const [notifiEl, setNotifiEl] = useState(null);
-
   const [cartIsShown, setCartIsShown] = useState(false);
   const itemsCount = useSelector((state) => state.cart.itemsCount);
-  const [wishlistCount, setWishlistCount] = useState(0);
-  const headers = {
-    token: localStorage.getItem('token')
-  };
-
-  useEffect(() => {
-    async function fetchWishlistCount() {
-      try {
-        const response = await axios.get(`${BaseApi}/user/wishlist`, { headers });
-        setWishlistCount(response.data.wishlist.length);
-      } catch (error) {
-        console.error('Error fetching wishlist count:', error);
-      }
-    }
-
-    fetchWishlistCount();
-  }, [headers]);
-
+ const {image,wishlist,wishlistdata,RemoveFromWishlist,cart}=useContext(allContext)
+  let headers={
+    token:getAuthToken()
+  }
   function avatarClickHandler(event) {
     if (!getAuthToken()) {
       navigate("/signin/" + "?redirect=" + window.location.pathname);
@@ -69,6 +51,17 @@ function ActionsRight({ cartVisible }) {
     setNotifiEl(event.currentTarget);
     setNotifiMenuIsOpen(true);
   }
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  
+ 
 
   return (
     <>
@@ -94,13 +87,16 @@ function ActionsRight({ cartVisible }) {
             />
           )}
         </IconButton>
-
+       {headers.token?
+      <>
+      
+      
         <IconButton
           aria-label="shopping cart"
           onClick={() => setCartIsShown(true)}
           sx={{ display: cartVisible ? "block" : "none", p: "4px" }}
         >
-          <CustomBadge badgeContent={itemsCount} color="primary">
+          <CustomBadge badgeContent={cart} color="primary">
             <ShoppingCartOutlined
               sx={{
                 fontSize: "24px",
@@ -112,8 +108,13 @@ function ActionsRight({ cartVisible }) {
         <IconButton
           aria-label="Heart"
           sx={{ display: cartVisible ? "block" : "none", p: "4px" }}
+          id="demo-positioned-button"
+          aria-controls={open ? 'demo-positioned-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
         >
-          <CustomBadge badgeContent={wishlistCount} color="primary">
+          <CustomBadge badgeContent={wishlist} color="primary">
             <FavoriteBorder
               sx={{
                 fontSize: "24px",
@@ -136,6 +137,9 @@ function ActionsRight({ cartVisible }) {
             />
           </CustomBadge>
         </IconButton>
+      
+      </>:"" 
+      }
         <ButtonBase
           aria-label="user menu"
           onClick={avatarClickHandler}
@@ -146,7 +150,7 @@ function ActionsRight({ cartVisible }) {
           }}
         >
           <Avatar
-            src={localStorage.getItem("image")}
+            src={image}
             sx={{
               height: "30px",
               width: "30px",
@@ -177,6 +181,43 @@ function ActionsRight({ cartVisible }) {
         >
           <NotificationsMenu />
         </Popover>
+        {/* ///////////////////////////// */}
+        <Menu
+        // m={2}
+        id="demo-positioned-menu"
+        aria-labelledby="demo-positioned-button"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        sx={{ marginTop: 3 }}
+      >
+        {wishlistdata?<>
+          <Stack spacing={1} p={1} onClick={handleClose}>
+          {wishlistdata.map((item) => (
+           <>
+              <Box sx={{display:"flex",justifyContent:"space-between"}} p={1} boxShadow={1}>
+              <Typography variant="body1" color={'primary'}>{item.title}</Typography>
+              <Button onClick={() => RemoveFromWishlist(item._id)}><HeartBrokenIcon color='error'/></Button>
+              </Box>
+              <Divider />
+           </>
+))}
+</Stack>
+        
+        
+        
+        </>:""}
+        {/* <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={handleClose}>Logout</MenuItem> */}
+      </Menu>
       </Stack>
     </>
   );

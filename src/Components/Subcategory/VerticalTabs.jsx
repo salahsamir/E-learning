@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import axios from 'axios';
-import { BaseApi } from '../../util/BaseApi.js';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import axios from "axios";
+import { BaseApi } from "../../util/BaseApi.js";
+import { useNavigate } from "react-router-dom";
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import PageviewIcon from '@mui/icons-material/Pageview';
 import {
   Avatar,
   Box,
@@ -16,47 +18,42 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import style from "./Vertical.module.css"
-import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
-import { cartActions } from '../../store/cartSlice.jsx';
-import { Favorite, FavoriteBorder, ModeFanOff } from '@mui/icons-material';
+import style from "./Vertical.module.css";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { cartActions } from "../../store/cartSlice.jsx";
+import { Favorite, FavoriteBorder, ModeFanOff } from "@mui/icons-material";
+
+import { allContext } from "../../Context/Context.jsx";
 
 function TabPanel({ children, value, index, ...other }) {
-  let nav=useNavigate()
-  let[heart,setHeart]=useState(false)
-  const dispatch = useDispatch();
-  let headers={
-    token:localStorage.getItem('token')
-  }
-  let[course,setCourse]=useState([])
+  let nav = useNavigate();
+  // const dispatch = useDispatch();
+  let {AddToWishlist,AddToCart} = useContext(allContext);
+  let headers = {
+    token: localStorage.getItem("token"),
+  };
+  let [course, setCourse] = useState([]);
   const getAllCourse = async () => {
     try {
-      const response = await axios.get(`${BaseApi}/course/category/${value}/subCategory/${index}`);
-       setCourse(response.data.courses);
-  
+      const response = await axios.get(
+        `${BaseApi}/course/category/${value}/subCategory/${index}`
+      );
+      setCourse(response.data.courses);
     } catch (error) {
       console.log(error);
     }
   };
-
-  let changeHeart=async(id)=>{
-    try{
-      let response=await axios.patch(`${BaseApi}/user/wishlist/${id}`,null,{headers})
-      if(response.data.message){
-        setHeart(true)
-        toast.success(response.data.message)}
-      }catch(error){
-        toast.error(error.response.data.message)
-      }
+  let GoToCourse = (id) => {
+    nav(`/courseDetails/${id}`);
+   
   }
+
   useEffect(() => {
     getAllCourse();
-  }, [value,index]);
-
+  }, [value, index]);
 
   return (
-    
     <div
       role="tabpanel"
       id={`vertical-tabpanel-${index}`}
@@ -64,45 +61,43 @@ function TabPanel({ children, value, index, ...other }) {
       {...other}
     >
       {value !== index && (
-          <Box sx={{  }}>  
-     <>
-      {course?
-      <Stack spacing={2} >
-      <Grid container spacing={2}>
-        {course.map((ele, index) => (
-          <Grid
-            item
-            sm={6}
-            xs={6}
-            md={3}
-            p={"20px"}
-            // border= '1px solid #1BB385' 
-            key={index}
-            data-aos="zoom-in-down"
-            background={"#fff"}
-            className={`${style.course}`}
-
-          >
-           <Box className={`${style.heart}`} onClick={()=>{changeHeart(ele._id)}}>
-              {!heart ? 
-                 <FavoriteBorder color='primary' size="medium"/>
-                 :<Favorite color='primary' size="medium"/>
-              }
-           </Box>
-            <Box  py={2} onClick={() => nav(`/Chapter/${ele._id}`)}>
-              <Box >
-                <Avatar
-                  variant="rounded"
-                  src={ele.coverImageUrl}
-                  sx={{
-                    height: "180px",
-                    width: "100%",
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    borderTopLeftRadius: '30%'
-                  }}
-                />
-                {/* <Avatar
+        <Box sx={{}}>
+          <>
+            {course ? (
+              <Stack>
+                <Grid p={1}>
+                  {course.map((ele, index) => (
+                    <Grid
+                      item
+                      sm={3}
+                      xs={6}
+                      md={3}
+                      p={"5px"}
+                     
+                      key={index}
+                      data-aos="zoom-in-down"
+                      background={"#fff"}
+                      className={`${style.course}`}
+                      
+                    >
+                   
+                      <Box
+                        position={"relative"}
+                        
+                      >
+                        <Box>
+                          <Avatar
+                            variant="rounded"
+                            src={ele.coverImageUrl}
+                            sx={{
+                              height: "180px",
+                              width: "100%",
+                              backgroundSize: "cover",
+                              backgroundPosition: "center",
+                              // borderTopLeftRadius: "20%",
+                            }}
+                          />
+                          {/* <Avatar
                   src={ele.instructorImg}
                   sx={{
                     backgroundSize: "cover",
@@ -112,39 +107,67 @@ function TabPanel({ children, value, index, ...other }) {
                   }}
                 />
                */}
-           
-              
-              </Box>
-                 <Typography variant="h6" color='primary'>{ele.title}</Typography>
-                 <Typography variant="body2" color="text.secondary" >salah</Typography>
-                {/* <Typography  py={"5px"} color="text.secondary">Chapter :15</Typography> */}
-                <Box display={"flex"} justifyContent={"space-between"}>
-                <Rating value='4.5' size="small" precision={0.5}/>
-                <Typography>4.5</Typography>
-                
-               </Box>
-                <Typography sx={{color:"yellow"}}>{ele.price}$</Typography>
-              
-            </Box>
-              <Box className={`${style.btn}`}>
+                        </Box>
+                        <Typography variant="h6" color="primary">
+                          {ele.title}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          salah
+                        </Typography>
+                     
+                        <Box display={"flex"} justifyContent={"space-between"}>
+                          <Rating value="4.5" size="small" precision={0.5} />
+                          <Typography>4.5</Typography>
+                        </Box>
+                        <Typography sx={{ color: "yellow" }}>
+                          {ele.price}$
+                        </Typography>
+                      </Box>
+                  
+                      <Box className={`${style.layer}`}
+                        position={"absolute"}
+                        top={0}
+                        left={0}
+                        width={"100%"}
+                        height={"100%"}
+                        display={"flex"}
+                      
+                        justifyContent={"space-around"}
+                        alignItems={"center"}
+                        
+                        sx={{ background: "rgba(10, 10, 10,0.6)" }}
+                      >
+                        <Box
 
-            <Divider  color={"yellow"}><Button  variant="contained" onClick={() => dispatch(cartActions.addToCart(ele._id))} >Add To Cart</Button></Divider>
-              </Box>
-          </Grid>
-
-        ))}
-      </Grid>
-    </Stack>
-
-
-:""
-
-      }
-     
-     
-     
-     </>
-     </Box>
+                          
+                        className={`${style.icon}`}  onClick={() => {
+                          AddToWishlist(ele._id)
+                          }}
+                        >
+                          <Favorite color="primary"  sx={{fontSize:"40px"}} />
+                        </Box>
+                        <Box
+                         
+                        className={`${style.icon}`}  onClick={() => GoToCourse(ele._id)}
+                        >
+                          <PageviewIcon  color="primary"  sx={{fontSize:"40px"}} />
+                        </Box>
+                        <Box className={`${style.icon}`}  onClick={() =>
+                                AddToCart(ele._id)
+                              }>
+                          <AddShoppingCartIcon color="primary" sx={{fontSize:"40px"}}/>
+                         
+                        </Box>
+                      </Box>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Stack>
+            ) : (
+              ""
+            )}
+          </>
+        </Box>
       )}
     </div>
   );
@@ -159,14 +182,14 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `vertical-tab-${index}`,
-    'aria-controls': `vertical-tabpanel-${index}`,
+    "aria-controls": `vertical-tabpanel-${index}`,
   };
 }
 
 function VerticalTabs({ id }) {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const [subcategory, setSubCategory] = useState([]);
-  const [index, setIndex] = useState('');
+  const [index, setIndex] = useState("");
 
   const getAllSubCategory = async () => {
     try {
@@ -190,46 +213,43 @@ function VerticalTabs({ id }) {
   };
 
   return (
-  
-
-    <Box sx={{ flexGrow: 1, display: 'flex', height: 224 }}>
+    <Box sx={{ flexGrow: 1, display: "flex", height: 224 }}>
       {subcategory.length > 0 && (
         <>
-         <Grid container>
-    <Grid item  md={2} sx={{}}>
-
-    <Tabs
-            orientation="vertical"
-            value={value}
-            onChange={handleChange}
-            aria-label="Vertical tabs example"
-            sx={{ borderRight: 1, borderColor: 'divider', position: 'absolute', top: '35%' }}
-          >
-            {subcategory?.map((item, index) => (
-              <Tab
-                key={item._id}
-                label={item.name}
-                {...a11yProps(index)}
-                onClick={() => {
-            
-                  changeIndex(item._id);
+          <Grid container>
+            <Grid item sm={2} md={2} sx={{}}>
+              <Tabs
+                orientation="vertical"
+                value={value}
+                onChange={handleChange}
+                aria-label="Vertical tabs example"
+                sx={{
+                  borderRight: 1,
+                  borderColor: "divider",
+                  position: "absolute",
+                  top: "35%",
                 }}
-              />
-            ))}
-          </Tabs>
-    </Grid>
-    <Grid item sm={12} md={10}>
-
-
-          <TabPanel value={id} index={index} />
-    </Grid>
-    <Grid/>
-    </Grid>
-         
+              >
+                {subcategory?.map((item, index) => (
+                  <Tab
+                    key={item._id}
+                    label={item.name}
+                    {...a11yProps(index)}
+                    onClick={() => {
+                      changeIndex(item._id);
+                    }}
+                  />
+                ))}
+              </Tabs>
+            </Grid>
+            <Grid item sm={10} md={10}>
+              <TabPanel value={id} index={index} />
+            </Grid>
+            <Grid />
+          </Grid>
         </>
       )}
     </Box>
-
   );
 }
 
