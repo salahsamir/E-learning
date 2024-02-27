@@ -3,8 +3,6 @@ import Layout from "../pages/Layout/Layout";
 import Home from "../pages/Home/Home.jsx";
 import { createBrowserRouter } from "react-router-dom";
 
-import { Navigate } from "react-router-dom";
-
 /* salah's routes*/
 import Signin from "../pages/Signin/Signin";
 import Signup from "../pages/Signup/Signup";

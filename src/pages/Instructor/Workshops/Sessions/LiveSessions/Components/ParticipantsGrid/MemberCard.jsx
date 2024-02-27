@@ -35,7 +35,7 @@ function MemberCard({ participant }) {
             width: 50,
           }}
         >
-          {userInfo?.identity?.slice(0, 1).toUpperCase()}
+          {userInfo?.userName?.slice(0, 1).toUpperCase()}
         </BeatingAvatar>
       </Grid2>
     </>

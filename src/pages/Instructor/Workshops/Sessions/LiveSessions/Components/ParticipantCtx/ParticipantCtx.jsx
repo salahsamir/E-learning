@@ -3,13 +3,6 @@ import { ListItemIcon, ListItemText, MenuItem, MenuList } from "@mui/material";
 import React from "react";
 
 export const ParticipantCtx = ({ showMenu, points, participant }) => {
-  const identity = {
-    id: "123",
-    name: "John Doe",
-    avatar: "https://randomuser.me/api/port",
-  };
-
-  console.log(JSON.stringify(identity));
   return (
     <MenuList
       sx={{

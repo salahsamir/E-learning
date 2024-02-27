@@ -37,7 +37,7 @@ function ParticipantCard({ participant }) {
       >
         <Box display="flex" gap="8px" alignItems="center">
           <BeatingAvatar beating={participant.isSpeaking}>
-            {userInfo?.identity.slice(0, 1).toUpperCase()}
+            {userInfo?.userName?.slice(0, 1).toUpperCase()}
           </BeatingAvatar>
           <Typography
             sx={{
@@ -46,7 +46,7 @@ function ParticipantCard({ participant }) {
               },
             }}
           >
-            {userInfo?.identity}
+            {userInfo?.userName}
           </Typography>
         </Box>
         <Box>

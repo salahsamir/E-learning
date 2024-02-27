@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 a {
   text-decoration: none !important;
 }
@@ -17,4 +18,10 @@ a {
   background-color: #626585;
   border-radius: 25px;
   outline: 1px solid transparent;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  -o-font-smoothing: antialiased;
 }
