@@ -29,7 +29,7 @@ export const theme = (mode) =>
         main: mode === "light" ? "#65888C" : "#A69494",
       },
       background: {
-        default: mode === "light" ? "#F2F7F6" : "#232333",
+        default: mode === "light" ? "#F7FAF9" : "#232333",
         paper: mode === "light" ? "#fff" : "#2b2c40",
         autofill: mode === "light" ? "#f4f4f8" : "#232333",
         skeleton:

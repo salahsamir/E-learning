@@ -2,6 +2,7 @@ import { Box, IconButton, alpha } from "@mui/material";
 import React from "react";
 import ActionsRight from "../../../../Components/Navbar/ActionsRight/ActionsRight";
 import { Menu } from "@mui/icons-material";
+import SearchBar from "./SearchBar";
 function Navbar({ onMenuClick }) {
   return (
     <Box
@@ -40,22 +41,33 @@ function Navbar({ onMenuClick }) {
         sx={{
           display: "flex",
           alignItems: "center",
-          justifyContent: { xs: "space-between", md: "flex-end" },
+          justifyContent: { md: "space-between" },
           height: "100%",
           position: "relative",
           zIndex: 102,
           backgroundColor: (theme) => theme.palette.background.b1,
           px: "0.5em",
           borderRadius: "8px",
+          gap: "1em",
         }}
       >
-        <IconButton
-          sx={{ display: { xs: "block", md: "none" } }}
-          onClick={onMenuClick}
+        <SearchBar />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: { xs: "space-between", md: "flex-end" },
+            flex: { xs: 1, md: "0" },
+          }}
         >
-          <Menu />
-        </IconButton>
-        <ActionsRight cartVisible={false} />
+          <IconButton
+            sx={{ display: { xs: "block", md: "none" } }}
+            onClick={onMenuClick}
+          >
+            <Menu />
+          </IconButton>
+          <ActionsRight cartVisible={false} />
+        </Box>
       </Box>
     </Box>
   );

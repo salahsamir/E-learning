@@ -148,7 +148,10 @@ function CustomDrawer(props, ref) {
                 fontWeight="800"
                 fontSize="1.5rem"
                 component="p"
-                sx={{ color: (theme) => theme.palette.primary.main }}
+                sx={{
+                  color: (theme) => theme.palette.primary.main,
+                  display: open ? "block" : "none",
+                }}
               >
                 Eduvation
               </Typography>
