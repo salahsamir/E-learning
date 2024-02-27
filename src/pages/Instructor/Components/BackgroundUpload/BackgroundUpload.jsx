@@ -14,6 +14,7 @@ import UploadingItem from "./UploadingItem";
 import CompletedItem from "./CompletedItem";
 import useUpload from "../../../../hooks/useUpload";
 import ErrorItem from "./ErrorItem";
+import { BaseApi } from "../../../../util/BaseApi";
 function generateId(name) {
   return name.substring(0, 10) + Math.floor(Math.random() * 100000);
 }
@@ -34,7 +35,9 @@ function BackgroundUpload() {
     error: currentUploadError,
     state: currentUploadState,
   } = useUpload(
-    "https://education-project.azurewebsites.net/course/6574d563fad9c27a257bcf0b?upload=promotionalVideo"
+    BaseApi +
+      `/course/65de21089e0ac35fea31c79f/chapter/65de24029e0ac35fea31c839/curriculum/video`,
+    "post"
   );
 
   const backgroundUploadIsShown =
@@ -70,7 +73,7 @@ function BackgroundUpload() {
   useEffect(() => {
     if (currentUpload.id !== undefined) {
       const formData = new FormData();
-      formData.append("file", currentUpload.file);
+      formData.append("video", currentUpload.file);
       formData.append("title", currentUpload.name);
       startUploading(formData);
     }

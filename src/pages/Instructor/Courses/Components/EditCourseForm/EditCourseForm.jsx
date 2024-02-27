@@ -14,7 +14,6 @@ import { LoadingButton } from "@mui/lab";
 import axios from "axios";
 import { BaseApi } from "../../../../../util/BaseApi";
 import { useNavigate } from "react-router-dom";
-import ErrorDialog from "../../../../../Components/ErrorDialog/ErrorDialog";
 const steps = [
   { name: "Basic Information", status: "draft" },
   { name: "Target group", status: "draft" },
@@ -41,7 +40,7 @@ function getStepStatus(step, formik) {
     case 1:
       if (
         formik.errors.category ||
-        formik.errors.subcategory ||
+        formik.errors.subCategory ||
         formik.errors.level ||
         formik.errors.language ||
         formik.errors.tags
@@ -49,7 +48,7 @@ function getStepStatus(step, formik) {
         return "error";
       else if (
         formik.values.category !== "" &&
-        formik.values.subcategory !== "" &&
+        formik.values.subCategory !== "" &&
         formik.values.level !== "" &&
         formik.values.language !== "" &&
         formik.values.tags !== ""
@@ -86,7 +85,6 @@ function EditCourseForm({ course }) {
   });
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = React.useState(0);
-  const [errorDialogOPen, setErrorDialogOpen] = React.useState(true);
 
   const formik = useFormik({
     initialValues: {
@@ -94,7 +92,7 @@ function EditCourseForm({ course }) {
       subtitle: course.subtitle || "",
       language: course.language || "",
       category: course.category || "",
-      subcategory: course.subcategory || "",
+      subCategory: course.subCategory || "",
       level: course.level || "",
       price: course.price || "",
       discount: course.discount || "",
@@ -118,7 +116,7 @@ function EditCourseForm({ course }) {
             description: yup.string().required("Description is required"),
             language: yup.string().required("Language is required"),
             category: yup.string().required("Category is required"),
-            subcategory: yup.string().required("Subcategory is required"),
+            subCategory: yup.string().required("Subcategory is required"),
             level: yup.string().required("Level is required"),
             price: yup.number().required("Enter valid number"),
             discount: yup.number().required("Enter valid number"),
