@@ -23,19 +23,19 @@ function Step3({ formik }) {
     progress: imgProgress,
     error: imgError,
     upload: uploadImg,
-  } = useUpload(BaseApi + `/course/${params[1]}?upload=coverImage`);
+  } = useUpload();
   const {
     data: videoData,
     progress: videoProgress,
     error: videoError,
     upload: uploadVideo,
-  } = useUpload(BaseApi + `/course/${params[1]}?upload=promotionalVideo`);
+  } = useUpload();
 
   useEffect(() => {
     if (imgFile) {
       const formData = new FormData();
       formData.append("coverImage", imgFile);
-      uploadImg(formData);
+      uploadImg(`/course/${params[1]}?upload=coverImage`, "patch", formData);
     }
   }, [imgFile]);
 
@@ -43,7 +43,11 @@ function Step3({ formik }) {
     if (videoFile) {
       const formData = new FormData();
       formData.append("promotionalVideo", videoFile);
-      uploadVideo(formData);
+      uploadVideo(
+        `/course/${params[1]}?upload=promotionalVideo`,
+        "patch",
+        formData
+      );
     }
   }, [videoFile]);
 
