@@ -20,6 +20,8 @@ import Loading from "../pages/Loading/Loading.jsx";
 import InstructorLayout from "../pages/Instructor/Layout.jsx";
 import Setting from "../pages/Setting/Setting.jsx";
 import CourseDetails from "../pages/CourseDetails/CourseDetails.jsx";
+
+// instructor routes
 const InstructorDashboard = lazy(() =>
   import("../pages/Instructor/Dashboard/Dashboard.jsx")
 );
@@ -55,6 +57,9 @@ const InstructorSessions = lazy(() =>
   import("../pages/Instructor/Workshops/Sessions/Sessions.jsx")
 );
 
+// student routes
+const StudentLayout = lazy(() => import("../pages/Student/Layout.jsx"));
+const StudentHome = lazy(() => import("../pages/Student/Home/Home.jsx"));
 // let ProtectedRouter = (props) => {
 //   if (localStorage.getItem("token") == null) {
 //     return <Navigate to="/signin" />;
@@ -91,6 +96,7 @@ const router = createBrowserRouter([
     ],
   },
 
+  // instructor routes
   {
     path: "/instructor",
     element: <InstructorLayout />,
@@ -241,6 +247,18 @@ const router = createBrowserRouter([
             ],
           },
         ],
+      },
+    ],
+  },
+
+  // student routes
+  {
+    path: "/student",
+    element: <StudentLayout />,
+    children: [
+      {
+        index: true,
+        element: <StudentHome />,
       },
     ],
   },

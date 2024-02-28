@@ -1,29 +1,25 @@
 import { Box } from "@mui/material";
 import React, { useRef } from "react";
+import CustomDrawer from "shared/ui/CustomDrawer/CustomDrawer";
 import { Outlet } from "react-router-dom";
-import UploadContextProvider from "./context/upload-context.tsx";
-import BackgroundUpload from "./Components/BackgroundUpload/BackgroundUpload";
-import NavbarCompact from "shared/ui/Navbar/Compact/NavbarCompact";
+import { NavbarCompact } from "shared/ui/Navbar";
 import {
   Analytics,
-  AttachMoney,
   Comment,
   Dashboard,
   Groups,
   Settings,
   VideoLibrary,
 } from "@mui/icons-material";
-import CustomDrawer from "shared/ui/CustomDrawer/CustomDrawer.jsx";
 const drawerItems = [
   { text: "Dashboard", icon: <Dashboard />, url: "/instructor" },
   { text: "Courses", icon: <VideoLibrary />, url: "courses" },
   { text: "Workshops", icon: <Groups />, url: "workshops" },
   { text: "Analytics", icon: <Analytics />, url: "analytics" },
   { text: "Comments", icon: <Comment />, url: "comments" },
-  { text: "Revenue", icon: <AttachMoney />, url: "revenue" },
   { text: "Settings", icon: <Settings />, url: "settings" },
 ];
-function Layout() {
+export default function Layout() {
   const drawerRef = useRef(null);
   return (
     <Box sx={{ pt: "0.5em" }}>
@@ -31,9 +27,9 @@ function Layout() {
       <NavbarCompact
         onMenuClick={() => drawerRef.current?.toggleOpenDrawer()}
         visibleIcons={{
-          wishlist: false,
+          wishlist: true,
           notification: true,
-          cart: false,
+          cart: true,
           avatar: true,
           themeMode: true,
         }}
@@ -54,16 +50,9 @@ function Layout() {
         }}
       >
         <Box width="100%" maxWidth="1400px" position="relative">
-          <BackgroundUpload />
           <Outlet />
         </Box>
       </Box>
     </Box>
   );
 }
-
-export default () => (
-  <UploadContextProvider>
-    <Layout />
-  </UploadContextProvider>
-);

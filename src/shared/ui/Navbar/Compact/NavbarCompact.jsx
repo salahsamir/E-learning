@@ -1,9 +1,18 @@
 import { Box, IconButton, alpha } from "@mui/material";
 import React from "react";
-import ActionsRight from "../../../../Components/Navbar/ActionsRight/ActionsRight";
 import { Menu } from "@mui/icons-material";
 import SearchBar from "./SearchBar";
-function Navbar({ onMenuClick }) {
+import ActionsRight from "../ActionsRight/ActionsRight.tsx";
+function NavbarCompact({
+  onMenuClick,
+  visibleIcons = {
+    wishlist: true,
+    notification: true,
+    cart: true,
+    avatar: true,
+    themeMode: true,
+  },
+}) {
   return (
     <Box
       component="header"
@@ -66,11 +75,11 @@ function Navbar({ onMenuClick }) {
           >
             <Menu />
           </IconButton>
-          <ActionsRight cartVisible={false} />
+          <ActionsRight visibleIcons={visibleIcons} />
         </Box>
       </Box>
     </Box>
   );
 }
 
-export default Navbar;
+export default NavbarCompact;

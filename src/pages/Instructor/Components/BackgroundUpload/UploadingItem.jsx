@@ -1,27 +1,17 @@
 import { Close, UploadFileOutlined } from "@mui/icons-material";
 import { Box, IconButton, LinearProgress, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CancelDialog from "./CancelDialog";
-function UploadingItem({
-  item,
-  setUploadingList,
-  setCurrentUpload,
-  progress,
-  abortUpload,
-}) {
+import { useUploadContext } from "../../context/upload-context.tsx";
+
+function UploadingItem({ item: currentUpload }) {
   const [cancelDialogOpened, setCancelDialogOpened] = useState(false);
+  const { progress, cancelCurrentUpload } = useUploadContext();
   function handleCancel() {
-    abortUpload.abort();
-    setUploadingList((prev) => {
-      if (prev.length === 0) {
-        setCurrentUpload({});
-        return prev;
-      }
-      const newArr = [...prev];
-      setCurrentUpload(newArr[0]);
-      return newArr.filter((_, index) => index !== 0);
-    });
+    cancelCurrentUpload();
   }
+
+  if (!currentUpload) return null;
   return (
     <Box mt="0.5em">
       <Box
@@ -33,9 +23,9 @@ function UploadingItem({
         <Box display="flex" gap="0.5em" alignItems="center">
           <UploadFileOutlined />
           <Typography variant="body1">
-            {item.name.length > 20
-              ? item.name.substring(0, 20) + "..."
-              : item.name.substring(0, 20)}
+            {currentUpload?.name?.length > 20
+              ? currentUpload?.name.substring(0, 20) + "..."
+              : currentUpload?.name.substring(0, 20)}
           </Typography>
         </Box>
         <Box display="flex" gap="0.5em" alignItems="center">

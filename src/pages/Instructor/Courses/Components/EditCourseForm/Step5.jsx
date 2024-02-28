@@ -1,11 +1,10 @@
-import { Grid, Typography, Box, Button } from "@mui/material";
+import { Typography, Box, Button } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import React from "react";
-import { ReactComponent as DraftImg } from "../../../../../assets/svg/draft.svg";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-function Step5({ status }) {
-  if (status === "draft") {
+function Step5({ status, handlePublishing }) {
+  if (status === "Draft") {
     return (
       <Box
         display="flex"
@@ -34,15 +33,18 @@ function Step5({ status }) {
           <Button variant="contained" color="error">
             Cancel
           </Button>
-          <LoadingButton variant="contained" type="submit">
+          <LoadingButton
+            variant="contained"
+            type="button"
+            onClick={handlePublishing}
+          >
             Publish
           </LoadingButton>
         </Box>
       </Box>
     );
   }
-
-  if (status === "pending") {
+  if (status === "Pending") {
     return (
       <Box display="flex" alignItems="center" flexDirection="column" py="2em">
         <AccessTimeIcon
@@ -78,7 +80,7 @@ function Step5({ status }) {
       </Box>
     );
   }
-  if (status === "published") {
+  if (status === "Published") {
     return (
       <Box display="flex" flexDirection="column" alignItems="center" py="2em">
         <CheckCircleIcon

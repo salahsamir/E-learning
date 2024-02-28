@@ -102,7 +102,6 @@ function EditCourseForm({ course }) {
       promotionVideo: course.promotionalVideoUrl || "",
       status: course.status || "draft",
     },
-
     validationSchema:
       course.status !== "published"
         ? yup.object().shape({
@@ -145,12 +144,31 @@ function EditCourseForm({ course }) {
         });
     },
   });
+  const handlePublishing = () => {
+    let allStepsCompleted = true;
+    for (let i = 0; i < steps.length - 1; i++) {
+      if (getStepStatus(i, formik) !== "completed") {
+        allStepsCompleted = false;
+        break;
+      }
+    }
+    if (allStepsCompleted) {
+      formik.setFieldValue("status", "Published");
+      formik.handleSubmit();
+    } else {
+      // setErrorDialogOpen(true);
+    }
+  };
   const tabsList = [
     <Step1 formik={formik} />,
     <Step2 formik={formik} />,
     <Step3 formik={formik} />,
     <Step4 formik={formik} />,
-    <Step5 formik={formik} status={course.status} />,
+    <Step5
+      formik={formik}
+      status={course.status}
+      handlePublishing={handlePublishing}
+    />,
   ];
 
   return (

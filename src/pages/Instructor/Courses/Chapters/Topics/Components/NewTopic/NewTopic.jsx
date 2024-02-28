@@ -8,7 +8,8 @@ import { MenuList, MenuItem, ListItemIcon, ListItemText } from "@mui/material";
 import { Add, ArticleOutlined, QuizOutlined } from "@mui/icons-material";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import { useNavigate } from "react-router-dom";
-import { UploadContext } from "../../../../../context/upload-context";
+import { useUploadContext } from "../../../../../context/upload-context.tsx";
+import useGetParams from "../../../../../../../hooks/useGetParams";
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={1} square {...props} />
 ))(({ theme }) => ({
@@ -48,8 +49,24 @@ export default function NewTopic({ setItems }) {
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
-  const { setUploadList, uploadList } = React.useContext(UploadContext);
-  console.log("fileUploadList: ", uploadList);
+  const params = useGetParams();
+  const { addItems } = useUploadContext();
+  const handleFileChange = (e) => {
+    const uploadItems = [...e.target.files].map((file) => {
+      const body = new FormData();
+      body.append("title", file.name);
+      body.append("video", file);
+      return {
+        id: Math.random().toString(36),
+        name: file.name,
+        body: body,
+        method: "POST",
+        path: `/course/${params[1]}/chapter/${params[0]}/curriculum/video`,
+      };
+    });
+    addItems(uploadItems);
+    e.target.value = null;
+  };
   return (
     <Accordion
       expanded={expanded === "panel1"}
@@ -88,10 +105,7 @@ export default function NewTopic({ setItems }) {
               multiple
               hidden
               accept="video/*"
-              onChange={(e) => {
-                setUploadList((prev) => [...prev, ...e.target.files]);
-                e.target.value = null;
-              }}
+              onChange={handleFileChange}
             />
           </MenuItem>
           <MenuItem key="new article" onClick={() => navigate("article/new")}>

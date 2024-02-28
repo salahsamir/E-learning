@@ -1,12 +1,11 @@
 import { Box, Skeleton, Typography } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import TopicsList from "./Components/TopicsList/TopicsList";
 import NewTopic from "./Components/NewTopic/NewTopic";
 import { Helmet } from "react-helmet";
 import useGetParams from "../../../../../hooks/useGetParams";
 import { BaseApi } from "../../../../../util/BaseApi";
 import useGetData from "../../../../../hooks/useGetData";
-import { UploadContext } from "../../../context/upload-context";
 import EmptyState from "../../../Components/EmptyState/EmptyState";
 import ErrorPage from "../../../Error/ErrorPage";
 function LoadingSkeleton() {
@@ -36,12 +35,10 @@ function Topics() {
     data: topicsData,
     loading: loadingTopicsData,
     error: errorTopicsData,
-    setRefetch: refetchTopicsData,
   } = useGetData(
     BaseApi + `/course/${params[1]}/chapter/${params[0]}/curriculum`
   );
   const [topicsList, setTopicsList] = useState([]);
-  const { checkCompleted, setCheckCompleted } = useContext(UploadContext);
   useEffect(() => {
     if (topicsData) {
       const modifiedList = [...topicsData.curriculum];
@@ -52,13 +49,6 @@ function Topics() {
       setTopicsList(modifiedList);
     }
   }, [topicsData]);
-  useEffect(() => {
-    if (checkCompleted) {
-      console.log("check completed");
-      setCheckCompleted(false);
-      refetchTopicsData(true);
-    }
-  }, [checkCompleted]);
 
   if (errorTopicsData?.response?.status < 500) {
     return (

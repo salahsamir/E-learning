@@ -1,32 +1,10 @@
-import {
-  CancelOutlined,
-  CheckCircleOutlined,
-  Close,
-  Refresh,
-} from "@mui/icons-material";
+import { CancelOutlined, Close, Refresh } from "@mui/icons-material";
 import { Box, IconButton, Typography } from "@mui/material";
 import React from "react";
+import { useUploadContext } from "../../context/upload-context.tsx";
 
-function ErrorItem({ item, setUploadingList, setErrorList, setCurrentUpload }) {
-  function removeItem() {
-    setErrorList((prev) => {
-      const newArr = [...prev];
-      return newArr.filter((i) => i.id !== item.id);
-    });
-  }
-  function reupload() {
-    setCurrentUpload((prev) => {
-      if (prev.id === undefined) {
-        return item;
-      } else {
-        setUploadingList((prev) => {
-          return [...prev, item];
-        });
-        return prev;
-      }
-    });
-    removeItem();
-  }
+function ErrorItem({ item }) {
+  const { removeItem, reupload } = useUploadContext();
   return (
     <Box mt="0.5em">
       <Box
@@ -44,10 +22,13 @@ function ErrorItem({ item, setUploadingList, setErrorList, setCurrentUpload }) {
           </Typography>
         </Box>
         <Box display="flex" gap="0.5em" alignItems="center">
-          <IconButton sx={{ p: "4px" }} onClick={reupload}>
+          <IconButton sx={{ p: "4px" }} onClick={() => reupload(item.id)}>
             <Refresh />
           </IconButton>
-          <IconButton sx={{ p: "4px" }} onClick={removeItem}>
+          <IconButton
+            sx={{ p: "4px" }}
+            onClick={() => removeItem(item.id, "error")}
+          >
             <Close />
           </IconButton>
         </Box>

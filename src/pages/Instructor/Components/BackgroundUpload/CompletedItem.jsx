@@ -1,14 +1,10 @@
 import { CheckCircleOutlined, Close } from "@mui/icons-material";
 import { Box, IconButton, Typography } from "@mui/material";
 import React from "react";
+import { useUploadContext } from "../../context/upload-context.tsx";
 
-function CompletedItem({ item, setCompletedList }) {
-  function removeItem() {
-    setCompletedList((prev) => {
-      const newArr = [...prev];
-      return newArr.filter((i) => i.id !== item.id);
-    });
-  }
+function CompletedItem({ item }) {
+  const { removeItem } = useUploadContext();
   return (
     <Box mt="0.5em">
       <Box
@@ -25,7 +21,10 @@ function CompletedItem({ item, setCompletedList }) {
               : item.name.substring(0, 20)}
           </Typography>
         </Box>
-        <IconButton sx={{ p: "4px" }} onClick={removeItem}>
+        <IconButton
+          sx={{ p: "4px" }}
+          onClick={() => removeItem(item.id, "completed")}
+        >
           <Close />
         </IconButton>
       </Box>
