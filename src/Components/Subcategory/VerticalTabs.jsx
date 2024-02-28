@@ -5,31 +5,18 @@ import Tab from "@mui/material/Tab";
 import axios from "axios";
 import { BaseApi } from "../../util/BaseApi.js";
 import { useNavigate } from "react-router-dom";
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import PageviewIcon from '@mui/icons-material/Pageview';
-import {
-  Avatar,
-  Box,
-  Button,
-  Container,
-  Divider,
-  Grid,
-  Rating,
-  Stack,
-  Typography,
-} from "@mui/material";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import PageviewIcon from "@mui/icons-material/Pageview";
+import { Avatar, Box, Grid, Rating, Stack, Typography } from "@mui/material";
 import style from "./Vertical.module.css";
-import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { cartActions } from "../../store/cartSlice.jsx";
-import { Favorite, FavoriteBorder, ModeFanOff } from "@mui/icons-material";
+
+import { Favorite } from "@mui/icons-material";
 
 import { allContext } from "../../Context/Context.jsx";
 
 function TabPanel({ children, value, index, ...other }) {
   let nav = useNavigate();
-  // const dispatch = useDispatch();
-  let {AddToWishlist,AddToCart} = useContext(allContext);
+  let { AddToWishlist, AddToCart } = useContext(allContext);
   let headers = {
     token: localStorage.getItem("token"),
   };
@@ -46,8 +33,7 @@ function TabPanel({ children, value, index, ...other }) {
   };
   let GoToCourse = (id) => {
     nav(`/courseDetails/${id}`);
-   
-  }
+  };
 
   useEffect(() => {
     getAllCourse();
@@ -73,18 +59,12 @@ function TabPanel({ children, value, index, ...other }) {
                       xs={6}
                       md={3}
                       p={"5px"}
-                     
                       key={index}
                       data-aos="zoom-in-down"
                       background={"#fff"}
                       className={`${style.course}`}
-                      
                     >
-                   
-                      <Box
-                        position={"relative"}
-                        
-                      >
+                      <Box position={"relative"}>
                         <Box>
                           <Avatar
                             variant="rounded"
@@ -114,7 +94,7 @@ function TabPanel({ children, value, index, ...other }) {
                         <Typography variant="body2" color="text.secondary">
                           salah
                         </Typography>
-                     
+
                         <Box display={"flex"} justifyContent={"space-between"}>
                           <Rating value="4.5" size="small" precision={0.5} />
                           <Typography>4.5</Typography>
@@ -123,40 +103,44 @@ function TabPanel({ children, value, index, ...other }) {
                           {ele.price}$
                         </Typography>
                       </Box>
-                  
-                      <Box className={`${style.layer}`}
+
+                      <Box
+                        className={`${style.layer}`}
                         position={"absolute"}
                         top={0}
                         left={0}
                         width={"100%"}
                         height={"100%"}
                         display={"flex"}
-                      
                         justifyContent={"space-around"}
                         alignItems={"center"}
-                        
                         sx={{ background: "rgba(10, 10, 10,0.6)" }}
                       >
                         <Box
-
-                          
-                        className={`${style.icon}`}  onClick={() => {
-                          AddToWishlist(ele._id)
+                          className={`${style.icon}`}
+                          onClick={() => {
+                            AddToWishlist(ele._id);
                           }}
                         >
-                          <Favorite color="primary"  sx={{fontSize:"40px"}} />
+                          <Favorite color="primary" sx={{ fontSize: "40px" }} />
                         </Box>
                         <Box
-                         
-                        className={`${style.icon}`}  onClick={() => GoToCourse(ele._id)}
+                          className={`${style.icon}`}
+                          onClick={() => GoToCourse(ele._id)}
                         >
-                          <PageviewIcon  color="primary"  sx={{fontSize:"40px"}} />
+                          <PageviewIcon
+                            color="primary"
+                            sx={{ fontSize: "40px" }}
+                          />
                         </Box>
-                        <Box className={`${style.icon}`}  onClick={() =>
-                                AddToCart(ele._id)
-                              }>
-                          <AddShoppingCartIcon color="primary" sx={{fontSize:"40px"}}/>
-                         
+                        <Box
+                          className={`${style.icon}`}
+                          onClick={() => AddToCart(ele._id)}
+                        >
+                          <AddShoppingCartIcon
+                            color="primary"
+                            sx={{ fontSize: "40px" }}
+                          />
                         </Box>
                       </Box>
                     </Grid>

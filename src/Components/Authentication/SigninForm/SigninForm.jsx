@@ -7,30 +7,23 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Divider from "@mui/material/Divider";
 import Checkbox from "@mui/material/Checkbox";
-import {
-  FormControlLabel,
-  Link,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { FormControlLabel, Link, Stack, Typography } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { BaseApi } from "../../../util/BaseApi.js";
 import toast from "react-hot-toast";
-import { useSelector,useDispatch } from "react-redux";
-import {savaData} from "../../../store/UserData.jsx"
 export default function SigninForm() {
   let nav = useNavigate();
   let [loading, setLoading] = useState(false);
- let {Data}=useSelector((state)=>state.UserData)
- let dispatch=useDispatch()
-
 
   const validationSchema = yup.object().shape({
     email: yup
       .string()
       .email("Invalid email format")
       .required("Email is required"),
-    password: yup.string().required("Password is required").min(8,"Please length greater than 8"),
+    password: yup
+      .string()
+      .required("Password is required")
+      .min(8, "Please length greater than 8"),
   });
 
   const handleSignin = async (values) => {
@@ -38,26 +31,27 @@ export default function SigninForm() {
     let { data } = await axios
       .post(`${BaseApi}/auth/Login`, values)
       .catch((err) => {
-        toast.error(err.response.data.message,{ style: {
-          borderRadius: '10px',
-          background: '#1B0A26',
-          color: '#F2C791',
-        }})
+        toast.error(err.response.data.message, {
+          style: {
+            borderRadius: "10px",
+            background: "#1B0A26",
+            color: "#F2C791",
+          },
+        });
         setLoading(false);
       });
-       
+
     if (data.message === "Done") {
       setLoading(false);
-      toast.success('Successfully !',{
-        icon: '👏',
+      toast.success("Successfully !", {
+        icon: "👏",
         style: {
-          borderRadius: '10px',
-          background: '#1B0A26',
-          color: '#F2C791',
+          borderRadius: "10px",
+          background: "#1B0A26",
+          color: "#F2C791",
         },
-      })
-      localStorage.setItem('token',data.BrearerToken)
-      dispatch(savaData())
+      });
+      localStorage.setItem("token", data.BrearerToken);
       nav("/");
     }
   };
@@ -78,8 +72,12 @@ export default function SigninForm() {
           label="email"
           type="email"
           required
-          error={formik.errors.email && formik.touched.email  !== undefined}
-          helperText={formik.errors.email&& formik.touched.email ? formik.errors.email : ""}
+          error={formik.errors.email && formik.touched.email !== undefined}
+          helperText={
+            formik.errors.email && formik.touched.email
+              ? formik.errors.email
+              : ""
+          }
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.email}
@@ -88,22 +86,28 @@ export default function SigninForm() {
           size="small"
           sx={{ width: { xs: "90%", sm: "400px" } }}
         />
-        
+
         <TextField
           name="password"
           label="Password"
           type="password"
           autoComplete="current-password"
           required
-          error={formik.errors.password && formik.touched.password !== undefined}
-          helperText={formik.errors.password&& formik.touched.password ? formik.errors.password : ""}
+          error={
+            formik.errors.password && formik.touched.password !== undefined
+          }
+          helperText={
+            formik.errors.password && formik.touched.password
+              ? formik.errors.password
+              : ""
+          }
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.password}
           variant="outlined"
           size="small"
           sx={{ width: { xs: "90%", sm: "400px" } }}
-        /> 
+        />
         <Box
           sx={{
             width: { xs: "90%", sm: "400px" },
@@ -129,24 +133,28 @@ export default function SigninForm() {
         </Box>
 
         <LoadingButton
-         variant="contained"
-         type="submit"
-         size="small"
-         loading={loading?loading:''}
-         sx={{
-           width: "200px",
-           
-           borderRadius: "25px",
-          
-           fontSize: "18px",
-           marginBottom: "15px",
-         }}
+          variant="contained"
+          type="submit"
+          size="small"
+          loading={loading ? loading : ""}
+          sx={{
+            width: "200px",
+
+            borderRadius: "25px",
+
+            fontSize: "18px",
+            marginBottom: "15px",
+          }}
         >
           SIGN IN
         </LoadingButton>
         <Divider sx={{ width: { xs: "90%", sm: "400px" } }}>OR</Divider>
-      
-        <Typography variant="body1" color='secondary.main' marginY={"20px !important"}>
+
+        <Typography
+          variant="body1"
+          color="secondary.main"
+          marginY={"20px !important"}
+        >
           Still without account?{" "}
           <Link component={RouterLink} to={"/signup"}>
             Create one

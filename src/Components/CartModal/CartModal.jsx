@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import {
-  Box,
   Button,
   Divider,
   Modal,
@@ -8,11 +7,9 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import CartItem from "./CartItem";
-import { useDispatch, useSelector } from "react-redux";
-import { cartActions } from "../../store/cartSlice";
-import axios, { Axios } from "axios";
+import axios from "axios";
 import { BaseApi } from "../../util/BaseApi.js";
 import { allContext } from "../../Context/Context.jsx";
 
@@ -30,25 +27,23 @@ const CartWrapper = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
 }));
 function CartModal(props) {
+  let headers = {
+    token: localStorage.getItem("token"),
+  };
 
-  let headers={
-    token:localStorage.getItem('token')
-  }
+  let { cart, cartdata, RemoveFromCart } = useContext(allContext);
 
-  let {cart,cartdata,RemoveFromCart}=useContext(allContext)
-
-
-  const createOrder=async()=>{
-    try{
-      const response=await axios.post(`${BaseApi}/order`,null,{headers})
+  const createOrder = async () => {
+    try {
+      const response = await axios.post(`${BaseApi}/order`, null, { headers });
       console.log(response);
-     window.location.href=response.data.result
-    }catch(error){
-      console.log(error)
-  }}
+      window.location.href = response.data.result;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-  
     <Modal open={props.open} onClose={props.onClose}>
       <CartWrapper elevation={0}>
         <Typography variant="h5" mb={"16px"} fontWeight={600}>
@@ -65,8 +60,6 @@ function CartModal(props) {
             justifyContent: cartdata.length === 0 && "center",
           }}
         >
-
-        
           {cartdata.length !== 0 &&
             cartdata.map((course) => (
               <CartItem course={course} key={course.id} />
