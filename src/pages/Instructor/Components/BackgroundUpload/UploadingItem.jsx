@@ -4,10 +4,11 @@ import React, { useState } from "react";
 import CancelDialog from "./CancelDialog";
 import { useUploadContext } from "../../context/upload-context.tsx";
 
-function UploadingItem({ item: currentUpload }) {
+function UploadingItem({ item: currentUpload, abort: abortUpload, progress }) {
   const [cancelDialogOpened, setCancelDialogOpened] = useState(false);
-  const { progress, cancelCurrentUpload } = useUploadContext();
+  const { cancelCurrentUpload } = useUploadContext();
   function handleCancel() {
+    abortUpload.abort();
     cancelCurrentUpload();
   }
 

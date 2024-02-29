@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { createContext, useState } from "react";
-import useUpload from "../../../hooks/useUpload";
 type UploadItem = {
   id: string;
   name: string;
@@ -15,13 +14,14 @@ interface UploadContextProps {
     completed: UploadItem[];
     error: UploadItem[];
   };
-  progress: number | null;
   addItems: (items: UploadItem[]) => void;
   removeItem: (id: string, list: "pending" | "error" | "completed") => void;
   checkVisibility: () => boolean;
   cancelAll: () => void;
   cancelCurrentUpload: () => void;
   reupload: (id: string) => void;
+  handleUploadComplete: () => void;
+  handleErroredUpload: () => void;
 }
 export const UploadContext = createContext<UploadContextProps | null>(null);
 export default function UploadContextProvider({ children }) {
@@ -33,36 +33,7 @@ export default function UploadContextProvider({ children }) {
     completed: [],
     error: [],
   });
-  const {
-    progress: uploadProgress,
-    state: uploadState,
-    upload: startUploading,
-    abort: abortUpload,
-    error: uploadError,
-  } = useUpload();
 
-  useEffect(() => {
-    if (uploadState === "completed") {
-      handleUploadComplete();
-    }
-    if (
-      uploadState === "error" &&
-      (uploadError as unknown as Error)?.message !== "canceled"
-    ) {
-      handleErroredUpload();
-    }
-    console.log("error: ", uploadError);
-  }, [uploadState]);
-  useEffect(() => {
-    if (uploadList.current) {
-      console.log("uploading", uploadList.current);
-      startUploading(
-        uploadList.current.path,
-        uploadList.current.method,
-        uploadList.current.body
-      );
-    }
-  }, [uploadList.current?.id]);
   const addItems = (items: UploadItem[]) => {
     setUploadList((prev) => {
       if (!prev.current) {
@@ -125,7 +96,6 @@ export default function UploadContextProvider({ children }) {
     );
   };
   const cancelAll = () => {
-    (abortUpload as unknown as AbortController | undefined)?.abort();
     setUploadList({
       current: undefined,
       pending: [],
@@ -134,7 +104,6 @@ export default function UploadContextProvider({ children }) {
     });
   };
   const cancelCurrentUpload = () => {
-    (abortUpload as unknown as AbortController | undefined)?.abort();
     setUploadList((prev) => {
       const [current, ...pending] = prev.pending;
       return {
@@ -170,13 +139,14 @@ export default function UploadContextProvider({ children }) {
     <UploadContext.Provider
       value={{
         uploadList,
-        progress: uploadProgress,
         addItems,
         removeItem,
         checkVisibility,
         cancelAll,
         cancelCurrentUpload,
         reupload,
+        handleUploadComplete,
+        handleErroredUpload,
       }}
     >
       {children}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Collapse,
@@ -13,16 +13,76 @@ import CompletedItem from "./CompletedItem";
 import ErrorItem from "./ErrorItem";
 import { useUploadContext } from "../../context/upload-context.tsx";
 import PendingItem from "./PendingItem.jsx";
+import useUpload from "hooks/useUpload";
+import CancelDialog from "./CancelDialog";
 
 function BackgroundUpload() {
-  const { uploadList, checkVisibility, cancelAll } = useUploadContext();
+  const {
+    uploadList,
+    checkVisibility,
+    cancelAll,
+    handleErroredUpload,
+    handleUploadComplete,
+  } = useUploadContext();
   const [menuIsExpanded, setMenuIsExpanded] = useState(false);
+  const [waringDialogOpened, setWarningDialogOpened] = useState(false);
+  const {
+    progress: uploadProgress,
+    state: uploadState,
+    upload: startUploading,
+    abort: abortUpload,
+    error: uploadError,
+  } = useUpload();
+
+  // handle the upload state
+  useEffect(() => {
+    if (uploadState === "completed") {
+      handleUploadComplete();
+    }
+    if (uploadState === "error" && uploadError?.message !== "canceled") {
+      handleErroredUpload();
+    }
+    console.log("error: ", uploadError);
+  }, [uploadState]);
+
+  // start uploading the next video in the list if there is any
+  useEffect(() => {
+    if (uploadList.current) {
+      startUploading(
+        uploadList.current.path,
+        uploadList.current.method,
+        uploadList.current.body
+      );
+    }
+  }, [uploadList.current?.id]);
+
+  // show warning before leaving the page if there are pending uploads
+  useEffect(() => {
+    window.onbeforeunload = () => {
+      if (uploadList.pending.length > 0) {
+        return true;
+      }
+    };
+    return () => {
+      window.onbeforeunload = null;
+    };
+  }, [uploadList.pending.length]);
+
+  // cancel all uploads
+  const handleCancelAll = () => {
+    if (uploadList.current) {
+      abortUpload.abort();
+    }
+    cancelAll();
+  };
+
   const headerText =
     uploadList.pending.length > 0 || uploadList.current !== undefined
       ? `Uploading ${
           uploadList.pending.length + (uploadList.current !== undefined ? 1 : 0)
         } videos`
       : `${uploadList.completed.length} videos uploaded`;
+
   console.log("uploadList", uploadList);
   return (
     <Paper
@@ -57,7 +117,10 @@ function BackgroundUpload() {
           >
             {menuIsExpanded ? <ExpandMore /> : <ExpandLess />}
           </IconButton>
-          <IconButton sx={{ p: "0.25em" }} onClick={() => cancelAll()}>
+          <IconButton
+            sx={{ p: "0.25em" }}
+            onClick={() => setWarningDialogOpened(true)}
+          >
             <Close />
           </IconButton>
         </Box>
@@ -74,7 +137,11 @@ function BackgroundUpload() {
                 <CompletedItem item={item} key={item.id} />
               ))}
               {uploadList.current && (
-                <UploadingItem item={uploadList.current} />
+                <UploadingItem
+                  item={uploadList.current}
+                  abort={abortUpload}
+                  progress={uploadProgress}
+                />
               )}
               {uploadList.pending.map((item) => (
                 <PendingItem item={item} key={item.id} />
@@ -83,6 +150,11 @@ function BackgroundUpload() {
           </Box>
         </Collapse>
       }
+      <CancelDialog
+        open={waringDialogOpened}
+        setOpen={setWarningDialogOpened}
+        canceUpload={handleCancelAll}
+      />
     </Paper>
   );
 }
