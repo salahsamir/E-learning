@@ -96,7 +96,7 @@ function BackgroundUpload() {
         borderRadius: "8px",
         px: "1em",
         py: "0.5em",
-        opacity: checkVisibility() ? 1 : 0,
+        display: checkVisibility() ? "block" : "none",
       }}
     >
       <Box
@@ -119,7 +119,7 @@ function BackgroundUpload() {
           </IconButton>
           <IconButton
             sx={{ p: "0.25em" }}
-            onClick={() => setWarningDialogOpened(true)}
+            onClick={() => uploadList.current && setWarningDialogOpened(true)}
           >
             <Close />
           </IconButton>

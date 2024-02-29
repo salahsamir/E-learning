@@ -4,18 +4,40 @@ import React from "react";
 import TextEditor from "../../../../../../../../Components/TextEditor/TextEditor";
 import UploadBox from "../../../../../../Components/UploadBox/UploadBox";
 import AttachedFiles from "../AttachedFiles/AttachedFiles";
+import axios from "axios";
+import { BaseApi } from "util/BaseApi";
+import useGetParams from "hooks/useGetParams";
+import { LoadingButton } from "@mui/lab";
 
-function VideoForm() {
+function VideoForm({ video }) {
+  const params = useGetParams();
   const formik = useFormik({
     initialValues: {
-      title: "",
-      description: "",
-      url: "",
-      attached: [
-        { name: "file1.pdf", size: "1.2MB", url: " " },
-        { name: "file2.rar", size: "8MB", url: " " },
-        { name: "file3.zip", size: "20MB", url: " " },
-      ],
+      title: video.title,
+      description: video.description || "",
+      // attached: [
+      //   { name: "file1.pdf", size: "1.2MB", url: " " },
+      //   { name: "file2.rar", size: "8MB", url: " " },
+      //   { name: "file3.zip", size: "20MB", url: " " },
+      // ],
+    },
+    onSubmit: (values) => {
+      console.log(values);
+      axios
+        .patch(
+          BaseApi +
+            `/course/${params[3]}/chapter/${params[2]}/curriculum/${params[0]}/video`,
+          values,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              token: `${localStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res);
+        });
     },
   });
   return (
@@ -38,11 +60,20 @@ function VideoForm() {
         />
       </Grid>
       <Grid item xs={12} md={6}>
-        <UploadBox
+        {/* <UploadBox
           progress={null}
           sx={{ height: "100%", minHeight: "360px" }}
+        /> */}
+        <video
+          src={video.url}
+          controls
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            borderRadius: "8px",
+          }}
         />
-        {/* <video src="" height="360px"></video> */}
       </Grid>
       <Grid item xs={12}>
         <Typography variant="h6">Attachecd Files</Typography>
@@ -50,6 +81,11 @@ function VideoForm() {
           Upload files you want to share with your students
         </Typography>
         <AttachedFiles formik={formik} />
+      </Grid>
+      <Grid item xs={12} display={"flex"} justifyContent={"flex-end"}>
+        <LoadingButton variant="outlined" onClick={formik.handleSubmit}>
+          Save
+        </LoadingButton>
       </Grid>
     </Grid>
   );

@@ -109,10 +109,10 @@ function AttachedFiles({ formik }) {
             maxHeight="255px"
             overflow="auto"
           >
-            {pendingFiles.map((file, index) => {
+            {pendingFiles?.map((file, index) => {
               return <FileItemUploading {...file} key={file.name} />;
             })}
-            {formik.values.attached.map((file, index) => {
+            {formik.values.attached?.map((file, index) => {
               return <FileItemComplete {...file} key={file.name} />;
             })}
           </Box>
