@@ -14,7 +14,6 @@ function Courses() {
     data: coursesData,
     loading: loadingCoursesList,
     error: errorCoursesList,
-    setRefetch: refetchCoursesList,
   } = useGetData(BaseApi + "/course?view=instructor");
   const [coursesList, setCoursesList] = useState([]);
   useEffect(() => {
@@ -22,9 +21,7 @@ function Courses() {
       setCoursesList(coursesData.courses);
     }
   }, [coursesData]);
-  console.log(errorCoursesList);
   if (errorCoursesList?.response?.status < 500) {
-    console.log("errorCoursesList");
     return <ErrorPage error={errorCoursesList} redirectTo="/instructor" />;
   }
   return (

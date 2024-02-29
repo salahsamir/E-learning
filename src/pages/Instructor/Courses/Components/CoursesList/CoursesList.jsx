@@ -48,7 +48,6 @@ function CoursesList({
   errorCoursesList,
   setCoursesList,
 }) {
-  console.log(coursesList);
   function createData(
     id,
     courseName,

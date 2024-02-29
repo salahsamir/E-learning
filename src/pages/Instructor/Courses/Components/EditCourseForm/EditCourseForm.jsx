@@ -153,8 +153,23 @@ function EditCourseForm({ course }) {
       }
     }
     if (allStepsCompleted) {
-      formik.setFieldValue("status", "Published");
-      formik.handleSubmit();
+      axios
+        .patch(
+          BaseApi + `/course/${course._id}/submit`,
+          {},
+          {
+            headers: {
+              "Content-Type": "application/json",
+              token: `${localStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then((res) => {
+          formik.setFieldValue("status", "Published");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
       // setErrorDialogOpen(true);
     }
