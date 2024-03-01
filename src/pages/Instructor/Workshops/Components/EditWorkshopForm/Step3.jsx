@@ -1,10 +1,11 @@
 import { Box, IconButton, Typography, Grid } from "@mui/material";
 import React, { useEffect } from "react";
-import useUpload from "../../../../../hooks/useUpload";
 import styled from "@emotion/styled";
 import { DeleteForever } from "@mui/icons-material";
-import UploadBox from "../../../Components/UploadBox/UploadBox";
-import useGetParams from "../../../../../hooks/useGetParams";
+import useGetParams from "hooks/useGetParams";
+import useUpload from "hooks/useUpload";
+import UploadBox from "pages/Instructor/shared/Components/UploadBox/UploadBox";
+
 const BoxWrapper = styled(Box)(({ theme }) => ({
   borderRadius: "8px",
   backgroundColor: "rgba(169, 169, 169, 0.1)",

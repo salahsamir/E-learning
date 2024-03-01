@@ -1,6 +1,6 @@
 import { Box, TextField } from "@mui/material";
 import React from "react";
-import TextEditor from "../../../../../Components/TextEditor/TextEditor";
+import TextEditor from "../../../../../features/TextEditor";
 
 function Step1({ formik }) {
   return (

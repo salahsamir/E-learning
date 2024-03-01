@@ -23,38 +23,38 @@ import CourseDetails from "../pages/CourseDetails/CourseDetails.jsx";
 
 // instructor routes
 const InstructorDashboard = lazy(() =>
-  import("../pages/Instructor/Dashboard/Dashboard.jsx")
+  import("../pages/Instructor/Dashboard/index.jsx")
 );
 const InstructorCourses = lazy(() =>
-  import("../pages/Instructor/Courses/Courses.jsx")
+  import("../pages/Instructor/Courses/index.jsx")
 );
 const InstructorEditCourseInfo = lazy(() =>
   import("../pages/Instructor/Courses/EditCourseInfo/EditCourseInfo.jsx")
 );
 const InstructorChapters = lazy(() =>
-  import("../pages/Instructor/Courses/Chapters/Chapters.jsx")
+  import("../pages/Instructor/Chapters/index.jsx")
 );
 const InstructorTopics = lazy(() =>
-  import("../pages/Instructor/Courses/Chapters/Topics/Topics.jsx")
+  import("../pages/Instructor/Topics/index.jsx")
 );
 const IntructorArticle = lazy(() =>
-  import("../pages/Instructor/Courses/Chapters/Topics/Article/Article.jsx")
+  import("../pages/Instructor/Article/index.jsx")
 );
 const InstructorVideo = lazy(() =>
-  import("../pages/Instructor/Courses/Chapters/Topics/Video/Video.jsx")
+  import("../pages/Instructor/Video/index.jsx")
 );
 const InstructorWorkshops = lazy(() =>
-  import("../pages/Instructor/Workshops/Workshops.jsx")
+  import("../pages/Instructor/Workshops/index.jsx")
 );
 const Error404 = lazy(() => import("../pages/Instructor/Error/Error404.jsx"));
 const LiveSessions = lazy(() =>
-  import("../pages/Instructor/Workshops/Sessions/LiveSessions/LiveSessions.jsx")
+  import("../pages/Instructor/Sessions/LiveSessions/LiveSessions.jsx")
 );
 const InstructorEditWorkshopInfo = lazy(() =>
   import("../pages/Instructor/Workshops/EditWorkshopInfo/EditWorkshopInfo.jsx")
 );
 const InstructorSessions = lazy(() =>
-  import("../pages/Instructor/Workshops/Sessions/Sessions.jsx")
+  import("../pages/Instructor/Sessions/index.jsx")
 );
 
 // student routes

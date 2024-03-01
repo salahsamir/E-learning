@@ -9,13 +9,13 @@ import {
   TextField,
   createFilterOptions,
 } from "@mui/material";
+import useGetData from "hooks/useGetData";
 import React from "react";
-import useGetData from "../../../../../hooks/useGetData";
-import { BaseApi } from "../../../../../util/BaseApi";
+
 const filter = createFilterOptions();
 
 function Step2({ formik }) {
-  const { data: categoriesData } = useGetData(BaseApi + "/category");
+  const { data: categoriesData } = useGetData("category");
   const categoryList = categoriesData?.category;
   const levelList = ["Beginner", "Intermediate", "Expert", "All Levels"];
   console.log(formik);

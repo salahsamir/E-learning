@@ -1,5 +1,5 @@
 import { Link } from "@mui/material";
-import CustomTable from "../../../../../Components/CustomTable/CustomTable";
+import CustomTable from "../../../../../shared/ui/CustomTable/CustomTable";
 import WorkshopMenu from "../WorkshopMenu/WorkshopMenu";
 
 const WorkshopName = ({ name, url }) => {

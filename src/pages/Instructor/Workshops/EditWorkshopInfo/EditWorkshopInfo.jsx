@@ -2,9 +2,9 @@ import React from "react";
 import EditWorkshopForm from "../Components/EditWorkshopForm/EditWorkshopForm";
 import { Box, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
-import { BaseApi } from "../../../../util/BaseApi";
-import useGetData from "../../../../hooks/useGetData";
-import ErrorPage from "../../Error/ErrorPage";
+import useGetData from "hooks/useGetData";
+import ErrorPage from "pages/Instructor/Error";
+
 function EditWorkshopInfo() {
   const location = useLocation();
   const pathList = location.pathname.split("/");
@@ -13,7 +13,7 @@ function EditWorkshopInfo() {
     data: workshop,
     loading: loadingWorkshop,
     error: errorWorkshop,
-  } = useGetData(BaseApi + "/workshop/" + workshopId);
+  } = useGetData("workshop/" + workshopId);
   if (errorWorkshop?.response?.status < 500) {
     return <ErrorPage error={errorWorkshop} redirectTo="/instructor/courses" />;
   }

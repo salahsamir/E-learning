@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { BaseApi } from "util/BaseApi";
 
-export default function useGetData(url, initialFetch = true) {
+export default function useGetData(path, initialFetch = true) {
   const [data, setData] = useState("");
   const [refetch, setRefetch] = useState(initialFetch);
   const [loading, setLoading] = useState(true);
@@ -11,7 +12,7 @@ export default function useGetData(url, initialFetch = true) {
       setError(false);
       setLoading(true);
       axios
-        .get(url, {
+        .get(BaseApi + "/" + path, {
           headers: {
             "Content-Type": "application/json",
             token: `${localStorage.getItem("token")}`,

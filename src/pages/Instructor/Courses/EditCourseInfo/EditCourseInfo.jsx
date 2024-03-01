@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import EditCourseForm from "../Components/EditCourseForm/EditCourseForm";
 import { Box, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
-import { BaseApi } from "../../../../util/BaseApi";
-import useGetData from "../../../../hooks/useGetData";
-import ErrorPage from "../../Error/ErrorPage";
+import useGetData from "hooks/useGetData";
+import ErrorPage from "pages/Instructor/Error";
 function EditCourseInfo() {
   const location = useLocation();
   const pathList = location.pathname.split("/");
@@ -13,7 +12,7 @@ function EditCourseInfo() {
     data: course,
     loading: loadingCourse,
     error: errorCourse,
-  } = useGetData(BaseApi + "/course/" + courseId);
+  } = useGetData("course/" + courseId);
   if (errorCourse?.response?.status < 500) {
     return <ErrorPage error={errorCourse} redirectTo="/instructor/courses" />;
   }

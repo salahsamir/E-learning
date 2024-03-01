@@ -1,8 +1,6 @@
 import { Box } from "@mui/material";
 import React, { useRef } from "react";
 import { Outlet } from "react-router-dom";
-import UploadContextProvider from "./context/upload-context.tsx";
-import BackgroundUpload from "./Components/BackgroundUpload/BackgroundUpload";
 import NavbarCompact from "shared/ui/Navbar/Compact/NavbarCompact";
 import {
   Analytics,
@@ -14,6 +12,8 @@ import {
   VideoLibrary,
 } from "@mui/icons-material";
 import CustomDrawer from "shared/ui/CustomDrawer/CustomDrawer.jsx";
+import UploadContextProvider from "./shared/context/upload-context.tsx";
+import BackgroundUpload from "./shared/Components/BackgroundUpload/BackgroundUpload";
 const drawerItems = [
   { text: "Dashboard", icon: <Dashboard />, url: "/instructor" },
   { text: "Courses", icon: <VideoLibrary />, url: "courses" },
@@ -62,8 +62,10 @@ function Layout() {
   );
 }
 
-export default () => (
-  <UploadContextProvider>
-    <Layout />
-  </UploadContextProvider>
-);
+export default function LayoutWithContext() {
+  return (
+    <UploadContextProvider>
+      <Layout />
+    </UploadContextProvider>
+  );
+}
