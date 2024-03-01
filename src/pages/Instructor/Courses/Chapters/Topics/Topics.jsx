@@ -1,13 +1,13 @@
 import { Box, Skeleton, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import TopicsList from "./Components/TopicsList/TopicsList";
-import NewTopic from "./Components/NewTopic/NewTopic";
 import { Helmet } from "react-helmet";
 import useGetParams from "../../../../../hooks/useGetParams";
 import { BaseApi } from "../../../../../util/BaseApi";
 import useGetData from "../../../../../hooks/useGetData";
 import EmptyState from "../../../Components/EmptyState/EmptyState";
 import ErrorPage from "../../../Error/ErrorPage";
+import NewTopicButton from "./Components/NewTopicButtom/NewTopicButton";
 function LoadingSkeleton() {
   return (
     <Box display="flex" flexDirection="column" gap="0.25em">
@@ -71,7 +71,7 @@ function Topics() {
         }}
       >
         <Typography variant="h5">Topics List</Typography>
-        <NewTopic />
+        <NewTopicButton />
       </Box>
       <Box>
         {loadingTopicsData && <LoadingSkeleton />}
