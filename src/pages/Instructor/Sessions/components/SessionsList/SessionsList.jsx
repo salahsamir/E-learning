@@ -10,39 +10,7 @@ const SessionName = ({ name, url }) => {
     </Link>
   );
 };
-const headCells = [
-  {
-    id: "sessionName",
-    disablePadding: false,
-    label: "Session Name",
-  },
-  {
-    id: "duration",
-    disablePadding: false,
-    label: "Duration",
-  },
-  {
-    id: "totalParticipants",
-    disablePadding: false,
-    label: "Total Participants",
-  },
-  {
-    id: "sessionDate",
-    disablePadding: false,
-    label: "Date",
-  },
-  {
-    id: "sessionStatus",
-    disablePadding: false,
-    label: "Status",
-  },
-  {
-    id: "settings",
-    disablePadding: false,
-    label: "",
-    disableSorting: true,
-  },
-];
+
 function SessionsList({
   sessionsList,
   loadingSessionsList,
@@ -104,3 +72,37 @@ function SessionsList({
 }
 
 export default SessionsList;
+
+const headCells = [
+  {
+    id: "sessionName",
+    disablePadding: false,
+    label: "Session Name",
+  },
+  {
+    id: "duration",
+    disablePadding: false,
+    label: "Duration",
+  },
+  {
+    id: "totalParticipants",
+    disablePadding: false,
+    label: "Total Participants",
+  },
+  {
+    id: "sessionDate",
+    disablePadding: false,
+    label: "Date",
+  },
+  {
+    id: "sessionStatus",
+    disablePadding: false,
+    label: "Status",
+  },
+  {
+    id: "settings",
+    disablePadding: false,
+    label: "",
+    disableSorting: true,
+  },
+];

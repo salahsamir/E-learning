@@ -14,6 +14,7 @@ import {
 import CustomDrawer from "shared/ui/CustomDrawer/CustomDrawer.jsx";
 import UploadContextProvider from "./shared/context/upload-context.tsx";
 import BackgroundUpload from "./shared/Components/BackgroundUpload/BackgroundUpload";
+import Error401 from "./Error/Error401.jsx";
 const drawerItems = [
   { text: "Dashboard", icon: <Dashboard />, url: "/instructor" },
   { text: "Courses", icon: <VideoLibrary />, url: "courses" },
@@ -54,8 +55,13 @@ function Layout() {
         }}
       >
         <Box width="100%" maxWidth="1400px" position="relative">
-          <BackgroundUpload />
-          <Outlet />
+          {!localStorage.getItem("token") && <Error401 />}
+          {localStorage.getItem("token") && (
+            <>
+              <BackgroundUpload />
+              <Outlet />
+            </>
+          )}
         </Box>
       </Box>
     </Box>
