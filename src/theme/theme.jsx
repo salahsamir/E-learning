@@ -29,14 +29,14 @@ export const theme = (mode) =>
         main: mode === "light" ? "#65888C" : "#A69494",
       },
       background: {
-        default: mode === "light" ? "#F7FAF9" : backgroundColor.green[0],
-        paper: mode === "light" ? "#fff" : "#2b2c40",
+        default: mode === "light" ? bg.purple.light[0] : bg.green.dark[0],
+        paper: mode === "light" ? bg.green.light[1] : bg.green.dark[1],
         autofill: mode === "light" ? "#f4f4f8" : "#232333",
         skeleton:
           mode === "light"
             ? "rgba(0, 0, 0, 0.03)"
             : "rgba(255, 255, 255, 0.05)",
-        b1: mode === "light" ? "#fff" : backgroundColor.green[1],
+        b1: mode === "light" ? bg.green.light[1] : bg.green.dark[1],
         b2: mode === "light" ? "#e1ecc7" : "#2b2c40",
         b3: mode === "light" ? "#f7ffe5" : "#2b2c40",
       },
@@ -146,7 +146,7 @@ const colors = {
   ],
 };
 
-const backgroundColor = {
-  purple: ["#232333", "#2b2c40"],
-  green: ["#16171b", "#202125"],
+const bg = {
+  purple: { dark: ["#232333", "#2b2c40"], light: ["#F7FAF9", "#fff"] },
+  green: { dark: ["#16171b", "#202125"], light: ["#fdfbfe", "#fff"] },
 };

@@ -58,6 +58,7 @@ function NavbarCompact({
           px: "0.5em",
           borderRadius: "8px",
           gap: "1em",
+          border: (theme) => `1px solid ${theme.palette.primary.border}`,
         }}
       >
         <SearchBar />

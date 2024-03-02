@@ -3,11 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import { Box, IconButton, Typography } from "@mui/material";
 import styled from "@emotion/styled";
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronRightRounded,
-} from "@mui/icons-material";
+import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 
 const ItemImg = styled("img")(({ theme, height }) => ({
   height: height,

@@ -54,6 +54,7 @@ function SalesChart() {
       width: 2,
       curve: "smooth",
       color: "#FF1654",
+      lineCap: "round",
     },
     xaxis: {
       categories: monthsNames,
@@ -62,6 +63,7 @@ function SalesChart() {
   return (
     <Box
       sx={{
+        border: (theme) => `1px solid ${theme.palette.primary.border}`,
         borderRadius: "8px",
         padding: "16px",
         backgroundColor: (theme) => theme.palette.background.b1,
@@ -74,7 +76,7 @@ function SalesChart() {
         },
       }}
     >
-      <Box display="flex" justifyContent="space-between">
+      <Box display="flex" justifyContent="space-between" maxHeight={"400px"}>
         <Box>
           <Typography variant="h6">Sales</Typography>
           <Typography variant="body2" color="text.secondary">
@@ -93,7 +95,7 @@ function SalesChart() {
           <MenuItem value="2022">2022</MenuItem>
         </Select>
       </Box>
-      <Chart series={series} type="bar" options={options} />
+      <Chart series={series} type="bar" options={options} height={"300px"} />
     </Box>
   );
 }
