@@ -5,31 +5,18 @@ import Tab from "@mui/material/Tab";
 import axios from "axios";
 import { BaseApi } from "../../util/BaseApi.js";
 import { useNavigate } from "react-router-dom";
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import PageviewIcon from '@mui/icons-material/Pageview';
-import {
-  Avatar,
-  Box,
-  Button,
-  Container,
-  Divider,
-  Grid,
-  Rating,
-  Stack,
-  Typography,
-} from "@mui/material";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import PageviewIcon from "@mui/icons-material/Pageview";
+import { Avatar, Box, Grid, Rating, Stack, Typography } from "@mui/material";
 import style from "./Vertical.module.css";
-import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { cartActions } from "../../store/cartSlice.jsx";
-import { Favorite, FavoriteBorder, ModeFanOff } from "@mui/icons-material";
+
+import { Favorite } from "@mui/icons-material";
 
 import { allContext } from "../../Context/Context.jsx";
 
 function TabPanel({ children, value, index, ...other }) {
   let nav = useNavigate();
-  // const dispatch = useDispatch();
-  let {AddToWishlist,AddToCart} = useContext(allContext);
+  let { AddToWishlist, AddToCart } = useContext(allContext);
   let headers = {
     token: localStorage.getItem("token"),
   };
@@ -39,6 +26,7 @@ function TabPanel({ children, value, index, ...other }) {
       const response = await axios.get(
         `${BaseApi}/course/category/${value}/subCategory/${index}`
       );
+      // console.log(response.data.courses);
       setCourse(response.data.courses);
     } catch (error) {
       console.log(error);
@@ -46,8 +34,7 @@ function TabPanel({ children, value, index, ...other }) {
   };
   let GoToCourse = (id) => {
     nav(`/courseDetails/${id}`);
-   
-  }
+  };
 
   useEffect(() => {
     getAllCourse();
@@ -65,26 +52,14 @@ function TabPanel({ children, value, index, ...other }) {
           <>
             {course ? (
               <Stack>
-                <Grid p={1}>
+                <div className="row">
                   {course.map((ele, index) => (
-                    <Grid
-                      item
-                      sm={3}
-                      xs={6}
-                      md={3}
-                      p={"5px"}
-                     
+                    <div   p={"5px"}
                       key={index}
                       data-aos="zoom-in-down"
                       background={"#fff"}
-                      className={`${style.course}`}
-                      
-                    >
-                   
-                      <Box
-                        position={"relative"}
-                        
-                      >
+                      className={` col-md-3 ${style.course}`}>
+ <Box position={"relative"}>
                         <Box>
                           <Avatar
                             variant="rounded"
@@ -94,19 +69,10 @@ function TabPanel({ children, value, index, ...other }) {
                               width: "100%",
                               backgroundSize: "cover",
                               backgroundPosition: "center",
-                              // borderTopLeftRadius: "20%",
+                           
                             }}
                           />
-                          {/* <Avatar
-                  src={ele.instructorImg}
-                  sx={{
-                    backgroundSize: "cover",
-                    height: "25%",
-                    width: "20%",
-                    position: "absolute", left: "10px", top: "90%"
-                  }}
-                />
-               */}
+                         
                         </Box>
                         <Typography variant="h6" color="primary">
                           {ele.title}
@@ -114,7 +80,7 @@ function TabPanel({ children, value, index, ...other }) {
                         <Typography variant="body2" color="text.secondary">
                           salah
                         </Typography>
-                     
+
                         <Box display={"flex"} justifyContent={"space-between"}>
                           <Rating value="4.5" size="small" precision={0.5} />
                           <Typography>4.5</Typography>
@@ -123,45 +89,50 @@ function TabPanel({ children, value, index, ...other }) {
                           {ele.price}$
                         </Typography>
                       </Box>
-                  
-                      <Box className={`${style.layer}`}
+
+                      <Box
+                        className={`${style.layer}`}
                         position={"absolute"}
                         top={0}
                         left={0}
                         width={"100%"}
                         height={"100%"}
                         display={"flex"}
-                      
                         justifyContent={"space-around"}
                         alignItems={"center"}
-                        
                         sx={{ background: "rgba(10, 10, 10,0.6)" }}
                       >
                         <Box
-
-                          
-                        className={`${style.icon}`}  onClick={() => {
-                          AddToWishlist(ele._id)
+                          className={`${style.icon}`}
+                          onClick={() => {
+                            AddToWishlist(ele._id);
                           }}
                         >
-                          <Favorite color="primary"  sx={{fontSize:"40px"}} />
+                          <Favorite color="primary" sx={{ fontSize: "40px" }} />
                         </Box>
                         <Box
-                         
-                        className={`${style.icon}`}  onClick={() => GoToCourse(ele._id)}
+                          className={`${style.icon}`}
+                          onClick={() => GoToCourse(ele._id)}
                         >
-                          <PageviewIcon  color="primary"  sx={{fontSize:"40px"}} />
+                          <PageviewIcon
+                            color="primary"
+                            sx={{ fontSize: "40px" }}
+                          />
                         </Box>
-                        <Box className={`${style.icon}`}  onClick={() =>
-                                AddToCart(ele._id)
-                              }>
-                          <AddShoppingCartIcon color="primary" sx={{fontSize:"40px"}}/>
-                         
+                        <Box
+                          className={`${style.icon}`}
+                          onClick={() => AddToCart(ele._id)}
+                        >
+                          <AddShoppingCartIcon
+                            color="primary"
+                            sx={{ fontSize: "40px" }}
+                          />
                         </Box>
                       </Box>
-                    </Grid>
+                    </div>
                   ))}
-                </Grid>
+                </div>
+           
               </Stack>
             ) : (
               ""
@@ -217,7 +188,7 @@ function VerticalTabs({ id }) {
       {subcategory.length > 0 && (
         <>
           <Grid container>
-            <Grid item sm={2} md={2} sx={{}}>
+            <Grid item xs={12} sm={3} md={2}>
               <Tabs
                 orientation="vertical"
                 value={value}
@@ -242,7 +213,7 @@ function VerticalTabs({ id }) {
                 ))}
               </Tabs>
             </Grid>
-            <Grid item sm={10} md={10}>
+            <Grid item xs={12} sm={9} md={10}>
               <TabPanel value={id} index={index} />
             </Grid>
             <Grid />

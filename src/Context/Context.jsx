@@ -12,10 +12,22 @@ export const AllProvider=({children})=>{
     let headers={
         token:localStorage.getItem('token')
     }
+    ///////////////////////////Category/************ */
+    let [category,setCategory]=useState([])
+    let getAllCategory=async()=>{
+      let response=await axios.get(`${BaseApi}/category`)
+      .catch((err)=>{
+        console.log(err)
+      })
+      setCategory(response.data.category)
+      // console.log(category);
+    }
     
     //////////////////////User//////////////
     let [image,setImage]=useState('')
     let [userdata,setUserdata]=useState([])
+    let [course,setCourse]=useState([])
+
 
 async function getUser(){
     return await axios.get(`${BaseApi}/user`,{headers}).then(res=>res.data).catch(err=>console.log(err))
@@ -24,19 +36,17 @@ let getUserData=async()=>{
     try {
       let res=await getUser()
     if(res?.message=="Done"){
+         
         setUserdata(res.newUser)
         setImage(res.newUser.profilePic?.url)
+        setCourse(res.newUser.coursesBought)
+        console.log(course);
     }
     return res
     }catch (error) {
       return null
     }
 }
-
-
-
-
-
 
     /////////////////wishlist/**************** */
     let [wishlist,setWishlist]=useState(0)
@@ -187,11 +197,22 @@ let getUserData=async()=>{
            
           }
     }
+    ////////////////////order*////////////////////
+    const createOrder=async()=>{
+      try{
+        const response=await axios.post(`${BaseApi}/order`,null,{headers})
+      
+       window.location.href=response.data.result
+      }catch(error){
+        console.log(error)
+    }}
+  
 
     useEffect(()=>{
+      getAllCategory()
         getUserData()
         getWishlist()
         getCart()
     },[headers.token])
-    return <allContext.Provider value={{image ,setImage,getUserData,userdata,AddToWishlist,RemoveFromWishlist,wishlist,setWishlist,wishlistdata,AddToCart,RemoveFromCart,cart,setcart,cartdata}}>{children}</allContext.Provider>
+    return <allContext.Provider value={{category,image ,setImage,getUserData,userdata,AddToWishlist,RemoveFromWishlist,wishlist,setWishlist,wishlistdata,AddToCart,RemoveFromCart,cart,setcart,cartdata,createOrder}}>{children}</allContext.Provider>
 }

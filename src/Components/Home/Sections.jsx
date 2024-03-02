@@ -85,13 +85,11 @@ export default function Sections() {
               color='secondary.main'
             >
               <Typography variant="h6">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit
-                magnam animi, architecto officia cum optio tenetur fugit
-                laudantium officiis autem labore enim eius blanditiis. Porro
-                molestias error quibusdam, vitae assumenda itaque blanditiis
-                dolorum, rem optio aliquam totam sequi facere dolore animi
-                corrupti ad sint, expedita quaerat id perspiciatis? Praesentium,
-                ducimus.
+             <Typography fontWeight={'bold'} variant="h5"> Our Vision</Typography>
+We envision a future where education is not confined to traditional boundaries but extends beyond classrooms, reaching every corner of the globe. We believe in a world where learning is personalized, inclusive.
+<Typography fontWeight={'bold'} variant="h5">Our Mission</Typography>
+
+Our mission is to harness the power of innovation to redefine education for the 21st century. We strive to create dynamic learning experiences that inspire curiosity.
               </Typography>
             </Stack>
           </Grid>
@@ -281,19 +279,23 @@ export default function Sections() {
         <Button variant="contained"></Button>
       </Divider>
 
-      <Stack mx={"10px"} spacing={3} p={"40px"}>
-        <Grid container>
-          <Grid item sm={6} xs={12} md={4} direction={"column"} m={"auto"}>
-            <Typography variant="h3">Testimonials</Typography>
-            <Typography variant="h6">
+      <Stack m={"20px"}  p={"50px"}>
+        
+          
+            <div className="row">
+               <div className="col-md-4 py-3  d-flex align-items-center">
+         <div className=" ">
+         <Typography color='primary' variant="h3">Testimonials</Typography>
+              <Typography variant="h6">
               <span style={{ color: "yellow" }}>
                 <StarIcon />
               </span>{" "}
               course rating
             </Typography>
-          </Grid>
-          <Grid item py={"20px"} sm={6} xs={12} md={4} textAlign={"center"}>
-            <Avatar
+         </div>
+              </div>
+              <div className="col-md-4 py-3  text-center">
+              <Avatar
               sx={{ width: "50%", height: "50%", m: "auto" }}
               src="https://t3.ftcdn.net/jpg/04/17/45/82/240_F_417458226_vV0392LwESBo3qTSj1mA5Wyd7TAj5w0q.jpg"
             />
@@ -306,11 +308,10 @@ export default function Sections() {
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti
               ut voluptate fugiat similique dolor accusantium rerum{" "}
             </Typography>
-            <br />
             <Rating name="read-only" value={5} readOnly />
-          </Grid>
-          <Grid item sm={6} xs={12} md={4} textAlign={"center"}>
-            <Avatar
+              </div>
+              <div className="col-md-4 py-3 text-center">
+              <Avatar
               sx={{ width: "50%", height: "50%", m: "auto" }}
               src="https://t4.ftcdn.net/jpg/01/36/68/49/240_F_136684951_y3qIuZC8YTjUCPOPvR4jv7Z24p52dt6S.jpg"
             />
@@ -323,10 +324,15 @@ export default function Sections() {
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti
               ut voluptate fugiat similique dolor accusantium rerum
             </Typography>
-            <br />
+        
             <Rating name="read-only" value={5} readOnly />
-          </Grid>
-        </Grid>
+              </div>
+            </div>
+          
+          
+       
+        
+          
       </Stack>
 
       <Divider>
