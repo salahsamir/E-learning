@@ -98,6 +98,11 @@ export const theme = (mode) =>
           root: {
             textTransform: "none",
             fontWeight: 500,
+            "&:hover": {
+              boxShadow: `0px 0px 8px 6px ${
+                mode === "light" ? colors.primary[7] : colors.primary[4]
+              }`,
+            },
           },
         },
       },
