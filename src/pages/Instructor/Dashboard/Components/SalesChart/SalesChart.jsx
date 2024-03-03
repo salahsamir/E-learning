@@ -32,11 +32,7 @@ function SalesChart() {
       },
     },
     colors: [muitheme.palette.primary.main],
-    dataLabels: {
-      style: {
-        colors: [muitheme.palette.primary.main],
-      },
-    },
+
     markers: {
       colors: [muitheme.palette.primary.main],
     },
@@ -44,20 +40,77 @@ function SalesChart() {
       bar: {
         horizontal: false,
         columnWidth: "35%",
-        endingShape: "rounded",
+        borderRadius: 4,
+        borderRadiusApplication: "end",
       },
     },
     fill: {
       opacity: 1,
+      colors: [muitheme.palette.primary.main],
+    },
+    dataLabels: {
+      enabled: false,
     },
     stroke: {
-      width: 2,
+      width: 1,
       curve: "smooth",
       color: "#FF1654",
       lineCap: "round",
     },
     xaxis: {
       categories: monthsNames,
+      axisBorder: {
+        color: muitheme.palette.grey[500],
+        strokeWidth: 4,
+      },
+      axisTicks: {
+        color: muitheme.palette.grey[500],
+      },
+      labels: {
+        style: {
+          colors: muitheme.palette.text.secondary,
+        },
+      },
+    },
+    yaxis: {
+      labels: {
+        style: {
+          colors: muitheme.palette.text.secondary,
+        },
+      },
+    },
+    states: {
+      hover: {
+        filter: {
+          type: "darken",
+          value: 0.5,
+        },
+      },
+    },
+    grid: {
+      borderColor: muitheme.palette.primary.border,
+      strokeDashArray: 2,
+    },
+    labels: {
+      style: {
+        colors: muitheme.palette.text.primary,
+      },
+    },
+    legend: {
+      show: false,
+    },
+    tooltip: {
+      theme: "none",
+      style: {
+        fontSize: "12px",
+      },
+      items: {
+        display: "flex",
+      },
+      cssClass: "apexcharts-tooltip",
+      marker: {
+        show: true,
+      },
     },
   };
   return (
@@ -67,12 +120,14 @@ function SalesChart() {
         borderRadius: "8px",
         padding: "16px",
         backgroundColor: (theme) => theme.palette.background.b1,
-        "& .apexcharts-text": {
-          fill: (theme) => theme.palette.text.primary,
+        "& .apexcharts-tooltip": {
+          backgroundColor: (theme) => theme.palette.background.b1,
+          color: (theme) => theme.palette.text.primary,
+          border: (theme) => `1px solid ${theme.palette.primary.border}`,
+          boxShadow: "none",
         },
-        "& .apexcharts-gridline": {
-          stroke: (theme) => theme.palette.background.border,
-          strokeWidth: 1,
+        " .apexcharts-tooltip-title": {
+          borderBottom: (theme) => `1px solid ${theme.palette.primary.border}`,
         },
       }}
     >

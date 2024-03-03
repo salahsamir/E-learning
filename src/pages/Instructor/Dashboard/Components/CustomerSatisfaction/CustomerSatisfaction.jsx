@@ -1,4 +1,4 @@
-import { SentimentSatisfied } from "@mui/icons-material";
+import { SentimentSatisfiedAlt } from "@mui/icons-material";
 import { Box, alpha, useTheme } from "@mui/material";
 import React from "react";
 import Chart from "react-apexcharts";
@@ -16,7 +16,6 @@ const CustomerSatisfaction = () => {
           margin: 15,
           size: "65%",
         },
-
         track: {
           background:
             theme.palette.mode === "light"
@@ -41,17 +40,20 @@ const CustomerSatisfaction = () => {
         },
       },
     },
-    // fill: {
-    //   type: "gradient",
-    //   gradient: {
-    //     shade: "dark",
-    //     type: "horizontal",
-    //     gradientToColors: ["#87D4F9"],
-    //     stops: [0, 100],
-    //   },
-    // },
     stroke: {
       lineCap: "butt",
+    },
+    fill: {
+      colors: [theme.palette.primary.main],
+      opacity: 1,
+    },
+    states: {
+      hover: {
+        filter: {
+          type: "darken",
+          value: 0.5,
+        },
+      },
     },
     labels: ["Students Satisfaction"],
   };
@@ -90,7 +92,7 @@ const CustomerSatisfaction = () => {
           backgroundColor: alpha(theme.palette.primary.main, 0.2),
         }}
       >
-        <SentimentSatisfied
+        <SentimentSatisfiedAlt
           sx={{
             color: "primary.main",
             height: "24px",

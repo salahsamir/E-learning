@@ -11,7 +11,7 @@ const IndicationRow = () => {
         border: (theme) => `1px solid ${theme.palette.primary.border}`,
         borderRadius: "16px",
         padding: "16px",
-        flexDirection: { xs: "column", sm: "row" },
+        // flexDirection: { xs: "column", sm: "row" },
         gap: 1,
       }}
     >
@@ -28,10 +28,7 @@ const IndicationRow = () => {
         />
         <Item title="Total Views" value="123" change={-25.23} />
       </Box>
-      <ResponsiveDivider
-        horizontal={{ xs: "flex", sm: "none" }}
-        vertical={{ xs: "none", sm: "flex" }}
-      />
+      <Divider orientation="vertical" flexItem />
       <Box
         flex={1}
         display={"flex"}

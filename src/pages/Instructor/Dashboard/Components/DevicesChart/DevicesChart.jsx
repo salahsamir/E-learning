@@ -51,7 +51,7 @@ const DevicesChart = () => {
           textAnchor: "middle",
           foreColor: theme.palette.text.primary,
           fontSize: "16px",
-          fontWeight: "500",
+          fontWeight: "600",
         },
       ],
     },
