@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Box, Button, Skeleton, Typography } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import ChaptersList from "./Components/ChaptersList/ChaptersList";
 import NewChapter from "./Components/NewChapter/NewChapter";
 import { Helmet } from "react-helmet";
 import ErrorPage from "../Error";
-import useGetData from "hooks/useGetData";
 import useGetParams from "hooks/useGetParams";
 import EmptyState from "../shared/Components/EmptyState/EmptyState";
+import useGetChapters from "api/instructor/chapters.tsx";
 function LoadingSkeleton() {
   return (
     <Box display="flex" flexDirection="column" gap="0.5em">
@@ -33,25 +33,13 @@ function Chapters() {
   const [newFormIsShown, setNewFormIsShown] = useState(false);
   const params = useGetParams();
   const {
-    data: chaptersData,
-    loading: loadingChaptersData,
-    error: errorChaptersData,
-  } = useGetData(`course/${params[0]}/chapter`);
-  const [chaptersList, setChaptersList] = useState([]);
-  useEffect(() => {
-    if (chaptersData && chaptersData.chapters.length > 0) {
-      const modifiedList = [...chaptersData.chapters];
-      modifiedList.map((chapter) => {
-        chapter.id = chapter._id;
-        return chapter;
-      });
-      setChaptersList(modifiedList);
-    }
-  }, [chaptersData]);
-  if (errorChaptersData?.response?.status < 500) {
-    return (
-      <ErrorPage error={errorChaptersData} redirectTo="/instructor/courses" />
-    );
+    data: chaptersList,
+    isLoading: chaptersLoading,
+    error: chaptersError,
+  } = useGetChapters(params[0]);
+
+  if (chaptersError?.response?.status < 500) {
+    return <ErrorPage error={chaptersError} redirectTo="/instructor/courses" />;
   }
   return (
     <Box>
@@ -79,11 +67,11 @@ function Chapters() {
         </Button>
       </Box>
       <Box>
-        {loadingChaptersData && <LoadingSkeleton />}
-        {!loadingChaptersData && chaptersList.length > 0 && (
-          <ChaptersList items={chaptersList} setItems={setChaptersList} />
+        {chaptersLoading && <LoadingSkeleton />}
+        {!chaptersLoading && chaptersList.length > 0 && (
+          <ChaptersList items={chaptersList} />
         )}
-        {!loadingChaptersData && chaptersList.length === 0 && (
+        {!chaptersLoading && chaptersList.length === 0 && (
           <Box
             height="calc(100vh - 152px)"
             display="flex"
@@ -97,11 +85,7 @@ function Chapters() {
           </Box>
         )}
       </Box>
-      <NewChapter
-        open={newFormIsShown}
-        setOpen={setNewFormIsShown}
-        setItems={setChaptersList}
-      />
+      <NewChapter open={newFormIsShown} setOpen={setNewFormIsShown} />
     </Box>
   );
 }

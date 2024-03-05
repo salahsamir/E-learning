@@ -1,27 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import WorkshopsList from "./Components/WorkshopsList/WorkshopsList";
 import { Box, Button, Typography } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import NewWorkshop from "./Components/NewWorkshop/NewWorkshop";
 import { Helmet } from "react-helmet";
-import useGetData from "hooks/useGetData";
 import ErrorPage from "../Error";
+import useGetWorkshops from "api/instructor/workshops.tsx";
 
 function Workshops() {
   const [newFormIsShown, setNewFormIsShown] = useState(false);
   const {
-    data: workshopData,
-    loading: loadingWorkshopsList,
-    error: errorWorkshopsList,
-  } = useGetData("workshop?view=instructor");
-  const [workshopsList, setWorkshopsList] = useState([]);
-  useEffect(() => {
-    if (workshopData) {
-      setWorkshopsList(workshopData.results);
-    }
-  }, [workshopData]);
-  if (errorWorkshopsList?.response?.status < 500) {
-    return <ErrorPage error={errorWorkshopsList} redirectTo="/instructor" />;
+    data: workshopsList,
+    loading: workshopsLoading,
+    error: workshopsError,
+  } = useGetWorkshops();
+  if (workshopsError?.response?.status < 500) {
+    return <ErrorPage error={workshopsError} redirectTo="/instructor" />;
   }
   return (
     <Box>
@@ -51,16 +45,11 @@ function Workshops() {
           New Workshop
         </Button>
       </Box>
-      <NewWorkshop
-        open={newFormIsShown}
-        setOpen={setNewFormIsShown}
-        setWorkshopsList={setWorkshopsList}
-      />
+      <NewWorkshop open={newFormIsShown} setOpen={setNewFormIsShown} />
       <WorkshopsList
         workshopsList={workshopsList}
-        loadingWorkshopsList={loadingWorkshopsList}
-        errorWorkshopsList={errorWorkshopsList}
-        setWorkshopsList={setWorkshopsList}
+        workshopsLoading={workshopsLoading}
+        workshopsError={workshopsError}
       />
     </Box>
   );

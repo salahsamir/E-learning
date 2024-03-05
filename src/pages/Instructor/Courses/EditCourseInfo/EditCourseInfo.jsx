@@ -1,29 +1,19 @@
 import React from "react";
 import EditCourseForm from "../Components/EditCourseForm/EditCourseForm";
 import { Box, Typography } from "@mui/material";
-import { useLocation } from "react-router-dom";
-import useGetData from "hooks/useGetData";
-import ErrorPage from "pages/Instructor/Error";
+import useGetParams from "hooks/useGetParams";
+import { useGetCourse } from "api/instructor/courses.tsx";
 function EditCourseInfo() {
-  const location = useLocation();
-  const pathList = location.pathname.split("/");
-  const courseId = pathList[pathList.length - 2];
-  const {
-    data: course,
-    loading: loadingCourse,
-    error: errorCourse,
-  } = useGetData("course/" + courseId);
-  if (errorCourse?.response?.status < 500) {
-    return <ErrorPage error={errorCourse} redirectTo="/instructor/courses" />;
-  }
+  const params = useGetParams();
+  const { data: course, isLoading: courseLoading } = useGetCourse(params[1]);
   return (
     <Box pb="1em">
-      {loadingCourse ? (
+      {courseLoading ? (
         <Typography variant="body1" component="p">
           Loading...
         </Typography>
       ) : (
-        <EditCourseForm course={course.course} />
+        <EditCourseForm course={course} />
       )}
     </Box>
   );

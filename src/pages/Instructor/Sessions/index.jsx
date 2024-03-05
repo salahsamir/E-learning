@@ -1,27 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
 import SessionsList from "./components/SessionsList/SessionsList";
 import NewSession from "./components/NewSession/NewSession";
-import useGetData from "hooks/useGetData";
 import useGetParams from "hooks/useGetParams";
 import ErrorPage from "../Error";
+import useGetSessions from "api/instructor/sessions.tsx";
 
 function Sessions() {
   const [newFormIsShown, setNewFormIsShown] = useState(false);
   const params = useGetParams();
   const {
-    data: sessionsData,
+    data: sessionsList,
     loading: loadingSessionsList,
     error: errorSessionsList,
-  } = useGetData(`workshop/${params[0]}/allRooms`);
-  const [sessionsList, setSessionsList] = useState([]);
-  useEffect(() => {
-    if (sessionsData) {
-      setSessionsList(sessionsData.results);
-    }
-  }, [sessionsData]);
+  } = useGetSessions(params[0]);
+
   if (errorSessionsList?.response?.status < 500) {
     return <ErrorPage error={errorSessionsList} redirectTo="/instructor" />;
   }
@@ -53,16 +48,11 @@ function Sessions() {
           New Session
         </Button>
       </Box>
-      <NewSession
-        open={newFormIsShown}
-        setOpen={setNewFormIsShown}
-        setItems={setSessionsList}
-      />
+      <NewSession open={newFormIsShown} setOpen={setNewFormIsShown} />
       <SessionsList
         sessionsList={sessionsList}
         loadingSessionsList={loadingSessionsList}
         errorSessionsList={errorSessionsList}
-        setSessionsList={setSessionsList}
       />
     </Box>
   );

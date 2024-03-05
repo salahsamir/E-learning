@@ -1,12 +1,12 @@
 import { Box, Skeleton, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import TopicsList from "./Components/TopicsList/TopicsList";
 import { Helmet } from "react-helmet";
 import NewTopicButton from "./Components/NewTopicButtom/NewTopicButton";
 import useGetParams from "hooks/useGetParams";
-import useGetData from "hooks/useGetData";
 import ErrorPage from "../Error";
 import EmptyState from "../shared/Components/EmptyState/EmptyState";
+import useGetTopics from "api/instructor/topics.tsx";
 function LoadingSkeleton() {
   return (
     <Box display="flex" flexDirection="column" gap="0.25em">
@@ -31,26 +31,13 @@ function LoadingSkeleton() {
 function Topics() {
   const params = useGetParams();
   const {
-    data: topicsData,
-    loading: loadingTopicsData,
-    error: errorTopicsData,
-  } = useGetData(`course/${params[1]}/chapter/${params[0]}/curriculum`);
-  const [topicsList, setTopicsList] = useState([]);
-  useEffect(() => {
-    if (topicsData) {
-      const modifiedList = [...topicsData.curriculum];
-      modifiedList.map((topic) => {
-        topic.id = topic._id;
-        return topic;
-      });
-      setTopicsList(modifiedList);
-    }
-  }, [topicsData]);
+    data: topicsList,
+    isLoading: topicsLoading,
+    error: topicsError,
+  } = useGetTopics(params[1], params[0]);
 
-  if (errorTopicsData?.response?.status < 500) {
-    return (
-      <ErrorPage error={errorTopicsData} redirectTo={`/instructor/courses`} />
-    );
+  if (topicsError?.response?.status < 500) {
+    return <ErrorPage error={topicsError} redirectTo={`/instructor/courses`} />;
   }
   return (
     <Box>
@@ -71,11 +58,11 @@ function Topics() {
         <NewTopicButton />
       </Box>
       <Box>
-        {loadingTopicsData && <LoadingSkeleton />}
-        {!loadingTopicsData && topicsList.length > 0 && (
-          <TopicsList items={topicsList} setItems={setTopicsList} />
+        {topicsLoading && <LoadingSkeleton />}
+        {!topicsLoading && topicsList.length > 0 && (
+          <TopicsList items={topicsList} />
         )}
-        {!loadingTopicsData && topicsList.length === 0 && (
+        {!topicsLoading && topicsList.length === 0 && (
           <Box
             height="calc(100vh - 152px)"
             display="flex"

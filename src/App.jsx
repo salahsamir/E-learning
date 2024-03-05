@@ -10,7 +10,6 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { AllProvider } from "./Context/Context.jsx";
 import { useThemeContext } from "Context/theme-context.tsx";
-
 function App() {
   const themeMode = useThemeContext().theme;
   useEffect(() => {

@@ -2,15 +2,16 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import React from "react";
 import VideoForm from "./Components/VideoForm/VideoForm";
 import { Helmet } from "react-helmet";
-import useGetData from "hooks/useGetData";
 import useGetParams from "hooks/useGetParams";
+import useGetVideo from "api/instructor/video.tsx";
 
 function Video() {
   const params = useGetParams();
-  const { data: topicResult, loading: loadingTopic } = useGetData(
-    `course/${params[3]}/chapter/${params[2]}/curriculum/${params[0]}`
+  const { data: topicData, loading: loadingTopic } = useGetVideo(
+    params[3],
+    params[2],
+    params[0]
   );
-  const topicData = topicResult?.video;
   console.log(topicData);
   return (
     <>

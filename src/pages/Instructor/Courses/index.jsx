@@ -1,27 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CoursesList from "./Components/CoursesList/CoursesList";
 import { Box, Button, Typography } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import NewCourse from "./Components/NewCourse/NewCourse";
 import { Helmet } from "react-helmet";
-import useGetData from "hooks/useGetData";
 import ErrorPage from "../Error";
+import { useGetCourses } from "api/instructor/courses.tsx";
 
 function Courses() {
   const [newFormIsShown, setNewFormIsShown] = useState(false);
   const {
-    data: coursesData,
-    loading: loadingCoursesList,
-    error: errorCoursesList,
-  } = useGetData("course?view=instructor");
-  const [coursesList, setCoursesList] = useState([]);
-  useEffect(() => {
-    if (coursesData) {
-      setCoursesList(coursesData.courses);
-    }
-  }, [coursesData]);
-  if (errorCoursesList?.response?.status < 500) {
-    return <ErrorPage error={errorCoursesList} redirectTo="/instructor" />;
+    data: coursesList,
+    isLoading: coursesLoading,
+    error: coursesError,
+  } = useGetCourses();
+  if (coursesError?.response?.status < 500) {
+    return <ErrorPage error={coursesError} redirectTo="/instructor" />;
   }
   return (
     <Box>
@@ -51,16 +45,11 @@ function Courses() {
           New Course
         </Button>
       </Box>
-      <NewCourse
-        open={newFormIsShown}
-        setOpen={setNewFormIsShown}
-        setCoursesList={setCoursesList}
-      />
+      <NewCourse open={newFormIsShown} setOpen={setNewFormIsShown} />
       <CoursesList
         coursesList={coursesList}
-        loadingCoursesList={loadingCoursesList}
-        errorCoursesList={errorCoursesList}
-        setCoursesList={setCoursesList}
+        loadingCoursesList={coursesLoading}
+        errorCoursesList={coursesError}
       />
     </Box>
   );

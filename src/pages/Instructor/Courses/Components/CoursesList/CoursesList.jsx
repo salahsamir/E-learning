@@ -68,7 +68,7 @@ function CoursesList({
       settings: <CourseMenu key={id} id={id} setCoursesList={setCoursesList} />,
     };
   }
-  const rows = coursesList.map((_, index, arr) => {
+  const rows = coursesList?.map((_, index, arr) => {
     const item = arr[arr.length - index - 1];
     return createData(
       item._id,

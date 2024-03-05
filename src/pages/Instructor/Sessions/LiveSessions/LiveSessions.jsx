@@ -7,13 +7,13 @@ import { LiveKitRoom } from "@livekit/components-react";
 import axios from "axios";
 import { Box, CircularProgress } from "@mui/material";
 import useGetParams from "hooks/useGetParams";
-import useGetData from "hooks/useGetData";
 import { BaseApi } from "util/BaseApi";
+import { useGetSession } from "api/instructor/sessions.tsx";
 
 function LiveSessions() {
   const [token, setToken] = useState("");
   const params = useGetParams();
-  const { data: eduRoom } = useGetData("room/" + params[0]);
+  const { data: eduRoom } = useGetSession(params[0]);
   useEffect(() => {
     axios
       .post(
