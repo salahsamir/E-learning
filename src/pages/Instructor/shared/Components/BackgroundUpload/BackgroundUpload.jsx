@@ -15,8 +15,12 @@ import { useUploadContext } from "../../context/upload-context.tsx";
 import PendingItem from "./PendingItem.jsx";
 import useUpload from "hooks/useUpload";
 import CancelDialog from "./CancelDialog";
+import { useQueryClient } from "@tanstack/react-query";
+import useGetParams from "hooks/useGetParams";
 
 function BackgroundUpload() {
+  const queryClient = useQueryClient();
+  const params = useGetParams();
   const {
     uploadList,
     checkVisibility,
@@ -27,6 +31,7 @@ function BackgroundUpload() {
   const [menuIsExpanded, setMenuIsExpanded] = useState(false);
   const [waringDialogOpened, setWarningDialogOpened] = useState(false);
   const {
+    data: uploadedData,
     progress: uploadProgress,
     state: uploadState,
     upload: startUploading,
@@ -38,6 +43,13 @@ function BackgroundUpload() {
   useEffect(() => {
     if (uploadState === "completed") {
       handleUploadComplete();
+      console.log("uploadedData: ", uploadedData.createdVideo);
+      queryClient.setQueryData(["topics", params[0]], (oldData) => {
+        return [
+          ...oldData,
+          { ...uploadedData.createdVideo, id: uploadedData.createdVideo._id },
+        ];
+      });
     }
     if (uploadState === "error" && uploadError?.message !== "canceled") {
       handleErroredUpload();
@@ -119,7 +131,11 @@ function BackgroundUpload() {
           </IconButton>
           <IconButton
             sx={{ p: "0.25em" }}
-            onClick={() => uploadList.current && setWarningDialogOpened(true)}
+            onClick={() =>
+              uploadList.current
+                ? setWarningDialogOpened(true)
+                : handleCancelAll()
+            }
           >
             <Close />
           </IconButton>
