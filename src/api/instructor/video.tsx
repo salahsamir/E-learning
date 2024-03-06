@@ -9,10 +9,10 @@ export default function useGetVideo(
   const query = useQuery({
     queryKey: ["videos"],
     queryFn: async () => {
-      const data = await axios.get(
+      const res = await axios.get(
         `course/${courseId}/chapter/${charpterId}/curriculum/${videoId}`
       );
-      return data.data.results;
+      return res.data.video;
     },
   });
   return query;

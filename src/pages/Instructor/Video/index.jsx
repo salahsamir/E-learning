@@ -7,7 +7,7 @@ import useGetVideo from "api/instructor/video.tsx";
 
 function Video() {
   const params = useGetParams();
-  const { data: topicData, loading: loadingTopic } = useGetVideo(
+  const { data: topicData, isLoading: loadingTopic } = useGetVideo(
     params[3],
     params[2],
     params[0]

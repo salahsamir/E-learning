@@ -45,10 +45,12 @@ function BackgroundUpload() {
       handleUploadComplete();
       console.log("uploadedData: ", uploadedData.createdVideo);
       queryClient.setQueryData(["topics", params[0]], (oldData) => {
-        return [
-          ...oldData,
-          { ...uploadedData.createdVideo, id: uploadedData.createdVideo._id },
-        ];
+        const newTopic = {
+          ...uploadedData.curriculum,
+          id: uploadedData.curriculum._id,
+        };
+        if (oldData === undefined || oldData.length === 0) return [newTopic];
+        return [...oldData, newTopic];
       });
     }
     if (uploadState === "error" && uploadError?.message !== "canceled") {
