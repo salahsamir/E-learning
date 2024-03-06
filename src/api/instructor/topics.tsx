@@ -15,10 +15,13 @@ export default function useGetTopics(courseId: string, charpterId: string) {
       const res = await axios.get(
         `course/${courseId}/chapter/${charpterId}/curriculum`
       );
-      return res.data.curriculum.map((topic: { _id: string }) => ({
-        ...topic,
-        id: topic._id,
-      }));
+      const topicsWithId = res.data.curriculum.map(
+        (topic: { _id: string }) => ({
+          ...topic,
+          id: topic._id,
+        })
+      );
+      return { ...res.data, curriculum: topicsWithId };
     },
   });
   return query;
@@ -36,7 +39,12 @@ export function useDeleteTopic({ onSuccess, onError }: MutationFnProps = {}) {
     },
     onSuccess(res, variables) {
       queryClient.setQueryData(["topics", params[0]], (old: any) => {
-        return old.filter((topic: any) => topic._id !== variables);
+        return {
+          ...old,
+          curriculum: [
+            ...old.curriculum.filter((topic: any) => topic._id !== variables),
+          ],
+        };
       });
       onSuccess(res);
     },
@@ -59,7 +67,14 @@ export function useReorderTopic({ onSuccess, onError }: MutationFnProps = {}) {
       order: { startPosition: number; endPosition: number };
     }) => {
       queryClient.setQueryData(["topics", params[0]], (old: any) => {
-        return arrayMove(old, order.startPosition - 1, order.endPosition - 1);
+        return {
+          ...old,
+          curriculum: arrayMove(
+            old,
+            order.startPosition - 1,
+            order.endPosition - 1
+          ),
+        };
       });
       const response = await axios.patch(
         `course/${params[1]}/chapter/${params[0]}/curriculum/${topicId}`,

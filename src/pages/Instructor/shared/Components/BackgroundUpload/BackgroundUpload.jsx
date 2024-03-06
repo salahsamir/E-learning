@@ -49,8 +49,10 @@ function BackgroundUpload() {
           ...uploadedData.curriculum,
           id: uploadedData.curriculum._id,
         };
-        if (oldData === undefined || oldData.length === 0) return [newTopic];
-        return [...oldData, newTopic];
+        if (oldData === undefined || oldData.curriculum.length === 0)
+          return [newTopic];
+        console.log("oldData: ", oldData);
+        return { ...oldData, curriculum: [...oldData.curriculum, newTopic] };
       });
     }
     if (uploadState === "error" && uploadError?.message !== "canceled") {

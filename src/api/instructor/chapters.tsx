@@ -10,11 +10,14 @@ export default function useGetChapters(courseId: string) {
   const query = useQuery({
     queryKey: ["chapters", courseId],
     queryFn: async () => {
-      const data = await axios.get(`course/${courseId}/chapter`);
-      return data.data.chapters.map((chapter: { _id: string }) => ({
-        ...chapter,
-        id: chapter._id,
-      }));
+      const res = await axios.get(`course/${courseId}/chapter`);
+      const chaptersWithId = res.data.chapters.map(
+        (chapter: { _id: string }) => ({
+          ...chapter,
+          id: chapter._id,
+        })
+      );
+      return { ...res.data, chapters: chaptersWithId };
     },
   });
   return query;
@@ -25,7 +28,7 @@ export function useGetChapter(courseId: string, chapterId: string) {
     queryKey: ["chapter", chapterId],
     queryFn: async () => {
       const data = await axios.get(`course/${courseId}/chapter/${chapterId}`);
-      return data.data.chapter;
+      return data.data;
     },
   });
   return query;
@@ -41,7 +44,11 @@ export function useAddChapter({ onSuccess, onError }: MutationFnProps = {}) {
     },
     onSuccess(res) {
       queryClient.setQueryData(["chapters", params[0]], (old: any) => {
-        return [...old, { ...res.chapter, id: res.chapter._id }];
+        const newChapters = [
+          ...old.chapters,
+          { ...res.chapter, id: res.chapter._id },
+        ];
+        return { ...old, chapters: newChapters };
       });
       onSuccess(res);
     },
@@ -62,14 +69,17 @@ export function useUpdateChapter({ onSuccess, onError }: MutationFnProps = {}) {
       return response.data;
     },
     onSuccess(res, variables) {
-      queryClient.setQueryData(["chapters", params[0]], (old: []) => {
-        const newList: { id: string; title: string }[] = [...old];
-        const index = newList.findIndex(
-          (chapter: { id: string }) => chapter.id === variables.chapterId
-        );
-        newList[index] = { ...newList[index], title: variables.data.title };
-        return newList;
-      });
+      queryClient.setQueryData(
+        ["chapters", params[0]],
+        (old: { chapters: [] }) => {
+          const newList: { id: string; title: string }[] = [...old.chapters];
+          const index = newList.findIndex(
+            (chapter: { id: string }) => chapter.id === variables.chapterId
+          );
+          newList[index] = { ...newList[index], title: variables.data.title };
+          return { ...old, chapters: newList };
+        }
+      );
       onSuccess(res);
     },
     onError,
@@ -89,7 +99,12 @@ export function useDeleteChapter({ onSuccess, onError }: MutationFnProps = {}) {
     },
     onSuccess(res, variables) {
       queryClient.setQueryData(["chapters", params[0]], (old: any) => {
-        return old.filter((chapter: any) => chapter._id !== variables);
+        return {
+          ...old,
+          chapters: [
+            ...old.chapters.filter((chapter: any) => chapter._id !== variables),
+          ],
+        };
       });
       onSuccess(res);
     },
@@ -113,7 +128,14 @@ export function useReorderChapter({
       order: { startPosition: number; endPosition: number };
     }) => {
       queryClient.setQueryData(["chapters", params[0]], (old: any) => {
-        return arrayMove(old, order.startPosition - 1, order.endPosition - 1);
+        return {
+          ...old,
+          chapters: arrayMove(
+            old,
+            order.startPosition - 1,
+            order.endPosition - 1
+          ),
+        };
       });
       const response = await axios.patch(
         `course/${params[0]}/chapter/${chapterId}?change_order=true`,

@@ -4,6 +4,7 @@ import VideoForm from "./Components/VideoForm/VideoForm";
 import { Helmet } from "react-helmet";
 import useGetParams from "hooks/useGetParams";
 import useGetVideo from "api/instructor/video.tsx";
+import NavigationHeader from "./Components/NavigationHeader/NavigationHeader";
 
 function Video() {
   const params = useGetParams();
@@ -12,7 +13,6 @@ function Video() {
     params[2],
     params[0]
   );
-  console.log(topicData);
   return (
     <>
       <Helmet>
@@ -30,6 +30,7 @@ function Video() {
             Edit Video
           </Typography>
         </Box>
+        <NavigationHeader data={topicData} />
         <Box
           sx={{
             backgroundColor: (theme) => theme.palette.background.b1,

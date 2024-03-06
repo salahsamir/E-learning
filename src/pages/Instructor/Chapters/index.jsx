@@ -7,6 +7,7 @@ import ErrorPage from "../Error";
 import useGetParams from "hooks/useGetParams";
 import EmptyState from "../shared/Components/EmptyState/EmptyState";
 import useGetChapters from "api/instructor/chapters.tsx";
+import NavigationHeader from "./Components/NavigationHeader/NavigationHeader";
 function LoadingSkeleton() {
   return (
     <Box display="flex" flexDirection="column" gap="0.5em">
@@ -31,17 +32,18 @@ function LoadingSkeleton() {
 function Chapters() {
   const params = useGetParams();
   const {
-    data: chaptersList,
+    data,
     isLoading: chaptersLoading,
     error: chaptersError,
   } = useGetChapters(params[0]);
+  const chaptersList = data?.chapters;
   if (chaptersError?.response?.status < 500) {
     return <ErrorPage error={chaptersError} redirectTo="/instructor/courses" />;
   }
   return (
     <Box>
       <Helmet>
-        <title>Chapters | Eduvation</title>
+        <title>{data?.course.title || "course"} | Eduvation</title>
       </Helmet>
       <Box
         mb="1em"
@@ -56,6 +58,7 @@ function Chapters() {
         <Typography variant="h5">Chapters List</Typography>
         <NewChapter />
       </Box>
+      <NavigationHeader data={data} />
       <Box>
         {chaptersLoading && <LoadingSkeleton />}
         {!chaptersLoading && chaptersList.length > 0 && (
