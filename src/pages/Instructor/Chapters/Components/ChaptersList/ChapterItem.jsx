@@ -14,32 +14,33 @@ const ChapterWrapper = styled(Box)(({ theme }) => ({
   alignItems: "center",
   backgroundColor: theme.palette.background.b1,
   paddingLeft: "0.5em",
+  border: `1px solid ${theme.palette.primary.border}`,
+  borderRadius: "4px",
 }));
 
-function ChapterItem({ item, setItems }) {
+function ChapterItem({ item }) {
   const { setNodeRef, attributes, listeners, transform, transition } =
     useSortable({ id: item.id });
-  console.log("listeneres: ", attributes);
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
   };
   return (
-    <Box ref={setNodeRef} {...attributes} {...listeners} style={style}>
+    <Box ref={setNodeRef} style={style}>
       <Box>
         <ChapterWrapper>
           <Box display="flex" alignItems="center" gap="8px">
-            <DragIndicator sx={{ "&:hover": { cursor: "grab" } }} />
+            <DragIndicator
+              sx={{ "&:hover": { cursor: "grab" } }}
+              {...attributes}
+              {...listeners}
+            />
             <Typography variant="h6" component="p">
               <Link to={item.id}>{item.title}</Link>
             </Typography>
           </Box>
           <Box mr="4px">
-            <ChapterMenu
-              setItems={setItems}
-              chapterId={item.id}
-              title={item.title}
-            />
+            <ChapterMenu chapterId={item.id} title={item.title} />
           </Box>
         </ChapterWrapper>
       </Box>

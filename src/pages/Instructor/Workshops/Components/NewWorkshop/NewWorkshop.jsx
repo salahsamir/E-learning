@@ -7,46 +7,28 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
 import { LoadingButton } from "@mui/lab";
-import axios from "axios";
-import { BaseApi } from "../../../../../util/BaseApi";
-import { useState } from "react";
+import { useAddWorkshop } from "api/instructor/workshops.tsx";
 
-export default function NewWorkshop({ open, setOpen, setWorkshopsList }) {
-  const [loading, setLoading] = useState(false);
-  const handleClose = () => {
-    setOpen(false);
-  };
+export default function NewWorkshop({ open, setOpen }) {
+  const { mutate: addWorkshop, isPending: loading } = useAddWorkshop({
+    onSuccess: () => {
+      setOpen(false);
+      formik.resetForm();
+    },
+  });
   const formik = useFormik({
     initialValues: {
       title: "",
     },
     onSubmit: (values) => {
       if (values.title.length === 0) return;
-      setLoading(true);
-      axios
-        .post(BaseApi + "/workshop", values, {
-          headers: {
-            "Content-Type": "application/json",
-            token: `${localStorage.getItem("token")}`,
-          },
-        })
-        .then((res) => {
-          setLoading(false);
-          setOpen(false);
-          setWorkshopsList((prev) => [...prev, res.data.results]);
-          formik.resetForm();
-        })
-        .catch((err) => {
-          console.log(err);
-          setLoading(false);
-        });
+      addWorkshop(values);
     },
   });
-
   return (
     <Dialog
       open={open}
-      onClose={handleClose}
+      onClose={() => setOpen(false)}
       sx={{
         ".MuiPaper-root": {
           width: "500px",
@@ -77,7 +59,7 @@ export default function NewWorkshop({ open, setOpen, setWorkshopsList }) {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={() => setOpen(false)}>Cancel</Button>
         <LoadingButton
           onClick={formik.handleSubmit}
           loading={loading}

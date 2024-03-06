@@ -3,7 +3,11 @@ import { LoadingButton } from "@mui/lab";
 import React from "react";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-function Step5({ status, handlePublishing }) {
+import { usePublishCourse } from "api/instructor/courses.tsx";
+import useGetParams from "hooks/useGetParams";
+function Step5({ status }) {
+  const params = useGetParams();
+  const { mutate: publishCourse } = usePublishCourse();
   if (status === "Draft") {
     return (
       <Box
@@ -36,7 +40,7 @@ function Step5({ status, handlePublishing }) {
           <LoadingButton
             variant="contained"
             type="button"
-            onClick={handlePublishing}
+            onClick={() => publishCourse(params[1])}
           >
             Publish
           </LoadingButton>

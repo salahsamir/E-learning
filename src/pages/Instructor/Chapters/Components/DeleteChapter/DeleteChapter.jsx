@@ -5,71 +5,70 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import axios from "axios";
 import { LoadingButton } from "@mui/lab";
-import { BaseApi } from "util/BaseApi";
-import useGetParams from "hooks/useGetParams";
+import { useDeleteChapter } from "api/instructor/chapters.tsx";
+import { MenuItem, Typography } from "@mui/material";
+import { Delete } from "@mui/icons-material";
 
-export default function DeleteChapter({ open, setOpen, chapterId, setItems }) {
-  const [loading, setLoading] = React.useState(false);
-  const params = useGetParams();
+export default function DeleteChapter({ chapterId }) {
+  const [open, setOpen] = React.useState(false);
+  const { mutate: deleteChapter, isPending: loading } = useDeleteChapter({
+    onSuccess: () => setOpen(false),
+  });
   const handleClose = () => {
     setOpen(false);
   };
-  const handleDelete = () => {
-    setLoading(true);
-    axios
-      .delete(BaseApi + `/course/${params[0]}/chapter/${chapterId}`, {
-        headers: {
-          "Application-Type": "application/json",
-          token: localStorage.getItem("token"),
-        },
-      })
-      .then((res) => {
-        setLoading(false);
-        setItems((prev) => {
-          const newList = [...prev];
-          return newList.filter((chapter) => chapter.id !== chapterId);
-        });
-        handleClose();
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
-      });
-  };
+
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-      sx={{
-        "& .MuiPaper-root": {
-          backgroundColor: (theme) => theme.palette.background.b1,
-          backgroundImage: "none",
-        },
-      }}
-    >
-      <DialogTitle
-        id="alert-dialog-title"
+    <>
+      <MenuItem onClick={() => setOpen(true)} aria-label="delete">
+        <Delete sx={{ fontSize: "1.3em" }} color="error" />
+        <Typography
+          variant="body2"
+          sx={{ ml: "0.5em" }}
+          color="error"
+          fontSize="1em"
+        >
+          Delete
+        </Typography>
+      </MenuItem>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
         sx={{
-          borderBottom: (theme) => `1px solid ${theme.palette.primary.border}`,
+          "& .MuiPaper-root": {
+            backgroundColor: (theme) => theme.palette.background.b1,
+            backgroundImage: "none",
+          },
         }}
       >
-        Delete Chapter
-      </DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description" pt="1em">
-          Are you sure you want to delete this chapter?
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <LoadingButton onClick={handleDelete} color="error" loading={loading}>
-          Delete
-        </LoadingButton>
-      </DialogActions>
-    </Dialog>
+        <DialogTitle
+          id="alert-dialog-title"
+          sx={{
+            borderBottom: (theme) =>
+              `1px solid ${theme.palette.primary.border}`,
+          }}
+        >
+          Delete Chapter
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description" pt="1em">
+            Are you sure you want to delete this chapter?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <LoadingButton
+            onClick={() => deleteChapter(chapterId)}
+            color="error"
+            loading={loading}
+          >
+            Delete
+          </LoadingButton>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }

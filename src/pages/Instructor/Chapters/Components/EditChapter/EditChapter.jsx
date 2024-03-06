@@ -8,102 +8,87 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@mui/material/Typography/Typography";
 import { useFormik } from "formik";
 import { LoadingButton } from "@mui/lab";
-import axios from "axios";
-import { useState } from "react";
-import useGetParams from "hooks/useGetParams";
-import { BaseApi } from "util/BaseApi";
+import { useUpdateChapter } from "api/instructor/chapters.tsx";
+import { MenuItem } from "@mui/material";
+import { Edit } from "@mui/icons-material";
 
-export default function EditChapter({
-  open,
-  setOpen,
-  setItems,
-  chapterId,
-  title,
-}) {
-  const [saving, setSaving] = useState(false);
-  const [submittingError, setSubmittingError] = useState(false);
-  const params = useGetParams();
+export default function EditChapter({ chapterId, title }) {
+  const [open, setOpen] = React.useState(false);
+  const {
+    mutate: updateChapter,
+    isError: submittingError,
+    isPending: saving,
+  } = useUpdateChapter({
+    onSuccess: () => setOpen(false),
+  });
   const formik = useFormik({
     initialValues: {
       title,
     },
     onSubmit: (values) => {
-      setSaving(true);
-      axios
-        .patch(BaseApi + `/course/${params[0]}/chapter/${chapterId}`, values, {
-          headers: {
-            "Content-Type": "application/json",
-            token: `${localStorage.getItem("token")}`,
-          },
-        })
-        .then((res) => {
-          handleClose();
-          setItems((prev) => {
-            const newList = [...prev];
-            const index = newList.findIndex(
-              (chapter) => chapter.id === chapterId
-            );
-            newList[index].title = values.title;
-            return newList;
-          });
-        })
-        .catch((err) => {
-          setSaving(false);
-          setSubmittingError(err);
-        });
+      updateChapter({ chapterId, data: values });
     },
   });
   const handleClose = () => {
     setOpen(false);
   };
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      sx={{
-        ".MuiPaper-root": {
-          width: "500px",
-          backgroundColor: (theme) => theme.palette.background.b1,
-          backgroundImage: "none",
-        },
-      }}
-    >
-      <DialogTitle
+    <>
+      <MenuItem onClick={() => setOpen(true)} aria-label="edit">
+        <Edit sx={{ fontSize: "1.3em" }} />
+        <Typography variant="body2" sx={{ ml: "0.5em" }} fontSize="1em">
+          Edit
+        </Typography>
+      </MenuItem>
+      <Dialog
+        open={open}
+        onClose={handleClose}
         sx={{
-          borderBottom: (theme) => `1px solid ${theme.palette.primary.border}`,
+          ".MuiPaper-root": {
+            width: "500px",
+            backgroundColor: (theme) => theme.palette.background.b1,
+            backgroundImage: "none",
+          },
         }}
       >
-        Update Chapter
-      </DialogTitle>
-      <DialogContent>
-        <TextField
-          margin="dense"
-          id="title"
-          label="Chapter Title"
-          type="text"
-          fullWidth
-          variant="standard"
-          value={formik.values.title}
-          onChange={formik.handleChange}
-          autoFocus
-          autoComplete="off"
-        />
-        {submittingError && (
-          <Typography color="error" pt="0.5em">
-            Something went wrong.
-          </Typography>
-        )}
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <LoadingButton
-          onClick={formik.handleSubmit}
-          loading={saving}
-          disabled={formik.values.chapterTitle === ""}
+        <DialogTitle
+          sx={{
+            borderBottom: (theme) =>
+              `1px solid ${theme.palette.primary.border}`,
+          }}
         >
-          Save
-        </LoadingButton>
-      </DialogActions>
-    </Dialog>
+          Update Chapter
+        </DialogTitle>
+        <DialogContent>
+          <TextField
+            margin="dense"
+            id="title"
+            label="Chapter Title"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={formik.values.title}
+            onChange={formik.handleChange}
+            autoFocus
+            autoComplete="off"
+          />
+          {submittingError && (
+            <Typography color="error" pt="0.5em">
+              Something went wrong.
+            </Typography>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <LoadingButton
+            onClick={formik.handleSubmit}
+            loading={saving}
+            disabled={formik.values.chapterTitle === ""}
+          >
+            Save
+          </LoadingButton>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }

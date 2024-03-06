@@ -71,7 +71,7 @@ function WorkshopsList({
       ),
     };
   }
-  const rows = workshopsList.map((_, index, arr) => {
+  const rows = workshopsList?.map((_, index, arr) => {
     const item = arr[arr.length - index - 1];
     return createData(
       item._id,

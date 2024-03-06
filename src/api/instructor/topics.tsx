@@ -5,10 +5,10 @@ export default function useGetTopics(courseId: string, charpterId: string) {
   const query = useQuery({
     queryKey: ["topics"],
     queryFn: async () => {
-      const data = await axios.get(
+      const res = await axios.get(
         `course/${courseId}/chapter/${charpterId}/curriculum`
       );
-      return data.data.video;
+      return res.data.curriculum;
     },
   });
   return query;

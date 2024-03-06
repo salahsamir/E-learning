@@ -9,8 +9,8 @@ function EditWorkshopInfo() {
   const params = useGetParams();
   const {
     data: workshop,
-    loading: workshopLoading,
-    error: workshopError,
+    isLoading: workshopLoading,
+    isError: workshopError,
   } = useGetWorkshop(params[1]);
   if (workshopError?.response?.status < 500) {
     return <ErrorPage error={workshopError} redirectTo="/instructor/courses" />;

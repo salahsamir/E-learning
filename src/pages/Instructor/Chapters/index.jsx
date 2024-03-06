@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { Box, Button, Skeleton, Typography } from "@mui/material";
-import { Add } from "@mui/icons-material";
+import React from "react";
+import { Box, Skeleton, Typography } from "@mui/material";
 import ChaptersList from "./Components/ChaptersList/ChaptersList";
 import NewChapter from "./Components/NewChapter/NewChapter";
 import { Helmet } from "react-helmet";
@@ -30,7 +29,6 @@ function LoadingSkeleton() {
   );
 }
 function Chapters() {
-  const [newFormIsShown, setNewFormIsShown] = useState(false);
   const params = useGetParams();
   const {
     data: chaptersList,
@@ -57,14 +55,7 @@ function Chapters() {
         }}
       >
         <Typography variant="h5">Chapters List</Typography>
-        <Button
-          variant="contained"
-          disableElevation
-          startIcon={<Add />}
-          onClick={() => setNewFormIsShown(true)}
-        >
-          Add Chapter
-        </Button>
+        <NewChapter />
       </Box>
       <Box>
         {chaptersLoading && <LoadingSkeleton />}
@@ -85,7 +76,6 @@ function Chapters() {
           </Box>
         )}
       </Box>
-      <NewChapter open={newFormIsShown} setOpen={setNewFormIsShown} />
     </Box>
   );
 }

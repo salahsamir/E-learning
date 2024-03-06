@@ -11,9 +11,8 @@ import Step3 from "./Step3";
 import Step4 from "./Step4";
 import Step5 from "./Step5";
 import { LoadingButton } from "@mui/lab";
-import axios from "axios";
-import { BaseApi } from "../../../../../util/BaseApi";
 import { useNavigate } from "react-router-dom";
+import { useUpdateCourse } from "api/instructor/courses.tsx";
 const steps = [
   { name: "Basic Information", status: "draft" },
   { name: "Target group", status: "draft" },
@@ -79,9 +78,8 @@ function getStepStatus(step, formik) {
   }
 }
 function EditCourseForm({ course }) {
-  const [formState, setFormState] = React.useState({
-    loading: false,
-    error: false,
+  const { mutate: editCourse, isPending: formLoading } = useUpdateCourse({
+    onSuccess: () => setActiveStep(4),
   });
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = React.useState(0);
@@ -128,62 +126,16 @@ function EditCourseForm({ course }) {
               .required("Promotion Video is required"),
           }),
     onSubmit: (values) => {
-      setFormState({ loading: true, error: false });
-      axios
-        .patch(BaseApi + `/course/${course._id}`, values, {
-          headers: {
-            "Content-Type": "application/json",
-            token: `${localStorage.getItem("token")}`,
-          },
-        })
-        .then((res) => {
-          setFormState({ loading: false, error: false });
-        })
-        .catch((err) => {
-          setFormState({ loading: false, error: true });
-        });
+      editCourse({ id: course._id, data: values });
     },
   });
-  const handlePublishing = () => {
-    let allStepsCompleted = true;
-    for (let i = 0; i < steps.length - 1; i++) {
-      if (getStepStatus(i, formik) !== "completed") {
-        allStepsCompleted = false;
-        break;
-      }
-    }
-    if (allStepsCompleted) {
-      axios
-        .patch(
-          BaseApi + `/course/${course._id}/submit`,
-          {},
-          {
-            headers: {
-              "Content-Type": "application/json",
-              token: `${localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then((res) => {
-          formik.setFieldValue("status", "Published");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      // setErrorDialogOpen(true);
-    }
-  };
+
   const tabsList = [
     <Step1 formik={formik} />,
     <Step2 formik={formik} />,
     <Step3 formik={formik} />,
     <Step4 formik={formik} />,
-    <Step5
-      formik={formik}
-      status={course.status}
-      handlePublishing={handlePublishing}
-    />,
+    <Step5 formik={formik} status={course.status} />,
   ];
 
   return (
@@ -244,7 +196,7 @@ function EditCourseForm({ course }) {
               <LoadingButton
                 variant="contained"
                 type="submit"
-                loading={formState.loading}
+                loading={formLoading}
               >
                 Save
               </LoadingButton>

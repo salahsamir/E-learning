@@ -11,8 +11,8 @@ function Workshops() {
   const [newFormIsShown, setNewFormIsShown] = useState(false);
   const {
     data: workshopsList,
-    loading: workshopsLoading,
-    error: workshopsError,
+    isLoading: workshopsLoading,
+    isError: workshopsError,
   } = useGetWorkshops();
   if (workshopsError?.response?.status < 500) {
     return <ErrorPage error={workshopsError} redirectTo="/instructor" />;

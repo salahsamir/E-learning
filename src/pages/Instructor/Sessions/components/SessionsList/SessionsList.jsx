@@ -48,7 +48,7 @@ function SessionsList({
       ),
     };
   }
-  const rows = sessionsList.map((_, index, arr) => {
+  const rows = sessionsList?.map((_, index, arr) => {
     const item = arr[arr.length - index - 1];
     return createData(
       item._id,

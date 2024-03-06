@@ -7,14 +7,14 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
 import { LoadingButton } from "@mui/lab";
-import axios from "axios";
-import { useState } from "react";
-import useGetParams from "hooks/useGetParams";
-import { BaseApi } from "util/BaseApi";
+import { useAddChapter } from "api/instructor/chapters.tsx";
+import { Add } from "@mui/icons-material";
 
-export default function NewChapter({ open, setOpen, setItems }) {
-  const [loading, setLoading] = useState(false);
-  const params = useGetParams();
+export default function NewChapter() {
+  const [open, setOpen] = React.useState(false);
+  const { mutate: addChapter, isPending: loading } = useAddChapter({
+    onSuccess: () => setOpen(false),
+  });
   const handleClose = () => {
     setOpen(false);
   };
@@ -23,73 +23,64 @@ export default function NewChapter({ open, setOpen, setItems }) {
       title: "",
     },
     onSubmit: (values) => {
-      setLoading(true);
-      axios
-        .post(BaseApi + `/course/${params[0]}/chapter`, values, {
-          headers: {
-            "Content-Type": "application/json",
-            token: `${localStorage.getItem("token")}`,
-          },
-        })
-        .then((res) => {
-          setLoading(false);
-          setOpen(false);
-          setItems((prev) => {
-            const newChapter = { ...res.data.chapter };
-            newChapter.id = newChapter._id;
-            return [...prev, newChapter];
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-          setLoading(false);
-        });
+      addChapter(values);
     },
   });
 
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      sx={{
-        ".MuiPaper-root": {
-          width: "500px",
-          backgroundColor: (theme) => theme.palette.background.b1,
-          backgroundImage: "none",
-        },
-      }}
-    >
-      <DialogTitle
+    <>
+      <Button
+        variant="contained"
+        disableElevation
+        startIcon={<Add />}
+        onClick={() => setOpen(true)}
+      >
+        Add Chapter
+      </Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
         sx={{
-          borderBottom: (theme) => `1px solid ${theme.palette.primary.border}`,
+          ".MuiPaper-root": {
+            width: "500px",
+            backgroundColor: (theme) => theme.palette.background.b1,
+            backgroundImage: "none",
+          },
         }}
       >
-        Create new chapter
-      </DialogTitle>
-      <DialogContent>
-        <TextField
-          margin="dense"
-          id="title"
-          label="Chapter Title"
-          type="text"
-          fullWidth
-          variant="standard"
-          value={formik.values.courseTitle}
-          onChange={formik.handleChange}
-          autoFocus
-          autoComplete="off"
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <LoadingButton
-          onClick={formik.handleSubmit}
-          loading={loading}
-          disabled={formik.values.title === ""}
+        <DialogTitle
+          sx={{
+            borderBottom: (theme) =>
+              `1px solid ${theme.palette.primary.border}`,
+          }}
         >
-          Create
-        </LoadingButton>
-      </DialogActions>
-    </Dialog>
+          Create new chapter
+        </DialogTitle>
+        <DialogContent>
+          <TextField
+            margin="dense"
+            id="title"
+            label="Chapter Title"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={formik.values.courseTitle}
+            onChange={formik.handleChange}
+            autoFocus
+            autoComplete="off"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <LoadingButton
+            onClick={formik.handleSubmit}
+            loading={loading}
+            disabled={formik.values.title === ""}
+          >
+            Create
+          </LoadingButton>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }
