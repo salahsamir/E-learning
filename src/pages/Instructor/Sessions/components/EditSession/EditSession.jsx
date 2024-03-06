@@ -8,53 +8,22 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@mui/material/Typography/Typography";
 import { useFormik } from "formik";
 import { LoadingButton } from "@mui/lab";
-import axios from "axios";
-import { useState } from "react";
-import useGetParams from "hooks/useGetParams";
-import { BaseApi } from "util/BaseApi";
+import { useUpdateSession } from "api/instructor/sessions.tsx";
 
-export default function EditSession({
-  open,
-  setOpen,
-  setItems,
-  sessionId,
-  title,
-}) {
-  const [saving, setSaving] = useState(false);
-  const [submittingError, setSubmittingError] = useState(false);
-  const params = useGetParams();
+export default function EditSession({ open, setOpen, sessionId, title }) {
+  const {
+    mutate: updateSession,
+    isError: submittingError,
+    isPending: saving,
+  } = useUpdateSession({
+    onSuccess: () => setOpen(false),
+  });
   const formik = useFormik({
     initialValues: {
       title,
     },
     onSubmit: (values) => {
-      setSaving(true);
-      axios
-        .patch(
-          BaseApi + `/workshop/${params[0]}/session/${sessionId}`,
-          values,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              token: `${localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then((res) => {
-          handleClose();
-          setItems((prev) => {
-            const newList = [...prev];
-            const index = newList.findIndex(
-              (chapter) => chapter.id === sessionId
-            );
-            newList[index].title = values.title;
-            return newList;
-          });
-        })
-        .catch((err) => {
-          setSaving(false);
-          setSubmittingError(err);
-        });
+      updateSession({ sessionId, data: values });
     },
   });
   const handleClose = () => {

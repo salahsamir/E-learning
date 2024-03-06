@@ -12,7 +12,7 @@ import { useUpdateChapter } from "api/instructor/chapters.tsx";
 import { MenuItem } from "@mui/material";
 import { Edit } from "@mui/icons-material";
 
-export default function EditChapter({ chapterId, title }) {
+export default function EditChapter({ chapterId, title, closeParentMenu }) {
   const [open, setOpen] = React.useState(false);
   const {
     mutate: updateChapter,
@@ -31,6 +31,7 @@ export default function EditChapter({ chapterId, title }) {
   });
   const handleClose = () => {
     setOpen(false);
+    closeParentMenu();
   };
   return (
     <>
@@ -63,6 +64,7 @@ export default function EditChapter({ chapterId, title }) {
           <TextField
             margin="dense"
             id="title"
+            name="title"
             label="Chapter Title"
             type="text"
             fullWidth

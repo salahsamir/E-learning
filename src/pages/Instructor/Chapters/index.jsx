@@ -35,7 +35,6 @@ function Chapters() {
     isLoading: chaptersLoading,
     error: chaptersError,
   } = useGetChapters(params[0]);
-
   if (chaptersError?.response?.status < 500) {
     return <ErrorPage error={chaptersError} redirectTo="/instructor/courses" />;
   }

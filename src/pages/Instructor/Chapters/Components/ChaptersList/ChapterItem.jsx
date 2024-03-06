@@ -31,7 +31,12 @@ function ChapterItem({ item }) {
         <ChapterWrapper>
           <Box display="flex" alignItems="center" gap="8px">
             <DragIndicator
-              sx={{ "&:hover": { cursor: "grab" } }}
+              sx={{
+                "&:hover": { cursor: "grab" },
+                "&:focus": {
+                  outline: "none",
+                },
+              }}
               {...attributes}
               {...listeners}
             />

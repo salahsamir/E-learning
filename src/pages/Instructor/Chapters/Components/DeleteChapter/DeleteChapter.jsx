@@ -10,13 +10,14 @@ import { useDeleteChapter } from "api/instructor/chapters.tsx";
 import { MenuItem, Typography } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 
-export default function DeleteChapter({ chapterId }) {
+export default function DeleteChapter({ chapterId, closeParentMenu }) {
   const [open, setOpen] = React.useState(false);
   const { mutate: deleteChapter, isPending: loading } = useDeleteChapter({
     onSuccess: () => setOpen(false),
   });
   const handleClose = () => {
     setOpen(false);
+    closeParentMenu();
   };
 
   return (

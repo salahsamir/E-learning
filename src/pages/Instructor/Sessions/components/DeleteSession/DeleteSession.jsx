@@ -5,37 +5,17 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import axios from "axios";
 import { LoadingButton } from "@mui/lab";
-import { BaseApi } from "util/BaseApi";
+import { useDeleteSession } from "api/instructor/sessions.tsx";
 
-export default function DeleteSession({ open, setOpen, sessionId, setItems }) {
-  const [loading, setLoading] = React.useState(false);
+export default function DeleteSession({ open, setOpen, sessionId }) {
+  const { mutate: deleteSession, isPending: loading } = useDeleteSession({
+    onSuccess: () => setOpen(false),
+  });
   const handleClose = () => {
     setOpen(false);
   };
-  const handleDelete = () => {
-    setLoading(true);
-    axios
-      .delete(BaseApi + `/room/${sessionId}`, {
-        headers: {
-          "Application-Type": "application/json",
-          token: localStorage.getItem("token"),
-        },
-      })
-      .then((res) => {
-        setLoading(false);
-        setItems((prev) => {
-          const newList = [...prev];
-          return newList.filter((session) => session._id !== sessionId);
-        });
-        handleClose();
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
-      });
-  };
+
   return (
     <Dialog
       open={open}
@@ -64,7 +44,11 @@ export default function DeleteSession({ open, setOpen, sessionId, setItems }) {
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
-        <LoadingButton onClick={handleDelete} color="error" loading={loading}>
+        <LoadingButton
+          onClick={() => deleteSession(sessionId)}
+          color="error"
+          loading={loading}
+        >
           Delete
         </LoadingButton>
       </DialogActions>

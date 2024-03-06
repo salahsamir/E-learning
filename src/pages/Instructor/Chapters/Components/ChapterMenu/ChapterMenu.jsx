@@ -58,8 +58,12 @@ const ChapterMenu = ({ chapterId, title }) => {
             Preview
           </Typography>
         </MenuItem>
-        <EditChapter chapterId={chapterId} title={title} />
-        <DeleteChapter chapterId={chapterId} />
+        <EditChapter
+          chapterId={chapterId}
+          title={title}
+          closeParentMenu={handleClose}
+        />
+        <DeleteChapter chapterId={chapterId} closeParentMenu={handleClose} />
       </Menu>
     </Box>
   );

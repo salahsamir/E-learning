@@ -7,14 +7,17 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
 import { LoadingButton } from "@mui/lab";
-import axios from "axios";
 import { useState } from "react";
+import { Add } from "@mui/icons-material";
+import { useAddSession } from "api/instructor/sessions.tsx";
 import useGetParams from "hooks/useGetParams";
-import { BaseApi } from "util/BaseApi";
 
-export default function NewSession({ open, setOpen, setItems }) {
-  const [loading, setLoading] = useState(false);
+export default function NewSession() {
+  const [open, setOpen] = useState(false);
   const params = useGetParams();
+  const { mutate: addSession, isPending: loading } = useAddSession({
+    onSuccess: () => setOpen(false),
+  });
   const handleClose = () => {
     setOpen(false);
   };
@@ -24,73 +27,65 @@ export default function NewSession({ open, setOpen, setItems }) {
       workshopId: params[0],
     },
     onSubmit: (values) => {
-      setLoading(true);
-      axios
-        .post(BaseApi + `/room/create`, values, {
-          headers: {
-            "Content-Type": "application/json",
-            token: `${localStorage.getItem("token")}`,
-          },
-        })
-        .then((res) => {
-          setLoading(false);
-          setOpen(false);
-          setItems((prev) => {
-            const newSession = { ...res.data.results };
-            console.log(newSession);
-            return [...prev, newSession];
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-          setLoading(false);
-        });
+      addSession(values);
     },
   });
 
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      sx={{
-        ".MuiPaper-root": {
-          width: "500px",
-          backgroundColor: (theme) => theme.palette.background.b1,
-          backgroundImage: "none",
-        },
-      }}
-    >
-      <DialogTitle
+    <>
+      <Button
+        variant="contained"
+        color="primary"
+        startIcon={<Add />}
+        onClick={() => setOpen(true)}
+        disableElevation
+      >
+        New Session
+      </Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
         sx={{
-          borderBottom: (theme) => `1px solid ${theme.palette.primary.border}`,
+          ".MuiPaper-root": {
+            width: "500px",
+            backgroundColor: (theme) => theme.palette.background.b1,
+            backgroundImage: "none",
+          },
         }}
       >
-        Create new Session
-      </DialogTitle>
-      <DialogContent>
-        <TextField
-          margin="dense"
-          id="title"
-          label="Session Title"
-          type="text"
-          fullWidth
-          variant="standard"
-          value={formik.values.courseTitle}
-          onChange={formik.handleChange}
-          autoFocus
-          autoComplete="off"
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <LoadingButton
-          onClick={formik.handleSubmit}
-          loading={loading}
-          disabled={formik.values.title === ""}
+        <DialogTitle
+          sx={{
+            borderBottom: (theme) =>
+              `1px solid ${theme.palette.primary.border}`,
+          }}
         >
-          Create
-        </LoadingButton>
-      </DialogActions>
-    </Dialog>
+          Create new Session
+        </DialogTitle>
+        <DialogContent>
+          <TextField
+            margin="dense"
+            id="title"
+            label="Session Title"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={formik.values.courseTitle}
+            onChange={formik.handleChange}
+            autoFocus
+            autoComplete="off"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <LoadingButton
+            onClick={formik.handleSubmit}
+            loading={loading}
+            disabled={formik.values.title === ""}
+          >
+            Create
+          </LoadingButton>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }

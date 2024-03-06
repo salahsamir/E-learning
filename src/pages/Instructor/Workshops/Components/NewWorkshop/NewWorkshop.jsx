@@ -8,8 +8,10 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
 import { LoadingButton } from "@mui/lab";
 import { useAddWorkshop } from "api/instructor/workshops.tsx";
+import { Add } from "@mui/icons-material";
 
-export default function NewWorkshop({ open, setOpen }) {
+export default function NewWorkshop() {
+  const [open, setOpen] = React.useState(false);
   const { mutate: addWorkshop, isPending: loading } = useAddWorkshop({
     onSuccess: () => {
       setOpen(false);
@@ -26,48 +28,60 @@ export default function NewWorkshop({ open, setOpen }) {
     },
   });
   return (
-    <Dialog
-      open={open}
-      onClose={() => setOpen(false)}
-      sx={{
-        ".MuiPaper-root": {
-          width: "500px",
-          backgroundColor: (theme) => theme.palette.background.b1,
-          backgroundImage: "none",
-        },
-      }}
-    >
-      <DialogTitle
+    <>
+      <Button
+        variant="contained"
+        color="primary"
+        startIcon={<Add />}
+        onClick={() => setOpen(true)}
+        disableElevation
+      >
+        New Workshop
+      </Button>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
         sx={{
-          borderBottom: (theme) => `1px solid ${theme.palette.primary.border}`,
+          ".MuiPaper-root": {
+            width: "500px",
+            backgroundColor: (theme) => theme.palette.background.b1,
+            backgroundImage: "none",
+          },
         }}
       >
-        Create new workshop
-      </DialogTitle>
-      <DialogContent>
-        <TextField
-          margin="dense"
-          id="title"
-          label="Workshop Title"
-          type="text"
-          fullWidth
-          variant="standard"
-          value={formik.values.title}
-          onChange={formik.handleChange}
-          autoFocus
-          autoComplete="off"
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={() => setOpen(false)}>Cancel</Button>
-        <LoadingButton
-          onClick={formik.handleSubmit}
-          loading={loading}
-          disabled={formik.values.title === ""}
+        <DialogTitle
+          sx={{
+            borderBottom: (theme) =>
+              `1px solid ${theme.palette.primary.border}`,
+          }}
         >
-          Create
-        </LoadingButton>
-      </DialogActions>
-    </Dialog>
+          Create new workshop
+        </DialogTitle>
+        <DialogContent>
+          <TextField
+            margin="dense"
+            id="title"
+            label="Workshop Title"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={formik.values.title}
+            onChange={formik.handleChange}
+            autoFocus
+            autoComplete="off"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)}>Cancel</Button>
+          <LoadingButton
+            onClick={formik.handleSubmit}
+            loading={loading}
+            disabled={formik.values.title === ""}
+          >
+            Create
+          </LoadingButton>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }

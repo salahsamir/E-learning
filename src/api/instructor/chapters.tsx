@@ -45,9 +45,7 @@ export function useAddChapter({ onSuccess, onError }: MutationFnProps = {}) {
       });
       onSuccess(res);
     },
-    onError(error) {
-      onError(error);
-    },
+    onError,
   });
   return mutation;
 }
@@ -69,14 +67,12 @@ export function useUpdateChapter({ onSuccess, onError }: MutationFnProps = {}) {
         const index = newList.findIndex(
           (chapter: { id: string }) => chapter.id === variables.chapterId
         );
-        newList[index].title = variables.data.title;
+        newList[index] = { ...newList[index], title: variables.data.title };
         return newList;
       });
       onSuccess(res);
     },
-    onError(error) {
-      onError(error);
-    },
+    onError,
   });
   return mutation;
 }
@@ -97,9 +93,7 @@ export function useDeleteChapter({ onSuccess, onError }: MutationFnProps = {}) {
       });
       onSuccess(res);
     },
-    onError(error) {
-      onError(error);
-    },
+    onError,
   });
   return mutation;
 }
@@ -130,21 +124,8 @@ export function useReorderChapter({
       );
       return response.data;
     },
-    onSuccess(res) {
-      queryClient.setQueryData(["chapters", params[0]], (old: any) => {
-        const newChapters = old.map((chapter: any) => {
-          if (chapter._id === res.chapter._id) {
-            return res.chapter;
-          }
-          return chapter;
-        });
-        return newChapters;
-      });
-      onSuccess(res);
-    },
-    onError(error) {
-      onError(error);
-    },
+    onSuccess,
+    onError,
   });
   return mutation;
 }

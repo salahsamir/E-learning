@@ -39,9 +39,7 @@ export function useAddWorkshop({ onSuccess, onError }: FunctionProps = {}) {
       });
       onSuccess && onSuccess(res);
     },
-    onError(error) {
-      onError(error);
-    },
+    onError,
   });
   return mutation;
 }
@@ -64,9 +62,7 @@ export function useUpdateWorkshop({ onSuccess, onError }: FunctionProps = {}) {
       });
       onSuccess(res);
     },
-    onError(error) {
-      onError(error);
-    },
+    onError,
   });
   return mutation;
 }
@@ -87,9 +83,7 @@ export function useDeleteWorkshop({ onSuccess, onError }: FunctionProps = {}) {
       });
       onSuccess(res);
     },
-    onError(error) {
-      onError(error);
-    },
+    onError,
   });
   return mutation;
 }

@@ -1,9 +1,9 @@
 import { useSortable } from "@dnd-kit/sortable";
-import { Box, IconButton, Link, Typography } from "@mui/material";
+import { Box, Link, Typography } from "@mui/material";
 import { CSS } from "@dnd-kit/utilities";
 import React from "react";
 import styled from "@emotion/styled";
-import { DragIndicator, MoreVert } from "@mui/icons-material";
+import { DragIndicator } from "@mui/icons-material";
 import TopicMenu from "../TopicMenu/TopicMenu";
 
 const ChapterWrapper = styled(Box)(({ theme }) => ({
@@ -14,10 +14,11 @@ const ChapterWrapper = styled(Box)(({ theme }) => ({
   alignItems: "center",
   backgroundColor: theme.palette.background.b1,
   paddingLeft: "0.5em",
+  border: `1px solid ${theme.palette.primary.border}`,
+  borderRadius: "4px",
 }));
 
-function TopicItem({ item, setRefetch }) {
-  console.log(item);
+function TopicItem({ item }) {
   const { setNodeRef, attributes, listeners, transform, transition } =
     useSortable({ id: item.id });
   const style = {
@@ -25,21 +26,26 @@ function TopicItem({ item, setRefetch }) {
     transition,
   };
   return (
-    <Box ref={setNodeRef} {...attributes} {...listeners} style={style}>
+    <Box ref={setNodeRef} style={style}>
       <Box>
         <ChapterWrapper>
           <Box display="flex" alignItems="center" gap="8px">
-            <DragIndicator sx={{ "&:hover": { cursor: "grab" } }} />
+            <DragIndicator
+              sx={{
+                "&:hover": { cursor: "grab" },
+                "&:focus": {
+                  outline: "none",
+                },
+              }}
+              {...attributes}
+              {...listeners}
+            />
             <Typography variant="body1" component="p">
               <Link to={`${item.type}/${item.id}`}>{item.title}</Link>
             </Typography>
           </Box>
           <Box mr="4px">
-            <TopicMenu
-              id={item.id}
-              setRefetch={setRefetch}
-              topicType={item.type}
-            />
+            <TopicMenu id={item.id} topicType={item.type} />
           </Box>
         </ChapterWrapper>
       </Box>
