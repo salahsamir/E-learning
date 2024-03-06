@@ -69,11 +69,13 @@ export function useReorderTopic({ onSuccess, onError }: MutationFnProps = {}) {
       queryClient.setQueryData(["topics", params[0]], (old: any) => {
         return {
           ...old,
-          curriculum: arrayMove(
-            old,
-            order.startPosition - 1,
-            order.endPosition - 1
-          ),
+          curriculum: [
+            ...arrayMove(
+              old.curriculum,
+              order.startPosition - 1,
+              order.endPosition - 1
+            ),
+          ],
         };
       });
       const response = await axios.patch(

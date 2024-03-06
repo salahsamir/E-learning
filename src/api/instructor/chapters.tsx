@@ -131,7 +131,7 @@ export function useReorderChapter({
         return {
           ...old,
           chapters: arrayMove(
-            old,
+            old.chapters,
             order.startPosition - 1,
             order.endPosition - 1
           ),
