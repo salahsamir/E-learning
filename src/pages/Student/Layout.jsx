@@ -12,7 +12,7 @@ import {
   VideoLibrary,
 } from "@mui/icons-material";
 const drawerItems = [
-  { text: "Dashboard", icon: <Dashboard />, url: "/instructor" },
+  { text: "Dashboard", icon: <Dashboard />, url: "/student" },
   { text: "Courses", icon: <VideoLibrary />, url: "courses" },
   { text: "Workshops", icon: <Groups />, url: "workshops" },
   { text: "Analytics", icon: <Analytics />, url: "analytics" },

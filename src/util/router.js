@@ -60,6 +60,7 @@ const InstructorSessions = lazy(() =>
 // student routes
 const StudentLayout = lazy(() => import("../pages/Student/Layout.jsx"));
 const StudentHome = lazy(() => import("../pages/Student/Home/Home.jsx"));
+const UserSettings = lazy(() => import("../pages/Student/Settings/index.jsx"));
 // let ProtectedRouter = (props) => {
 //   if (localStorage.getItem("token") == null) {
 //     return <Navigate to="/signin" />;
@@ -71,6 +72,7 @@ const SuspenseWrapper = (props) => {
   return <Suspense fallback={<Loading />}>{props.children}</Suspense>;
 };
 const router = createBrowserRouter([
+  // public routes
   {
     path: "",
     element: <Layout />,
@@ -248,6 +250,14 @@ const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: "settings",
+        element: (
+          <SuspenseWrapper>
+            <UserSettings />
+          </SuspenseWrapper>
+        ),
+      },
     ],
   },
 
@@ -258,7 +268,27 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <StudentHome />,
+        element: (
+          <SuspenseWrapper>
+            <StudentHome />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "*",
+        element: (
+          <SuspenseWrapper>
+            <Error404 redirectTo={"/student"} />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "settings",
+        element: (
+          <SuspenseWrapper>
+            <UserSettings />
+          </SuspenseWrapper>
+        ),
       },
     ],
   },
