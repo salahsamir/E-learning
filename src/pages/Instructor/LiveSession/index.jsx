@@ -1,39 +1,18 @@
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import IndicationCard from "./Components/IndicationCard/IndicationCard";
 import SidePanel from "./Components/SidePanel/SidePanel";
 import MainScreen from "./Components/MainScreen/MainScreen";
 import { LiveKitRoom } from "@livekit/components-react";
-import axios from "axios";
 import { Box, CircularProgress } from "@mui/material";
-import useGetParams from "hooks/useGetParams";
-import { BaseApi } from "util/BaseApi";
-import { useGetSession } from "api/instructor/sessions.tsx";
+import { useGetSession, useJoinSession } from "api/instructor/session-live.tsx";
 
 function LiveSessions() {
-  const [token, setToken] = useState("");
-  const params = useGetParams();
-  const { data: eduRoom } = useGetSession(params[0]);
-  useEffect(() => {
-    axios
-      .post(
-        BaseApi + "/room/join",
-        {
-          roomId: params[0],
-        },
-        {
-          headers: {
-            token: localStorage.getItem("token"),
-          },
-        }
-      )
-      .then((res) => {
-        setToken(res.data.token);
-      });
-  }, [params]);
+  const { data: eduRoom } = useGetSession();
+  const { data: token } = useJoinSession();
   return (
     <>
-      {token === "" && (
+      {!token && (
         <Box
           sx={{
             display: "flex",
@@ -44,7 +23,7 @@ function LiveSessions() {
           <CircularProgress />
         </Box>
       )}
-      {token !== "" && (
+      {token && (
         <LiveKitRoom
           token={token}
           serverUrl={process.env.REACT_APP_LIVEKIT_SERVER_URL}
@@ -58,7 +37,7 @@ function LiveSessions() {
         >
           <Grid2 container spacing={2}>
             <Grid2 xs={12} md={9}>
-              <IndicationCard eduRoom={eduRoom?.results} />
+              <IndicationCard eduRoom={eduRoom} />
               <MainScreen />
               <Grid2 container spacing={2}>
                 <Grid2 xs={12} md={4}></Grid2>

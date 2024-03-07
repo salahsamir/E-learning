@@ -5,8 +5,9 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { usePublishCourse } from "api/instructor/courses.tsx";
 import useGetParams from "hooks/useGetParams";
-function Step5({ status }) {
+function Step5({ formik }) {
   const params = useGetParams();
+  const status = formik.values.status;
   const { mutate: publishCourse } = usePublishCourse();
   if (status === "Draft") {
     return (

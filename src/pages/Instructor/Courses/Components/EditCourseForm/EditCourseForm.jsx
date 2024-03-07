@@ -71,7 +71,7 @@ function getStepStatus(step, formik) {
 
     case 4:
       if (formik.errors.status) return "error";
-      else if (formik.values.status === "published") return "completed";
+      else if (formik.values.status === "Published") return "completed";
       else return "draft";
     default:
       return "draft";
@@ -135,7 +135,7 @@ function EditCourseForm({ course }) {
     <Step2 formik={formik} />,
     <Step3 formik={formik} />,
     <Step4 formik={formik} />,
-    <Step5 formik={formik} status={course.status} />,
+    <Step5 formik={formik} />,
   ];
 
   return (

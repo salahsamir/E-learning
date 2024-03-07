@@ -48,7 +48,7 @@ const InstructorWorkshops = lazy(() =>
 );
 const Error404 = lazy(() => import("../pages/Instructor/Error/Error404.jsx"));
 const LiveSessions = lazy(() =>
-  import("../pages/Instructor/Sessions/LiveSessions/LiveSessions.jsx")
+  import("../pages/Instructor/LiveSession/index.jsx")
 );
 const InstructorEditWorkshopInfo = lazy(() =>
   import("../pages/Instructor/Workshops/EditWorkshopInfo/EditWorkshopInfo.jsx")

@@ -7,24 +7,13 @@ interface FunctionProps {
   onError?: (error: Error) => void;
 }
 
-export function useGetSessions(id: string) {
+export function useGetSessions() {
   const params = useGetParams();
   const query = useQuery({
     queryKey: ["sessions", params[0]],
     queryFn: async () => {
-      const data = await axios.get(`workshop/${id}/allRooms`);
-      return data.data.results;
-    },
-  });
-  return query;
-}
-
-export function useGetSession(id: string) {
-  const query = useQuery({
-    queryKey: ["session", id],
-    queryFn: async () => {
-      const data = await axios.get(`room/${id}`);
-      return data.data.results;
+      const res = await axios.get(`workshop/${params[0]}/allRooms`);
+      return res.data.results;
     },
   });
   return query;
