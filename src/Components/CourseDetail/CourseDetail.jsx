@@ -19,11 +19,15 @@ export default function CourseDetail({ id }) {
   let { AddToCart, AddToWishlist,createOrder } = useContext(allContext);
   
   let getDate = async () => {
-    let { data } = await axios.get(`${BaseApi}/course/${id}`, { headers }).catch(err => console.log(err));
-    setdata(data.course);
-    // console.log(data);
+    try {
+      const response = await axios.get(`${BaseApi}/course/${id}`, { headers });
+      if (response && response.data) {
+        setdata(response.data.course);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
-
   useEffect(() => {
     getDate();
   }, []);
@@ -34,12 +38,21 @@ export default function CourseDetail({ id }) {
       <>
         <Box>
           <Box position={"relative"}>
-            <Avatar src={data.coverImageUrl} style={{ width:"100%",height: "350px" }} variant='rounded'></Avatar>
-            <Box position={"absolute"} top={0} py={4} px={2} width={"100%"} height={"100%"} sx={{ backgroundColor: "rgba(0,0,0,0.7)" }}>
-              <Typography variant="h2" py={3} color="primary">{data.title}</Typography>
+            <Avatar src={data.coverImageUrl} style={{ width:"100%",height: "400px" }} variant='rounded'></Avatar>
+            <Box position={"absolute"} top={0} py={4} px={2} width={"100%"} height={"100%"} sx={{ backgroundColor: "rgba(0,0,0,0.8)" }}>
+            <Typography variant="h3" py={1} color="thrid.main">{data.title}</Typography>
+            <Box width={'60%'}>
+              <Typography variant="h6" py={1} color="secondary">{data.subtitle}</Typography>
+              <Typography variant="h6" py={1} color="secondary" display={"flex"}>language:<Typography variant="h6" color={"thrid.main"} px={1}>{data.language}</Typography></Typography>
+              <Typography variant="h6" py={1} color="secondary" display={"flex"}>level: <Typography variant="h6" color="thrid.main"  px={1}>{data.level}</Typography></Typography>
+              <Typography variant="h6" py={1} color="secondary" display={"flex"}>price:<Typography variant="h6" color="thrid.main"  px={1}>{data.price}$</Typography></Typography>
+              <Box className='d-flex my-1'>
+              {data.tags?data.tags.map((tag)=>{return <span className="badge rounded-pill  p-2 me-2" style={{background:"#3C92A6"}}>{tag}</span>}):""}
+
+              </Box>
               <Box>
                 <Box display={"flex"}>
-                  <Typography variant="h5" color="secondary">Rating:   </Typography>
+                  <Typography variant="h5" color={"secondary"}>Rating:   </Typography>
                   <Typography color={"secondary"}>
                     {typeof data.rating === 'number' ? (
                       <Rating value={data.rating} size="medium" precision={0.5} />
@@ -53,10 +66,11 @@ export default function CourseDetail({ id }) {
                     <Typography variant="h5" color="secondary">By: {data.instructors[0].userName}</Typography>
                   </>
                 )}
+            </Box>
               </Box>
             </Box>
           </Box>
-          <Box position={"absolute"} right={'10%'} top={'10%'} py={4} px={2} height={"auto"}>
+          <Box position={"absolute"} right={'5%'} top={'15%'} py={4} px={2} height={"auto"}>
             <Paper style={{ width: 320, height: "100%" }}>
               <MenuList dense>
                 <Avatar src={data.coverImageUrl} style={{ width: "100%", height: "100%" }} variant='rounded'></Avatar>
@@ -65,12 +79,12 @@ export default function CourseDetail({ id }) {
                   <ListItemText>
                     <Typography variant="h6" color={"secondary"}>
                       Price :
-                      <Typography variant='p' color='primary'>{data.price}$</Typography>
+                      <Typography variant='p' color='thrid.main'>{data.price}$</Typography>
                     </Typography>
                   </ListItemText>
                 </MenuItem>
                 <Box display={"flex"} p={1} justifyContent={"center"}>
-                  <Button variant="contained" color="primary" style={{width: 200, marginRight: 10 }} onClick={() => AddToCart(data._id)}>
+                  <Button variant="contained" color="thrid" style={{width: 200, marginRight: 10 }} onClick={() => AddToCart(data._id)}>
                     <Typography variant="h6">Add To Cart</Typography>
                   </Button>
                   <Button variant="outlined" color="secondary" style={{ width: 50 }} onClick={() => AddToWishlist(data._id)} >
@@ -79,9 +93,9 @@ export default function CourseDetail({ id }) {
                 </Box>
                 <MenuItem>
                   <ListItemText>
-                    <Button variant="outlined" color="secondary" onClick={() => createOrder} style={{ width: "100%" }}>
+                    {/* <Button variant="outlined" color="secondary" onClick={() => createOrder} style={{ width: "100%" }}>
                       <Typography variant="h6">Buy Now</Typography>
-                    </Button>
+                    </Button> */}
                   </ListItemText>
                 </MenuItem>
               </MenuList>

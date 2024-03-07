@@ -122,14 +122,14 @@ Our mission is to harness the power of innovation to redefine education for the 
         <Grid container>
           <Grid item xs={6} sm={4}>
             <Box width={"95%"} data-aos="zoom-in-right">
-              <CircularProgressWithLabel value={"1"} />
+              <CircularProgressWithLabel color="secondary" value={"1"} />
 
               <Avatar
                 variant="rounded"
                 sx={{ width: "100%", height: "50%" }}
                 src="https://t3.ftcdn.net/jpg/03/70/47/40/240_F_370474000_Ie0F7Piq7uBYXrrEz2UuaPAQuFeNix8r.jpg"
               />
-              <Typography variant="body">
+              <Typography variant="body" color="secondary">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
                 aliquid dolore placeat? Alias tempora distinctio exercitationem
                 dignissimos eos sit ratione.
@@ -139,14 +139,14 @@ Our mission is to harness the power of innovation to redefine education for the 
 
           <Grid item xs={6} sm={4}>
             <Box width={"95%"} data-aos="zoom-in">
-              <CircularProgressWithLabel value={"2"} />
+              <CircularProgressWithLabel color="secondary" value={"2"} />
 
               <Avatar
                 variant="rounded"
                 sx={{ width: "100%", height: "50%" }}
                 src="https://t3.ftcdn.net/jpg/03/46/14/92/240_F_346149288_n1vwzR3hrrpr7eoyHQe6vhlwCuvTi7jL.jpg"
               />
-              <Typography variant="body">
+              <Typography variant="body" color="secondary">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
                 aliquid dolore placeat? Alias tempora distinctio exercitationem
                 dignissimos eos sit ratione.
@@ -156,14 +156,14 @@ Our mission is to harness the power of innovation to redefine education for the 
 
           <Grid item xs={6} sm={4}>
             <Box width={"95%"} data-aos="zoom-in-left">
-              <CircularProgressWithLabel value={"3"} />
+              <CircularProgressWithLabel color="secondary" value={"3"} />
 
               <Avatar
                 variant="rounded"
                 sx={{ width: "100%", height: "50%" }}
                 src="https://t4.ftcdn.net/jpg/03/73/34/59/240_F_373345944_fBsiOQneRX06wr7vrTwaIJjq7i9RPOhv.jpg"
               />
-              <Typography variant="body">
+              <Typography variant="body" color="secondary">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
                 aliquid dolore placeat? Alias tempora distinctio exercitationem
                 dignissimos eos sit ratione.
@@ -198,7 +198,7 @@ Our mission is to harness the power of innovation to redefine education for the 
                 <Typography variant="h5" color="primary">
                   salah
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="secondary">
                   This impressive paella is a perfect party dish and a fun meal
                   to cook
                 </Typography>
@@ -215,7 +215,7 @@ Our mission is to harness the power of innovation to redefine education for the 
                 <Typography variant="h5" color="primary">
                   salah
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="secondary">
                   This impressive paella is a perfect party dish and a fun meal
                   to cook
                 </Typography>
@@ -232,7 +232,7 @@ Our mission is to harness the power of innovation to redefine education for the 
                 <Typography variant="h5" color="primary">
                   salah
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="secondary">
                   This impressive paella is a perfect party dish and a fun meal
                   to cook
                 </Typography>
@@ -249,7 +249,7 @@ Our mission is to harness the power of innovation to redefine education for the 
                 <Typography variant="h5" color="primary">
                   salah
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="secondary">
                   This impressive paella is a perfect party dish and a fun meal
                   to cook
                 </Typography>
@@ -303,7 +303,7 @@ Our mission is to harness the power of innovation to redefine education for the 
             <Typography variant="h4" py={"5px"}>
               Eslam
             </Typography>
-            <Typography>
+            <Typography color={'secondary'}>
               {" "}
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti
               ut voluptate fugiat similique dolor accusantium rerum{" "}
@@ -319,7 +319,7 @@ Our mission is to harness the power of innovation to redefine education for the 
             <Typography variant="h4" py={"5px"}>
               Layla
             </Typography>
-            <Typography>
+            <Typography color={'secondary'}>
               {" "}
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti
               ut voluptate fugiat similique dolor accusantium rerum

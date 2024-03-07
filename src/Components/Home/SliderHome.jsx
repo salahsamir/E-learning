@@ -65,11 +65,11 @@ export default function SliderHome() {
               }}
             >
                           
-           <Typography variant='h3' sx={{ fontSize: { xs: '2em', sm: '3em' }, py: '5px', color: 'primary' }}>
+           <Typography variant='h3' sx={{ fontSize: { xs: '2em', sm: '3em' }, py: '5px' }}  color= 'secondary'>
 
                 {ele.title}
               </Typography>
-              <Typography variant='p'>{ele.description}</Typography>
+              {/* <Typography variant='p'>{ele.description}</Typography> */}
             </Box>
           </Box>
         </Stack>

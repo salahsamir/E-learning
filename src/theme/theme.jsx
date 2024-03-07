@@ -25,9 +25,12 @@ export const theme = (mode) =>
               scrollbar: "#c4c4c4",
             },
 
-            secondary: {
+            thrid: {
               main: "#65888C",
             },
+            secondary:{
+              main:"#3C92A6"
+            }
           }
         : {
             background: {
@@ -46,9 +49,12 @@ export const theme = (mode) =>
               dark: "#009766",
               scrollbar: "#626585",
             },
-            secondary: {
+            thrid: {
               main: "#A69494",
             },
+            secondary:{
+              main:"#3C92A6"
+            }
           }),
     },
     components: {
