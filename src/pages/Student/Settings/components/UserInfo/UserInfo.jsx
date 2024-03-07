@@ -2,13 +2,11 @@ import { Box, Tab, Tabs, alpha } from "@mui/material";
 import React, { useState } from "react";
 import Profile from "./Profile/Profile";
 import Account from "./Account/Account";
-
 const tabsNames = [
   "Profile",
   "Account",
   "Billing",
   "Notifications",
-  "Emails",
   "Privacy",
   "Delete Account",
 ];
@@ -17,13 +15,11 @@ const tabsComponents = {
   Account: <Account />,
   Billing: "",
   Notifications: "",
-  Emails: "",
   Privacy: "",
   "Delete Account": "",
 };
 const UserInfo = () => {
   const [value, setValue] = useState("Profile");
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -48,8 +44,11 @@ const UserInfo = () => {
         textColor="primary"
         indicatorColor="primary"
         aria-label="secondary tabs example"
+        variant="scrollable"
+        scrollButtons
         sx={{
           height: "80px",
+          width: "100%",
           borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
           "& button": {
             textTransform: "none",

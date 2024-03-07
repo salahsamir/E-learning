@@ -8,30 +8,43 @@ import {
   TextField,
 } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+import { useGetProfile, useUpdateProfile } from "api/global/profile.tsx";
 import { useFormik } from "formik";
 import React from "react";
 import { countryList } from "shared/data/countries";
 import { languagesList } from "shared/data/languages";
-const genderList = ["Male", "Female"];
+const genderList = ["male", "female"];
 const Profile = () => {
+  const { data: user } = useGetProfile();
+  const { mutate: updateProfile, isPending: formLoading } = useUpdateProfile();
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
-      occupation: "",
-      school: "",
-      country: "",
-      language: "",
-      age: "",
-      gender: "",
-      about: "",
+      firstName: user?.firstName || "",
+      lastName: user?.lastName || "",
+      occupation: user?.occupation || "",
+      school: user?.school || "",
+      country: user?.country || "",
+      language: user?.language || "",
+      age: user?.age || "",
+      gender: user?.gender || "",
+      about: user?.about || "",
+    },
+    enableReinitialize: true,
+    onSubmit: (values) => {
+      updateProfile(values);
     },
   });
   return (
-    <Grid2 component="form" container p="16px" spacing={2}>
+    <Grid2
+      component="form"
+      container
+      p="16px"
+      spacing={2}
+      onSubmit={formik.handleSubmit}
+    >
       <Grid2 xs={12} md={6}>
         <TextField
-          id="fisrtName"
+          id="firstName"
           label="First Name"
           variant="outlined"
           fullWidth
@@ -237,6 +250,7 @@ const Profile = () => {
           fullWidth
           multiline
           minRows={6}
+          maxRows={8}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.about}
@@ -249,7 +263,9 @@ const Profile = () => {
         />
       </Grid2>
       <Grid2 xs={12}>
-        <LoadingButton variant="outlined">Save</LoadingButton>
+        <LoadingButton variant="outlined" type="submit" loading={formLoading}>
+          Save
+        </LoadingButton>
       </Grid2>
     </Grid2>
   );

@@ -1,12 +1,15 @@
 import { Box, Button, Divider, Typography, alpha } from "@mui/material";
 import React from "react";
 import ProfileImage from "./ProfileImage/ProfileImage";
+import { useGetProfile } from "api/global/profile.tsx";
 
 const UserCard = () => {
+  const { data: user } = useGetProfile();
+  console.log(user);
   return (
     <Box
       sx={{
-        width: "350px",
+        width: { xs: "100%", md: "350px" },
         height: "fit-content",
         borderRadius: "4px",
         backgroundColor: (theme) =>
@@ -24,7 +27,7 @@ const UserCard = () => {
         </Typography>
       </Box>
       <Divider />
-      <Box px="16px">
+      <Box px={{ xs: "16px", sm: "120px", md: "16px" }}>
         <Box
           display="flex"
           justifyContent="space-between"

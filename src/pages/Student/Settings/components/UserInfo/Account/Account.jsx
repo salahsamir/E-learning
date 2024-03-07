@@ -2,10 +2,12 @@ import { GitHub, LinkedIn } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+import { useUpdateProfile } from "api/global/profile.tsx";
 import { useFormik } from "formik";
 import React from "react";
 
 const Account = () => {
+  const { mutate: updateProfile } = useUpdateProfile();
   const formik = useFormik({
     initialValues: {
       email: "",

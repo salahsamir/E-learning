@@ -16,6 +16,7 @@ const Cover = () => {
     >
       <img
         src={CoverImage}
+        loading="lazy"
         alt=""
         style={{
           width: "100%",
@@ -24,6 +25,8 @@ const Cover = () => {
         }}
       />
       <IconButton
+        component={"label"}
+        htmlFor={"coverImage"}
         sx={{
           position: "absolute",
           right: 8,
@@ -36,6 +39,13 @@ const Cover = () => {
         }}
       >
         <CameraAltOutlined sx={{ height: "20px", width: "20px" }} />
+        <input
+          type="file"
+          name="coverImage"
+          id="coverImage"
+          hidden
+          accept="image/*"
+        />
       </IconButton>
     </Box>
   );

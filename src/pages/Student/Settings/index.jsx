@@ -14,7 +14,13 @@ const Profile = () => {
       }}
     >
       <Cover />
-      <Box position="relative" zIndex={3} display="flex" gap="16px">
+      <Box
+        position="relative"
+        zIndex={3}
+        display="flex"
+        gap="16px"
+        flexDirection={{ xs: "column", md: "row" }}
+      >
         <UserCard />
         <UserInfo />
       </Box>
