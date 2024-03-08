@@ -92,7 +92,7 @@ function UserMenu() {
         >
           <ListItemIcon>
             <Avatar
-              src={user?.profilePic.url}
+              src={user?.profilePic?.url}
               sx={{ width: 36, height: 36 }}
             ></Avatar>
           </ListItemIcon>

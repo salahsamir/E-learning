@@ -10,6 +10,7 @@ import {
   Groups,
   Settings,
   VideoLibrary,
+  MessageOutlined,
 } from "@mui/icons-material";
 import CustomDrawer from "shared/ui/CustomDrawer/CustomDrawer.jsx";
 import UploadContextProvider from "./shared/context/upload-context.tsx";
@@ -20,6 +21,7 @@ const drawerItems = [
   { text: "Courses", icon: <VideoLibrary />, url: "courses" },
   { text: "Workshops", icon: <Groups />, url: "workshops" },
   { text: "Analytics", icon: <Analytics />, url: "analytics" },
+  { text: "Messages", icon: <MessageOutlined />, url: "messages" },
   { text: "Comments", icon: <Comment />, url: "comments" },
   { text: "Revenue", icon: <AttachMoney />, url: "revenue" },
   { text: "Settings", icon: <Settings />, url: "settings" },

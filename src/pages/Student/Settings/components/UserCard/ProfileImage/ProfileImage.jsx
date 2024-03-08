@@ -12,7 +12,7 @@ const ProfileImage = () => {
   return (
     <Box position="relative">
       <Avatar
-        src={user?.profilePic.url || ""}
+        src={user?.profilePic?.url || ""}
         alt="Profile Image"
         sx={{
           width: "128px",

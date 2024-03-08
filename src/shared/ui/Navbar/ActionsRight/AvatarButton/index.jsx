@@ -33,7 +33,7 @@ const AvatarButton = () => {
         }}
       >
         <Avatar
-          src={user?.profilePic.url}
+          src={user?.profilePic?.url}
           sx={{
             height: "30px",
             width: "30px",

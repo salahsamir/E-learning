@@ -264,7 +264,11 @@ const router = createBrowserRouter([
   // student routes
   {
     path: "/student",
-    element: <StudentLayout />,
+    element: (
+      <SuspenseWrapper>
+        <StudentLayout />{" "}
+      </SuspenseWrapper>
+    ),
     children: [
       {
         index: true,
