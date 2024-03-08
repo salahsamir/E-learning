@@ -2,23 +2,41 @@ import { GitHub, LinkedIn } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import { useUpdateProfile } from "api/global/profile.tsx";
+import { useGetProfile, useUpdateProfile } from "api/global/profile.tsx";
 import { useFormik } from "formik";
 import React from "react";
 
 const Account = () => {
-  const { mutate: updateProfile } = useUpdateProfile();
+  const { data: user } = useGetProfile();
+  const { mutate: updateProfile, isPending: formLoading } = useUpdateProfile();
   const formik = useFormik({
     initialValues: {
-      email: "",
+      email: user.email || "",
       password: "",
       confirmPassword: "",
-      github: "",
-      linkedin: "",
+      gitHubLink: user.gitHubLink || "",
+      linkedinLink: user.linkedinLink || "",
+    },
+    enableReinitialize: true,
+    onSubmit: (values) => {
+      const { confirmPassword, ...rest } = values;
+      if (rest.password !== confirmPassword) {
+        delete rest.password;
+      }
+      if (values.email === user.email) {
+        delete rest.email;
+      }
+      updateProfile(rest);
     },
   });
   return (
-    <Grid2 component="form" container p="16px" spacing={2}>
+    <Grid2
+      component="form"
+      container
+      p="16px"
+      spacing={2}
+      onSubmit={formik.handleSubmit}
+    >
       <Grid2 xs={12}>
         <TextField
           id="email"
@@ -42,6 +60,8 @@ const Account = () => {
           label="Password"
           variant="outlined"
           type="password"
+          autoComplete="off"
+          aria-autocomplete="none"
           fullWidth
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
@@ -61,6 +81,7 @@ const Account = () => {
           id="confirmPassword"
           label="Confirm Password"
           variant="outlined"
+          type="password"
           fullWidth
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
@@ -79,44 +100,49 @@ const Account = () => {
 
       <Grid2 xs={12}>
         <TextField
-          id="github"
+          id="gitHubLink"
           label="Github Profile"
           variant="outlined"
           InputProps={{ startAdornment: <GitHub sx={{ mr: 1 }} /> }}
           fullWidth
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values.github}
-          error={formik.errors.github !== undefined && formik.touched.github}
+          value={formik.values.gitHubLink}
+          error={
+            formik.errors.gitHubLink !== undefined && formik.touched.gitHubLink
+          }
           helperText={
-            formik.errors.github && formik.touched.github
-              ? formik.errors.github
+            formik.errors.gitHubLink && formik.touched.gitHubLink
+              ? formik.errors.gitHubLink
               : ""
           }
         />
       </Grid2>
       <Grid2 xs={12}>
         <TextField
-          id="linkedin"
+          id="linkedinLink"
           label="Linkedin Profile"
           variant="outlined"
           InputProps={{ startAdornment: <LinkedIn sx={{ mr: 1 }} /> }}
           fullWidth
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values.linkedin}
+          value={formik.values.linkedinLink}
           error={
-            formik.errors.linkedin !== undefined && formik.touched.linkedin
+            formik.errors.linkedinLink !== undefined &&
+            formik.touched.linkedinLink
           }
           helperText={
-            formik.errors.linkedin && formik.touched.linkedin
-              ? formik.errors.linkedin
+            formik.errors.linkedinLink && formik.touched.linkedinLink
+              ? formik.errors.linkedinLink
               : ""
           }
         />
       </Grid2>
       <Grid2 xs={12}>
-        <LoadingButton variant="outlined">Save</LoadingButton>
+        <LoadingButton variant="outlined" type="submit" loading={formLoading}>
+          Save
+        </LoadingButton>
       </Grid2>
     </Grid2>
   );

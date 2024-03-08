@@ -2,6 +2,7 @@ import { Box, Tab, Tabs, alpha } from "@mui/material";
 import React, { useState } from "react";
 import Profile from "./Profile/Profile";
 import Account from "./Account/Account";
+import DeleteAccount from "./DeleteAccount/DeleteAccount";
 const tabsNames = [
   "Profile",
   "Account",
@@ -16,7 +17,7 @@ const tabsComponents = {
   Billing: "",
   Notifications: "",
   Privacy: "",
-  "Delete Account": "",
+  "Delete Account": <DeleteAccount />,
 };
 const UserInfo = () => {
   const [value, setValue] = useState("Profile");

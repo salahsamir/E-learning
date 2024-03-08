@@ -7,10 +7,21 @@ import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
 import { ThemeContextProvider } from "./Context/theme-context.tsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      gcTime: 5 * 60 * 1000, // 5 minutes
+      staleTime: 5 * 60 * 1000, // 5 minutes
+    },
+  },
+});
 root.render(
-  <ThemeContextProvider>
-    <App />
-  </ThemeContextProvider>
+  <QueryClientProvider client={queryClient}>
+    <ThemeContextProvider>
+      <App />
+    </ThemeContextProvider>
+  </QueryClientProvider>
 );

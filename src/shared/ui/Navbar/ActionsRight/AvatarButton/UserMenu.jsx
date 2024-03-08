@@ -21,6 +21,7 @@ import {
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { allContext } from "Context/Context";
+import { useGetProfile } from "api/global/profile.tsx";
 
 const SolidDvider = styled(Divider)(({ theme }) => ({
   borderColor: "#bcbcce",
@@ -29,7 +30,7 @@ const SolidDvider = styled(Divider)(({ theme }) => ({
 
 function UserMenu() {
   let nav = useNavigate();
-
+  const { data: user } = useGetProfile();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
   const { image, setImage } = useContext(allContext);
@@ -62,7 +63,7 @@ function UserMenu() {
     handleClose();
   };
   const Profile = () => {
-    nav("/profile", { replace: true });
+    nav("/student", { replace: true });
     handleClose();
   };
   const Setting = () => {
@@ -90,9 +91,20 @@ function UserMenu() {
           }}
         >
           <ListItemIcon>
-            <Avatar src={image} sx={{ width: 36, height: 36 }}></Avatar>
+            <Avatar
+              src={user?.profilePic.url}
+              sx={{ width: 36, height: 36 }}
+            ></Avatar>
           </ListItemIcon>
-          <ListItemText sx={{ pl: 1 }}>Profile</ListItemText>
+          <ListItemText
+            sx={{ pl: 1 }}
+            primaryTypographyProps={{
+              variant: "body1",
+              fontWeight: "600",
+            }}
+          >
+            {user ? user.firstName + " " + user.lastName : Profile}
+          </ListItemText>
         </MenuItem>
         <SolidDvider />
         <MenuItem onClick={handleClose}>

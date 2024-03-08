@@ -15,9 +15,6 @@ import CustomDrawer from "shared/ui/CustomDrawer/CustomDrawer.jsx";
 import UploadContextProvider from "./shared/context/upload-context.tsx";
 import BackgroundUpload from "./shared/Components/BackgroundUpload/BackgroundUpload";
 import Error401 from "./Error/Error401.jsx";
-import { Query, QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import axios from "axios";
-import { BaseApi } from "util/BaseApi.js";
 const drawerItems = [
   { text: "Dashboard", icon: <Dashboard />, url: "/instructor" },
   { text: "Courses", icon: <VideoLibrary />, url: "courses" },
@@ -72,16 +69,9 @@ function Layout() {
 }
 
 export default function LayoutWithContext() {
-  const queryClient = new QueryClient();
-  axios.defaults.baseURL = BaseApi;
-  axios.defaults.headers.common["token"] = localStorage.getItem("token");
-  axios.defaults.headers.common["Content-Type"] = "application/json";
-
   return (
-    <QueryClientProvider client={queryClient}>
-      <UploadContextProvider>
-        <Layout />
-      </UploadContextProvider>
-    </QueryClientProvider>
+    <UploadContextProvider>
+      <Layout />
+    </UploadContextProvider>
   );
 }

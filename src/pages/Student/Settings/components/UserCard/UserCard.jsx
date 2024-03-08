@@ -1,11 +1,10 @@
-import { Box, Button, Divider, Typography, alpha } from "@mui/material";
+import { Box, Button, Divider, Link, Typography, alpha } from "@mui/material";
 import React from "react";
 import ProfileImage from "./ProfileImage/ProfileImage";
 import { useGetProfile } from "api/global/profile.tsx";
 
 const UserCard = () => {
   const { data: user } = useGetProfile();
-  console.log(user);
   return (
     <Box
       sx={{
@@ -20,10 +19,10 @@ const UserCard = () => {
       <Box p="20px" display="flex" alignItems="center" flexDirection="column">
         <ProfileImage />
         <Typography variant="body1" fontWeight="600" mt="16px">
-          Osama Safwat
+          {user?.firstName || "first"} {user?.lastName || "last"}
         </Typography>
         <Typography variant="body2" color="textSecondary" mt="8px">
-          student
+          {user?.occupation || "Student"}
         </Typography>
       </Box>
       <Divider />
@@ -34,8 +33,8 @@ const UserCard = () => {
           alignItems="center"
           py="16px"
         >
-          <Typography variant="body2">Personal Information</Typography>
-          <Typography variant="body2">16</Typography>
+          <Typography variant="body2">Finished Courses</Typography>
+          <Typography variant="body2">4</Typography>
         </Box>
         <Divider />
         <Box
@@ -44,8 +43,8 @@ const UserCard = () => {
           alignItems="center"
           py="16px"
         >
-          <Typography variant="body2">Personal Information</Typography>
-          <Typography variant="body2">16</Typography>
+          <Typography variant="body2">Reward Points</Typography>
+          <Typography variant="body2">100</Typography>
         </Box>
         <Divider />
         <Box
@@ -54,13 +53,15 @@ const UserCard = () => {
           alignItems="center"
           py="16px"
         >
-          <Typography variant="body2">Personal Information</Typography>
-          <Typography variant="body2">16</Typography>
+          <Typography variant="body2">badges earned</Typography>
+          <Typography variant="body2">5</Typography>
         </Box>
       </Box>
       <Divider />
       <Box display="flex" justifyContent="center" p="16px">
-        <Button variant="outlined">View Public Profile</Button>
+        <Link to="/profile">
+          <Button variant="outlined">View Public Profile</Button>
+        </Link>
       </Box>
     </Box>
   );

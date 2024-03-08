@@ -105,6 +105,15 @@ export const theme = (mode) =>
         styleOverrides: {
           root: {
             backgroundColor: "transparent",
+
+            "& input:-webkit-autofill": {
+              boxShadow: `0 0 0 100px ${
+                mode === "light" ? "#ecf3f0" : "#2c2d33"
+              } inset`,
+            },
+            "&:has(> input:-webkit-autofill)": {
+              backgroundColor: mode === "light" ? "#ecf3f0" : "#2c2d33",
+            },
           },
         },
       },

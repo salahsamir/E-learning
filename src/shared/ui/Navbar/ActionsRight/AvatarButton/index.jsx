@@ -4,12 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { getAuthToken } from "util/auth";
 import UserMenu from "./UserMenu";
 import { allContext } from "Context/Context";
+import { useGetProfile } from "api/global/profile.tsx";
 
 const AvatarButton = () => {
   const navigate = useNavigate();
   const [avatarEl, setAvatarEl] = useState(null);
   const [userMenuIsOpen, setUserMenuIsOpen] = useState(false);
   const { image: avatarImage } = useContext(allContext);
+  const { data: user } = useGetProfile();
   function avatarClickHandler(event) {
     if (!getAuthToken()) {
       navigate("/signin?redirect=" + window.location.pathname);
@@ -31,7 +33,7 @@ const AvatarButton = () => {
         }}
       >
         <Avatar
-          src={avatarImage}
+          src={user?.profilePic.url}
           sx={{
             height: "30px",
             width: "30px",
