@@ -41,7 +41,7 @@ const DeleteAccount = () => {
       <Button
         variant="contained"
         color="error"
-        sx={{ float: "right" }}
+        sx={{ float: "right", mb: 2 }}
         onClick={() => setOpen(true)}
       >
         Delete Account

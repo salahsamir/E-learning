@@ -13,6 +13,7 @@ import { useFormik } from "formik";
 import React from "react";
 import { countryList } from "shared/data/countries";
 import { languagesList } from "shared/data/languages";
+import { get_obj_diff } from "util/common.ts";
 const genderList = ["male", "female"];
 const Profile = () => {
   const { data: user } = useGetProfile();
@@ -26,12 +27,12 @@ const Profile = () => {
       country: user?.country || "",
       language: user?.language || "",
       age: user?.age || "",
-      gender: user?.gender || "",
+      gender: user?.gender || "male",
       about: user?.about || "",
     },
     enableReinitialize: true,
     onSubmit: (values) => {
-      updateProfile(values);
+      updateProfile(get_obj_diff(values, user));
     },
   });
   return (

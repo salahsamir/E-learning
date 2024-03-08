@@ -3,20 +3,12 @@ import React, { useState } from "react";
 import Profile from "./Profile/Profile";
 import Account from "./Account/Account";
 import DeleteAccount from "./DeleteAccount/DeleteAccount";
-const tabsNames = [
-  "Profile",
-  "Account",
-  "Billing",
-  "Notifications",
-  "Privacy",
-  "Delete Account",
-];
+import Communication from "./Communication/Communication";
+const tabsNames = ["Profile", "Account", "Communication", "Delete Account"];
 const tabsComponents = {
   Profile: <Profile />,
   Account: <Account />,
-  Billing: "",
-  Notifications: "",
-  Privacy: "",
+  Communication: <Communication />,
   "Delete Account": <DeleteAccount />,
 };
 const UserInfo = () => {

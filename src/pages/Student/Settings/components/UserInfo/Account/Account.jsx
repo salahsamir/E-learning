@@ -5,6 +5,7 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { useGetProfile, useUpdateProfile } from "api/global/profile.tsx";
 import { useFormik } from "formik";
 import React from "react";
+import { get_obj_diff } from "util/common.ts";
 
 const Account = () => {
   const { data: user } = useGetProfile();
@@ -26,7 +27,7 @@ const Account = () => {
       if (values.email === user.email) {
         delete rest.email;
       }
-      updateProfile(rest);
+      updateProfile(get_obj_diff(rest, user));
     },
   });
   return (
