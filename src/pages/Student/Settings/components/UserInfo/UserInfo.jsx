@@ -38,7 +38,6 @@ const UserInfo = () => {
         indicatorColor="primary"
         aria-label="secondary tabs example"
         variant="scrollable"
-        scrollButtons
         sx={{
           height: "80px",
           width: "100%",

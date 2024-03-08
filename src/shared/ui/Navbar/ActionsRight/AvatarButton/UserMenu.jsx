@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
-
 import {
+  DashboardOutlined,
+  FavoriteBorder,
   LogoutOutlined,
   MailOutlineOutlined,
   PaymentOutlined,
@@ -12,64 +13,80 @@ import {
 import {
   Avatar,
   Divider,
+  Link,
   ListItemIcon,
   ListItemText,
   MenuItem,
   MenuList,
   Paper,
 } from "@mui/material";
-import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { allContext } from "Context/Context";
 import { useGetProfile } from "api/global/profile.tsx";
 
 const SolidDvider = styled(Divider)(({ theme }) => ({
   borderColor: "#bcbcce",
   borderBottomWidth: "2px",
 }));
-
+const listItems = [
+  {
+    title: "My courses",
+    icon: <SchoolOutlined />,
+    url: "/student/courses",
+  },
+  {
+    title: "Wishlist",
+    icon: <FavoriteBorder />,
+    url: "/student/wishlist",
+  },
+  {
+    title: "Messages",
+    icon: <MailOutlineOutlined />,
+    url: "/student/messages",
+  },
+  {
+    title: "My schedule",
+    icon: <ScheduleOutlined />,
+    url: "/student/schedule",
+  },
+  "divider",
+  {
+    title: "Settings",
+    icon: <SettingsOutlined />,
+    url: "/student/settings",
+  },
+  {
+    title: "Payment",
+    icon: <PaymentOutlined />,
+    url: "/student/payment",
+  },
+  {
+    title: "Support",
+    icon: <SupportOutlined />,
+    url: "/student/support",
+  },
+  {
+    title: "Instructor Panel",
+    icon: <DashboardOutlined />,
+    url: "/instructor",
+  },
+  "divider",
+  {
+    title: "Sign Out",
+    icon: <LogoutOutlined />,
+    url: "/signout",
+  },
+];
 function UserMenu() {
-  let nav = useNavigate();
+  let navigate = useNavigate();
   const { data: user } = useGetProfile();
-  const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef(null);
-  const { image, setImage } = useContext(allContext);
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
-
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-
-    setOpen(false);
-  };
-  function handleListKeyDown(event) {
-    if (event.key === "Tab") {
-      event.preventDefault();
-      setOpen(false);
-    } else if (event.key === "Escape") {
-      setOpen(false);
-    }
-  }
 
   const signoutHandler = () => {
     // setImage("")
     localStorage.removeItem("token");
     localStorage.removeItem("cart");
+    navigate("/signin", { replace: true });
+  };
 
-    nav("/signin", { replace: true });
-    handleClose();
-  };
-  const Profile = () => {
-    nav("/student", { replace: true });
-    handleClose();
-  };
-  const Setting = () => {
-    nav("/setting", { replace: true });
-    handleClose();
-  };
   return (
     <Paper
       sx={{
@@ -79,17 +96,8 @@ function UserMenu() {
         borderRadius: 0,
       }}
     >
-      <MenuList
-        autoFocusItem={open}
-        id="composition-menu"
-        aria-labelledby="composition-button"
-        onKeyDown={handleListKeyDown}
-      >
-        <MenuItem
-          onClick={() => {
-            Profile();
-          }}
-        >
+      <MenuList>
+        <MenuItem>
           <ListItemIcon>
             <Avatar
               src={user?.profilePic?.url}
@@ -103,58 +111,32 @@ function UserMenu() {
               fontWeight: "600",
             }}
           >
-            {user ? user.firstName + " " + user.lastName : Profile}
+            {(user?.firstName || "profile") + " " + user?.lastName}
           </ListItemText>
         </MenuItem>
         <SolidDvider />
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <SchoolOutlined />
-          </ListItemIcon>
-          <ListItemText>My courses</ListItemText>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <MailOutlineOutlined />
-          </ListItemIcon>
-          <ListItemText>Messages</ListItemText>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <ScheduleOutlined />
-          </ListItemIcon>
-          <ListItemText>My schedule</ListItemText>
-        </MenuItem>
-        <SolidDvider />
-        <MenuItem
-          onClick={() => {
-            Setting();
-          }}
-        >
-          <ListItemIcon>
-            <SettingsOutlined />
-          </ListItemIcon>
-          <ListItemText>Settigns</ListItemText>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <PaymentOutlined />
-          </ListItemIcon>
-          <ListItemText>Payment</ListItemText>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <SupportOutlined />
-          </ListItemIcon>
-          <ListItemText>Support</ListItemText>
-        </MenuItem>
-        <SolidDvider />
-        <MenuItem onClick={signoutHandler}>
-          <ListItemIcon>
-            <LogoutOutlined />
-          </ListItemIcon>
-          <ListItemText>Sign Out</ListItemText>
-        </MenuItem>
+        {listItems.map((item, index) =>
+          item === "divider" ? (
+            <SolidDvider key={index} />
+          ) : (
+            <MenuItem
+              key={index}
+              component={Link}
+              to={item.url}
+              sx={{
+                "&:hover": {
+                  color: "text.primary",
+                },
+              }}
+              onClick={() => {
+                if (item.url === "/signout") signoutHandler();
+              }}
+            >
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.title} color="text.secondary" />
+            </MenuItem>
+          )
+        )}
       </MenuList>
     </Paper>
   );
