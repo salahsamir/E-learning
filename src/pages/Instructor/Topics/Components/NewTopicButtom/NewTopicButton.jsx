@@ -2,16 +2,23 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
-import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
-import { MenuList, MenuItem, ListItemIcon, ListItemText } from "@mui/material";
+import {
+  MenuList,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+  AccordionDetails,
+} from "@mui/material";
 import { Add, ArticleOutlined, QuizOutlined } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import NewVideo from "./NewVideoButton.jsx";
+import { useAddQuiz } from "api/instructor/quiz.tsx";
+import { useAddArticle } from "api/instructor/article.tsx";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={1} square {...props} />
-))(({ theme }) => ({
+))(() => ({
   position: "absolute",
   right: "0",
   top: "0",
@@ -39,11 +46,14 @@ const AccordionSummary = styled((props) => (
   },
 }));
 
-const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  backgroundColor: theme.palette.background.b1,
-}));
-export default function NewTopicButton({ setItems }) {
+export default function NewTopicButton() {
   const [expanded, setExpanded] = React.useState(null);
+  const { mutate: addQuiz } = useAddQuiz({
+    onSuccess: (quiz) => navigate(`quiz/${quiz._id}`),
+  });
+  const { mutate: addArticle } = useAddArticle({
+    onSuccess: (article) => navigate(`article/${article._id}`),
+  });
   const navigate = useNavigate();
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -58,7 +68,9 @@ export default function NewTopicButton({ setItems }) {
       <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
         <Typography fontWeight="400">New Topic</Typography>
       </AccordionSummary>
-      <AccordionDetails sx={{ p: 0 }}>
+      <AccordionDetails
+        sx={{ p: 0, backgroundColor: (theme) => theme.palette.background.b1 }}
+      >
         <MenuList
           disablePadding
           sx={{
@@ -66,13 +78,13 @@ export default function NewTopicButton({ setItems }) {
           }}
         >
           <NewVideo />
-          <MenuItem key="new article" onClick={() => navigate("article/new")}>
+          <MenuItem onClick={() => addArticle()}>
             <ListItemIcon>
               <ArticleOutlined />
             </ListItemIcon>
             <ListItemText>New Article</ListItemText>
           </MenuItem>
-          <MenuItem key="new quiz">
+          <MenuItem onClick={() => addQuiz()}>
             <ListItemIcon>
               <QuizOutlined />
             </ListItemIcon>

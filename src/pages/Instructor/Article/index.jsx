@@ -1,61 +1,35 @@
 import { SaveOutlined } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import React from "react";
 import { Helmet } from "react-helmet";
 import { useFormik } from "formik";
-import axios from "axios";
-
-import { useNavigate } from "react-router-dom";
-import useGetParams from "hooks/useGetParams";
-import { BaseApi } from "util/BaseApi";
 import TextEditor from "features/TextEditor";
+import { useGetArticle, useUpdateArticle } from "api/instructor/article.tsx";
+import NavigationHeader from "./components/NavigationHeader/NavigationHeader";
 
 function Article() {
-  const [loading, setLoading] = React.useState(false);
-  const params = useGetParams();
-  const navigate = useNavigate();
+  const { data: article, isLoading: articleLoading } = useGetArticle();
+  const { mutate: updateArticle, isPending: formLoading } = useUpdateArticle();
   const formik = useFormik({
     initialValues: {
-      title: "",
-      quillContent: "",
+      title: article?.title || "",
+      quillContent: article?.quillContent || "",
     },
+    enableReinitialize: true,
     onSubmit: (values) => {
-      setLoading(true);
-      const pathName = params[0] === "new" ? "" : params[0];
-      axios(
-        BaseApi +
-          `/course/${params[3]}/chapter/${params[2]}/curriculum/article/${pathName}`,
-        {
-          method: params[0] === "new" ? "post" : "patch",
-          data: values,
-          headers: {
-            "Content-Type": "application/json",
-            token: `${localStorage.getItem("token")}`,
-          },
-        }
-      )
-        .then((res) => {
-          setLoading(false);
-          if (params[0] === "new") {
-            navigate(`/instructor/courses/${params[3]}/${params[2]}`);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          setLoading(false);
-        });
+      updateArticle(values);
     },
   });
   return (
-    <Box>
+    <>
       <Helmet>
-        <title>
-          {params[0] === "new" ? "New Article" : "Article Name"} | Eduvation
-        </title>
+        <title>{article?.title || "Edit Article"} | Eduvation</title>
       </Helmet>
       <Box
         mb="1em"
+        component="form"
+        onSubmit={formik.handleSubmit}
         sx={{
           display: "flex",
           justifyContent: "space-between",
@@ -64,18 +38,17 @@ function Article() {
           height: "36px",
         }}
       >
-        <Typography variant="h5">
-          {params[0] === "new" ? "NewArticle" : "Article Name"}
-        </Typography>
+        <Typography variant="h5">{article?.title || "Edit Article"}</Typography>
         <LoadingButton
           variant="contained"
           startIcon={<SaveOutlined />}
-          onClick={formik.handleSubmit}
-          loading={loading}
+          loading={formLoading || articleLoading}
+          type="submit"
         >
-          {params[0] === "new" ? "Create" : "Save"}
+          Save
         </LoadingButton>
       </Box>
+      <NavigationHeader data={article} />
       <Box
         sx={{
           backgroundColor: (theme) => theme.palette.background.b1,
@@ -101,7 +74,7 @@ function Article() {
           onChange={(value) => formik.setFieldValue("quillContent", value)}
         />
       </Box>
-    </Box>
+    </>
   );
 }
 

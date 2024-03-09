@@ -17,7 +17,7 @@ const NavigationHeader = ({ data }) => {
         : "",
     },
     {
-      name: data ? data.title : "video name",
+      name: data ? data.title : "article name",
       link: data
         ? `/instructor/courses/${data.course._id}/${data.chapter._id}/${data._id}`
         : "",

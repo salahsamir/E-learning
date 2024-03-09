@@ -43,6 +43,7 @@ const IntructorArticle = lazy(() =>
 const InstructorVideo = lazy(() =>
   import("../pages/Instructor/Video/index.jsx")
 );
+const InstructorQuiz = lazy(() => import("../pages/Instructor/Quiz/index.jsx"));
 const InstructorWorkshops = lazy(() =>
   import("../pages/Instructor/Workshops/index.jsx")
 );
@@ -183,6 +184,14 @@ const router = createBrowserRouter([
                 element: (
                   <SuspenseWrapper>
                     <InstructorVideo />
+                  </SuspenseWrapper>
+                ),
+              },
+              {
+                path: "quiz/:quizId",
+                element: (
+                  <SuspenseWrapper>
+                    <InstructorQuiz />
                   </SuspenseWrapper>
                 ),
               },
