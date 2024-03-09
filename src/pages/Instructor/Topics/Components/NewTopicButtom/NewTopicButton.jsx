@@ -52,7 +52,7 @@ export default function NewTopicButton() {
     onSuccess: (quiz) => navigate(`quiz/${quiz._id}`),
   });
   const { mutate: addArticle } = useAddArticle({
-    onSuccess: (article) => navigate(`article/${article._id}`),
+    onSuccess: (article) => navigate(`article/${article.curriculum}`),
   });
   const navigate = useNavigate();
   const handleChange = (panel) => (event, newExpanded) => {

@@ -2,6 +2,7 @@ import { arrayMove } from "@dnd-kit/sortable";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import useGetParams from "hooks/useGetParams";
+import toast from "react-hot-toast";
 
 interface MutationFnProps {
   onSuccess?: (res: any) => void;
@@ -46,7 +47,8 @@ export function useDeleteTopic({ onSuccess, onError }: MutationFnProps = {}) {
           ],
         };
       });
-      onSuccess(res);
+      toast.success("Topic deleted successfully");
+      onSuccess && onSuccess(res);
     },
     onError(error) {
       onError(error);

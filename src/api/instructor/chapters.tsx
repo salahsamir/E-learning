@@ -2,6 +2,7 @@ import { arrayMove } from "@dnd-kit/sortable";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import useGetParams from "hooks/useGetParams";
+import toast from "react-hot-toast";
 interface MutationFnProps {
   onSuccess?: (res: any) => void;
   onError?: (error: Error) => void;
@@ -50,9 +51,13 @@ export function useAddChapter({ onSuccess, onError }: MutationFnProps = {}) {
         ];
         return { ...old, chapters: newChapters };
       });
-      onSuccess(res);
+      toast.success("Chapter added successfully");
+      onSuccess && onSuccess(res);
     },
-    onError,
+    onError: (error: any) => {
+      toast.error(error.response.data?.message || "Failed to add chapter");
+      onError && onError(error);
+    },
   });
   return mutation;
 }
@@ -80,9 +85,13 @@ export function useUpdateChapter({ onSuccess, onError }: MutationFnProps = {}) {
           return { ...old, chapters: newList };
         }
       );
-      onSuccess(res);
+      toast.success("Chapter updated successfully");
+      onSuccess && onSuccess(res);
     },
-    onError,
+    onError: (error: any) => {
+      toast.error(error.response.data?.message || "Failed to update chapter");
+      onError && onError(error);
+    },
   });
   return mutation;
 }
@@ -106,9 +115,13 @@ export function useDeleteChapter({ onSuccess, onError }: MutationFnProps = {}) {
           ],
         };
       });
-      onSuccess(res);
+      toast.success("Chapter deleted successfully");
+      onSuccess && onSuccess(res);
     },
-    onError,
+    onError: (error: any) => {
+      toast.error(error.response.data?.message || "Failed to delete chapter");
+      onError && onError(error);
+    },
   });
   return mutation;
 }

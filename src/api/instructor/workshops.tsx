@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import useGetParams from "hooks/useGetParams";
+import toast from "react-hot-toast";
 interface FunctionProps {
   onSuccess?: (res: any) => void;
   onError?: (error: Error) => void;
@@ -37,32 +39,35 @@ export function useAddWorkshop({ onSuccess, onError }: FunctionProps = {}) {
       queryClient.setQueryData(["workshops"], (old: any) => {
         return [...old, res.results];
       });
+      toast.success("Workshop added successfully");
       onSuccess && onSuccess(res);
     },
-    onError,
+    onError: (error: any) => {
+      toast.error(error.response.data?.message || "Failed to add workshop");
+      onError && onError(error);
+    },
   });
   return mutation;
 }
 
 export function useUpdateWorkshop({ onSuccess, onError }: FunctionProps = {}) {
   const queryClient = useQueryClient();
+  const params = useGetParams();
   const mutation = useMutation({
     mutationFn: async (data: { id: string; data: any }) => {
       const response = await axios.patch(`workshop/${data.id}`, data.data);
-      return response.data;
+      return response.data.results;
     },
     onSuccess(res) {
-      queryClient.setQueryData(["workshops"], (old: any) => {
-        return old.map((workshop: { _id: string }) => {
-          if (workshop._id === res.workshop._id) {
-            return res.workshop;
-          }
-          return workshop;
-        });
-      });
-      onSuccess(res);
+      queryClient.setQueryData(["workshop", params[1]], res);
+      queryClient.invalidateQueries({ queryKey: ["workshops"] });
+      toast.success("Workshop updated successfully");
+      onSuccess && onSuccess(res);
     },
-    onError,
+    onError: (error: any) => {
+      toast.error(error.response.data?.message || "Failed to update workshop");
+      onError && onError(error);
+    },
   });
   return mutation;
 }
@@ -81,32 +86,34 @@ export function useDeleteWorkshop({ onSuccess, onError }: FunctionProps = {}) {
             workshop._id !== (variables as unknown as string)
         );
       });
-      onSuccess(res);
+      toast.success("Workshop deleted successfully");
+      onSuccess && onSuccess(res);
     },
-    onError,
+    onError: (error: any) => {
+      toast.error(error.response.data?.message || "Failed to delete workshop");
+      onError && onError(error);
+    },
   });
   return mutation;
 }
 
 export function usePublishWorkshop({ onSuccess, onError }: FunctionProps = {}) {
   const queryClient = useQueryClient();
+  const params = useGetParams();
   const mutation = useMutation({
     mutationFn: async (id: string) => {
       const response = await axios.patch(`workshop/publish/${id}`);
-      return response.data;
+      return response.data.results;
     },
     onSuccess(res) {
-      queryClient.setQueryData(["workshops"], (old: any) => {
-        return old.map((workshop: { _id: string }) => {
-          if (workshop._id === res.workshop._id) {
-            return res.workshop;
-          }
-          return workshop;
-        });
-      });
-      onSuccess(res);
+      queryClient.setQueryData(["workshop", params[0]], res);
+      toast.success("Workshop published successfully");
+      onSuccess && onSuccess(res);
     },
-    onError,
+    onError: (error: any) => {
+      toast.error(error.response.data?.message || "Failed to publish workshop");
+      onError && onError(error);
+    },
   });
   return mutation;
 }

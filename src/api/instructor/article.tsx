@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import useGetParams from "hooks/useGetParams";
+import toast from "react-hot-toast";
 interface MutationFnProps {
   onSuccess?: (res: any) => void;
   onError?: (error: Error) => void;
@@ -36,12 +37,15 @@ export function useAddArticle({ onSuccess, onError }: MutationFnProps = {}) {
     },
     onSuccess: (newData) => {
       queryClient.setQueryData(["topics", params[0]], (old: any) => {
-        const newArticle = { ...newData, id: newData._id };
+        const newArticle = { ...newData, id: newData.curriculum };
         return { ...old, curriculum: [...old.curriculum, newArticle] };
       });
-      onSuccess(newData);
+      onSuccess && onSuccess(newData);
     },
-    onError,
+    onError: (error: any) => {
+      toast.error(error.response.data?.message || "Failed to add article");
+      onError && onError(error);
+    },
   });
   return mutate;
 }
@@ -57,19 +61,19 @@ export function useUpdateArticle({ onSuccess, onError }: MutationFnProps = {}) {
       );
       return response.data.article;
     },
-    onSuccess: (newData) => {
-      queryClient.setQueryData(["topics", params[2]], (old: any) => {
-        const newCurriculum = old.curriculum.map((cur: any) => {
-          if (cur.id === newData._id) {
-            return newData;
-          }
-          return cur;
-        });
-        return { ...old, curriculum: newCurriculum };
-      });
-      onSuccess(newData);
+    onSuccess: (response, newData) => {
+      queryClient.setQueryData(["article", params[0]], (old: any) => ({
+        ...old,
+        ...newData,
+      }));
+      queryClient.invalidateQueries({ queryKey: ["topics", params[2]] });
+      toast.success("Article updated successfully");
+      onSuccess && onSuccess(response);
     },
-    onError,
+    onError: (error: any) => {
+      toast.error(error.response.data?.message || "Failed to update article");
+      onError && onError(error);
+    },
   });
   return mutate;
 }

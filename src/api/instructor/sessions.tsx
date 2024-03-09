@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import useGetParams from "hooks/useGetParams";
+import toast from "react-hot-toast";
 
 interface FunctionProps {
   onSuccess?: (res: any) => void;
@@ -31,9 +32,13 @@ export function useAddSession({ onSuccess, onError }: FunctionProps = {}) {
       queryClient.setQueryData(["sessions", params[0]], (old: any) => {
         return [...old, res.results];
       });
-      onSuccess(res);
+      toast.success("Session added successfully");
+      onSuccess && onSuccess(res);
     },
-    onError,
+    onError: (error: any) => {
+      toast.error(error.response.data?.message || "Failed to add session");
+      onError && onError(error);
+    },
   });
   return mutation;
 }
@@ -85,9 +90,13 @@ export function useDeleteSession({ onSuccess, onError }: FunctionProps = {}) {
           (session: { _id: string }) => session._id !== variables
         );
       });
-      onSuccess(res);
+      toast.success("Session deleted successfully");
+      onSuccess && onSuccess(res);
     },
-    onError,
+    onError: (error: any) => {
+      toast.error(error.response.data?.message || "Failed to delete session");
+      onError && onError(error);
+    },
   });
   return mutation;
 }

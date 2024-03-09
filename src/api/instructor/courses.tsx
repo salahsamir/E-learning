@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import toast from "react-hot-toast";
 interface MutationFnProps {
   onSuccess?: (res: any) => void;
   onError?: (error: Error) => void;
@@ -37,10 +38,12 @@ export function useAddCourse({ onSuccess, onError }: MutationFnProps = {}) {
       queryClient.setQueryData(["courses"], (old: any) => {
         return [...old, res.course];
       });
-      onSuccess(res);
+      toast.success("Course added successfully");
+      onSuccess && onSuccess(res);
     },
-    onError(error) {
-      onError(error);
+    onError(error: any) {
+      toast.error(error.response.data?.message || "Failed to add course");
+      onError && onError(error);
     },
   });
   return mutation;
@@ -62,10 +65,12 @@ export function useUpdateCourse({ onSuccess, onError }: MutationFnProps = {}) {
           return course;
         });
       });
-      onSuccess(res);
+      toast.success("Course updated successfully");
+      onSuccess && onSuccess(res);
     },
-    onError(error) {
-      onError(error);
+    onError(error: any) {
+      toast.error(error.response.data?.message || "Failed to update course");
+      onError && onError(error);
     },
   });
   return mutation;
@@ -85,10 +90,12 @@ export function useDeleteCourse({ onSuccess, onError }: MutationFnProps = {}) {
             course._id !== (variables as unknown as string)
         );
       });
-      onSuccess(res);
+      toast.success("Course deleted successfully");
+      onSuccess && onSuccess(res);
     },
-    onError(error) {
-      onError(error);
+    onError(error: any) {
+      toast.error(error.response.data?.message || "Failed to delete course");
+      onError && onError(error);
     },
   });
   return mutation;
@@ -110,10 +117,12 @@ export function usePublishCourse({ onSuccess, onError }: MutationFnProps = {}) {
           return course;
         });
       });
-      onSuccess(res);
+      toast.success("Course published successfully");
+      onSuccess && onSuccess(res);
     },
-    onError(error) {
-      onError(error);
+    onError(error: any) {
+      toast.error(error.response.data?.message || "Failed to publish course");
+      onError && onError(error);
     },
   });
   return mutation;

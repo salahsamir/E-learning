@@ -100,6 +100,7 @@ function EditCourseForm({ course }) {
       promotionVideo: course.promotionalVideoUrl || "",
       status: course.status || "draft",
     },
+    enableReinitialize: true,
     validationSchema:
       course.status !== "published"
         ? yup.object().shape({

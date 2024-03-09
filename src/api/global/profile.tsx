@@ -30,8 +30,12 @@ export function useUpdateProfile({ onSuccess, onError }: MutationFnProps = {}) {
       toast.success("Profile updated successfully");
       onSuccess && onSuccess(newData);
     },
-    onError: (error) => {
-      toast.error(error.message);
+    onError: (error: Error | any) => {
+      const errorMsg =
+        error.response.data?.ValidationError?.[0]?.message || error.message;
+      console.log(error);
+
+      toast.error(errorMsg);
       onError && onError(error);
     },
   });
@@ -77,8 +81,9 @@ export function useUploadProfileImage({
       toast.success("Profile image updated successfully");
       onSuccess && onSuccess(newData);
     },
-    onError: (error) => {
-      toast.error(error.message);
+    onError: (error: Error | any) => {
+      const errorMsg = error.ValidationError?.[0]?.message || error.message;
+      toast.error(errorMsg);
       onError && onError(error);
     },
   });

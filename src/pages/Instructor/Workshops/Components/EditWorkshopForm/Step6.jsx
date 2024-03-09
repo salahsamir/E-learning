@@ -42,7 +42,7 @@ function Step6({ formik }) {
           </Button>
           <LoadingButton
             variant="contained"
-            type="submit"
+            type="button"
             onClick={() => publishWorkshop(paramList[1])}
           >
             Publish
