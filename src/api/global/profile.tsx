@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 interface MutationFnProps {
   onSuccess?: (res: any) => void;
@@ -17,7 +18,7 @@ export function useGetProfile() {
   return query;
 }
 
-export function useUpdateProfile() {
+export function useUpdateProfile({ onSuccess, onError }: MutationFnProps = {}) {
   const queryClient = useQueryClient();
   const mutatation = useMutation({
     mutationFn: async (data) => {
@@ -26,6 +27,12 @@ export function useUpdateProfile() {
     },
     onSuccess: (newData) => {
       queryClient.setQueryData(["profile"], newData);
+      toast.success("Profile updated successfully");
+      onSuccess && onSuccess(newData);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+      onError && onError(error);
     },
   });
   return mutatation;
@@ -67,9 +74,13 @@ export function useUploadProfileImage({
           profilePic: { url: URL.createObjectURL(file) },
         };
       });
-      onSuccess(newData);
+      toast.success("Profile image updated successfully");
+      onSuccess && onSuccess(newData);
     },
-    onError,
+    onError: (error) => {
+      toast.error(error.message);
+      onError && onError(error);
+    },
   });
   return mutatation;
 }

@@ -26,7 +26,10 @@ export default function SignupForm() {
       .string()
       .email("Invalid email format")
       .required("Email is required"),
-    password: yup.string().required("Password is required").min(8,"Please: length greater than 8"),
+    password: yup
+      .string()
+      .required("Password is required")
+      .min(8, "Please: length greater than 8"),
     cPassword: yup
       .string()
       .oneOf([yup.ref("password"), null], "Passwords must match")
@@ -35,28 +38,29 @@ export default function SignupForm() {
   const handleSignup = async (values) => {
     setLoading(true);
     let { data } = await axios
-    .post(`${BaseApi}/auth/SignUp`, values)
-    .catch((err) => {
-      toast.error(err.response.data.message,{ style: {
-        borderRadius: '10px',
-        background: '#1B0A26',
-        color: '#F2C791',
-      }},)
+      .post(`${BaseApi}/auth/SignUp`, values)
+      .catch((err) => {
+        toast.error(err.response.data.message, {
+          style: {
+            borderRadius: "10px",
+            background: "#1B0A26",
+            color: "#F2C791",
+          },
+        });
+        setLoading(false);
+      });
+    if (data.message === "Done") {
       setLoading(false);
-    });
-    if(data.message==="Done"){
-      setLoading(false);
-      toast.success('Successfully ! please check your Email',{
-        icon: '👏',
+      toast.success("Successfully ! please check your Email", {
+        icon: "👏",
         style: {
-          borderRadius: '10px',
-          background: '#1B0A26',
-          color: '#F2C791',
+          borderRadius: "10px",
+          background: "#1B0A26",
+          color: "#F2C791",
         },
-      })
-      nav('/signin')
+      });
+      nav("/signin");
     }
-  
   };
   const formik = useFormik({
     initialValues: {
@@ -72,30 +76,37 @@ export default function SignupForm() {
 
   return (
     <Form onSubmit={formik.handleSubmit}>
-     
       <Stack spacing={1} padding={"4px"} direction="column" alignItems="center">
         <TextField
           name="userName"
           label="Username"
           type="text"
-          
-          error={formik.errors.userName && formik.touched.userName  !== undefined}
-          helperText={formik.errors.userName&& formik.touched.userName ? formik.errors.userName : ""}
+          error={
+            formik.errors.userName && formik.touched.userName !== undefined
+          }
+          helperText={
+            formik.errors.userName && formik.touched.userName
+              ? formik.errors.userName
+              : ""
+          }
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.userName}
           autoComplete="userName"
           variant="outlined"
           size="small"
-          sx={{ width: { xs: "90%", sm: "400px" }}}
+          sx={{ width: { xs: "90%", sm: "400px" } }}
         />
         <TextField
           name="email"
           label="email"
           type="email"
-          
-          error={formik.errors.email && formik.touched.email  !== undefined}
-          helperText={formik.errors.email&& formik.touched.email ? formik.errors.email : ""}
+          error={formik.errors.email && formik.touched.email !== undefined}
+          helperText={
+            formik.errors.email && formik.touched.email
+              ? formik.errors.email
+              : ""
+          }
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.email}
@@ -109,14 +120,20 @@ export default function SignupForm() {
           label="Password"
           type="password"
           autoComplete="current-password"
-          
-          e  error={formik.errors.password && formik.touched.password  !== undefined}
-          helperText={formik.errors.password&& formik.touched.password ? formik.errors.password : ""}
+          e
+          error={
+            formik.errors.password && formik.touched.password !== undefined
+          }
+          helperText={
+            formik.errors.password && formik.touched.password
+              ? formik.errors.password
+              : ""
+          }
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.password}
           variant="outlined"
-            size="small"
+          size="small"
           sx={{ width: { xs: "90%", sm: "400px" } }}
         />
         <TextField
@@ -124,14 +141,19 @@ export default function SignupForm() {
           label="Confirm Password"
           type="password"
           autoComplete="current-password"
-          
-          error={formik.errors.cPassword && formik.touched.cPassword  !== undefined}
-          helperText={formik.errors.cPassword&& formik.touched.cPassword ? formik.errors.cPassword : ""}
+          error={
+            formik.errors.cPassword && formik.touched.cPassword !== undefined
+          }
+          helperText={
+            formik.errors.cPassword && formik.touched.cPassword
+              ? formik.errors.cPassword
+              : ""
+          }
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.cPassword}
           variant="outlined"
-            size="small"
+          size="small"
           sx={{ width: { xs: "90%", sm: "400px" } }}
         />
 
@@ -142,7 +164,6 @@ export default function SignupForm() {
             alignItems: "center",
             justifyContent: "flex-start",
           }}
-         
         >
           <FormControlLabel
             control={<Checkbox />}
@@ -158,21 +179,25 @@ export default function SignupForm() {
           variant="contained"
           type="submit"
           size="small"
-          loading={loading?loading:''}
+          loading={loading ? loading : ""}
           sx={{
             width: "200px",
-            
+
             borderRadius: "25px",
-           
+
             fontSize: "18px",
             marginBottom: "15px",
           }}
         >
           SIGN UP
         </LoadingButton>
-        <Divider  sx={{ width: { xs: "90%", sm: "400px" } }}>OR</Divider>
-    
-        <Typography variant="body2" color='secondary.main' marginY={"5px !important"}>
+        <Divider sx={{ width: { xs: "90%", sm: "400px" } }}>OR</Divider>
+
+        <Typography
+          variant="body2"
+          color="secondary.main"
+          marginY={"5px !important"}
+        >
           Already have an account?{" "}
           <Link component={RouterLink} to={"/signin"}>
             {" "}

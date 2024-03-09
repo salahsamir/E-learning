@@ -6,26 +6,35 @@ import { useGetProfile, useUpdateProfile } from "api/global/profile.tsx";
 import { useFormik } from "formik";
 import React from "react";
 import { get_obj_diff } from "util/common.ts";
-
+import * as Yup from "yup";
 const Account = () => {
   const { data: user } = useGetProfile();
   const { mutate: updateProfile, isPending: formLoading } = useUpdateProfile();
   const formik = useFormik({
     initialValues: {
-      email: user.email || "",
-      password: "",
-      confirmPassword: "",
-      gitHubLink: user.gitHubLink || "",
-      linkedinLink: user.linkedinLink || "",
+      email: user?.email,
+      password: undefined,
+      confirmPassword: undefined,
+      gitHubLink: user?.gitHubLink,
+      linkedinLink: user?.linkedinLink,
     },
     enableReinitialize: true,
+    validationSchema: Yup.object().shape({
+      email: Yup.string().email("Invalid email address").required("Required"),
+      password: Yup.string().min(6, "At least 6 characters"),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref("password")], "Passwords must match")
+        .when("password", {
+          is: (val) => (val && val.length > 0 ? true : false),
+          then: () => Yup.string().required("Required"),
+        }),
+      gitHubLink: Yup.string().url("Invalid URL"),
+      linkedinLink: Yup.string().url("Invalid URL"),
+    }),
     onSubmit: (values) => {
       const { confirmPassword, ...rest } = values;
-      if (rest.password !== confirmPassword) {
+      if (rest.password === "") {
         delete rest.password;
-      }
-      if (values.email === user.email) {
-        delete rest.email;
       }
       updateProfile(get_obj_diff(rest, user));
     },
@@ -66,7 +75,7 @@ const Account = () => {
           fullWidth
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values.password}
+          value={formik.values.password || ""}
           error={
             formik.errors.password !== undefined && formik.touched.password
           }
@@ -84,9 +93,10 @@ const Account = () => {
           variant="outlined"
           type="password"
           fullWidth
+          autoComplete="off"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values.confirmPassword}
+          value={formik.values.confirmPassword || ""}
           error={
             formik.errors.confirmPassword !== undefined &&
             formik.touched.confirmPassword
@@ -108,7 +118,7 @@ const Account = () => {
           fullWidth
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values.gitHubLink}
+          value={formik.values.gitHubLink || ""}
           error={
             formik.errors.gitHubLink !== undefined && formik.touched.gitHubLink
           }
@@ -128,7 +138,7 @@ const Account = () => {
           fullWidth
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values.linkedinLink}
+          value={formik.values.linkedinLink || ""}
           error={
             formik.errors.linkedinLink !== undefined &&
             formik.touched.linkedinLink

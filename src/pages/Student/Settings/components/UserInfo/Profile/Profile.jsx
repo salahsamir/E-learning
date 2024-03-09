@@ -14,23 +14,40 @@ import React from "react";
 import { countryList } from "shared/data/countries";
 import { languagesList } from "shared/data/languages";
 import { get_obj_diff } from "util/common.ts";
+import * as Yup from "yup";
+
 const genderList = ["male", "female"];
+
 const Profile = () => {
   const { data: user } = useGetProfile();
   const { mutate: updateProfile, isPending: formLoading } = useUpdateProfile();
   const formik = useFormik({
     initialValues: {
-      firstName: user?.firstName || "",
-      lastName: user?.lastName || "",
-      occupation: user?.occupation || "",
-      school: user?.school || "",
-      country: user?.country || "",
-      language: user?.language || "",
-      age: user?.age || "",
-      gender: user?.gender || "male",
-      about: user?.about || "",
+      firstName: user?.firstName,
+      lastName: user?.lastName,
+      occupation: user?.occupation,
+      school: user?.school,
+      country: user?.country,
+      language: user?.language,
+      age: user?.age,
+      gender: user?.gender,
+      about: user?.about,
     },
     enableReinitialize: true,
+    validationSchema: Yup.object().shape({
+      firstName: Yup.string().min(3, "Too Short!").max(50, "Too Long!"),
+      lastName: Yup.string().min(3, "Too Short!").max(50, "Too Long!"),
+      occupation: Yup.string().min(3, "Too Short!").max(50, "Too Long!"),
+      school: Yup.string(),
+      country: Yup.string(),
+      language: Yup.string(),
+      age: Yup.number()
+        .positive("Must be a positive number")
+        .min(7, "Must be at least 7 years old")
+        .max(100, "Must be at most 100 years old"),
+      gender: Yup.string().oneOf(genderList),
+      about: Yup.string().max(900, "Too Long!"),
+    }),
     onSubmit: (values) => {
       updateProfile(get_obj_diff(values, user));
     },
@@ -51,7 +68,7 @@ const Profile = () => {
           fullWidth
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values.firstName}
+          value={formik.values.firstName || ""}
           error={
             formik.errors.firstName !== undefined && formik.touched.firstName
           }
@@ -70,7 +87,7 @@ const Profile = () => {
           fullWidth
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values.lastName}
+          value={formik.values.lastName || ""}
           error={
             formik.errors.lastName !== undefined && formik.touched.lastName
           }
@@ -89,7 +106,7 @@ const Profile = () => {
           fullWidth
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values.occupation}
+          value={formik.values.occupation || ""}
           error={
             formik.errors.occupation !== undefined && formik.touched.occupation
           }
@@ -108,7 +125,7 @@ const Profile = () => {
           fullWidth
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values.school}
+          value={formik.values.school || ""}
           error={formik.errors.school !== undefined && formik.touched.school}
           helperText={
             formik.errors.school && formik.touched.school
@@ -131,7 +148,7 @@ const Profile = () => {
               formik.setFieldValue("country", event.target.value)
             }
             onBlur={formik.handleBlur}
-            value={formik.values.country}
+            value={formik.values.country || ""}
             error={
               formik.errors.country !== undefined && formik.touched.country
             }
@@ -170,7 +187,7 @@ const Profile = () => {
               formik.setFieldValue("language", event.target.value)
             }
             onBlur={formik.handleBlur}
-            value={formik.values.language}
+            value={formik.values.language || ""}
             error={
               formik.errors.language !== undefined && formik.touched.language
             }
@@ -201,7 +218,7 @@ const Profile = () => {
           fullWidth
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values.age}
+          value={formik.values.age || ""}
           error={formik.errors.age !== undefined && formik.touched.age}
           helperText={
             formik.errors.age && formik.touched.age ? formik.errors.age : ""
@@ -222,7 +239,7 @@ const Profile = () => {
               formik.setFieldValue("gender", event.target.value)
             }
             onBlur={formik.handleBlur}
-            value={formik.values.gender}
+            value={formik.values.gender || ""}
             error={formik.errors.gender !== undefined && formik.touched.gender}
             MenuProps={{
               PaperProps: {
@@ -254,7 +271,7 @@ const Profile = () => {
           maxRows={8}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values.about}
+          value={formik.values.about || ""}
           error={formik.errors.about !== undefined && formik.touched.about}
           helperText={
             formik.errors.about && formik.touched.about
