@@ -2,7 +2,6 @@ import React from "react";
 import CustomBreadcrumbs from "shared/ui/CustomBreadcrumbs/CustomBreadcrumbs";
 
 const NavigationHeader = ({ data }) => {
-  console.log(data);
   const list = [
     { name: "Home", link: "/instructor" },
     { name: "Courses", link: "/instructor/courses" },

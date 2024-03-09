@@ -6,7 +6,6 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { usePublishWorkshop } from "api/instructor/workshops.tsx";
 import useGetParams from "hooks/useGetParams";
 function Step6({ formik }) {
-  console.log(formik);
   const paramList = useGetParams();
   const { mutate: publishWorkshop } = usePublishWorkshop({
     onSuccess: () => formik.setFieldValue("status", "Pending"),

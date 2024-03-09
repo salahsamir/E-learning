@@ -9,7 +9,6 @@ function TopicsList({ items }) {
   const { mutate: reorderTopic } = useReorderTopic();
   const handleDragEnd = (event) => {
     const { active, over } = event;
-    console.log(active, over);
     if (!over) return;
     const activeIndex = items.findIndex((item) => item.id === active.id);
     const overIndex = items.findIndex((item) => item.id === over.id);

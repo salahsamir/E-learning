@@ -21,7 +21,6 @@ function VideoForm({ video }) {
       // ],
     },
     onSubmit: (values) => {
-      console.log(values);
       axios
         .patch(
           BaseApi +

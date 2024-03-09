@@ -3,7 +3,6 @@ import React from "react";
 
 export const Message = ({ message }) => {
   const participant = message.from;
-  console.log(participant);
   return (
     <Box
       sx={{

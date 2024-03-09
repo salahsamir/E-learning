@@ -48,7 +48,6 @@ function WorkshopsList({
   errorWorkshopsList,
   setWorkshopsList,
 }) {
-  console.log(workshopsList);
   function createData(
     id,
     workshopName,

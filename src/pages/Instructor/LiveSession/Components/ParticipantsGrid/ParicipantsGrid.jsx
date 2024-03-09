@@ -52,7 +52,6 @@ function ParticipantsGrid() {
 
   const cards = [];
   currentParticipants.every((participant) => {
-    console.log(participant);
     cards.push(<MemberCard key={participant.sid} participant={participant} />);
     if (cards.length >= containerProp.maxItems) {
       return false;

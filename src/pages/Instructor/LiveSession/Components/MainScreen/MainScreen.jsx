@@ -12,14 +12,12 @@ const Video = styled("video")(({ theme }) => ({
   objectFit: "cover",
 }));
 function MainScreen() {
-  console.log(process.env.REACT_APP_LIVEKIT_SERVER_URL);
   const videoElement = useRef(null);
   const tracks = useTracks();
   const videoTracks = useMemo(() => {
     let localTracks = [];
     let remoteTracks = [];
     tracks.forEach((track) => {
-      console.log("track:", track);
       if (track.source !== "microphone") {
         const data = {
           participant: track.participant?.participantInfo,
@@ -40,7 +38,6 @@ function MainScreen() {
       videoTracks.remote[0].track.attach(videoElement.current);
     }
   }, [videoTracks]);
-  console.log("tracks:", tracks);
   return (
     <>
       <RoomAudioRenderer />

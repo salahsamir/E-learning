@@ -43,7 +43,6 @@ function BackgroundUpload() {
   useEffect(() => {
     if (uploadState === "completed") {
       handleUploadComplete();
-      console.log("uploadedData: ", uploadedData.createdVideo);
       queryClient.setQueryData(["topics", params[0]], (oldData) => {
         const newTopic = {
           ...uploadedData.curriculum,
@@ -51,14 +50,12 @@ function BackgroundUpload() {
         };
         if (oldData === undefined || oldData.curriculum.length === 0)
           return [newTopic];
-        console.log("oldData: ", oldData);
         return { ...oldData, curriculum: [...oldData.curriculum, newTopic] };
       });
     }
     if (uploadState === "error" && uploadError?.message !== "canceled") {
       handleErroredUpload();
     }
-    console.log("error: ", uploadError);
   }, [uploadState]);
 
   // start uploading the next video in the list if there is any
@@ -99,7 +96,6 @@ function BackgroundUpload() {
         } videos`
       : `${uploadList.completed.length} videos uploaded`;
 
-  console.log("uploadList", uploadList);
   return (
     <Paper
       sx={{

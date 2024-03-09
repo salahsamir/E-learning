@@ -17,7 +17,6 @@ const filter = createFilterOptions();
 function Step2({ formik }) {
   const { data: categoryList } = useGetCategories();
   const levelList = ["Beginner", "Intermediate", "Expert", "All Levels"];
-  console.log(formik);
   return (
     <Box
       display="flex"

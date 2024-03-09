@@ -19,7 +19,6 @@ function AttachedFiles({ formik }) {
   const [completedFiles, setCompletedFiles] = useState([]);
   const [fileExist, setFileExist] = useState(false);
   const fileInput = useRef(null);
-  console.log(formik.values.attached);
   useEffect(() => {
     if (files) {
       const newFiles = [];
@@ -35,7 +34,6 @@ function AttachedFiles({ formik }) {
             setCompletedFiles,
           });
         } else {
-          console.log("file exist");
           setFileExist(file.name);
         }
       });

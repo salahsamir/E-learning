@@ -33,7 +33,6 @@ export default function useUpload() {
         setState("completed");
       })
       .catch((err) => {
-        console.log(err);
         setError(err);
         setState("error");
         return;

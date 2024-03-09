@@ -4,7 +4,6 @@ import { ControlBar } from "./ControlBar";
 import { Messages } from "./Messages";
 
 function LiveChat({ liveChat }) {
-  console.log("liveChat", liveChat);
   return (
     <Box
       sx={{

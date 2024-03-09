@@ -36,7 +36,6 @@ export function useAddQuiz({ onSuccess, onError }: MutationFnProps = {}) {
         return { ...old, curriculum: [...old.curriculum, newQuiz] };
       });
       queryClient.setQueryData(["quiz", newData.curriculum], newData);
-      console.log("newData: ", newData);
       onSuccess && onSuccess(newData);
     },
     onError,

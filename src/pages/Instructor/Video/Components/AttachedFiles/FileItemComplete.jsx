@@ -2,7 +2,6 @@ import { Box, Typography, Link } from "@mui/material";
 import React from "react";
 import FileIcon from "@mui/icons-material/InsertDriveFileOutlined";
 function FileItemComplete({ name, size, url }) {
-  console.log("hey");
   return (
     <Box
       sx={{
