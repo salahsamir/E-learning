@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 // import "./Video.css";
 
-import {  Button,Typography,Box} from "@mui/material";
+import {  Button,Typography,Box,Container} from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -50,11 +50,12 @@ export default function Video() {
   };
 
   return (
-    <div className="container">
+    <Container>
         <div className=" my-4 py-4">
           <div className="row">
       {video ? (
-            <div className="col-md-8">
+            <div className="col-md-9">
+               <Typography variant="p" py={2} color={'style2'}>{video.title}</Typography>
               <div className="player__wrapper py-1">
                 <ReactPlayer
                   url={video.url}
@@ -66,8 +67,8 @@ export default function Video() {
                   onError={(e) => console.log('Error:', e)}
                 />
               </div>
-              <Typography variant="h5" py={1} color={'primary'}>{video.title}</Typography>
-            </div>): <div className="col-md-8">
+             
+            </div>): <div className="col-md-9">
               <div className="py-1">
                <HtmlText  quillContent={article.quillContent} />
               </div>
@@ -76,15 +77,15 @@ export default function Video() {
             
             
             }
-            <div className="col-md-4">
+            <div className="col-md-3">
               {parts && (
                 <>
-                  <Typography variant="h4" color={'third'}> {parts.length ? parts.length : 0} Lessons</Typography>
+                  <Typography variant="h6" color={'third'}> {parts.length ? parts.length : 0} Lessons</Typography>
                  {parts.map((item) => (
   <Box key={item._id} cursor="pointer" width="100%" onClick={() => NextVideo(item._id)} display="flex" justifyContent="space-between" my={1}>
     {video?.curriculum === item._id || article?.curriculum === item._id ?
       <Button variant="contained" sx={{ width: '300px' }} p={1}>
-        <Typography textAlign='left' color='white'>{item.title}</Typography>
+        <Typography variant="p" textAlign='left' color='white'>{item.title}</Typography>
       </Button>
       :
       <Button variant="outlined" sx={{ width: '300px' }} p={1}>
@@ -99,7 +100,7 @@ export default function Video() {
           </div>
         </div>
       
-    </div>
+    </Container>
   );
 }
 

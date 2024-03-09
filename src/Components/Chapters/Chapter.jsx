@@ -60,17 +60,17 @@ export default function Chapter() {
     <>
       <Stack spacing={2} my={2} py={5}>
         <Container>
-        <Typography variant="h3" p={2} color={"primary"} textAlign="center">Chapters</Typography>
+        <Typography variant="h3" p={1} color={"primary"} textAlign="center">Chapters</Typography>
         {chapter ? (
   <div className="row">
   
     {chapter.map((item) => {
       return (
         <div key={item.id} className="col-md-4 my-2 ">
-         <Box display="flex" justifyContent="space-between" alignItems="center" border={"1px solid "} borderRadius={"10px"} borderColor={"secondary.main"} p={2} gap="1em">
+         <Box display="flex"  onClick={()=>Parts(item._id)} justifyContent="space-between" width="100%" alignItems="center" border={"1px solid "} borderRadius={"10px"} borderColor={"secondary.main"} p={2} gap="1em">
          <CircularProgressWithLabel color="secondary" value={item.order} />
-          <Typography variant="style2">{item.title}</Typography>
-          <Button variant="outlined" onClick={()=>Parts(item._id)} ><ArrowForwardIcon/></Button>
+          <Typography variant="style1">{item.title}</Typography>
+          <Button variant="outlined"  ><ArrowForwardIcon/></Button>
          </Box>
         </div>
       );
@@ -80,26 +80,7 @@ export default function Chapter() {
         </Container>
         
       </Stack>
-      {/* <div className="container  my-4 py-4">
-        {courses ? (
-          <div className="row">
-            <div className="col-md-10">
-              <MediaPlayer title="Sprite Fight" src={courses.promotionalVideoUrl}>
-                <MediaProvider />
-                <DefaultVideoLayout
-                  thumbnails={courses.coverImageBlobName}
-                  icons={defaultLayoutIcons}
-                />
-              </MediaPlayer>
-            </div>
-            <div className="col-md-2">
-              <Typography variant="h3">Salah</Typography>
-            </div>
-          </div>
-        ) : (
-          ''
-        )}
-      </div> */}
+  
     </>
   );
 }

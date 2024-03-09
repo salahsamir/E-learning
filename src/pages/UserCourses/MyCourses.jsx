@@ -2,11 +2,9 @@ import {
   Typography,
   Stack,
   Container,
-  Card,
   Button,
-  CardMedia,
-  CardContent,
-  CardActions,
+  Avatar,
+  Box,
 } from "@mui/material";
 import React, { useContext } from "react";
 import { allContext } from "../../Context/Context.jsx";
@@ -25,27 +23,21 @@ export default function MyCourses() {
         <div className="row py-2">
           {course?.map((item) => {
             return (
-              <div className="col-sm-4 col-md-3">
-                <Card sx={{ maxWidth: 345 }}>
-                  <CardMedia
-                    sx={{ height: 140 }}
-                    image={item.coverImageUrl}
-                    title="green iguana"
+              <div className="col-sm-6 col-md-3">
+                <Box sx={{ height: "280px" ,backgroundColor:"#090000"}}  display={"flex"} gap={2} my={2} flexDirection={"column"} justifyContent={"space-between"}>
+
+                  <Avatar
+                    src={item.coverImageUrl}
+                    alt="img"
+                    style={{ width: "100%",height: "140px" }}
+                    variant="rounded"
                   />
-                  <CardContent>
-                    <Typography gutterBottom variant="h6" component="div">
-                      {item.title}
-                    </Typography>
-                     {item.tags?item.tags.map((tag)=>{return <span className="badge rounded-pill mx-1 p-1" style={{background:"#007D53"}}>{tag}</span>}):""}
-                    <Typography variant="body2" color="secondary">
-                     {/* {item.subtitle} */}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="medium" variant="contained" className="w-100 fs-5" onClick={() => nav( `/Chapter/${item._id}`)} >Show Course</Button>
-                    
-                  </CardActions>
-                </Card>
+                  <Typography px={2} variant="p">{item.title}</Typography>
+                  <Button size="medium" gutterBottom variant="contained" className="w-100 fs-5 " onClick={() => nav(`/Chapter/${item._id}`)}>Show Course</Button>
+
+
+                </Box>
+             
               </div>
             );
           })}
