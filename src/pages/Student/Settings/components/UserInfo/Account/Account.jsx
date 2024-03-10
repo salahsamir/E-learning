@@ -40,11 +40,6 @@ const Account = () => {
       }
       const modifiedFields = get_obj_diff(rest, user);
       if (Object.keys(modifiedFields).length === 0) return;
-      if (rest.email) {
-        toast("Please check your email to verify your new email address", {
-          icon: <WarningAmber color="warning" />,
-        });
-      }
       updateProfile(get_obj_diff(rest, user));
     },
   });

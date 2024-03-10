@@ -1,7 +1,9 @@
+import { WarningAmber } from "@mui/icons-material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import React from "react";
 interface MutationFnProps {
   onSuccess?: (res: any) => void;
   onError?: (error: Error) => void;
@@ -25,14 +27,22 @@ export function useUpdateProfile({ onSuccess, onError }: MutationFnProps = {}) {
       const response = await axios.patch("user/profile", data);
       return response.data.newUser;
     },
-    onSuccess: (newData) => {
+    onSuccess: (newData, user: any) => {
       queryClient.setQueryData(["profile"], newData);
-      toast.success("Profile updated successfully");
+      if (user.email) {
+        toast("Please check your email to verify your new email address", {
+          icon: <WarningAmber color="warning" />,
+        });
+      } else {
+        toast.success("Profile updated successfully");
+      }
       onSuccess && onSuccess(newData);
     },
     onError: (error: Error | any) => {
       const errorMsg =
-        error.response.data?.ValidationError?.[0]?.message || error.message;
+        error.response.data?.ValidationError?.[0]?.message ||
+        error.response.data?.message ||
+        error.message;
       console.log(error);
 
       toast.error(errorMsg);
