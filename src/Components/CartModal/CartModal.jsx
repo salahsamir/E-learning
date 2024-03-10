@@ -51,8 +51,11 @@ function CartModal(props) {
 
   let {cart,cartdata,RemoveFromCart,createOrder}=useContext(allContext)
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> salah
   return (
     <Modal open={props.open} onClose={props.onClose}>
       <CartWrapper elevation={0}>

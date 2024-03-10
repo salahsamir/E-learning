@@ -11,12 +11,13 @@ import { Avatar, Box, Grid, Rating, Stack, Typography } from "@mui/material";
 import style from "./Vertical.module.css";
 import { Favorite } from "@mui/icons-material";
 import { allContext } from "../../Context/Context.jsx";
+
 function TabPanel({ children, value, index, ...other }) {
   let nav = useNavigate();
   let { AddToWishlist, AddToCart } = useContext(allContext);
-  let headers = {
-    token: localStorage.getItem("token"),
-  };
+  // let headers = {
+  //   token: localStorage.getItem("token"),
+  // };
   let [course, setCourse] = useState([]);
   const getAllCourse = async () => {
     try {

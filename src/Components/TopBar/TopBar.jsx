@@ -91,4 +91,10 @@ function TopBar({ display }) {
     </Stack>
   );
 }
+<<<<<<< HEAD
 export default TopBar;
+=======
+
+
+export default TopBar;
+>>>>>>> salah
