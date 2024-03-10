@@ -26,7 +26,7 @@ function TabPanel({ children, value, index, ...other }) {
       const response = await axios.get(
         `${BaseApi}/course/category/${value}/subCategory/${index}`
       );
-      // console.log(response.data.courses);
+     
       setCourse(response.data.courses);
     } catch (error) {
       console.log(error);
