@@ -35,7 +35,6 @@ function CartModal(props) {
 
   let {cart,cartdata,RemoveFromCart,createOrder}=useContext(allContext)
 
-
   return (
   
     <Modal open={props.open} onClose={props.onClose}>
