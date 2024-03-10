@@ -13,6 +13,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useUpdateQuiz } from "api/instructor/quiz.tsx";
 import { useFormik } from "formik";
 import { useState } from "react";
 const CustomInput = ({ formik, id, type, children }) => {
@@ -35,7 +36,7 @@ const CustomInput = ({ formik, id, type, children }) => {
           variant="outlined"
           sx={{ width: "80px" }}
           size="small"
-          value={formik.values[id]}
+          value={formik.values[id] || "0"}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={formik.touched[id] && Boolean(formik.errors[id])}
@@ -44,7 +45,7 @@ const CustomInput = ({ formik, id, type, children }) => {
       ) : (
         <Switch
           id={id}
-          checked={formik.values[id]}
+          value={formik.values[id] || false}
           onChange={formik.handleChange}
         />
       )}
@@ -53,29 +54,30 @@ const CustomInput = ({ formik, id, type, children }) => {
 };
 const QuizSettings = ({ data: quiz }) => {
   const [dialoagOpened, setDialogOpened] = useState(false);
+  const { mutate: updateQuiz } = useUpdateQuiz();
   const handleClose = () => {
     setDialogOpened(false);
   };
   const formik = useFormik({
     initialValues: {
-      timeLimit: 10,
-      shuffleQuestions: true,
-      shuffleAnswers: true,
-      showCorrectAnswer: true,
-      maxAttempts: 1,
-      maxQuestionsInPage: 10,
-      lockdown: false,
-      numberOfQuestions: 10,
+      timeLimit: quiz?.timeLimit || 0,
+      shuffleQuestions: quiz?.shuffleQuestions || false,
+      shuffleAnswers: quiz?.shuffleAnswers || false,
+      showCorrectAnswer: quiz?.showCorrectAnswer || false,
+      maxAttempts: quiz?.maxAttempts || 0,
+      maxQuestionsInPage: quiz?.maxQuestionsInPage || 0,
+      lockdown: quiz?.lockdown || false,
+      numberOfQuestions: quiz?.numberOfQuestions || 0,
     },
     enableReinitialize: true,
     onSubmit: (values) => {
-      console.log(values);
+      updateQuiz(values);
     },
   });
   return (
     <>
       <IconButton onClick={() => setDialogOpened(true)}>
-        <Settings />
+        <Settings sx={{ color: "text.primary" }} />
       </IconButton>
       <Dialog
         open={dialoagOpened}
@@ -155,6 +157,9 @@ const QuizSettings = ({ data: quiz }) => {
               <CustomInput formik={formik} id="numberOfQuestions" type="number">
                 Number of questions
               </CustomInput>
+              <Typography variant="body2" color="text.secondary">
+                Note: leave input zero to use default setting
+              </Typography>
             </DialogContent>
             <DialogActions
               sx={{

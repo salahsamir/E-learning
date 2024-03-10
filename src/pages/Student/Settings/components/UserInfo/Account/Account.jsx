@@ -1,10 +1,11 @@
-import { GitHub, LinkedIn } from "@mui/icons-material";
+import { GitHub, LinkedIn, WarningAmber } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { useGetProfile, useUpdateProfile } from "api/global/profile.tsx";
 import { useFormik } from "formik";
 import React from "react";
+import toast from "react-hot-toast";
 import { get_obj_diff } from "util/common.ts";
 import * as Yup from "yup";
 const Account = () => {
@@ -21,20 +22,28 @@ const Account = () => {
     enableReinitialize: true,
     validationSchema: Yup.object().shape({
       email: Yup.string().email("Invalid email address").required("Required"),
-      password: Yup.string().min(6, "At least 6 characters"),
-      confirmPassword: Yup.string()
-        .oneOf([Yup.ref("password")], "Passwords must match")
-        .when("password", {
-          is: (val) => (val && val.length > 0 ? true : false),
-          then: () => Yup.string().required("Required"),
-        }),
-      gitHubLink: Yup.string().url("Invalid URL"),
-      linkedinLink: Yup.string().url("Invalid URL"),
+      password: Yup.string().min(8, "Password must be at least 8 characters"),
+      confirmPassword: Yup.string().when("password", {
+        is: (val) => (val && val.length > 0 ? true : false),
+        then: () =>
+          Yup.string()
+            .required("You must confirm your password")
+            .oneOf([Yup.ref("password")], "Passwords must match"),
+      }),
+      gitHubLink: Yup.string().url("Please enter a valid URL"),
+      linkedinLink: Yup.string().url("Please enter a valid URL"),
     }),
     onSubmit: (values) => {
       const { confirmPassword, ...rest } = values;
       if (rest.password === "") {
         delete rest.password;
+      }
+      const modifiedFields = get_obj_diff(rest, user);
+      if (Object.keys(modifiedFields).length === 0) return;
+      if (rest.email) {
+        toast("Please check your email to verify your new email address", {
+          icon: <WarningAmber color="warning" />,
+        });
       }
       updateProfile(get_obj_diff(rest, user));
     },

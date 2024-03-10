@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import useGetParams from "hooks/useGetParams";
+import toast from "react-hot-toast";
 interface MutationFnProps {
   onSuccess?: (res: any) => void;
   onError?: (error: Error) => void;
@@ -39,6 +40,55 @@ export function useAddQuiz({ onSuccess, onError }: MutationFnProps = {}) {
       onSuccess && onSuccess(newData);
     },
     onError,
+  });
+  return mutate;
+}
+
+export function useUpdateQuiz({ onSuccess, onError }: MutationFnProps = {}) {
+  const queryClient = useQueryClient();
+  const params = useGetParams();
+  const mutate = useMutation({
+    mutationFn: async (data: any) => {
+      const response = await axios.patch(`quiz/${params[0]}`, data);
+      return response.data.quiz;
+    },
+    onSuccess: (newData) => {
+      queryClient.setQueryData(["quiz", params[0]], newData);
+      toast.success("Quiz updated successfully");
+      onSuccess && onSuccess(newData);
+    },
+    onError: (error: any) => {
+      const message = error.response?.data.message || "Failed to update quiz";
+      toast.error(message);
+      onError && onError(error);
+    },
+  });
+  return mutate;
+}
+
+export function useAddQuestion({ onSuccess, onError }: MutationFnProps = {}) {
+  const queryClient = useQueryClient();
+  const params = useGetParams();
+  const mutate = useMutation({
+    mutationFn: async ({ type }: { type: "mcq" | "file" | "text" }) => {
+      const response = await axios.post(`quiz/${params[0]}/question`, {
+        type,
+      });
+      return response.data;
+    },
+    onSuccess: (newData) => {
+      console.log(newData);
+      queryClient.setQueryData(["quiz", params[0]], (old: any) => {
+        return { ...old, questions: [...old.questions, newData] };
+      });
+      toast.success("Question added successfully");
+      onSuccess && onSuccess(newData);
+    },
+    onError: (error: any) => {
+      const message = error.response?.data.message || "Failed to add question";
+      toast.error(message);
+      onError && onError(error);
+    },
   });
   return mutate;
 }

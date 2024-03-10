@@ -4,10 +4,12 @@ import { Helmet } from "react-helmet";
 import NavigationHeader from "./components/NavigationHeader/NavigationHeader";
 import { useGetQuiz } from "api/instructor/quiz.tsx";
 import QuizSettings from "./components/QuizSettings/QuizSettings";
+import QuizHeader from "./components/QuizHeader/QuizHeader";
+import AddQuestion from "./components/AddQuestion/AddQuestion";
+import QuestionsList from "./components/QuestionsList/QuestionsList";
 
 function Quiz() {
   const { data: quiz, isLoading: quizLoading } = useGetQuiz();
-  console.log(quiz);
   return (
     <>
       <Helmet>
@@ -28,13 +30,9 @@ function Quiz() {
         <QuizSettings data={quiz} />
       </Box>
       <NavigationHeader data={quiz} />
-      <Box
-        sx={{
-          backgroundColor: (theme) => theme.palette.background.b1,
-          padding: "1em",
-          borderRadius: "8px",
-        }}
-      ></Box>
+      <QuizHeader quiz={quiz} />
+      <QuestionsList />
+      <AddQuestion />
     </>
   );
 }
