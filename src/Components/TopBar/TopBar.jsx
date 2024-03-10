@@ -47,5 +47,4 @@ function TopBar({ display }) {
     </Stack>
   );
 }
-
 export default TopBar;

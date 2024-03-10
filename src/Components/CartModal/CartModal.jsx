@@ -10,11 +10,12 @@ import {
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import CartItem from "./CartItem";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../../store/cartSlice";
 import axios, { Axios } from "axios";
 import { BaseApi } from "../../util/BaseApi.js";
 import { allContext } from "../../Context/Context.jsx";
+
 
 const CartWrapper = styled(Paper)(({ theme }) => ({
   position: "absolute",
