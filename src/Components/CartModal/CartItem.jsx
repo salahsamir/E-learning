@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import { Button, Rating, Stack, Typography } from "@mui/material";
 import React, { useContext } from "react";
 
-
 import { useDispatch } from "react-redux";
 
 import { allContext } from "../../Context/Context.jsx";
@@ -14,7 +13,6 @@ const Image = styled("img")(({ theme }) => ({
 }));
 function CartItem(props) {
 
-  // const dispatch = useDispatch();
   let {RemoveFromCart}=useContext(allContext)
 
 
