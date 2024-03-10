@@ -9,9 +9,16 @@ import {
 } from "@mui/material";
 import React, { useContext } from "react";
 import CartItem from "./CartItem";
+<<<<<<< HEAD
 import axios from "axios";
+=======
+// import { useDispatch, useSelector } from "react-redux";
+import { cartActions } from "../../store/cartSlice";
+import axios, { Axios } from "axios";
+// >>>>>>> 322d1d7 (delete from cartmodel redux)
 import { BaseApi } from "../../util/BaseApi.js";
 import { allContext } from "../../Context/Context.jsx";
+
 
 const CartWrapper = styled(Paper)(({ theme }) => ({
   position: "absolute",
