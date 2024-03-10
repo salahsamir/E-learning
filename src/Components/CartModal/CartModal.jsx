@@ -9,11 +9,9 @@ import {
 } from "@mui/material";
 import React, { useContext } from "react";
 import CartItem from "./CartItem";
-<<<<<<< HEAD
-import axios from "axios";
-=======
 // import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../../store/cartSlice";
+
 import axios, { Axios } from "axios";
 // >>>>>>> 322d1d7 (delete from cartmodel redux)
 import { BaseApi } from "../../util/BaseApi.js";
@@ -38,8 +36,7 @@ function CartModal(props) {
     token: localStorage.getItem("token"),
   };
 
-<<<<<<< HEAD
-  let { cart, cartdata, RemoveFromCart } = useContext(allContext);
+
 
   const createOrder = async () => {
     try {
@@ -50,12 +47,11 @@ function CartModal(props) {
       console.log(error);
     }
   };
-=======
 
 
   let {cart,cartdata,RemoveFromCart,createOrder}=useContext(allContext)
 
->>>>>>> salah
+
 
   return (
     <Modal open={props.open} onClose={props.onClose}>
