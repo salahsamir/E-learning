@@ -7,41 +7,29 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
 import { LoadingButton } from "@mui/lab";
-import axios from "axios";
-import { BaseApi } from "../../../../../util/BaseApi";
-import { useState } from "react";
+import { useAddCourse } from "api/instructor/courses.tsx";
 
-export default function NewCourse({ open, setOpen, setCoursesList }) {
-  const [loading, setLoading] = useState(false);
-  const handleClose = () => {
-    setOpen(false);
-  };
+export default function NewCourse({ open, setOpen }) {
+  const { mutate: addCourse, isPending: loading } = useAddCourse({
+    onSuccess: () => {
+      setOpen(false);
+      formik.resetForm();
+    },
+  });
+
   const formik = useFormik({
     initialValues: {
       title: "",
     },
     onSubmit: (values) => {
       if (values.title.length === 0) return;
-      setLoading(true);
-      axios
-        .post(BaseApi + "/course", values, {
-          headers: {
-            "Content-Type": "application/json",
-            token: `${localStorage.getItem("token")}`,
-          },
-        })
-        .then((res) => {
-          setLoading(false);
-          setOpen(false);
-          setCoursesList((prev) => [...prev, res.data.course]);
-          formik.resetForm();
-        })
-        .catch((err) => {
-          console.log(err);
-          setLoading(false);
-        });
+      addCourse(values);
     },
   });
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Dialog

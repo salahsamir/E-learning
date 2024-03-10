@@ -3,31 +3,13 @@ import { LoadingButton } from "@mui/lab";
 import React from "react";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import axios from "axios";
-import { BaseApi } from "../../../../../util/BaseApi";
-import useGetParams from "../../../../../hooks/useGetParams";
+import { usePublishWorkshop } from "api/instructor/workshops.tsx";
+import useGetParams from "hooks/useGetParams";
 function Step6({ formik }) {
-  console.log(formik);
   const paramList = useGetParams();
-  const handlePublishing = () => {
-    axios
-      .patch(
-        BaseApi + `/workshop/publish/${paramList[1]}`,
-        {},
-        {
-          headers: {
-            token: localStorage.getItem("token"),
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res);
-        formik.setFieldValue("status", "Pending");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  const { mutate: publishWorkshop } = usePublishWorkshop({
+    onSuccess: () => formik.setFieldValue("status", "Pending"),
+  });
   if (formik.values.status === "Draft") {
     return (
       <Box
@@ -59,8 +41,8 @@ function Step6({ formik }) {
           </Button>
           <LoadingButton
             variant="contained"
-            type="submit"
-            onClick={handlePublishing}
+            type="button"
+            onClick={() => publishWorkshop(paramList[1])}
           >
             Publish
           </LoadingButton>

@@ -11,10 +11,8 @@ import Step3 from "./Step3";
 import Step4 from "./Step4";
 import Step5 from "./Step5";
 import { LoadingButton } from "@mui/lab";
-import axios from "axios";
-import { BaseApi } from "../../../../../util/BaseApi";
 import { useNavigate } from "react-router-dom";
-import ErrorDialog from "../../../../../Components/ErrorDialog/ErrorDialog";
+import { useUpdateCourse } from "api/instructor/courses.tsx";
 const steps = [
   { name: "Basic Information", status: "draft" },
   { name: "Target group", status: "draft" },
@@ -41,7 +39,7 @@ function getStepStatus(step, formik) {
     case 1:
       if (
         formik.errors.category ||
-        formik.errors.subcategory ||
+        formik.errors.subCategory ||
         formik.errors.level ||
         formik.errors.language ||
         formik.errors.tags
@@ -49,7 +47,7 @@ function getStepStatus(step, formik) {
         return "error";
       else if (
         formik.values.category !== "" &&
-        formik.values.subcategory !== "" &&
+        formik.values.subCategory !== "" &&
         formik.values.level !== "" &&
         formik.values.language !== "" &&
         formik.values.tags !== ""
@@ -73,20 +71,18 @@ function getStepStatus(step, formik) {
 
     case 4:
       if (formik.errors.status) return "error";
-      else if (formik.values.status === "published") return "completed";
+      else if (formik.values.status === "Published") return "completed";
       else return "draft";
     default:
       return "draft";
   }
 }
 function EditCourseForm({ course }) {
-  const [formState, setFormState] = React.useState({
-    loading: false,
-    error: false,
+  const { mutate: editCourse, isPending: formLoading } = useUpdateCourse({
+    onSuccess: () => setActiveStep(4),
   });
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = React.useState(0);
-  const [errorDialogOPen, setErrorDialogOpen] = React.useState(true);
 
   const formik = useFormik({
     initialValues: {
@@ -94,7 +90,7 @@ function EditCourseForm({ course }) {
       subtitle: course.subtitle || "",
       language: course.language || "",
       category: course.category || "",
-      subcategory: course.subcategory || "",
+      subCategory: course.subCategory || "",
       level: course.level || "",
       price: course.price || "",
       discount: course.discount || "",
@@ -104,7 +100,7 @@ function EditCourseForm({ course }) {
       promotionVideo: course.promotionalVideoUrl || "",
       status: course.status || "draft",
     },
-
+    enableReinitialize: true,
     validationSchema:
       course.status !== "published"
         ? yup.object().shape({
@@ -118,7 +114,7 @@ function EditCourseForm({ course }) {
             description: yup.string().required("Description is required"),
             language: yup.string().required("Language is required"),
             category: yup.string().required("Category is required"),
-            subcategory: yup.string().required("Subcategory is required"),
+            subCategory: yup.string().required("Subcategory is required"),
             level: yup.string().required("Level is required"),
             price: yup.number().required("Enter valid number"),
             discount: yup.number().required("Enter valid number"),
@@ -131,28 +127,16 @@ function EditCourseForm({ course }) {
               .required("Promotion Video is required"),
           }),
     onSubmit: (values) => {
-      setFormState({ loading: true, error: false });
-      axios
-        .patch(BaseApi + `/course/${course._id}`, values, {
-          headers: {
-            "Content-Type": "application/json",
-            token: `${localStorage.getItem("token")}`,
-          },
-        })
-        .then((res) => {
-          setFormState({ loading: false, error: false });
-        })
-        .catch((err) => {
-          setFormState({ loading: false, error: true });
-        });
+      editCourse({ id: course._id, data: values });
     },
   });
+
   const tabsList = [
     <Step1 formik={formik} />,
     <Step2 formik={formik} />,
     <Step3 formik={formik} />,
     <Step4 formik={formik} />,
-    <Step5 formik={formik} status={course.status} />,
+    <Step5 formik={formik} />,
   ];
 
   return (
@@ -213,7 +197,7 @@ function EditCourseForm({ course }) {
               <LoadingButton
                 variant="contained"
                 type="submit"
-                loading={formState.loading}
+                loading={formLoading}
               >
                 Save
               </LoadingButton>

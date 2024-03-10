@@ -11,11 +11,9 @@ import Step3 from "./Step3";
 import Step4 from "./Step4";
 import Step5 from "./Step5";
 import { LoadingButton } from "@mui/lab";
-import axios from "axios";
-import { BaseApi } from "../../../../../util/BaseApi";
 import { useNavigate } from "react-router-dom";
-import ErrorDialog from "../../../../../Components/ErrorDialog/ErrorDialog";
 import Step6 from "./Step6";
+import { useUpdateWorkshop } from "api/instructor/workshops.tsx";
 const steps = [
   { name: "Basic Information", status: "draft" },
   { name: "Target group", status: "draft" },
@@ -96,13 +94,10 @@ function getStepStatus(step, formik) {
   }
 }
 function EditWorkshopForm({ workshop }) {
-  const [formState, setFormState] = React.useState({
-    loading: false,
-    error: false,
-  });
+  const { mutate: updateWorkshop, isPending: formLoading } =
+    useUpdateWorkshop();
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = React.useState(0);
-  const [errorDialogOPen, setErrorDialogOpen] = React.useState(true);
 
   const formik = useFormik({
     initialValues: {
@@ -157,24 +152,11 @@ function EditWorkshopForm({ workshop }) {
             schedule: yup.array().required("Schedule is required"),
           }),
     onSubmit: (values) => {
-      setFormState({ loading: true, error: false });
-      const updatedValues = get_differece(values, workshop);
+      const updatedValues = get_differece(values, formik.initialValues);
       delete updatedValues.status;
       delete updatedValues.promotionImage;
       delete updatedValues.promotionVideo;
-      axios
-        .patch(BaseApi + `/workshop/${workshop._id}`, updatedValues, {
-          headers: {
-            "Content-Type": "application/json",
-            token: `${localStorage.getItem("token")}`,
-          },
-        })
-        .then((res) => {
-          setFormState({ loading: false, error: false });
-        })
-        .catch((err) => {
-          setFormState({ loading: false, error: true });
-        });
+      updateWorkshop({ id: workshop._id, data: updatedValues });
     },
   });
   const tabsList = [
@@ -244,7 +226,7 @@ function EditWorkshopForm({ workshop }) {
               <LoadingButton
                 variant="contained"
                 type="submit"
-                loading={formState.loading}
+                loading={formLoading}
               >
                 Save
               </LoadingButton>

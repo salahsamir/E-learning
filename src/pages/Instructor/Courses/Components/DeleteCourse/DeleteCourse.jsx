@@ -5,33 +5,18 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import axios from "axios";
-import { BaseApi } from "../../../../../util/BaseApi";
 import { LoadingButton } from "@mui/lab";
+import { useDeleteCourse } from "api/instructor/courses.tsx";
 
-export default function DeleteCourse({ open, setOpen, id, setCoursesList }) {
-  const [loading, setLoading] = React.useState(false);
+export default function DeleteCourse({ open, setOpen, id }) {
+  const { mutate: deleteCourse, isPending: loading } = useDeleteCourse({
+    onSuccess: () => setOpen(false),
+  });
   const handleClose = () => {
     setOpen(false);
   };
   const handleDelete = () => {
-    setLoading(true);
-    axios
-      .delete(BaseApi + `/course/${id}`, {
-        headers: {
-          "Application-Type": "application/json",
-          token: localStorage.getItem("token"),
-        },
-      })
-      .then((res) => {
-        setLoading(false);
-        setCoursesList((prev) => prev.filter((course) => course._id !== id));
-        handleClose();
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
-      });
+    deleteCourse(id);
   };
   return (
     <Dialog

@@ -1,5 +1,5 @@
 import { Link } from "@mui/material";
-import CustomTable from "../../../../../Components/CustomTable/CustomTable";
+import CustomTable from "../../../../../shared/ui/CustomTable/CustomTable";
 import WorkshopMenu from "../WorkshopMenu/WorkshopMenu";
 
 const WorkshopName = ({ name, url }) => {
@@ -48,7 +48,6 @@ function WorkshopsList({
   errorWorkshopsList,
   setWorkshopsList,
 }) {
-  console.log(workshopsList);
   function createData(
     id,
     workshopName,
@@ -71,7 +70,7 @@ function WorkshopsList({
       ),
     };
   }
-  const rows = workshopsList.map((_, index, arr) => {
+  const rows = workshopsList?.map((_, index, arr) => {
     const item = arr[arr.length - index - 1];
     return createData(
       item._id,

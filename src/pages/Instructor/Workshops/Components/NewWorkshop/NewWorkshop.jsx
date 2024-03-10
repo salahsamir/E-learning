@@ -7,85 +7,81 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
 import { LoadingButton } from "@mui/lab";
-import axios from "axios";
-import { BaseApi } from "../../../../../util/BaseApi";
-import { useState } from "react";
+import { useAddWorkshop } from "api/instructor/workshops.tsx";
+import { Add } from "@mui/icons-material";
 
-export default function NewWorkshop({ open, setOpen, setWorkshopsList }) {
-  const [loading, setLoading] = useState(false);
-  const handleClose = () => {
-    setOpen(false);
-  };
+export default function NewWorkshop() {
+  const [open, setOpen] = React.useState(false);
+  const { mutate: addWorkshop, isPending: loading } = useAddWorkshop({
+    onSuccess: () => {
+      setOpen(false);
+      formik.resetForm();
+    },
+  });
   const formik = useFormik({
     initialValues: {
       title: "",
     },
     onSubmit: (values) => {
       if (values.title.length === 0) return;
-      setLoading(true);
-      axios
-        .post(BaseApi + "/workshop", values, {
-          headers: {
-            "Content-Type": "application/json",
-            token: `${localStorage.getItem("token")}`,
-          },
-        })
-        .then((res) => {
-          setLoading(false);
-          setOpen(false);
-          setWorkshopsList((prev) => [...prev, res.data.results]);
-          formik.resetForm();
-        })
-        .catch((err) => {
-          console.log(err);
-          setLoading(false);
-        });
+      addWorkshop(values);
     },
   });
-
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      sx={{
-        ".MuiPaper-root": {
-          width: "500px",
-          backgroundColor: (theme) => theme.palette.background.b1,
-          backgroundImage: "none",
-        },
-      }}
-    >
-      <DialogTitle
+    <>
+      <Button
+        variant="contained"
+        color="primary"
+        startIcon={<Add />}
+        onClick={() => setOpen(true)}
+        disableElevation
+      >
+        New Workshop
+      </Button>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
         sx={{
-          borderBottom: (theme) => `1px solid ${theme.palette.primary.border}`,
+          ".MuiPaper-root": {
+            width: "500px",
+            backgroundColor: (theme) => theme.palette.background.b1,
+            backgroundImage: "none",
+          },
         }}
       >
-        Create new workshop
-      </DialogTitle>
-      <DialogContent>
-        <TextField
-          margin="dense"
-          id="title"
-          label="Workshop Title"
-          type="text"
-          fullWidth
-          variant="standard"
-          value={formik.values.title}
-          onChange={formik.handleChange}
-          autoFocus
-          autoComplete="off"
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <LoadingButton
-          onClick={formik.handleSubmit}
-          loading={loading}
-          disabled={formik.values.title === ""}
+        <DialogTitle
+          sx={{
+            borderBottom: (theme) =>
+              `1px solid ${theme.palette.primary.border}`,
+          }}
         >
-          Create
-        </LoadingButton>
-      </DialogActions>
-    </Dialog>
+          Create new workshop
+        </DialogTitle>
+        <DialogContent>
+          <TextField
+            margin="dense"
+            id="title"
+            label="Workshop Title"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={formik.values.title}
+            onChange={formik.handleChange}
+            autoFocus
+            autoComplete="off"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)}>Cancel</Button>
+          <LoadingButton
+            onClick={formik.handleSubmit}
+            loading={loading}
+            disabled={formik.values.title === ""}
+          >
+            Create
+          </LoadingButton>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }

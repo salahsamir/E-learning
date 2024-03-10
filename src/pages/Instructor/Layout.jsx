@@ -1,17 +1,46 @@
 import { Box } from "@mui/material";
 import React, { useRef } from "react";
-import Navbar from "./Components/Navbar/Navbar";
-import CustomDrawer from "./Components/CustomDrawer/CustomDrawer";
 import { Outlet } from "react-router-dom";
-import UploadContextProvider from "./context/upload-context";
-import BackgroundUpload from "./Components/BackgroundUpload/BackgroundUpload";
-
+import NavbarCompact from "shared/ui/Navbar/Compact/NavbarCompact";
+import {
+  Analytics,
+  AttachMoney,
+  Comment,
+  Dashboard,
+  Groups,
+  Settings,
+  VideoLibrary,
+  Email,
+} from "@mui/icons-material";
+import CustomDrawer from "shared/ui/CustomDrawer/CustomDrawer.jsx";
+import UploadContextProvider from "./shared/context/upload-context.tsx";
+import BackgroundUpload from "./shared/Components/BackgroundUpload/BackgroundUpload";
+import Error401 from "./Error/Error401.jsx";
+const drawerItems = [
+  { text: "Dashboard", icon: <Dashboard />, url: "/instructor" },
+  { text: "Courses", icon: <VideoLibrary />, url: "courses" },
+  { text: "Workshops", icon: <Groups />, url: "workshops" },
+  { text: "Analytics", icon: <Analytics />, url: "analytics" },
+  { text: "Messages", icon: <Email />, url: "messages" },
+  { text: "Comments", icon: <Comment />, url: "comments" },
+  { text: "Revenue", icon: <AttachMoney />, url: "revenue" },
+  { text: "Settings", icon: <Settings />, url: "settings" },
+];
 function Layout() {
   const drawerRef = useRef(null);
   return (
     <Box sx={{ pt: "0.5em" }}>
-      <CustomDrawer ref={drawerRef} />
-      <Navbar onMenuClick={() => drawerRef.current?.toggleOpenDrawer()} />
+      <CustomDrawer ref={drawerRef} drawerItems={drawerItems} />
+      <NavbarCompact
+        onMenuClick={() => drawerRef.current?.toggleOpenDrawer()}
+        visibleIcons={{
+          wishlist: false,
+          notification: true,
+          cart: false,
+          avatar: true,
+          themeMode: true,
+        }}
+      />
       <Box
         sx={{
           display: "flex",
@@ -28,16 +57,23 @@ function Layout() {
         }}
       >
         <Box width="100%" maxWidth="1400px" position="relative">
-          <BackgroundUpload />
-          <Outlet />
+          {!localStorage.getItem("token") && <Error401 />}
+          {localStorage.getItem("token") && (
+            <>
+              <BackgroundUpload />
+              <Outlet />
+            </>
+          )}
         </Box>
       </Box>
     </Box>
   );
 }
 
-export default () => (
-  <UploadContextProvider>
-    <Layout />
-  </UploadContextProvider>
-);
+export default function LayoutWithContext() {
+  return (
+    <UploadContextProvider>
+      <Layout />
+    </UploadContextProvider>
+  );
+}

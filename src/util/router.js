@@ -3,8 +3,6 @@ import Layout from "../pages/Layout/Layout";
 import Home from "../pages/Home/Home.jsx";
 import { createBrowserRouter } from "react-router-dom";
 
-import { Navigate } from "react-router-dom";
-
 /* salah's routes*/
 import Signin from "../pages/Signin/Signin";
 import Signup from "../pages/Signup/Signup";
@@ -22,43 +20,53 @@ import Loading from "../pages/Loading/Loading.jsx";
 import InstructorLayout from "../pages/Instructor/Layout.jsx";
 import Setting from "../pages/Setting/Setting.jsx";
 import CourseDetails from "../pages/CourseDetails/CourseDetails.jsx";
+<<<<<<< HEAD
+
+// instructor routes
+=======
 import MyCourses from "../pages/UserCourses/MyCourses.jsx";
 import Parts from "../Components/Parts/Parts.jsx";
+>>>>>>> salah
 const InstructorDashboard = lazy(() =>
-  import("../pages/Instructor/Dashboard/Dashboard.jsx")
+  import("../pages/Instructor/Dashboard/index.jsx")
 );
 const InstructorCourses = lazy(() =>
-  import("../pages/Instructor/Courses/Courses.jsx")
+  import("../pages/Instructor/Courses/index.jsx")
 );
 const InstructorEditCourseInfo = lazy(() =>
   import("../pages/Instructor/Courses/EditCourseInfo/EditCourseInfo.jsx")
 );
 const InstructorChapters = lazy(() =>
-  import("../pages/Instructor/Courses/Chapters/Chapters.jsx")
+  import("../pages/Instructor/Chapters/index.jsx")
 );
 const InstructorTopics = lazy(() =>
-  import("../pages/Instructor/Courses/Chapters/Topics/Topics.jsx")
+  import("../pages/Instructor/Topics/index.jsx")
 );
 const IntructorArticle = lazy(() =>
-  import("../pages/Instructor/Courses/Chapters/Topics/Article/Article.jsx")
+  import("../pages/Instructor/Article/index.jsx")
 );
 const InstructorVideo = lazy(() =>
-  import("../pages/Instructor/Courses/Chapters/Topics/Video/Video.jsx")
+  import("../pages/Instructor/Video/index.jsx")
 );
+const InstructorQuiz = lazy(() => import("../pages/Instructor/Quiz/index.jsx"));
 const InstructorWorkshops = lazy(() =>
-  import("../pages/Instructor/Workshops/Workshops.jsx")
+  import("../pages/Instructor/Workshops/index.jsx")
 );
 const Error404 = lazy(() => import("../pages/Instructor/Error/Error404.jsx"));
 const LiveSessions = lazy(() =>
-  import("../pages/Instructor/Workshops/Sessions/LiveSessions/LiveSessions.jsx")
+  import("../pages/Instructor/LiveSession/index.jsx")
 );
 const InstructorEditWorkshopInfo = lazy(() =>
   import("../pages/Instructor/Workshops/EditWorkshopInfo/EditWorkshopInfo.jsx")
 );
 const InstructorSessions = lazy(() =>
-  import("../pages/Instructor/Workshops/Sessions/Sessions.jsx")
+  import("../pages/Instructor/Sessions/index.jsx")
 );
 
+// student routes
+const StudentLayout = lazy(() => import("../pages/Student/Layout.jsx"));
+const StudentHome = lazy(() => import("../pages/Student/Home/Home.jsx"));
+const UserSettings = lazy(() => import("../pages/Student/Settings/index.jsx"));
 // let ProtectedRouter = (props) => {
 //   if (localStorage.getItem("token") == null) {
 //     return <Navigate to="/signin" />;
@@ -70,6 +78,7 @@ const SuspenseWrapper = (props) => {
   return <Suspense fallback={<Loading />}>{props.children}</Suspense>;
 };
 const router = createBrowserRouter([
+  // public routes
   {
     path: "",
     element: <Layout />,
@@ -98,6 +107,7 @@ const router = createBrowserRouter([
     ],
   },
 
+  // instructor routes
   {
     path: "/instructor",
     element: <InstructorLayout />,
@@ -185,6 +195,14 @@ const router = createBrowserRouter([
                   </SuspenseWrapper>
                 ),
               },
+              {
+                path: "quiz/:quizId",
+                element: (
+                  <SuspenseWrapper>
+                    <InstructorQuiz />
+                  </SuspenseWrapper>
+                ),
+              },
             ],
           },
         ],
@@ -248,6 +266,50 @@ const router = createBrowserRouter([
             ],
           },
         ],
+      },
+      {
+        path: "settings",
+        element: (
+          <SuspenseWrapper>
+            <UserSettings />
+          </SuspenseWrapper>
+        ),
+      },
+    ],
+  },
+
+  // student routes
+  {
+    path: "/student",
+    element: (
+      <SuspenseWrapper>
+        <StudentLayout />{" "}
+      </SuspenseWrapper>
+    ),
+    children: [
+      {
+        index: true,
+        element: (
+          <SuspenseWrapper>
+            <StudentHome />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "*",
+        element: (
+          <SuspenseWrapper>
+            <Error404 redirectTo={"/student"} />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "settings",
+        element: (
+          <SuspenseWrapper>
+            <UserSettings />
+          </SuspenseWrapper>
+        ),
       },
     ],
   },

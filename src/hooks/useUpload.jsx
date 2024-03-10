@@ -1,20 +1,21 @@
 import axios from "axios";
 import { useState } from "react";
+import { BaseApi } from "../util/BaseApi";
 
-export default function useUpload(url, method = "patch") {
+export default function useUpload() {
   const [data, setData] = useState(null);
   const [progress, setProgress] = useState(null);
   const [error, setError] = useState(null);
   const [abort, setAbort] = useState(null);
   const [state, setState] = useState(null);
-  function upload(body) {
+  function upload(path, method, body) {
     const controller = new AbortController();
     setAbort(controller);
     setProgress(0);
     setState("uploading");
     axios({
       method: method,
-      url: url,
+      url: BaseApi + path,
       data: body,
       headers: {
         "Content-Type": "multipart/form-data",

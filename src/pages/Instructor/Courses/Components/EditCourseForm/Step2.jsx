@@ -9,16 +9,14 @@ import {
   TextField,
   createFilterOptions,
 } from "@mui/material";
+import { useGetCategories } from "api/global/categories.tsx";
 import React from "react";
-import useGetData from "../../../../../hooks/useGetData";
-import { BaseApi } from "../../../../../util/BaseApi";
+
 const filter = createFilterOptions();
 
 function Step2({ formik }) {
-  const { data: categoriesData } = useGetData(BaseApi + "/category");
-  const categoryList = categoriesData?.category;
+  const { data: categoryList } = useGetCategories();
   const levelList = ["Beginner", "Intermediate", "Expert", "All Levels"];
-  console.log(formik);
   return (
     <Box
       display="flex"
@@ -66,26 +64,26 @@ function Step2({ formik }) {
           <FormHelperText>{formik.errors.category}</FormHelperText>
         )}
       </FormControl>
-      {/*----------------------------------Subcategory ------------------------*/}
+      {/*----------------------------------subCategory ------------------------*/}
       <FormControl
         fullWidth
         error={
-          formik.errors.subcategory !== undefined && formik.touched.subcategory
+          formik.errors.subCategory !== undefined && formik.touched.subCategory
         }
       >
-        <InputLabel id="select-subcategory">Subcategory</InputLabel>
+        <InputLabel id="select-subcategory">subCategory</InputLabel>
         <Select
           labelId="select-subcategory"
-          id="subcategory"
-          label="Subcategory"
+          id="subCategory"
+          label="subCategory"
           onChange={(event) =>
-            formik.setFieldValue("subcategory", event.target.value)
+            formik.setFieldValue("subCategory", event.target.value)
           }
           onBlur={formik.handleBlur}
-          value={formik.values.subcategory}
+          value={formik.values.subCategory}
           error={
-            formik.errors.subcategory !== undefined &&
-            formik.touched.subcategory
+            formik.errors.subCategory !== undefined &&
+            formik.touched.subCategory
           }
           MenuProps={{
             PaperProps: {
@@ -103,8 +101,8 @@ function Step2({ formik }) {
               </MenuItem>
             ))}
         </Select>
-        {formik.errors.subcategory && formik.touched.subcategory && (
-          <FormHelperText>{formik.errors.subcategory}</FormHelperText>
+        {formik.errors.subCategory && formik.touched.subCategory && (
+          <FormHelperText>{formik.errors.subCategory}</FormHelperText>
         )}
       </FormControl>
       {/*----------------------------------Level ------------------------*/}

@@ -1,30 +1,28 @@
 import React from "react";
 import EditWorkshopForm from "../Components/EditWorkshopForm/EditWorkshopForm";
 import { Box, Typography } from "@mui/material";
-import { useLocation } from "react-router-dom";
-import { BaseApi } from "../../../../util/BaseApi";
-import useGetData from "../../../../hooks/useGetData";
-import ErrorPage from "../../Error/ErrorPage";
+import ErrorPage from "pages/Instructor/Error";
+import { useGetWorkshop } from "api/instructor/workshops.tsx";
+import useGetParams from "hooks/useGetParams";
+
 function EditWorkshopInfo() {
-  const location = useLocation();
-  const pathList = location.pathname.split("/");
-  const workshopId = pathList[pathList.length - 2];
+  const params = useGetParams();
   const {
     data: workshop,
-    loading: loadingWorkshop,
-    error: errorWorkshop,
-  } = useGetData(BaseApi + "/workshop/" + workshopId);
-  if (errorWorkshop?.response?.status < 500) {
-    return <ErrorPage error={errorWorkshop} redirectTo="/instructor/courses" />;
+    isLoading: workshopLoading,
+    isError: workshopError,
+  } = useGetWorkshop(params[1]);
+  if (workshopError?.response?.status < 500) {
+    return <ErrorPage error={workshopError} redirectTo="/instructor/courses" />;
   }
   return (
     <Box pb="1em">
-      {loadingWorkshop ? (
+      {workshopLoading ? (
         <Typography variant="body1" component="p">
           Loading...
         </Typography>
       ) : (
-        <EditWorkshopForm workshop={workshop.results} />
+        <EditWorkshopForm workshop={workshop} />
       )}
     </Box>
   );

@@ -5,41 +5,18 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import axios from "axios";
-import { BaseApi } from "../../../../../util/BaseApi";
 import { LoadingButton } from "@mui/lab";
+import { useDeleteWorkshop } from "api/instructor/workshops.tsx";
 
-export default function DeleteCourse({ open, setOpen, id, setWorkshopsList }) {
-  const [loading, setLoading] = React.useState(false);
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleDelete = () => {
-    setLoading(true);
-    axios
-      .delete(BaseApi + `/workshop/${id}`, {
-        headers: {
-          "Application-Type": "application/json",
-          token: localStorage.getItem("token"),
-        },
-      })
-      .then((res) => {
-        console.log("deleted");
-        setLoading(false);
-        setWorkshopsList((prev) =>
-          prev.filter((workshop) => workshop._id !== id)
-        );
-        handleClose();
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
-      });
-  };
+export default function DeleteCourse({ open, setOpen, id: workshopId }) {
+  const { mutate: deleteWorkshop, isPending: loading } = useDeleteWorkshop({
+    onSuccess: () => setOpen(false),
+  });
+
   return (
     <Dialog
       open={open}
-      onClose={handleClose}
+      onClose={() => setOpen(false)}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
       sx={{
@@ -63,8 +40,12 @@ export default function DeleteCourse({ open, setOpen, id, setWorkshopsList }) {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <LoadingButton onClick={handleDelete} color="error" loading={loading}>
+        <Button onClick={() => setOpen(false)}>Cancel</Button>
+        <LoadingButton
+          onClick={() => deleteWorkshop(workshopId)}
+          color="error"
+          loading={loading}
+        >
           Delete
         </LoadingButton>
       </DialogActions>

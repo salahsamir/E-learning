@@ -1,5 +1,5 @@
 import { Box, Chip, List, ListItem, TextField } from "@mui/material";
-import TextEditor from "../../../../../Components/TextEditor/TextEditor";
+import TextEditor from "../../../../../features/TextEditor";
 import { useState } from "react";
 import { Add } from "@mui/icons-material";
 

@@ -49,7 +49,7 @@ function NotificationsMenu() {
         {notifications.map((notification, index) => (
           <>
             <NotficationItem
-              key={index + Math.random() * 10}
+              key={notification.id + Math.random() * 10}
               avatar={notification.avatar}
               title={notification.title}
               description={notification.description}

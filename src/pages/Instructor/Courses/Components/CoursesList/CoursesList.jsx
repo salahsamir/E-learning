@@ -1,5 +1,5 @@
 import { Link } from "@mui/material";
-import CustomTable from "../../../../../Components/CustomTable/CustomTable";
+import CustomTable from "../../../../../shared/ui/CustomTable/CustomTable";
 import CourseMenu from "../CourseMenu/CourseMenu";
 
 const CourseName = ({ name, url }) => {
@@ -48,7 +48,6 @@ function CoursesList({
   errorCoursesList,
   setCoursesList,
 }) {
-  console.log(coursesList);
   function createData(
     id,
     courseName,
@@ -69,7 +68,7 @@ function CoursesList({
       settings: <CourseMenu key={id} id={id} setCoursesList={setCoursesList} />,
     };
   }
-  const rows = coursesList.map((_, index, arr) => {
+  const rows = coursesList?.map((_, index, arr) => {
     const item = arr[arr.length - index - 1];
     return createData(
       item._id,
