@@ -9,11 +9,8 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import PageviewIcon from "@mui/icons-material/Pageview";
 import { Avatar, Box, Grid, Rating, Stack, Typography } from "@mui/material";
 import style from "./Vertical.module.css";
-
 import { Favorite } from "@mui/icons-material";
-
 import { allContext } from "../../Context/Context.jsx";
-
 function TabPanel({ children, value, index, ...other }) {
   let nav = useNavigate();
   let { AddToWishlist, AddToCart } = useContext(allContext);

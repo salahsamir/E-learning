@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { Remove } from "@mui/icons-material";
 import { Button, Rating, Stack, Typography } from "@mui/material";
 import React, { useContext } from "react";
-import { cartActions } from "../../store/cartSlice";
+
 import { useDispatch } from "react-redux";
 import { allContext } from "../../Context/Context.jsx";
 
@@ -12,7 +12,6 @@ const Image = styled("img")(({ theme }) => ({
   borderRadius: 5,
 }));
 function CartItem(props) {
-  const dispatch = useDispatch();
   let {RemoveFromCart}=useContext(allContext)
 
   const { courseId, name, image, category, price, rating, instructorName } =
