@@ -20,8 +20,13 @@ import Loading from "../pages/Loading/Loading.jsx";
 import InstructorLayout from "../pages/Instructor/Layout.jsx";
 import Setting from "../pages/Setting/Setting.jsx";
 import CourseDetails from "../pages/CourseDetails/CourseDetails.jsx";
+<<<<<<< HEAD
 
 // instructor routes
+=======
+import MyCourses from "../pages/UserCourses/MyCourses.jsx";
+import Parts from "../Components/Parts/Parts.jsx";
+>>>>>>> salah
 const InstructorDashboard = lazy(() =>
   import("../pages/Instructor/Dashboard/index.jsx")
 );
@@ -88,12 +93,15 @@ const router = createBrowserRouter([
       { path: "sendCode", element: <ConfirmCode /> },
       { path: "updatePassword", element: <UpdatePasswordForm /> },
       { path: "course/:id", element: <CoursesPage /> },
-      { path: "video", element: <Video /> },
+      { path: "part/:id/:chapter", element: <Parts /> },
       { path: "assignment", element: <Assignment /> },
       { path: "Chapter/:id", element: <Chapter /> },
       { path: "profile", element: <Profile /> },
       { path: "setting", element: <Setting /> },
       { path: "courseDetails/:id", element: <CourseDetails /> },
+      { path: "myCourse", element: <MyCourses /> },
+      { path: "video/:id/:chapter/:curriculum", element: <Video /> },
+
 
       { path: "*", element: <NotFound /> },
     ],

@@ -6,11 +6,13 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { allContext } from "../../Context/Context.jsx";
 export default function SectionCourses() {
+  let {category}=useContext(allContext)
   const dummyCourses = [
     {
       title: "React complete Course",
@@ -157,7 +159,7 @@ export default function SectionCourses() {
             </>
           ))}
         </Grid>
-
+        
         <Divider>
           <Button variant="contained"></Button>
         </Divider>

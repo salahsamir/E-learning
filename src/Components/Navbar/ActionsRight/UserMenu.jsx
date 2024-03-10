@@ -91,7 +91,7 @@ function UserMenu() {
           <ListItemText sx={{ pl: 1 }}>Profile</ListItemText>
         </MenuItem>
         <SolidDvider />
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={()=>{nav("/mycourse", { replace: true })}}>
           <ListItemIcon>
             <SchoolOutlined />
           </ListItemIcon>

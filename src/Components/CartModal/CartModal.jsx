@@ -31,6 +31,7 @@ function CartModal(props) {
     token: localStorage.getItem("token"),
   };
 
+<<<<<<< HEAD
   let { cart, cartdata, RemoveFromCart } = useContext(allContext);
 
   const createOrder = async () => {
@@ -42,6 +43,12 @@ function CartModal(props) {
       console.log(error);
     }
   };
+=======
+
+
+  let {cart,cartdata,RemoveFromCart,createOrder}=useContext(allContext)
+
+>>>>>>> salah
 
   return (
     <Modal open={props.open} onClose={props.onClose}>

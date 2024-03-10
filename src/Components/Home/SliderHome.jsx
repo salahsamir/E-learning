@@ -35,24 +35,45 @@ export default function SliderHome() {
 
 <Stack >
 
-<Slider {...settings}> 
-        {sliderItems.map((ele,index)=>
-        <Stack key={index} textAlign={'center'} m={'auto'}  alignContent={'center'} width={'70vw'} height={'90vh'}>
-       <Box position={'relative'}>
-       <Avatar variant='rounded' src={ele.img}   sx={{ width:'100vw',backgroundSize:"cover",backgroundPosition: "100%", height:'100vh' }}/>
-       <Box  position={'absolute'} top={'35%'} left={'8%'} alignItems={'center'}  width={'450px'} p={'4px'}  sx={{ backgroundColor: (theme) => theme.palette.background.default,display:{xs:"none",sm:"block"} ,borderRadius:"20px"}}>
-          <Typography variant='h3' py={'5px'} color='primary'>
-            {ele.title}
-          </Typography>
-          <Typography variant='p' >{ele.description}</Typography>
-        </Box>
+<Slider {...settings}>
+      {sliderItems.map((ele, index) => (
+        <Stack key={index} textAlign={'center'} m={'auto'} alignContent={'center'} >
+          <Box position={'relative'}>
+            {/* Adjusting the width and height based on screen size */}
+            <Avatar
+              variant='rounded'
+              src={ele.img}
+              sx={{
+                width: '100%', // Takes full width on all screen sizes
+                height: '100%', // Takes full height of the viewport
+                backgroundSize: 'cover',
+                backgroundPosition: '100%',
+                position: 'relative',
+              }}
+            />
+            <Box
+              position={'absolute'}
+              top={'35%'}
+              left={'8%'}
+              alignItems={'center'}
+              width={'30%'}
+              p={'4px'}
+              sx={{
+                backgroundColor: (theme) => theme.palette.background.default,
+                display: { xs: "none", md: "block" },
+                borderRadius: "20px"
+              }}
+            >
+                          
+           <Typography variant='h3' sx={{ fontSize: { xs: '2em', sm: '3em' }, py: '5px' }}  color= 'secondary'>
 
-       </Box>
-       
-
+                {ele.title}
+              </Typography>
+              {/* <Typography variant='p'>{ele.description}</Typography> */}
+            </Box>
+          </Box>
         </Stack>
-        
-        )}
+      ))}
     </Slider>
 
 </Stack>

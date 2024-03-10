@@ -1,62 +1,86 @@
-
-import { Avatar, Typography } from '@mui/material'
+import {  Box, Button, CircularProgress, Container, Stack, Typography } from '@mui/material';
 import axios from 'axios';
-import React from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-// import "./Chapter.css";
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-export default function Chapter() {
-  const {id}=useParams()
-  
-  let [chapter, setchapter] = React.useState([]);
-  React.useEffect(() => {
-   const fetchData = async () => {
-     try {
-       const response = await axios.get(
-         `https://education-project.azurewebsites.net/course/${id}/chapter/`
-       );
-     setchapter(response.data.chapters);
-    //  console.log(response.data.chapters);
-       
+import { BaseApi } from '../../util/BaseApi.js';
+function CircularProgressWithLabel(props) {
+  return (
+    <Box
+      sx={{
+        position: "relative",
     
-       
-     } catch (error) {
-       console.log(error);
-     }
-   };
-
-   fetchData();
-   
- }, []);
-  let nav=useNavigate()
+        display: "inline-flex",
+        padding: "5px",
+      }}
+    >
+      <CircularProgress variant="determinate" size={50} value={"100%"} />
+      <Box
+        sx={{
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          position: "absolute",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Typography variant="h6" color="text.secondary">
+          {props.value}
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
+export default function Chapter() {
+  const[chapter,setChapter]=useState([]);
+    const {id}=useParams();
+    let navigate=useNavigate();
+    let getAllChapter = async () => {
+      try {
+        const response = await axios.get(`${BaseApi}/course/${id}/chapter`);
+        if (response && response.data) {
+          setChapter(response.data.chapters)
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+   let Parts=async(chapter)=>{
+    navigate(`/part/${id}/${chapter}`)
+    
+   }
+   useEffect(()=>{
+    getAllChapter()
+   },[])
   return (
     <>
-    <div className="container  my-4 py-4">
+      <Stack spacing={2} my={2} py={5}>
+        <Container>
+        <Typography variant="h3" p={1} color={"primary"} textAlign="center">Chapters</Typography>
+        {chapter ? (
+  <div className="row">
   
-     <div className="m-auto p-1  my-1 ">
- {chapter?
-   <div className="row">
-   {chapter.map((ele)=>
-     <div className="col-md-3">
-     <div className='border rounded-3  p-2' onClick={()=>{nav('/video')}}>
-     <Typography variant='h5' textAlign={'center'} color='primary'>{ele.title}</Typography>
-           <Avatar className='img-fluid w-100 h-75 py-2' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1HVNHQmF6XqXS0xqpvfcJFY3cQIAQEB3XmJ_edOZdMQ&s'  variant="rounded"/>
-           <Typography variant='p'>Introdction to html part 1</Typography>
-     </div>
-          </div>
-   
-   )}
-   
-     </div>
-
-:""}
-     </div>
-
-    </div>
-    
-    
-    
+    {chapter.map((item) => {
+      return (
+        <div key={item.id} className="col-md-4 my-2 ">
+         <Box display="flex"  onClick={()=>Parts(item._id)} justifyContent="space-between" width="100%" alignItems="center" border={"1px solid "} borderRadius={"10px"} borderColor={"secondary.main"} p={2} gap="1em">
+         <CircularProgressWithLabel color="secondary" value={item.order} />
+          <Typography variant="style1">{item.title}</Typography>
+          <Button variant="outlined"  ><ArrowForwardIcon/></Button>
+         </Box>
+        </div>
+      );
+    })}
+  </div>
+) : null}
+        </Container>
+        
+      </Stack>
+  
     </>
-
-  )
+  );
 }

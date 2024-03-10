@@ -6,7 +6,7 @@ import VerticalTabs from '../../Components/Subcategory//VerticalTabs.jsx';
 
 export default function CoursesPage() {
   const {id}=useParams()
-
+    
   return (
     <Stack spacing={4} my={"60px"} >    
    
