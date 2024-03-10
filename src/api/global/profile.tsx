@@ -43,8 +43,6 @@ export function useUpdateProfile({ onSuccess, onError }: MutationFnProps = {}) {
         error.response.data?.ValidationError?.[0]?.message ||
         error.response.data?.message ||
         error.message;
-      console.log(error);
-
       toast.error(errorMsg);
       onError && onError(error);
     },
