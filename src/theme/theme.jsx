@@ -4,7 +4,6 @@ export const theme = (mode) =>
   createTheme({
     palette: {
       mode,
-<<<<<<< HEAD
       primary: {
         main: mode === "light" ? colors.primary[7] : colors.primary[4],
         dark: mode === "light" ? colors.primary[6] : colors.primary[5],
@@ -59,60 +58,6 @@ export const theme = (mode) =>
         primary: mode === "light" ? "#343434" : "#F5F5F5",
         secondary: mode === "light" ? "#808080" : "#FEFEFE",
       },
-=======
-      ...(mode === "light"
-        ? {
-            background: {
-              default: "#f4f4f8",
-              b1: "#fff",
-              b2: "#e1ecc7",
-              b3: "#f7ffe5",
-              autofill: "#f4f4f8",
-              skeleton: "rgba(0, 0, 0, 0.03)",
-              paper: "#fff",
-            },
-            primary: {
-              main: "#007D53",
-              light: "#007E92",
-              dark: "#09a16b",
-              border: "rgb(241, 243, 244)",
-              border2: "rgba(50, 71, 92, 0.12)",
-              svg: "#000",
-              scrollbar: "#c4c4c4",
-            },
-
-            thrid: {
-              main: "#65888C",
-            },
-            secondary:{
-              main:"#3C92A6"
-            }
-          }
-        : {
-            background: {
-              default: "#232333",
-              b1: "#2b2c40",
-              b2: "#2b2c40",
-              autofill: "#232333",
-              skeleton: "rgba(255, 255, 255, 0.05)",
-              paper: "#2b2c40",
-            },
-            primary: {
-              main: "#1BB385",
-              border: "rgb(46, 50, 54)",
-              border2: "rgba(219, 219, 235, 0.12)",
-              light: "#189AB4",
-              dark: "#009766",
-              scrollbar: "#626585",
-            },
-            thrid: {
-              main: "#A69494",
-            },
-            secondary:{
-              main:"#3C92A6"
-            }
-          }),
->>>>>>> salah
     },
     components: {
       MuiCssBaseline: {

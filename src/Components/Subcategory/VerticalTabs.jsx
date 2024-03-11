@@ -24,7 +24,7 @@ function TabPanel({ children, value, index, ...other }) {
       const response = await axios.get(
         `${BaseApi}/course/category/${value}/subCategory/${index}`
       );
-     
+
       setCourse(response.data.courses);
     } catch (error) {
       console.log(error);
@@ -52,27 +52,14 @@ function TabPanel({ children, value, index, ...other }) {
               <Stack>
                 <div className="row">
                   {course.map((ele, index) => (
-<<<<<<< HEAD
-                    <Grid
-                      item
-                      sm={3}
-                      xs={6}
-                      md={3}
+                    <div
                       p={"5px"}
                       key={index}
                       data-aos="zoom-in-down"
                       background={"#fff"}
-                      className={`${style.course}`}
+                      className={` col-md-3 ${style.course}`}
                     >
                       <Box position={"relative"}>
-=======
-                    <div   p={"5px"}
-                      key={index}
-                      data-aos="zoom-in-down"
-                      background={"#fff"}
-                      className={` col-md-3 ${style.course}`}>
- <Box position={"relative"}>
->>>>>>> salah
                         <Box>
                           <Avatar
                             variant="rounded"
@@ -82,10 +69,8 @@ function TabPanel({ children, value, index, ...other }) {
                               width: "100%",
                               backgroundSize: "cover",
                               backgroundPosition: "center",
-                           
                             }}
                           />
-                         
                         </Box>
                         <Typography variant="h6" color="primary">
                           {ele.title}
@@ -145,7 +130,6 @@ function TabPanel({ children, value, index, ...other }) {
                     </div>
                   ))}
                 </div>
-           
               </Stack>
             ) : (
               ""

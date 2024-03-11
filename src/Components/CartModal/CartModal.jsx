@@ -9,14 +9,7 @@ import {
 } from "@mui/material";
 import React, { useContext } from "react";
 import CartItem from "./CartItem";
-// import { useDispatch, useSelector } from "react-redux";
-import { cartActions } from "../../store/cartSlice";
-
-import axios, { Axios } from "axios";
-// >>>>>>> 322d1d7 (delete from cartmodel redux)
-import { BaseApi } from "../../util/BaseApi.js";
 import { allContext } from "../../Context/Context.jsx";
-
 
 const CartWrapper = styled(Paper)(({ theme }) => ({
   position: "absolute",
@@ -36,26 +29,18 @@ function CartModal(props) {
     token: localStorage.getItem("token"),
   };
 
+  // const createOrder = async () => {
+  //   try {
+  //     const response = await axios.post(`${BaseApi}/order`, null, { headers });
+  //     console.log(response);
+  //     window.location.href = response.data.result;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
+  let { cart, cartdata, RemoveFromCart, createOrder } = useContext(allContext);
 
-  const createOrder = async () => {
-    try {
-      const response = await axios.post(`${BaseApi}/order`, null, { headers });
-      console.log(response);
-      window.location.href = response.data.result;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-
-  let {cart,cartdata,RemoveFromCart,createOrder}=useContext(allContext)
-
-<<<<<<< HEAD
-
-
-=======
->>>>>>> salah
   return (
     <Modal open={props.open} onClose={props.onClose}>
       <CartWrapper elevation={0}>
