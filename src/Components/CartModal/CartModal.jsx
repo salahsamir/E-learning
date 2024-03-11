@@ -9,9 +9,14 @@ import {
 } from "@mui/material";
 import React, { useContext } from "react";
 import CartItem from "./CartItem";
-import axios from "axios";
+// import { useDispatch, useSelector } from "react-redux";
+import { cartActions } from "../../store/cartSlice";
+
+import axios, { Axios } from "axios";
+// >>>>>>> 322d1d7 (delete from cartmodel redux)
 import { BaseApi } from "../../util/BaseApi.js";
 import { allContext } from "../../Context/Context.jsx";
+
 
 const CartWrapper = styled(Paper)(({ theme }) => ({
   position: "absolute",
@@ -31,7 +36,7 @@ function CartModal(props) {
     token: localStorage.getItem("token"),
   };
 
-  let { cart, cartdata, RemoveFromCart } = useContext(allContext);
+
 
   const createOrder = async () => {
     try {
@@ -43,6 +48,14 @@ function CartModal(props) {
     }
   };
 
+
+  let {cart,cartdata,RemoveFromCart,createOrder}=useContext(allContext)
+
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> salah
   return (
     <Modal open={props.open} onClose={props.onClose}>
       <CartWrapper elevation={0}>

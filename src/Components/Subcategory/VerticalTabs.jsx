@@ -9,23 +9,22 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import PageviewIcon from "@mui/icons-material/Pageview";
 import { Avatar, Box, Grid, Rating, Stack, Typography } from "@mui/material";
 import style from "./Vertical.module.css";
-
 import { Favorite } from "@mui/icons-material";
-
 import { allContext } from "../../Context/Context.jsx";
 
 function TabPanel({ children, value, index, ...other }) {
   let nav = useNavigate();
   let { AddToWishlist, AddToCart } = useContext(allContext);
-  let headers = {
-    token: localStorage.getItem("token"),
-  };
+  // let headers = {
+  //   token: localStorage.getItem("token"),
+  // };
   let [course, setCourse] = useState([]);
   const getAllCourse = async () => {
     try {
       const response = await axios.get(
         `${BaseApi}/course/category/${value}/subCategory/${index}`
       );
+     
       setCourse(response.data.courses);
     } catch (error) {
       console.log(error);
@@ -51,8 +50,9 @@ function TabPanel({ children, value, index, ...other }) {
           <>
             {course ? (
               <Stack>
-                <Grid p={1}>
+                <div className="row">
                   {course.map((ele, index) => (
+<<<<<<< HEAD
                     <Grid
                       item
                       sm={3}
@@ -65,6 +65,14 @@ function TabPanel({ children, value, index, ...other }) {
                       className={`${style.course}`}
                     >
                       <Box position={"relative"}>
+=======
+                    <div   p={"5px"}
+                      key={index}
+                      data-aos="zoom-in-down"
+                      background={"#fff"}
+                      className={` col-md-3 ${style.course}`}>
+ <Box position={"relative"}>
+>>>>>>> salah
                         <Box>
                           <Avatar
                             variant="rounded"
@@ -74,19 +82,10 @@ function TabPanel({ children, value, index, ...other }) {
                               width: "100%",
                               backgroundSize: "cover",
                               backgroundPosition: "center",
-                              // borderTopLeftRadius: "20%",
+                           
                             }}
                           />
-                          {/* <Avatar
-                  src={ele.instructorImg}
-                  sx={{
-                    backgroundSize: "cover",
-                    height: "25%",
-                    width: "20%",
-                    position: "absolute", left: "10px", top: "90%"
-                  }}
-                />
-               */}
+                         
                         </Box>
                         <Typography variant="h6" color="primary">
                           {ele.title}
@@ -143,9 +142,10 @@ function TabPanel({ children, value, index, ...other }) {
                           />
                         </Box>
                       </Box>
-                    </Grid>
+                    </div>
                   ))}
-                </Grid>
+                </div>
+           
               </Stack>
             ) : (
               ""
@@ -201,7 +201,7 @@ function VerticalTabs({ id }) {
       {subcategory.length > 0 && (
         <>
           <Grid container>
-            <Grid item sm={2} md={2} sx={{}}>
+            <Grid item xs={12} sm={3} md={2}>
               <Tabs
                 orientation="vertical"
                 value={value}
@@ -226,7 +226,7 @@ function VerticalTabs({ id }) {
                 ))}
               </Tabs>
             </Grid>
-            <Grid item sm={10} md={10}>
+            <Grid item xs={12} sm={9} md={10}>
               <TabPanel value={id} index={index} />
             </Grid>
             <Grid />
