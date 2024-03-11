@@ -4,6 +4,9 @@ export const theme = (mode) =>
   createTheme({
     palette: {
       mode,
+      thrid: {
+        main: "#A69494",
+      },
       primary: {
         main: mode === "light" ? colors.primary[7] : colors.primary[4],
         dark: mode === "light" ? colors.primary[6] : colors.primary[5],
