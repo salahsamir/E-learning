@@ -15,9 +15,7 @@ import { allContext } from "../../Context/Context.jsx";
 function TabPanel({ children, value, index, ...other }) {
   let nav = useNavigate();
   let { AddToWishlist, AddToCart } = useContext(allContext);
-  // let headers = {
-  //   token: localStorage.getItem("token"),
-  // };
+
   let [course, setCourse] = useState([]);
   const getAllCourse = async () => {
     try {
@@ -57,7 +55,7 @@ function TabPanel({ children, value, index, ...other }) {
                       key={index}
                       data-aos="zoom-in-down"
                       background={"#fff"}
-                      className={` col-md-3 ${style.course}`}
+                      className={` col-md-4 ${style.course}`}
                     >
                       <Box position={"relative"}>
                         <Box>

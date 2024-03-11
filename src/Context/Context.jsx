@@ -10,7 +10,7 @@ export const allContext=createContext()
 
 export const AllProvider=({children})=>{
     let headers={
-        token:localStorage.getItem('token')
+        token:"eLearning__eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YzRiZGM1ZmU3YjNjOTU4YTQ3YzhkYyIsImVtYWlsIjoic2FsYWhzYWFtaXI3MDdAZ21haWwuY29tIiwiaWF0IjoxNzEwMTU3OTExLCJleHAiOjE3MTI3NDk5MTF9.oXoVc-AqhHNefsuX_7G0Q63Y12ruwCX6at5m6-cqG4k"
     }
     ///////////////////////////Category/************ */
     let [category,setCategory]=useState([])
@@ -88,8 +88,11 @@ let getCoursesBought=async()=>{
       }
   }
    async function AddToWishlist(id){
+       
         try {
+          console.log(headers);
             await axios.patch(`${BaseApi}/user/wishlist/${id}`, null, { headers });
+            console.log(await axios.patch(`${BaseApi}/user/wishlist/${id}`, null, { headers }));
             toast.success('Successfully added to wishlist!', {
               icon: '👏',
               style: {
@@ -100,6 +103,7 @@ let getCoursesBought=async()=>{
             });
            getWishlist()
           } catch (error) {
+            console.log(error);
             toast.error(error.response.data.message, {
               style: {
                 borderRadius: '10px',

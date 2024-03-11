@@ -186,8 +186,9 @@ Our mission is to harness the power of innovation to redefine education for the 
         </Typography>
         <Divider color={"yellow"}></Divider>
         <Stack spacing={3} p={"20px"} m={"30px"} textAlign={"center"}>
-          <Slider {...settings}>
-            <Card sx={{ maxWidth: 350 }}>
+         <div className="row">
+          <div className="col-md-4 my-1">
+          <Card sx={{ maxWidth: 350 }}>
               <CardMedia
                 component="img"
                 height="194"
@@ -204,11 +205,14 @@ Our mission is to harness the power of innovation to redefine education for the 
                 </Typography>
               </CardContent>
             </Card>
-            <Card sx={{ maxWidth: 350 }}>
+          
+          </div>
+          <div className="col-md-4 my-1">
+          <Card sx={{ maxWidth: 350 }}>
               <CardMedia
                 component="img"
                 height="194"
-                image="https://t3.ftcdn.net/jpg/03/96/82/74/240_F_396827498_9yKnsAczlHAchymfOZ6xLqypXOkD9pw8.jpg"
+                image="https://t4.ftcdn.net/jpg/04/83/72/03/240_F_483720331_euzEQRP2Qd33TTk4mQqunpIIHRyMKIQJ.jpg"
                 alt="Paella dish"
               />
               <CardContent>
@@ -221,11 +225,14 @@ Our mission is to harness the power of innovation to redefine education for the 
                 </Typography>
               </CardContent>
             </Card>
-            <Card sx={{ maxWidth: 350 }}>
+
+         </div>
+         <div className="col-md-4 my-1">
+          <Card sx={{ maxWidth: 350 }}>
               <CardMedia
                 component="img"
                 height="194"
-                image="https://t3.ftcdn.net/jpg/03/43/36/86/240_F_343368643_sQH4MLN93Rzu3bGSiiFiX9pIIIOxUlYC.jpg"
+                image="https://t4.ftcdn.net/jpg/04/83/72/03/240_F_483720331_euzEQRP2Qd33TTk4mQqunpIIHRyMKIQJ.jpg"
                 alt="Paella dish"
               />
               <CardContent>
@@ -238,41 +245,9 @@ Our mission is to harness the power of innovation to redefine education for the 
                 </Typography>
               </CardContent>
             </Card>
-            <Card sx={{ maxWidth: 350 }}>
-              <CardMedia
-                component="img"
-                height="194"
-                image="https://t4.ftcdn.net/jpg/04/03/25/33/240_F_403253399_4yyGR4TMSa4lzkqG5GiD9chbt5w6KnrE.jpg"
-                alt="Paella dish"
-              />
-              <CardContent>
-                <Typography variant="h5" color="primary">
-                  salah
-                </Typography>
-                <Typography variant="body2" color="secondary">
-                  This impressive paella is a perfect party dish and a fun meal
-                  to cook
-                </Typography>
-              </CardContent>
-            </Card>
-            <Card sx={{ maxWidth: 350 }}>
-              <CardMedia
-                component="img"
-                height="194"
-                image="https://t3.ftcdn.net/jpg/04/74/95/90/240_F_474959003_6BBjZ41HpDMA2eDbe8d0IBRKL5C7Nf0J.jpg"
-                alt="Paella dish"
-              />
-              <CardContent>
-                <Typography variant="h5" color="primary">
-                  salah
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  This impressive paella is a perfect party dish and a fun meal
-                  to cook
-                </Typography>
-              </CardContent>
-            </Card>
-          </Slider>
+            
+         </div>
+         </div>
         </Stack>
       </Stack>
       <Divider>
