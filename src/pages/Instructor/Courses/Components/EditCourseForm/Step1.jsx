@@ -1,6 +1,7 @@
 import { Box, TextField } from "@mui/material";
 import React from "react";
 import TextEditor from "../../../../../features/TextEditor";
+import InstructorsInput from "./InstructorsInput";
 
 function Step1({ formik }) {
   return (
@@ -18,6 +19,7 @@ function Step1({ formik }) {
           formik.errors.title && formik.touched.title ? formik.errors.title : ""
         }
       />
+      <InstructorsInput formik={formik} />
       <TextField
         id="subtitle"
         label="Subtitle"

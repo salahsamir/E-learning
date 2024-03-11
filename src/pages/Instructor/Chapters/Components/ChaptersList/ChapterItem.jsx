@@ -8,7 +8,7 @@ import ChapterMenu from "../ChapterMenu/ChapterMenu";
 
 const ChapterWrapper = styled(Box)(({ theme }) => ({
   width: "100%",
-  height: "50px",
+  minHeight: "50px",
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",

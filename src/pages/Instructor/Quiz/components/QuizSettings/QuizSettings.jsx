@@ -46,6 +46,7 @@ const CustomInput = ({ formik, id, type, children }) => {
         <Switch
           id={id}
           value={formik.values[id] || false}
+          checked={formik.values[id] || false}
           onChange={formik.handleChange}
         />
       )}
@@ -54,7 +55,9 @@ const CustomInput = ({ formik, id, type, children }) => {
 };
 const QuizSettings = ({ data: quiz }) => {
   const [dialoagOpened, setDialogOpened] = useState(false);
-  const { mutate: updateQuiz } = useUpdateQuiz();
+  const { mutate: updateQuiz } = useUpdateQuiz({
+    onSuccess: () => setDialogOpened(false),
+  });
   const handleClose = () => {
     setDialogOpened(false);
   };

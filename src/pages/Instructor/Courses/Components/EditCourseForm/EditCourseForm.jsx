@@ -87,6 +87,7 @@ function EditCourseForm({ course }) {
   const formik = useFormik({
     initialValues: {
       title: course.title,
+      instructors: course.instructors,
       subtitle: course.subtitle || "",
       language: course.language || "",
       category: course.category || "",
@@ -127,7 +128,14 @@ function EditCourseForm({ course }) {
               .required("Promotion Video is required"),
           }),
     onSubmit: (values) => {
-      editCourse({ id: course._id, data: values });
+      const { instructors, ...modifiedValues } = values;
+      const instructorsIds = instructors.map(
+        (instructor) => instructor.user._id
+      );
+      editCourse({
+        id: course._id,
+        data: { ...modifiedValues, instructorId: instructorsIds },
+      });
     },
   });
 

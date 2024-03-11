@@ -8,12 +8,12 @@ import TopicMenu from "../TopicMenu/TopicMenu";
 
 const ChapterWrapper = styled(Box)(({ theme }) => ({
   width: "100%",
-  height: "40px",
+  minHeight: "40px",
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
   backgroundColor: theme.palette.background.b1,
-  paddingLeft: "0.5em",
+  padding: "0.25em",
   border: `1px solid ${theme.palette.primary.border}`,
   borderRadius: "4px",
 }));

@@ -114,3 +114,23 @@ export function useDeleteAccount({ onSuccess, onError }: MutationFnProps = {}) {
   });
   return mutatation;
 }
+
+export function useSearchUser({ onSuccess, onError }: MutationFnProps = {}) {
+  const mutatation = useMutation({
+    mutationFn: async (userName: string) => {
+      const response = await axios.get(`user/instructor/search?q=${userName}`);
+      return response.data?.matchedData || [];
+    },
+    onSuccess: (data) => {
+      onSuccess && onSuccess(data);
+    },
+    onError: (error: Error | any) => {
+      toast.error(
+        error.response.data.message ||
+          "there was an error while searching for the user"
+      );
+      onError && onError(error);
+    },
+  });
+  return mutatation;
+}

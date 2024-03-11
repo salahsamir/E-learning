@@ -7,6 +7,7 @@ import QuizSettings from "./components/QuizSettings/QuizSettings";
 import QuizHeader from "./components/QuizHeader/QuizHeader";
 import AddQuestion from "./components/AddQuestion/AddQuestion";
 import QuestionsList from "./components/QuestionsList/QuestionsList";
+import LoadingBox from "shared/ui/LoadingBox/LoadingBox";
 
 function Quiz() {
   const { data: quiz, isLoading: quizLoading } = useGetQuiz();
@@ -29,10 +30,16 @@ function Quiz() {
         <Typography variant="h5">Edit Quiz</Typography>
         <QuizSettings data={quiz} />
       </Box>
-      <NavigationHeader data={quiz} />
-      <QuizHeader quiz={quiz} />
-      <QuestionsList />
-      <AddQuestion />
+      {quizLoading ? (
+        <LoadingBox sx={{ height: "400px" }} />
+      ) : (
+        <>
+          <NavigationHeader data={quiz} />
+          <QuizHeader quiz={quiz} />
+          <QuestionsList />
+          <AddQuestion />
+        </>
+      )}
     </>
   );
 }
