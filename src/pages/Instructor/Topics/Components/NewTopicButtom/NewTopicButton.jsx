@@ -49,7 +49,7 @@ const AccordionSummary = styled((props) => (
 export default function NewTopicButton() {
   const [expanded, setExpanded] = React.useState(null);
   const { mutate: addQuiz } = useAddQuiz({
-    onSuccess: (quiz) => navigate(`quiz/${quiz._id}`),
+    onSuccess: (quiz) => navigate(`quiz/${quiz.id}`),
   });
   const { mutate: addArticle } = useAddArticle({
     onSuccess: (article) => navigate(`article/${article.curriculum}`),

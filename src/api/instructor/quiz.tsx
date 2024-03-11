@@ -33,7 +33,7 @@ export function useAddQuiz({ onSuccess, onError }: MutationFnProps = {}) {
     },
     onSuccess: (newData) => {
       queryClient.setQueryData(["topics", params[0]], (old: any) => {
-        const newQuiz = { ...newData, id: newData.curriculum };
+        const newQuiz = { ...newData };
         return { ...old, curriculum: [...old.curriculum, newQuiz] };
       });
       queryClient.setQueryData(["quiz", newData.curriculum], newData);
@@ -73,12 +73,16 @@ export function useAddQuestion({ onSuccess, onError }: MutationFnProps = {}) {
     mutationFn: async ({ type }: { type: "mcq" | "file" | "text" }) => {
       const response = await axios.post(`quiz/${params[0]}/question`, {
         type,
+        text: "Question",
       });
       return response.data;
     },
     onSuccess: (newData) => {
       console.log(newData);
       queryClient.setQueryData(["quiz", params[0]], (old: any) => {
+        if (!old.questions) {
+          return { ...old, questions: [newData] };
+        }
         return { ...old, questions: [...old.questions, newData] };
       });
       toast.success("Question added successfully");
