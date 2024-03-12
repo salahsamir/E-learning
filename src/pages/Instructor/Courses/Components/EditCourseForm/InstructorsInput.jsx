@@ -23,7 +23,6 @@ const InstructorsInput = ({ formik }) => {
   const options = Array.isArray(usersList)
     ? [...usersList, ...selectedInstructors]
     : [...selectedInstructors];
-  console.log(selectedInstructors);
   return (
     <Autocomplete
       id="google-map-demo"
@@ -39,7 +38,7 @@ const InstructorsInput = ({ formik }) => {
       value={selectedInstructors}
       noOptionsText="no users found"
       disableClearable
-      getOptionLabel={(option) => option?.user?.userName}
+      getOptionLabel={(option) => option?.userName}
       onChange={(event, newValue) => {
         setSelectedInstructors(newValue);
       }}
@@ -53,12 +52,12 @@ const InstructorsInput = ({ formik }) => {
         <Box
           component="li"
           {...props}
-          key={(option.user?.id || Math.random()) + Math.random()}
+          key={(option._id || Math.random()) + Math.random()}
         >
           <Grid container alignItems="center">
             <Grid item display="flex" alignItems="center" gap="8px">
-              <Avatar src={option?.user?.profilePic?.url} />
-              <Typography>{option?.user?.userName}</Typography>
+              <Avatar src={option?.profilePic?.url} />
+              <Typography>{option?.userName}</Typography>
             </Grid>
           </Grid>
         </Box>
@@ -67,10 +66,10 @@ const InstructorsInput = ({ formik }) => {
         value.map((option, index) => (
           <Chip
             {...getTagProps({ index })}
-            label={option?.user?.userName}
+            label={option?.userName}
             icon={
               <Avatar
-                src={option?.user?.profilePic?.url}
+                src={option?.profilePic?.url}
                 sx={{
                   width: 24,
                   height: 24,

@@ -129,9 +129,7 @@ function EditCourseForm({ course }) {
           }),
     onSubmit: (values) => {
       const { instructors, ...modifiedValues } = values;
-      const instructorsIds = instructors.map(
-        (instructor) => instructor.user._id
-      );
+      const instructorsIds = instructors.map((instructor) => instructor._id);
       editCourse({
         id: course._id,
         data: { ...modifiedValues, instructorId: instructorsIds },
