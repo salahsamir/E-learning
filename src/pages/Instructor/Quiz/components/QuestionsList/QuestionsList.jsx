@@ -1,10 +1,12 @@
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import { SortableContext } from "@dnd-kit/sortable";
-import React from "react";
+import React, { useState } from "react";
 import { Box } from "@mui/material";
-import QuestionItem from "./QuestionItem";
+import QuestionItem from "./QuestionItem/QuestionItem";
 
 function QuestionsList({ items }) {
+  const [expandedQuestion, setExpandedQuestion] = useState(null);
+  console.log(expandedQuestion);
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (!over) return;
@@ -23,8 +25,14 @@ function QuestionsList({ items }) {
             my: "1em",
           }}
         >
-          {items?.map((item) => (
-            <QuestionItem key={item.id} item={item} />
+          {items?.map((item, index) => (
+            <QuestionItem
+              key={item.id}
+              item={item}
+              questionIndex={index}
+              expandedQuestion={expandedQuestion}
+              setExpandedQuestion={setExpandedQuestion}
+            />
           ))}
         </Box>
       </SortableContext>

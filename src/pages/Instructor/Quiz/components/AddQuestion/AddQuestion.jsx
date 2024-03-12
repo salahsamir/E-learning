@@ -4,6 +4,7 @@ import {
   AttachFileOutlined,
   RadioButtonCheckedOutlined,
 } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
 import { Box, Button, ClickAwayListener, Divider, alpha } from "@mui/material";
 import { useAddQuestion } from "api/instructor/quiz.tsx";
 import React, { useState } from "react";
@@ -21,17 +22,22 @@ const HorizontalDivider = () => {
 };
 const AddQuestion = () => {
   const [menuOpened, setMenuOpened] = useState(false);
-  const { mutate: addQuestion } = useAddQuestion();
+  const { mutate: addQuestion, isPending: loadingQuestion } = useAddQuestion();
+  const handleAddQuestion = (type) => {
+    addQuestion({ type });
+    setMenuOpened(false);
+  };
   return (
     <ClickAwayListener onClickAway={() => setMenuOpened(false)}>
       <Box my="1em">
-        <Button
+        <LoadingButton
           variant="outlined"
           startIcon={<Add />}
-          onClick={() => setMenuOpened((old) => !old)}
+          loading={loadingQuestion}
+          onClick={() => setMenuOpened((prev) => !prev)}
         >
           Add Question
-        </Button>
+        </LoadingButton>
         <Box
           sx={{
             display: menuOpened ? "flex" : "none",
@@ -45,7 +51,7 @@ const AddQuestion = () => {
           <Button
             variant="text"
             startIcon={<RadioButtonCheckedOutlined />}
-            onClick={() => addQuestion({ type: "mcq" })}
+            onClick={() => handleAddQuestion("mcq")}
           >
             MCQ
           </Button>
@@ -53,7 +59,7 @@ const AddQuestion = () => {
           <Button
             variant="text"
             startIcon={<ArticleOutlined />}
-            onClick={() => addQuestion({ type: "text" })}
+            onClick={() => handleAddQuestion("text")}
           >
             Text
           </Button>
@@ -61,7 +67,7 @@ const AddQuestion = () => {
           <Button
             variant="text"
             startIcon={<AttachFileOutlined />}
-            onClick={() => addQuestion({ type: "file" })}
+            onClick={() => handleAddQuestion("file")}
           >
             File
           </Button>

@@ -55,7 +55,7 @@ const CustomInput = ({ formik, id, type, children }) => {
 };
 const QuizSettings = ({ data: quiz }) => {
   const [dialoagOpened, setDialogOpened] = useState(false);
-  const { mutate: updateQuiz } = useUpdateQuiz({
+  const { mutate: updateQuiz, isPending: submitting } = useUpdateQuiz({
     onSuccess: () => setDialogOpened(false),
   });
   const handleClose = () => {
@@ -171,7 +171,9 @@ const QuizSettings = ({ data: quiz }) => {
               }}
             >
               <Button onClick={handleClose}>Cancel</Button>
-              <LoadingButton type="submit">Save</LoadingButton>
+              <LoadingButton type="submit" loading={submitting}>
+                Save
+              </LoadingButton>
             </DialogActions>
           </>
         )}
