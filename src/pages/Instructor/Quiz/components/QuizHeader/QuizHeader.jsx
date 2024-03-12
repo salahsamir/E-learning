@@ -23,8 +23,9 @@ const QuizHeader = ({ quiz }) => {
       onBlur={formik.handleSubmit}
       sx={{
         padding: "1em",
-        backgroundColor: (theme) => theme.palette.background.b1,
+        border: (theme) => `1px solid ${theme.palette.divider}`,
         borderRadius: "8px",
+        backgroundColor: (theme) => theme.palette.background.b1,
         "&:hover": {
           backgroundColor: (theme) => alpha(theme.palette.background.b1, 0.7),
         },
