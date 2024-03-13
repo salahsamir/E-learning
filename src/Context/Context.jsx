@@ -9,8 +9,9 @@ export const allContext=createContext()
 
 
 export const AllProvider=({children})=>{
+    
     let headers={
-        token:"eLearning__eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YzRiZGM1ZmU3YjNjOTU4YTQ3YzhkYyIsImVtYWlsIjoic2FsYWhzYWFtaXI3MDdAZ21haWwuY29tIiwiaWF0IjoxNzEwMTU3OTExLCJleHAiOjE3MTI3NDk5MTF9.oXoVc-AqhHNefsuX_7G0Q63Y12ruwCX6at5m6-cqG4k"
+        token:localStorage.getItem("token")
     }
     ///////////////////////////Category/************ */
     let [category,setCategory]=useState([])
@@ -30,7 +31,7 @@ export const AllProvider=({children})=>{
 
 
 async function getUser(){
-    return await axios.get(`${BaseApi}/user`,{headers}).then(res=>res.data).catch(err=>console.log(err))
+    return await axios.get(`${BaseApi}/user/profile`,{headers}).then(res=>res.data).catch(err=>console.log(err))
 }
 let getUserData=async()=>{
     try {
@@ -66,8 +67,14 @@ let getCoursesBought=async()=>{
     let [wishlist,setWishlist]=useState(0)
     let [wishlistdata,setWishlistdata]=useState([])
     
-    async function getAllWishlist(){
-        return await axios.get(`${BaseApi}/user/wishlist`,{headers}).then(res=>res.data).catch(err=>console.log(err) )
+    async function getAllWishlist() {
+      try {
+        const response = await axios.get(`${BaseApi}/user/wishlist`, { headers });
+        return response.data; // Return only the data part of the response
+      } catch (error) {
+        console.error("Error fetching wishlist:", error);
+        return null;
+      }
     }
     let getWishlist=async()=>{
       try {
@@ -87,59 +94,54 @@ let getCoursesBought=async()=>{
         return null;
       }
   }
-   async function AddToWishlist(id){
-       
-        try {
-          console.log(headers);
-            await axios.patch(`${BaseApi}/user/wishlist/${id}`, null, { headers });
-            console.log(await axios.patch(`${BaseApi}/user/wishlist/${id}`, null, { headers }));
-            toast.success('Successfully added to wishlist!', {
-              icon: '👏',
-              style: {
-                borderRadius: '10px',
-                background: '#1B0A26',
-                color: '#F2C791',
-              },
-            });
-           getWishlist()
-          } catch (error) {
-            console.log(error);
-            toast.error(error.response.data.message, {
-              style: {
-                borderRadius: '10px',
-                background: '#1B0A26',
-                color: '#F2C791',
-              },
-            });
-           
-          }
-    }
-    async function RemoveFromWishlist(id){
-        try {
-            await axios.patch(`${BaseApi}/user/wishlist/${id}/remove`, null, { headers });
-            toast.success('Successfully  removed', {
-              icon: '👏',
-              style: {
-                borderRadius: '10px',
-                background: '#1B0A26',
-                color: '#F2C791',
-              },
-            });
-            // setWishlist(wishlist-1)
-            getWishlist()
-
-          } catch (error) {
-            toast.error(error.response.data.message, {
-              style: {
-                borderRadius: '10px',
-                background: '#1B0A26',
-                color: '#F2C791',
-              },
-            });
-           
-          }
+    
+    async function AddToWishlist(id) {
+      try {
+        await axios.patch(`${BaseApi}/user/wishlist/${id}`,{}, { headers });
+        toast.success('Successfully added to wishlist!', {
+          icon: '👏',
+          style: {
+            borderRadius: '10px',
+            background: '#1B0A26',
+            color: '#F2C791',
+          },
+        });
+        getWishlist();
+      } catch (error) {
+        console.error("Error adding to wishlist:", error);
+        toast.error("Failed to add to wishlist. Please try again later.", {
+          style: {
+            borderRadius: '10px',
+            background: '#1B0A26',
+            color: '#F2C791',
+          },
+        });
+      }
     }
     
+    async function RemoveFromWishlist(id) {
+      try {
+        await axios.patch(`${BaseApi}/user/wishlist/${id}/remove`, {}, { headers });
+        toast.success('Successfully removed from wishlist!', {
+          icon: '👏',
+          style: {
+            borderRadius: '10px',
+            background: '#1B0A26',
+            color: '#F2C791',
+          },
+        });
+        getWishlist();
+      } catch (error) {
+        console.error("Error removing from wishlist:", error);
+        toast.error("Failed to remove from wishlist. Please try again later.", {
+          style: {
+            borderRadius: '10px',
+            background: '#1B0A26',
+            color: '#F2C791',
+          },
+        });
+      }
+    }
     /*************************************cart */
     let [cart,setcart]=useState(0)
     let [cartdata,setcartdata]=useState([])
@@ -150,11 +152,12 @@ let getCoursesBought=async()=>{
     let getCart=async()=>{
       try {
         let res = await getAllCart();
+        
         if (res?.message === "Done") {
+          // console.log(res,"salah",res.course.length);
          
-          setcart(res.cart.course.length);
-          setcartdata(res.cart.course);
-          // console.log(res,cart,cartdata);
+          setcart(res.course.length);
+          setcartdata(res.course);
         } else {
           setcart(0);
           setcartdata([]);
@@ -169,7 +172,7 @@ let getCoursesBought=async()=>{
   }
    async function AddToCart(id){
         try {
-            await axios.patch(`${BaseApi}/cart/add//${id}`, null, { headers });
+            await axios.patch(`${BaseApi}/cart/add/${id}`,{}, { headers });
             toast.success('Successfully added to Cart!', {
               icon: '👏',
               style: {
@@ -191,8 +194,9 @@ let getCoursesBought=async()=>{
           }
     }
     async function RemoveFromCart(id){
+      console.log(id);
         try {
-            await axios.patch(`${BaseApi}/cart/remove/${id}`, null, { headers });
+            await axios.patch(`${BaseApi}/cart/remove/${id}`, {}, { headers });
             toast.success('Successfully  removed', {
               icon: '👏',
               style: {
@@ -218,7 +222,7 @@ let getCoursesBought=async()=>{
     ////////////////////order*////////////////////
     const createOrder=async()=>{
       try{
-        const response=await axios.post(`${BaseApi}/order`,null,{headers})
+        const response=await axios.post(`${BaseApi}/order`,{},{headers})
       
        window.location.href=response.data.result
       }catch(error){
