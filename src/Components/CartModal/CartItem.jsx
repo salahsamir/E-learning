@@ -11,8 +11,9 @@ const Image = styled("img")(({ theme }) => ({
 function CartItem(props) {
   let { RemoveFromCart } = useContext(allContext);
 
-  const { courseId, name, image, category, price, rating, instructorName } =
+  const { courseId, name, coverImageUrl, category, price, rating, instructorName } =
     props.course;
+    // console.log(props.course);
   return (
     <Stack
       direction={{ sm: "row" }}
@@ -37,7 +38,7 @@ function CartItem(props) {
         direction={{ sm: "row" }}
         alignItems={{ xs: "center", sm: "flex-start" }}
       >
-        <Image src={image} alt={name} />
+  coverImageUrl src={coverImageUrl} alt={name} />
         <Stack alignItems={{ xs: "center", sm: "flex-start" }}>
           <Typography
             variant={"body2"}

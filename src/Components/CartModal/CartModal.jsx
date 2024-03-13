@@ -40,6 +40,7 @@ function CartModal(props) {
   // };
 
   let { cart, cartdata, RemoveFromCart, createOrder } = useContext(allContext);
+  // console.log(cart, cartdata);
 
   return (
     <Modal open={props.open} onClose={props.onClose}>
