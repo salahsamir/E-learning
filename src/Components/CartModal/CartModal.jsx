@@ -25,22 +25,7 @@ const CartWrapper = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
 }));
 function CartModal(props) {
-  let headers = {
-    token: localStorage.getItem("token"),
-  };
-
-  // const createOrder = async () => {
-  //   try {
-  //     const response = await axios.post(`${BaseApi}/order`, null, { headers });
-  //     console.log(response);
-  //     window.location.href = response.data.result;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   let { cart, cartdata, RemoveFromCart, createOrder } = useContext(allContext);
-  // console.log(cart, cartdata);
 
   return (
     <Modal open={props.open} onClose={props.onClose}>
