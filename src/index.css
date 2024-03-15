@@ -65,6 +65,7 @@ h2 {
       width: 100%;
     }
   }
+<<<<<<< HEAD
 }
 .PerentHomeSection {
   background-color: rgb(153, 154, 155);
@@ -180,4 +181,6 @@ h2 {
   87% {
     box-shadow: .2em -.2em 0 0 currentcolor;
   }
+=======
+>>>>>>> 7910483 (finished basic quiz structure)
 }

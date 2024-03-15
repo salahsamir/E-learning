@@ -21,7 +21,10 @@ const OptionImage = ({ isExpanded, item, questionId }) => {
       <img
         src={item.imageUrl}
         alt="option"
+<<<<<<< HEAD
         loading="lazy"
+=======
+>>>>>>> 7910483 (finished basic quiz structure)
         style={{
           height: isExpanded ? "250px" : "150px",
           maxWidth: "100%",

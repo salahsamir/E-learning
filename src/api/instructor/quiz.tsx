@@ -234,6 +234,7 @@ export function useUpdateQuestion({
   });
   return mutation;
 }
+<<<<<<< HEAD
 
 export function useReorderQuestions({
   onSuccess,
@@ -284,6 +285,8 @@ export function useReorderQuestions({
   return mutation;
 }
 
+=======
+>>>>>>> 7910483 (finished basic quiz structure)
 // options api
 export function useAddOption({ onSuccess, onError }: MutationFnProps = {}) {
   const queryClient = useQueryClient();
