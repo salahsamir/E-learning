@@ -47,5 +47,24 @@ body {
 }
 
 h2 {
-color: #27c985;
+  color: #27c985;
+}
+
+/* common styles */
+.bottom-line-animation {
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 2px;
+    width: 0px;
+    transition: ease 0.25s;
+  }
+  &:focus {
+    outline: none;
+    &::after {
+      width: 100%;
+    }
+  }
 }

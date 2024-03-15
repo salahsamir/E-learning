@@ -9,7 +9,7 @@ const DeleteOption = ({ questionId, optionId }) => {
   return (
     <IconButton
       sx={{
-        p: "4px",
+        p: "0",
         opacity: 0,
         transition: "ease 0.25s",
         "&:hover": { color: "error.main" },
@@ -31,6 +31,7 @@ const DeleteOption = ({ questionId, optionId }) => {
             height: "24px",
             width: "24px",
             color: "grey.500",
+            "&:hover": { color: "error.main" },
           }}
         />
       )}

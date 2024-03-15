@@ -9,8 +9,7 @@ const DeleteQuestion = ({ questionId, isExpanded }) => {
   return (
     <IconButton
       sx={{
-        p: "4px",
-        opacity: isExpanded ? 1 : 0,
+        p: "0",
         transition: "ease 0.25s",
       }}
       disabled={deleting}

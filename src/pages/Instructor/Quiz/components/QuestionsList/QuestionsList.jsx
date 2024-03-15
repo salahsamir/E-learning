@@ -1,12 +1,22 @@
-import { DndContext, closestCenter } from "@dnd-kit/core";
-import { SortableContext } from "@dnd-kit/sortable";
+import {
+  DndContext,
+  KeyboardSensor,
+  MouseSensor,
+  TouchSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import React, { useState } from "react";
 import { Box } from "@mui/material";
 import QuestionItem from "./QuestionItem/QuestionItem";
 
 function QuestionsList({ items }) {
   const [expandedQuestion, setExpandedQuestion] = useState(null);
-  console.log(expandedQuestion);
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (!over) return;
@@ -14,14 +24,23 @@ function QuestionsList({ items }) {
     const overIndex = items.findIndex((item) => item.id === over.id);
     if (activeIndex === overIndex) return;
   };
+  const mouseSensor = useSensor(MouseSensor);
+  const touchSensor = useSensor(TouchSensor);
+  const keyboardSensor = useSensor(KeyboardSensor);
+
+  const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
   return (
-    <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-      <SortableContext items={items}>
+    <DndContext
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+      sensors={sensors}
+    >
+      <SortableContext items={items} strategy={verticalListSortingStrategy}>
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
-            gap: "0.5em",
+            gap: "1em",
             my: "1em",
           }}
         >
