@@ -14,15 +14,24 @@ import {
 import React, { useState } from "react";
 import { Box } from "@mui/material";
 import QuestionItem from "./QuestionItem/QuestionItem";
+import { useReorderQuestions } from "api/instructor/quiz.tsx";
 
 function QuestionsList({ items }) {
   const [expandedQuestion, setExpandedQuestion] = useState(null);
+  const { mutate: reorderQuestions } = useReorderQuestions();
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (!over) return;
     const activeIndex = items.findIndex((item) => item.id === active.id);
     const overIndex = items.findIndex((item) => item.id === over.id);
     if (activeIndex === overIndex) return;
+    reorderQuestions({
+      questionId: active.id,
+      order: {
+        startPosition: activeIndex + 1,
+        endPosition: overIndex + 1,
+      },
+    });
   };
   const mouseSensor = useSensor(MouseSensor);
   const touchSensor = useSensor(TouchSensor);

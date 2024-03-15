@@ -11,14 +11,24 @@ import { SortableContext } from "@dnd-kit/sortable";
 import React from "react";
 import OptionItem from "./OptionItem/OptionItem";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+import { useReorderOptions } from "api/instructor/quiz.tsx";
 
 function OptionsList({ items, questionId, isExpanded }) {
+  const { mutate: reorderOptions } = useReorderOptions();
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (!over) return;
     const activeIndex = items.findIndex((item) => item.id === active.id);
     const overIndex = items.findIndex((item) => item.id === over.id);
     if (activeIndex === overIndex) return;
+    reorderOptions({
+      questionId,
+      optionId: active.id,
+      order: {
+        startPosition: activeIndex + 1,
+        endPosition: overIndex + 1,
+      },
+    });
   };
   const mouseSensor = useSensor(MouseSensor);
   const touchSensor = useSensor(TouchSensor);

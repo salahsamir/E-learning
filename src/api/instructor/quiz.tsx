@@ -1,3 +1,4 @@
+import { arrayMove } from "@dnd-kit/sortable";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import useGetParams from "hooks/useGetParams";
@@ -229,6 +230,56 @@ export function useUpdateQuestion({
   });
   return mutation;
 }
+
+export function useReorderQuestions({
+  onSuccess,
+  onError,
+}: MutationFnProps = {}) {
+  const queryClient = useQueryClient();
+  const params = useGetParams();
+  const mutation = useMutation({
+    mutationFn: async ({
+      questionId,
+      order,
+    }: {
+      questionId: string;
+      order: {
+        startPosition: number;
+        endPosition: number;
+      };
+    }) => {
+      queryClient.setQueryData(["quiz", params[0]], (old: any) => {
+        const newQuiz = {
+          ...old,
+          questions: [
+            ...arrayMove(
+              old.questions,
+              order.startPosition - 1,
+              order.endPosition - 1
+            ),
+          ],
+        };
+        return newQuiz;
+      });
+      const response = await axios.patch(
+        `quiz/${params[0]}/question/${questionId}?change_order=true`,
+        order
+      );
+      return response.data;
+    },
+    onSuccess: (res) => {
+      onSuccess && onSuccess(res);
+    },
+    onError: (error: any) => {
+      const message =
+        error.response?.data.message || "Failed to reorder questions";
+      toast.error(message);
+      onError && onError(error);
+    },
+  });
+  return mutation;
+}
+
 // options api
 export function useAddOption({ onSuccess, onError }: MutationFnProps = {}) {
   const queryClient = useQueryClient();
@@ -447,6 +498,62 @@ export function useUploadOptionImage({
     onError: (error: any) => {
       const message =
         error.response?.data.message || "Failed to upload the image";
+      toast.error(message);
+      onError && onError(error);
+    },
+  });
+  return mutation;
+}
+
+export function useReorderOptions({
+  onSuccess,
+  onError,
+}: MutationFnProps = {}) {
+  const queryClient = useQueryClient();
+  const params = useGetParams();
+  const mutation = useMutation({
+    mutationFn: async ({
+      questionId,
+      optionId,
+      order,
+    }: {
+      questionId: string;
+      optionId: string;
+      order: {
+        startPosition: number;
+        endPosition: number;
+      };
+    }) => {
+      queryClient.setQueryData(["quiz", params[0]], (old: any) => {
+        const newQuestions = old.questions.map((ele: any) =>
+          ele.id === questionId
+            ? {
+                ...ele,
+                options: [
+                  ...arrayMove(
+                    ele.options,
+                    order.startPosition - 1,
+                    order.endPosition - 1
+                  ),
+                ],
+              }
+            : ele
+        );
+        const newQuiz = { ...old, questions: newQuestions };
+        return newQuiz;
+      });
+      const response = await axios.patch(
+        `quiz/${params[0]}/question/${questionId}/option/${optionId}?change_order=true`,
+        order
+      );
+      return response.data;
+    },
+    onSuccess: (res) => {
+      onSuccess && onSuccess(res);
+    },
+    onError: (error: any) => {
+      const message =
+        error.response?.data.message || "Failed to reorder options";
       toast.error(message);
       onError && onError(error);
     },
