@@ -12,9 +12,13 @@ import React from "react";
 import OptionItem from "./OptionItem/OptionItem";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { useReorderOptions } from "api/instructor/quiz.tsx";
 =======
 >>>>>>> 7910483 (finished basic quiz structure)
+=======
+import { useReorderOptions } from "api/instructor/quiz.tsx";
+>>>>>>> ff1c6d6 (added sorting to questions and options)
 
 function OptionsList({ items, questionId, isExpanded }) {
   const { mutate: reorderOptions } = useReorderOptions();
