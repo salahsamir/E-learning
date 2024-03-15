@@ -1,4 +1,12 @@
-import { DndContext, closestCenter } from "@dnd-kit/core";
+import {
+  DndContext,
+  KeyboardSensor,
+  MouseSensor,
+  TouchSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
 import { SortableContext } from "@dnd-kit/sortable";
 import React from "react";
 import OptionItem from "./OptionItem/OptionItem";
@@ -12,6 +20,11 @@ function OptionsList({ items, questionId, isExpanded }) {
     const overIndex = items.findIndex((item) => item.id === over.id);
     if (activeIndex === overIndex) return;
   };
+  const mouseSensor = useSensor(MouseSensor);
+  const touchSensor = useSensor(TouchSensor);
+  const keyboardSensor = useSensor(KeyboardSensor);
+
+  const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
   const imgOptionsCount =
     items.reduce((acc, curr) => {
       return (acc += curr.imageUrl ? 1 : 0);
@@ -27,7 +40,11 @@ function OptionsList({ items, questionId, isExpanded }) {
           md: items.length === 3 ? 4 : 6,
         };
   return (
-    <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+    <DndContext
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+      sensors={sensors}
+    >
       <SortableContext items={items || []}>
         <Grid2
           container

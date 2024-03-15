@@ -1,4 +1,12 @@
-import { DndContext, closestCenter } from "@dnd-kit/core";
+import {
+  DndContext,
+  KeyboardSensor,
+  MouseSensor,
+  TouchSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
 import { SortableContext } from "@dnd-kit/sortable";
 import React from "react";
 import { Box } from "@mui/material";
@@ -7,6 +15,11 @@ import { useReorderTopic } from "api/instructor/topics.tsx";
 
 function TopicsList({ items }) {
   const { mutate: reorderTopic } = useReorderTopic();
+  const mouseSensor = useSensor(MouseSensor);
+  const touchSensor = useSensor(TouchSensor);
+  const keyboardSensor = useSensor(KeyboardSensor);
+
+  const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (!over) return;
@@ -22,7 +35,11 @@ function TopicsList({ items }) {
     });
   };
   return (
-    <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+    <DndContext
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+      sensors={sensors}
+    >
       <SortableContext items={items}>
         <Box
           sx={{
