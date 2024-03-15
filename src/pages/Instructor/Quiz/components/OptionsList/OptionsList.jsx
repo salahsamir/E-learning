@@ -34,13 +34,19 @@ function OptionsList({ items, questionId, isExpanded }) {
     });
   };
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3a03c61 (solved drag and drop touch issue)
   const mouseSensor = useSensor(MouseSensor);
   const touchSensor = useSensor(TouchSensor);
   const keyboardSensor = useSensor(KeyboardSensor);
 
   const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
+<<<<<<< HEAD
 =======
 >>>>>>> 7910483 (finished basic quiz structure)
+=======
+>>>>>>> 3a03c61 (solved drag and drop touch issue)
   const imgOptionsCount =
     items.reduce((acc, curr) => {
       return (acc += curr.imageUrl ? 1 : 0);
