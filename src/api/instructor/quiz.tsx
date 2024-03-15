@@ -129,6 +129,106 @@ export function useDeleteQuestion({
   return mutation;
 }
 
+export function useUploadQuestionImage({
+  onSuccess,
+  onError,
+}: MutationFnProps = {}) {
+  const queryClient = useQueryClient();
+  const params = useGetParams();
+  const mutation = useMutation({
+    mutationFn: async ({
+      image,
+      questionId,
+      getProgress,
+    }: {
+      image: File;
+      questionId: string;
+      getProgress: (progress: number) => void;
+    }) => {
+      const formData = new FormData();
+      formData.append("image", image);
+      const response = await axios.patch(
+        `quiz/${params[0]}/question/${questionId}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          onUploadProgress: (progressEvent) => {
+            getProgress(progressEvent.progress);
+          },
+        }
+      );
+      return response.data;
+    },
+    onSuccess: (res, { questionId, image }) => {
+      queryClient.setQueryData(
+        ["quiz", params[0]],
+        (oldQuiz: {
+          questions: {
+            id: string;
+          }[];
+        }) => {
+          const newQuestions = oldQuiz.questions.map((ele) =>
+            ele.id === questionId
+              ? { ...ele, imageUrl: URL.createObjectURL(image) }
+              : ele
+          );
+          const newQuiz = { ...oldQuiz, questions: newQuestions };
+          return newQuiz;
+        }
+      );
+      onSuccess && onSuccess(res);
+    },
+    onError: (error: any) => {
+      const message =
+        error.response?.data.message || "Failed to upload the image";
+      toast.error(message);
+      onError && onError(error);
+    },
+  });
+  return mutation;
+}
+export function useUpdateQuestion({
+  onSuccess,
+  onError,
+}: MutationFnProps = {}) {
+  const queryClient = useQueryClient();
+  const params = useGetParams();
+  const mutation = useMutation({
+    mutationFn: async ({
+      data,
+      questionId,
+    }: {
+      data: any;
+      questionId: string;
+    }) => {
+      const response = await axios.patch(
+        `quiz/${params[0]}/question/${questionId}`,
+        data
+      );
+      return response.data;
+    },
+    onSuccess: (res, { questionId, data }) => {
+      queryClient.setQueryData(["quiz", params[0]], (old: any) => {
+        const newQuestions = old.questions.map((ele: any) =>
+          ele.id === questionId ? { ...ele, ...data } : ele
+        );
+        const newQuiz = { ...old, questions: newQuestions };
+        return newQuiz;
+      });
+      toast.success("Question updated successfully");
+      onSuccess && onSuccess(res);
+    },
+    onError: (error: any) => {
+      const message =
+        error.response?.data.message || "Failed to update question";
+      toast.error(message);
+      onError && onError(error);
+    },
+  });
+  return mutation;
+}
 // options api
 export function useAddOption({ onSuccess, onError }: MutationFnProps = {}) {
   const queryClient = useQueryClient();
@@ -228,6 +328,60 @@ export function useDeleteOption({ onSuccess, onError }: MutationFnProps = {}) {
   return mutate;
 }
 
+export function useUpdateOption({ onSuccess, onError }: MutationFnProps = {}) {
+  const queryClient = useQueryClient();
+  const params = useGetParams();
+  const mutation = useMutation({
+    mutationFn: async ({
+      data,
+      questionId,
+      optionId,
+    }: {
+      data: any;
+      questionId: string;
+      optionId: string;
+      getProgress: (progress: number) => void;
+    }) => {
+      const response = await axios.patch(
+        `quiz/${params[0]}/question/${questionId}/option/${optionId}`,
+        data
+      );
+      return response.data;
+    },
+    onSuccess: (res, { questionId, optionId, data }) => {
+      queryClient.setQueryData(
+        ["quiz", params[0]],
+        (oldQuiz: {
+          questions: {
+            id: string;
+            options?: any[];
+          }[];
+        }) => {
+          const newQuestions = oldQuiz.questions.map((ele) =>
+            ele.id === questionId
+              ? {
+                  ...ele,
+                  options: ele.options?.map((option) =>
+                    option.id === optionId ? { ...option, ...data } : option
+                  ),
+                }
+              : ele
+          );
+          const newQuiz = { ...oldQuiz, questions: newQuestions };
+          return newQuiz;
+        }
+      );
+      onSuccess && onSuccess(res);
+    },
+    onError: (error: any) => {
+      const message = error.response?.data.message || "Failed to update option";
+      toast.error(message);
+      onError && onError(error);
+    },
+  });
+  return mutation;
+}
+
 export function useUploadOptionImage({
   onSuccess,
   onError,
@@ -260,9 +414,9 @@ export function useUploadOptionImage({
           },
         }
       );
-      return response.data.option;
+      return response.data;
     },
-    onSuccess: (newOption, { questionId, optionId }) => {
+    onSuccess: (res, { questionId, optionId, image }) => {
       queryClient.setQueryData(
         ["quiz", params[0]],
         (oldQuiz: {
@@ -271,12 +425,15 @@ export function useUploadOptionImage({
             options?: any[];
           }[];
         }) => {
+          console.log(URL.createObjectURL(image));
           const newQuestions = oldQuiz.questions.map((ele) =>
             ele.id === questionId
               ? {
                   ...ele,
                   options: ele.options?.map((option) =>
-                    option.id === optionId ? newOption : option
+                    option.id === optionId
+                      ? { ...option, imageUrl: URL.createObjectURL(image) }
+                      : option
                   ),
                 }
               : ele
@@ -285,7 +442,7 @@ export function useUploadOptionImage({
           return newQuiz;
         }
       );
-      onSuccess && onSuccess(newOption);
+      onSuccess && onSuccess(res);
     },
     onError: (error: any) => {
       const message =

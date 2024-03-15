@@ -1,18 +1,13 @@
 import { useSortable } from "@dnd-kit/sortable";
-import {
-  Box,
-  ClickAwayListener,
-  Typography,
-  darken,
-  lighten,
-} from "@mui/material";
+import { Box, ClickAwayListener, darken, lighten } from "@mui/material";
 import { CSS } from "@dnd-kit/utilities";
-import React from "react";
+import React, { useState } from "react";
 import { DragIndicator } from "@mui/icons-material";
 import OptionsList from "../../OptionsList/OptionsList";
 import { useAddOption } from "api/instructor/quiz.tsx";
 import { LoadingButton } from "@mui/lab";
-import DeleteQuestion from "./DeleteQuestion";
+import { useDndMonitor } from "@dnd-kit/core";
+import QuestionHeader from "./QuestionHeader";
 
 function QuestionItem({
   item,
@@ -27,6 +22,12 @@ function QuestionItem({
     transition,
   };
   const { mutate: addOption, isPending: loadingOption } = useAddOption();
+  const [dragging, setDragging] = useState(false);
+  useDndMonitor({
+    // onDragStart: (e) => setDragging(true),
+    onDragMove: (e) => setDragging(true),
+    onDragEnd: (e) => setDragging(false),
+  });
   const isExpanded = expandedQuestion === item.id;
   const handleClickAway = () => {
     if (isExpanded) {
@@ -71,39 +72,32 @@ function QuestionItem({
             {...listeners}
           />
           <Box>
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <Typography variant="h6">
-                <Typography
-                  variant="body1"
-                  component={"span"}
-                >{`${questionIndex}. `}</Typography>
-                {item.text}
-              </Typography>
-              <DeleteQuestion questionId={item.id} isExpanded={isExpanded} />
-            </Box>
-
-            <Box>
-              <OptionsList
-                items={item.options}
-                questionId={item.id}
-                isExpanded={isExpanded}
-              />
-            </Box>
-            <LoadingButton
-              variant="text"
-              loading={loadingOption}
-              onClick={() => addOption(item.id)}
-              className="add-option-button"
-              sx={{
-                display: isExpanded ? "block" : "none",
-              }}
-            >
-              Add Option
-            </LoadingButton>
+            <QuestionHeader
+              isExpanded={isExpanded}
+              item={item}
+              questionIndex={questionIndex}
+              dragging={dragging}
+            />
+            {!dragging && (
+              <>
+                <OptionsList
+                  items={item.options || []}
+                  questionId={item.id}
+                  isExpanded={isExpanded}
+                />
+                <LoadingButton
+                  variant="text"
+                  loading={loadingOption}
+                  onClick={() => addOption(item.id)}
+                  className="add-option-button"
+                  sx={{
+                    display: isExpanded ? "block" : "none",
+                  }}
+                >
+                  Add Option
+                </LoadingButton>
+              </>
+            )}
           </Box>
         </Box>
       </Box>

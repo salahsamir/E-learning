@@ -33,17 +33,21 @@ const QuizHeader = ({ quiz }) => {
     >
       <Typography
         id="title"
+        className="bottom-line-animation"
         component={"div"}
         variant="h4"
         role="textbox"
         contentEditable="true"
         suppressContentEditableWarning={true}
+        tabIndex={0}
         onBlur={(event) =>
           formik.setFieldValue("title", event.target.innerText)
         }
         sx={{
-          "&:focus": {
-            outline: "none",
+          position: "relative",
+          mb: "8px",
+          "&::after": {
+            backgroundColor: (theme) => theme.palette.primary.main,
           },
         }}
       >

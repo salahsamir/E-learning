@@ -7,6 +7,8 @@ import { BaseApi } from "util/BaseApi";
 import useGetParams from "hooks/useGetParams";
 import { LoadingButton } from "@mui/lab";
 import TextEditor from "features/TextEditor";
+import { MediaPlayer } from "@vidstack/react";
+import VideoPlayer from "features/VideoPlayer";
 
 function VideoForm({ video }) {
   const params = useGetParams();
@@ -62,15 +64,15 @@ function VideoForm({ video }) {
           progress={null}
           sx={{ height: "100%", minHeight: "360px" }}
         /> */}
-        <video
+        <VideoPlayer
           src={video.url}
-          controls
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            borderRadius: "8px",
-          }}
+          // controls
+          // style={{
+          //   width: "100%",
+          //   height: "100%",
+          //   objectFit: "cover",
+          //   borderRadius: "8px",
+          // }}
         />
       </Grid>
       <Grid item xs={12}>

@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "baseUrl": "src",
-    "jsx": "react"
+    "jsx": "react",
+    "allowImportingTsExtensions": true
   },
   "include": ["src"]
 }

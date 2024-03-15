@@ -1,6 +1,6 @@
 import "./App.css";
-import '@vidstack/react/player/styles/default/theme.css';
-import '@vidstack/react/player/styles/default/layouts/video.css';
+import "@vidstack/react/player/styles/default/theme.css";
+import "@vidstack/react/player/styles/default/layouts/video.css";
 import { RouterProvider } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { theme } from "./theme/theme";
@@ -21,6 +21,8 @@ function App() {
   axios.defaults.baseURL = BaseApi;
   axios.defaults.headers.common["token"] = localStorage.getItem("token");
   axios.defaults.headers.common["Content-Type"] = "application/json";
+  axios.defaults.withCredentials = true;
+  axios.defaults.headers.common["cookieId"] = getCookie("cookieId");
 
   return (
     <ThemeProvider theme={theme(themeMode)}>
@@ -34,3 +36,19 @@ function App() {
 }
 
 export default App;
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(";");
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == " ") {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}

@@ -1,20 +1,19 @@
 import { ImageOutlined } from "@mui/icons-material";
 import { CircularProgress, IconButton } from "@mui/material";
-import { useUploadOptionImage } from "api/instructor/quiz.tsx";
+import { useUploadQuestionImage } from "api/instructor/quiz.tsx";
 import React, { useState } from "react";
 
-const UploadImage = ({ questionId, optionId }) => {
+const UploadImage = ({ questionId, isExpanded }) => {
   const [progress, setProgress] = useState(null);
-  const { mutate: uploadImage } = useUploadOptionImage({
+  const { mutate: uploadImage } = useUploadQuestionImage({
     onSuccess: () => setProgress(null),
   });
   return (
     <IconButton
       component={"label"}
-      htmlFor={`upload-image-${optionId}`}
+      htmlFor={`upload-image-${questionId}`}
       sx={{
         p: "0",
-        opacity: 0,
         transition: "ease 0.25s",
       }}
       disabled={!!progress}
@@ -38,13 +37,12 @@ const UploadImage = ({ questionId, optionId }) => {
       <input
         type="file"
         name=""
-        id={`upload-image-${optionId}`}
+        id={`upload-image-${questionId}`}
         onChange={(e) => {
           const file = e.target.files[0];
           if (file) {
             uploadImage({
               questionId,
-              optionId,
               image: file,
               getProgress: (progress) => setProgress(progress),
             });
