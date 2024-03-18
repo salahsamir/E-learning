@@ -9,16 +9,13 @@ export const AllProvider = ({ children }) => {
   const [headers, setHeaders] = useState({
     token: localStorage.getItem("token"),
   });
-
-  const updateHeaders = () => {
+  useEffect(() => {
     setHeaders({
       token: localStorage.getItem("token"),
     });
-  };
-
-  useEffect(() => {
-    updateHeaders();
   }, [localStorage.getItem("token")]);
+
+
   
   let [category, setCategory] = useState([]);
   let getAllCategory = async () => {
@@ -238,12 +235,13 @@ export const AllProvider = ({ children }) => {
   };
 
   useEffect(() => {
-   
-    getUserData();
-    CourseBought();
-    getWishlist();
-    getCart();
-  }, []);
+    if (headers.token) {
+      getUserData();
+      CourseBought();
+      getWishlist();
+      getCart();
+    }
+  }, [headers.token]);
   return (
     <allContext.Provider
       value={{
