@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Button, Rating, Stack, Typography } from "@mui/material";
+import { Button, Rating, Stack, Typography ,Avatar} from "@mui/material";
 import React, { useContext } from "react";
 import { allContext } from "../../Context/Context.jsx";
 
@@ -45,7 +45,7 @@ function CartItem(props) {
         direction={{ sm: "row" }}
         alignItems={{ xs: "center", sm: "flex-start" }}
       >
-        <Image src={coverImageUrl} alt={name} />
+        <Avatar width={'200px'} variant="rounded"  src={coverImageUrl} alt={name} />
         <Stack alignItems={{ xs: "center", sm: "flex-start" }}>
           <Typography
             variant={"body2"}
@@ -66,7 +66,7 @@ function CartItem(props) {
         </Stack>
       </Stack>
       <Stack alignItems="center">
-        <Typography variant={"h5"} fontWeight="600" pt={1} pb={3}>
+        <Typography variant={"h5"} fontWeight="600" pt={1} pb={1}>
           {price}
         </Typography>
         <Button

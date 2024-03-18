@@ -1,11 +1,14 @@
-import React, { useContext } from "react";
-import Link from "@mui/material/Link";
-import { Stack, Breadcrumbs } from "@mui/material";
+import React, { useContext, useEffect } from "react";
+import { Stack, Breadcrumbs, Link as MuiLink, useTheme } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { allContext } from "../../Context/Context.jsx";
 
 function TopBar({ display }) {
-  const { category } = useContext(allContext);
+  const { category, getAllCategory} = useContext(allContext);
+  const theme = useTheme();
+   useEffect(() => {
+     getAllCategory();
+   },[])
 
   return (
     <Stack>
@@ -17,7 +20,7 @@ function TopBar({ display }) {
         width="100%"
         position="fixed"
         zIndex={100}
-        display={display}
+        // display={display}
         sx={{
           backgroundColor: (theme) => theme.palette.background.default,
         }}
@@ -27,12 +30,16 @@ function TopBar({ display }) {
           separator=""
           maxItems={10}
           sx={{
-            fontSize: { xs: "0.8rem", sm: "1rem" }, // Adjust font size based on screen size
+            fontSize: {
+              xxs: theme.typography.fontSize * 0.5, 
+              xs: theme.typography.fontSize * 0.7, 
+              sm: theme.typography.fontSize * 1, 
+            },
           }}
         >
           {category &&
             category.map((item) => (
-              <Link
+              <MuiLink
                 key={item._id}
                 underline="none"
                 color="inherit"
@@ -40,7 +47,7 @@ function TopBar({ display }) {
                 to={`/course/${item._id}`}
               >
                 {item.name}
-              </Link>
+              </MuiLink>
             ))}
         </Breadcrumbs>
       </Stack>

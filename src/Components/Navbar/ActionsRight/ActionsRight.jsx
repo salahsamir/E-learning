@@ -12,6 +12,7 @@ import {
   Box,
   Button,
   Divider,
+  Link,
 } from "@mui/material";
 import {
   NotificationsNoneOutlined,
@@ -49,7 +50,7 @@ function ActionsRight({ cartVisible }) {
   const [notifiMenuIsOpen, setNotifiMenuIsOpen] = useState(false);
   const [notifiEl, setNotifiEl] = useState(null);
   const [cartIsShown, setCartIsShown] = useState(false);
-  const { image, wishlist, wishlistdata, RemoveFromWishlist, cart } =
+  const { image, wishlist, wishlistdata,getWishlist, RemoveFromWishlist, cart } =
     useContext(allContext);
   let headers = {
     token: getAuthToken(),
@@ -75,6 +76,7 @@ function ActionsRight({ cartVisible }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+ 
 
   const { theme: themeMode, toggleTheme } = useThemeContext();
 
@@ -150,11 +152,7 @@ function ActionsRight({ cartVisible }) {
                 />
               </CustomBadge>
             </IconButton>
-          </>
-        ) : (
-          ""
-        )}
-        <ButtonBase
+            <ButtonBase
           aria-label="user menu"
           onClick={avatarClickHandler}
           sx={{
@@ -171,6 +169,20 @@ function ActionsRight({ cartVisible }) {
             }}
           ></Avatar>
         </ButtonBase>
+          </>
+        ) : (
+          <Box px={2}>
+           <Link  to={"/signup"}>
+            Registar
+          </Link>
+          <Link px={2}  to={"/signin"}>
+            Login
+          </Link>
+          
+          
+          </Box>
+        )}
+      
         <Popover
           open={userMenuIsOpen}
           anchorEl={avatarEl}
