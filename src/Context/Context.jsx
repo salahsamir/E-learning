@@ -6,10 +6,20 @@ import toast from "react-hot-toast";
 export const allContext = createContext();
 
 export const AllProvider = ({ children }) => {
-  let headers = {
+  const [headers, setHeaders] = useState({
     token: localStorage.getItem("token"),
+  });
+
+  const updateHeaders = () => {
+    setHeaders({
+      token: localStorage.getItem("token"),
+    });
   };
-  ///////////////////////////Category/************ */
+
+  useEffect(() => {
+    updateHeaders();
+  }, [localStorage.getItem("token")]);
+  
   let [category, setCategory] = useState([]);
   let getAllCategory = async () => {
     let response = await axios.get(`${BaseApi}/category`).catch((err) => {
@@ -228,7 +238,7 @@ export const AllProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    getAllCategory();
+   
     getUserData();
     CourseBought();
     getWishlist();
@@ -248,12 +258,14 @@ export const AllProvider = ({ children }) => {
         wishlist,
         setWishlist,
         wishlistdata,
+        getWishlist,
         AddToCart,
         RemoveFromCart,
         cart,
         setcart,
         cartdata,
         createOrder,
+        getAllCategory
       }}
     >
       {children}
