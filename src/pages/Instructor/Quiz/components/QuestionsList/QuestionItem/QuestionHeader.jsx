@@ -39,6 +39,7 @@ const QuestionHeader = ({ item, isExpanded, questionIndex, dragging }) => {
           <Typography
             variant="h6"
 <<<<<<< HEAD
+<<<<<<< HEAD
             contentEditable={isExpanded}
             suppressContentEditableWarning
             className="bottom-line-animation"
@@ -48,6 +49,12 @@ const QuestionHeader = ({ item, isExpanded, questionIndex, dragging }) => {
             suppressContentEditableWarning
             className="bottom-line-animation"
 >>>>>>> 7910483 (finished basic quiz structure)
+=======
+            contentEditable={isExpanded}
+            suppressContentEditableWarning
+            className="bottom-line-animation"
+            tabIndex={0}
+>>>>>>> 60ca3d4 (added some inhancements to quiz)
             onBlur={(event) => {
               formik.setFieldValue("text", event.target.innerText);
               formik.handleSubmit();
@@ -58,11 +65,16 @@ const QuestionHeader = ({ item, isExpanded, questionIndex, dragging }) => {
               wordBreak: "break-all",
               "&::after": {
 <<<<<<< HEAD
+<<<<<<< HEAD
                 backgroundColor: (theme) =>
                   isExpanded ? theme.palette.primary.main : "transparent",
 =======
                 backgroundColor: (theme) => theme.palette.primary.main,
 >>>>>>> 7910483 (finished basic quiz structure)
+=======
+                backgroundColor: (theme) =>
+                  isExpanded ? theme.palette.primary.main : "transparent",
+>>>>>>> 60ca3d4 (added some inhancements to quiz)
               },
             }}
           >
