@@ -21,6 +21,7 @@ const OptionImage = ({ isExpanded, item, questionId }) => {
       <img
         src={item.imageUrl}
         alt="option"
+        loading="lazy"
         style={{
           height: isExpanded ? "250px" : "150px",
           maxWidth: "100%",

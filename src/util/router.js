@@ -300,6 +300,14 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "courses",
+        element: (
+          <SuspenseWrapper>
+            <MyCourses />
+          </SuspenseWrapper>
+        ),
+      },
+      {
         path: "settings",
         element: (
           <SuspenseWrapper>

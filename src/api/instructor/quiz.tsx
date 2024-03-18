@@ -34,7 +34,7 @@ export function useAddQuiz({ onSuccess, onError }: MutationFnProps = {}) {
     },
     onSuccess: (newData) => {
       queryClient.setQueryData(["topics", params[0]], (old: any) => {
-        const newQuiz = { ...newData };
+        const newQuiz = { ...newData, type: "quiz" };
         return { ...old, curriculum: [...old.curriculum, newQuiz] };
       });
       queryClient.setQueryData(["quiz", newData.curriculum], newData);
@@ -51,12 +51,16 @@ export function useUpdateQuiz({ onSuccess, onError }: MutationFnProps = {}) {
   const mutate = useMutation({
     mutationFn: async (data: any) => {
       const response = await axios.patch(`quiz/${params[0]}`, data);
-      return response.data.quiz;
+      return response.data;
     },
-    onSuccess: (newData) => {
-      queryClient.setQueryData(["quiz", params[0]], newData);
-      toast.success("Quiz updated successfully");
-      onSuccess && onSuccess(newData);
+    onSuccess: (res, newData) => {
+      queryClient.setQueryData(["quiz", params[0]], (old: any) => {
+        return { ...old, ...newData };
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["topics", params[2]],
+      });
+      onSuccess && onSuccess(res);
     },
     onError: (error: any) => {
       const message = error.response?.data.message || "Failed to update quiz";
