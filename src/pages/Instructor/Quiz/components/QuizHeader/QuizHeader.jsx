@@ -14,6 +14,10 @@ const QuizHeader = ({ quiz }) => {
     enableReinitialize: true,
     onSubmit: (values) => {
       const modifiedFields = get_obj_diff(values, quiz);
+      console.log("modifiedFields: ", modifiedFields);
+      console.log("values: ", quiz);
+      if (modifiedFields?.description === "Description")
+        delete modifiedFields.description;
       if (Object.keys(modifiedFields).length === 0) return;
       updateQuiz(modifiedFields);
     },

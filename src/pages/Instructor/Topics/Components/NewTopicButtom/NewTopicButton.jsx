@@ -9,6 +9,7 @@ import {
   ListItemIcon,
   ListItemText,
   AccordionDetails,
+  CircularProgress,
 } from "@mui/material";
 import { Add, ArticleOutlined, QuizOutlined } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
@@ -48,10 +49,10 @@ const AccordionSummary = styled((props) => (
 
 export default function NewTopicButton() {
   const [expanded, setExpanded] = React.useState(null);
-  const { mutate: addQuiz } = useAddQuiz({
+  const { mutate: addQuiz, isPending: quizLoading } = useAddQuiz({
     onSuccess: (quiz) => navigate(`quiz/${quiz.id}`),
   });
-  const { mutate: addArticle } = useAddArticle({
+  const { mutate: addArticle, isPending: articleLoading } = useAddArticle({
     onSuccess: (article) => navigate(`article/${article.curriculum}`),
   });
   const navigate = useNavigate();
@@ -78,15 +79,19 @@ export default function NewTopicButton() {
           }}
         >
           <NewVideo />
-          <MenuItem onClick={() => addArticle()}>
+          <MenuItem onClick={() => addArticle()} disabled={articleLoading}>
             <ListItemIcon>
-              <ArticleOutlined />
+              {articleLoading ? (
+                <CircularProgress size={20} />
+              ) : (
+                <ArticleOutlined />
+              )}
             </ListItemIcon>
             <ListItemText>New Article</ListItemText>
           </MenuItem>
-          <MenuItem onClick={() => addQuiz()}>
+          <MenuItem onClick={() => addQuiz()} disabled={quizLoading}>
             <ListItemIcon>
-              <QuizOutlined />
+              {quizLoading ? <CircularProgress size={20} /> : <QuizOutlined />}
             </ListItemIcon>
             <ListItemText>New Quiz</ListItemText>
           </MenuItem>
