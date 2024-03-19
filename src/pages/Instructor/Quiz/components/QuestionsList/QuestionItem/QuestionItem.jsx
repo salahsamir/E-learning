@@ -1,5 +1,12 @@
 import { useSortable } from "@dnd-kit/sortable";
-import { Box, ClickAwayListener, darken, lighten } from "@mui/material";
+import {
+  Box,
+  Button,
+  ClickAwayListener,
+  TextField,
+  darken,
+  lighten,
+} from "@mui/material";
 import { CSS } from "@dnd-kit/utilities";
 import React, { useState } from "react";
 import { DragIndicator } from "@mui/icons-material";
@@ -8,6 +15,7 @@ import { useAddOption } from "api/instructor/quiz.tsx";
 import { LoadingButton } from "@mui/lab";
 import { useDndMonitor } from "@dnd-kit/core";
 import QuestionHeader from "./QuestionHeader";
+import QuestionFooter from "./QuestionFooter";
 
 function QuestionItem({
   item,
@@ -24,7 +32,6 @@ function QuestionItem({
   const { mutate: addOption, isPending: loadingOption } = useAddOption();
   const [dragging, setDragging] = useState(false);
   useDndMonitor({
-    // onDragStart: (e) => setDragging(true),
     onDragMove: (e) => setDragging(true),
     onDragEnd: (e) => setDragging(false),
   });
@@ -80,22 +87,46 @@ function QuestionItem({
             />
             {!dragging && (
               <>
-                <OptionsList
-                  items={item.options || []}
-                  questionId={item.id}
-                  isExpanded={isExpanded}
-                />
-                <LoadingButton
-                  variant="text"
-                  loading={loadingOption}
-                  onClick={() => addOption(item.id)}
-                  className="add-option-button"
-                  sx={{
-                    display: isExpanded ? "block" : "none",
-                  }}
-                >
-                  Add Option
-                </LoadingButton>
+                {item.type === "mcq" && (
+                  <>
+                    <OptionsList
+                      items={item.options || []}
+                      questionId={item.id}
+                      isExpanded={isExpanded}
+                    />
+                    <LoadingButton
+                      variant="text"
+                      loading={loadingOption}
+                      onClick={() => addOption(item.id)}
+                      className="add-option-button"
+                      sx={{
+                        display: isExpanded ? "block" : "none",
+                      }}
+                    >
+                      Add Option
+                    </LoadingButton>
+                  </>
+                )}
+                {item.type === "text" && (
+                  <TextField
+                    multiline
+                    rows={4}
+                    fullWidth
+                    value="type your answer here"
+                  />
+                )}
+                {item.type === "file" && (
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      ml: 2,
+                      mt: 1,
+                    }}
+                  >
+                    Upload
+                  </Button>
+                )}
+                {isExpanded && <QuestionFooter item={item} />}
               </>
             )}
           </Box>
