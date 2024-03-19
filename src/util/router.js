@@ -59,6 +59,9 @@ const InstructorEditWorkshopInfo = lazy(() =>
 const InstructorSessions = lazy(() =>
   import("../pages/Instructor/Sessions/index.jsx")
 );
+const InstructorRevenue = lazy(() =>
+  import("../pages/Instructor/Revenue/index.jsx")
+);
 
 // student routes
 const StudentLayout = lazy(() => import("../pages/Student/Layout.jsx"));
@@ -268,6 +271,14 @@ const router = createBrowserRouter([
         element: (
           <SuspenseWrapper>
             <UserSettings />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "revenue",
+        element: (
+          <SuspenseWrapper>
+            <InstructorRevenue />
           </SuspenseWrapper>
         ),
       },
