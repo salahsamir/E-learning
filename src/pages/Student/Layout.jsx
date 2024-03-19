@@ -4,9 +4,9 @@ import CustomDrawer from "shared/ui/CustomDrawer/CustomDrawer";
 import { Outlet } from "react-router-dom";
 import { NavbarCompact } from "shared/ui/Navbar";
 import {
-  Analytics,
-  Comment,
+  CreditCard,
   Dashboard,
+  Email,
   Groups,
   Settings,
   VideoLibrary,
@@ -15,8 +15,8 @@ const drawerItems = [
   { text: "Dashboard", icon: <Dashboard />, url: "/student" },
   { text: "Courses", icon: <VideoLibrary />, url: "courses" },
   { text: "Workshops", icon: <Groups />, url: "workshops" },
-  { text: "Analytics", icon: <Analytics />, url: "analytics" },
-  { text: "Comments", icon: <Comment />, url: "comments" },
+  { text: "Messages", icon: <Email />, url: "messages" },
+  { text: "Billing", icon: <CreditCard />, url: "billing" },
   { text: "Settings", icon: <Settings />, url: "settings" },
 ];
 export default function Layout() {
