@@ -233,7 +233,6 @@ export const AllProvider = ({ children }) => {
       console.log(error);
     }
   };
-
   useEffect(() => {
     if (headers.token) {
       getUserData();
