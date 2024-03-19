@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   IconButton,
   Badge,
@@ -7,11 +7,11 @@ import {
   Avatar,
   Stack,
   Menu,
-  MenuItem,
   Typography,
   Box,
   Button,
   Divider,
+  Link,
 } from "@mui/material";
 import {
   NotificationsNoneOutlined,
@@ -29,6 +29,8 @@ import { useNavigate } from "react-router-dom";
 import { allContext } from "../../../Context/Context.jsx";
 import HeartBrokenIcon from "@mui/icons-material/HeartBroken";
 import { useThemeContext } from "Context/theme-context.tsx";
+
+
 const CustomBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
     right: 3,
@@ -75,6 +77,7 @@ function ActionsRight({ cartVisible }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+ 
 
   const { theme: themeMode, toggleTheme } = useThemeContext();
 
@@ -150,27 +153,23 @@ function ActionsRight({ cartVisible }) {
                 />
               </CustomBadge>
             </IconButton>
+
+         <UserMenu/>
+        
           </>
         ) : (
-          ""
+          <Box px={2}>
+           <Link  to={"/signup"}>
+            Registar
+          </Link>
+          <Link px={2}  to={"/signin"}>
+            Login
+          </Link>
+          
+          
+          </Box>
         )}
-        <ButtonBase
-          aria-label="user menu"
-          onClick={avatarClickHandler}
-          sx={{
-            backgroundColor: "transparent",
-            borderRadius: "30px",
-            ml: 1,
-          }}
-        >
-          <Avatar
-            src={image}
-            sx={{
-              height: "30px",
-              width: "30px",
-            }}
-          ></Avatar>
-        </ButtonBase>
+      
         <Popover
           open={userMenuIsOpen}
           anchorEl={avatarEl}
@@ -215,19 +214,23 @@ function ActionsRight({ cartVisible }) {
         >
           {wishlistdata ? (
             <>
-              <Stack spacing={1} p={1} onClick={handleClose}>
+              <Stack spacing={1} p={1}   onClick={handleClose}>
                 {wishlistdata.map((item) => (
                   <>
                     <Box
-                      sx={{ display: "flex", justifyContent: "space-between" }}
-                      p={1}
-                      boxShadow={1}
+                      sx={{ display: "flex",alignItems: "center", justifyContent: "space-between",background:"#262F40",cursor:"pointer" }}
+                      p={3}
+                      boxShadow={2}
+                      borderRadius={"5px"}
+                      onClick={() => navigate(`/courseDetails/${item._id}`)}
+                      
+
                     >
                       <Typography variant="body1" color={"primary"}>
                         {item.title}
                       </Typography>
                       <Button onClick={() => RemoveFromWishlist(item._id)}>
-                        <HeartBrokenIcon color="error" />
+                        <HeartBrokenIcon color="error" fontSize="large" />
                       </Button>
                     </Box>
                     <Divider />
@@ -238,9 +241,13 @@ function ActionsRight({ cartVisible }) {
           ) : (
             ""
           )}
-          {/* <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem> */}
+       
         </Menu>
+
+
+
+
+
       </Stack>
     </>
   );

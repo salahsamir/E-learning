@@ -12,8 +12,10 @@ import {
 import {
   Avatar,
   Divider,
+  IconButton,
   ListItemIcon,
   ListItemText,
+  Menu,
   MenuItem,
   MenuList,
   Paper,
@@ -30,29 +32,17 @@ const SolidDvider = styled(Divider)(({ theme }) => ({
 function UserMenu() {
   let nav=useNavigate()
  
-  const [open, setOpen] = React.useState(false);
+  const {image}=useContext(allContext)
+
   const anchorRef = React.useRef(null);
-  const {image,setImage}=useContext(allContext)
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
   };
-
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-
-    setOpen(false);
+  const handleClose = () => {
+    setAnchorEl(null);
   };
-  function handleListKeyDown(event) {
-    if (event.key === 'Tab') {
-      event.preventDefault();
-      setOpen(false);
-    } else if (event.key === 'Escape') {
-      setOpen(false);
-    }
-  }
-
   const signoutHandler = () => {
     // setImage("")
     localStorage.removeItem("token");
@@ -66,24 +56,60 @@ function UserMenu() {
     nav("/profile", { replace: true });
     handleClose()
   }
+  const MyCourses=()=>{
+    nav("/mycourse")
+    handleClose()
+  }
   const Setting=()=>{
     nav("/setting", { replace: true })
     handleClose()
   }
   return (
-    <Paper
-      sx={{
-        width: "320px",
-        maxWidth: "100%",
-        backgroundColor: (theme) => theme.palette.background.b1,
-        borderRadius: 0,
-      }}
-    >
+   <>
+   
+   <IconButton
+              aria-label="Heart"
+            //   sx={{ display: cartVisible ? "block" : "none", p: "4px" }}
+              id="demo-positioned-button"
+              aria-controls={open ? "demo-positioned-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+              onClick={handleClick}
+            >
+              
+              <Avatar
+            src={image}
+            sx={{
+              height: "30px",
+              width: "30px",
+            }}
+          ></Avatar>
+            </IconButton>
+   
+            <Menu
+          // m={2}
+          id="demo-positioned-menu"
+          aria-labelledby="demo-positioned-button"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "left",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "left",
+          }}
+          sx={{ marginTop: 3}}
+        >
+           
 
-      <MenuList  autoFocusItem={open}
+      <MenuList  sx={{width: "320px",
+        maxWidth: "100%"}}  autoFocusItem={open}
                     id="composition-menu"
                     aria-labelledby="composition-button"
-                    onKeyDown={handleListKeyDown}>
+                    >
         <MenuItem  onClick={()=>{Profile()}}>
           <ListItemIcon >
             <Avatar src={image} sx={{ width: 36, height: 36 }}></Avatar>
@@ -91,19 +117,19 @@ function UserMenu() {
           <ListItemText sx={{ pl: 1 }}>Profile</ListItemText>
         </MenuItem>
         <SolidDvider />
-        <MenuItem onClick={()=>{nav("/mycourse", { replace: true })}}>
+        <MenuItem onClick={()=>{MyCourses()}}>
           <ListItemIcon>
             <SchoolOutlined />
           </ListItemIcon>
           <ListItemText>My courses</ListItemText>
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem >
           <ListItemIcon>
             <MailOutlineOutlined />
           </ListItemIcon>
           <ListItemText>Messages</ListItemText>
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem >
           <ListItemIcon>
             <ScheduleOutlined />
           </ListItemIcon>
@@ -116,13 +142,13 @@ function UserMenu() {
           </ListItemIcon>
           <ListItemText>Settigns</ListItemText>
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem >
           <ListItemIcon>
             <PaymentOutlined />
           </ListItemIcon>
           <ListItemText>Payment</ListItemText>
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem >
           <ListItemIcon>
             <SupportOutlined />
           </ListItemIcon>
@@ -136,7 +162,14 @@ function UserMenu() {
           <ListItemText>Sign Out</ListItemText>
         </MenuItem>
       </MenuList>
-    </Paper>
+
+       
+        </Menu>
+   
+
+   
+   
+   </>
   );
 }
 

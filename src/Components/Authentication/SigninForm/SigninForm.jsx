@@ -6,14 +6,15 @@ import axios from "axios";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Divider from "@mui/material/Divider";
-import Checkbox from "@mui/material/Checkbox";
-import { FormControlLabel, Link, Stack, Typography } from "@mui/material";
+import { Link, Stack, Typography } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { BaseApi } from "../../../util/BaseApi.js";
 import toast from "react-hot-toast";
+
 export default function SigninForm() {
   let nav = useNavigate();
   let [loading, setLoading] = useState(false);
+  let [showPassword, setShowPassword] = useState(false); // State to control password visibility
 
   const validationSchema = yup.object().shape({
     email: yup
@@ -28,22 +29,20 @@ export default function SigninForm() {
 
   const handleSignin = async (values) => {
     setLoading(true);
-    let { data } = await axios
-      .post(`${BaseApi}/auth/Login`, values)
-      .catch((err) => {
-        toast.error(err.response.data.message, {
-          style: {
-            borderRadius: "10px",
-            background: "#1B0A26",
-            color: "#F2C791",
-          },
-        });
-        setLoading(false);
+    let { data } = await axios.post(`${BaseApi}/auth/Login`, values).catch((err) => {
+      toast.error(err.response.data.message, {
+        style: {
+          borderRadius: "10px",
+          background: "#1B0A26",
+          color: "#F2C791",
+        },
       });
+      setLoading(false);
+    });
 
     if (data.message === "Done") {
       setLoading(false);
-      toast.success("Successfully !", {
+      toast.success("Successfully", {
         icon: "👏",
         style: {
           borderRadius: "10px",
@@ -55,6 +54,7 @@ export default function SigninForm() {
       nav("/");
     }
   };
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -64,6 +64,7 @@ export default function SigninForm() {
     validationSchema,
     onSubmit: handleSignin,
   });
+
   return (
     <Form onSubmit={formik.handleSubmit} method="post" autoComplete="off">
       <Stack spacing={1} direction="column" alignItems="center">
@@ -87,50 +88,55 @@ export default function SigninForm() {
           sx={{ width: { xs: "90%", sm: "400px" } }}
         />
 
-        <TextField
-          name="password"
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-          required
-          error={
-            formik.errors.password && formik.touched.password !== undefined
-          }
-          helperText={
-            formik.errors.password && formik.touched.password
-              ? formik.errors.password
-              : ""
-          }
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.password}
-          variant="outlined"
-          size="small"
-          sx={{ width: { xs: "90%", sm: "400px" } }}
-        />
         <Box
           sx={{
-            width: { xs: "90%", sm: "400px" },
             display: "flex",
+            width: { xs: "90%", sm: "400px" },
             alignItems: "center",
             justifyContent: "space-between",
           }}
         >
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Remember me"
-            name="rememberMe"
+          <TextField
+            name="password"
+            label="Password"
+            type={showPassword ? "text" : "password"} 
+            autoComplete="current-password"
+            required
+            error={
+              formik.errors.password &&
+              formik.touched.password !== undefined
+            }
+            helperText={
+              formik.errors.password && formik.touched.password
+                ? formik.errors.password
+                : ""
+            }
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.password}
+            variant="outlined"
+            size="small"
+            sx={{ width: "calc(100%)" }}
           />
-          <Typography variant="body2" sx={{ float: "right" }}>
-            <Link
-              to={"/sendEmail"}
-              className="float-end"
-              component={RouterLink}
-            >
-              Forget password?
-            </Link>
-          </Typography>
+          {/* <IconButton
+            onClick={() => setShowPassword(!showPassword)} 
+            aria-label={showPassword ? "Hide password" : "Show password"}
+            size="small"
+          >
+            {showPassword ? <VisibilityOff /> : <Visibility />}
+          </IconButton> */}
         </Box>
+
+        {/* <FormControlLabel
+          control={<Checkbox />}
+          label="Remember me"
+          name="rememberMe"
+        /> */}
+        <Typography py={2} variant="body2" sx={{ float: "right" }}>
+          <Link to={"/sendEmail"} className="float-end" component={RouterLink}>
+            Forget password?
+          </Link>
+        </Typography>
 
         <LoadingButton
           variant="contained"
@@ -139,9 +145,7 @@ export default function SigninForm() {
           loading={loading ? loading : ""}
           sx={{
             width: "200px",
-
             borderRadius: "25px",
-
             fontSize: "18px",
             marginBottom: "15px",
           }}

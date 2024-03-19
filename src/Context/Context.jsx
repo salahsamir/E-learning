@@ -6,10 +6,17 @@ import toast from "react-hot-toast";
 export const allContext = createContext();
 
 export const AllProvider = ({ children }) => {
-  let headers = {
+  const [headers, setHeaders] = useState({
     token: localStorage.getItem("token"),
-  };
-  ///////////////////////////Category/************ */
+  });
+  useEffect(() => {
+    setHeaders({
+      token: localStorage.getItem("token"),
+    });
+  }, [localStorage.getItem("token")]);
+
+
+  
   let [category, setCategory] = useState([]);
   let getAllCategory = async () => {
     let response = await axios.get(`${BaseApi}/category`).catch((err) => {
@@ -226,14 +233,14 @@ export const AllProvider = ({ children }) => {
       console.log(error);
     }
   };
-
   useEffect(() => {
-    getAllCategory();
-    getUserData();
-    CourseBought();
-    getWishlist();
-    getCart();
-  }, []);
+    if (headers.token) {
+      getUserData();
+      CourseBought();
+      getWishlist();
+      getCart();
+    }
+  }, [headers.token]);
   return (
     <allContext.Provider
       value={{
@@ -248,12 +255,14 @@ export const AllProvider = ({ children }) => {
         wishlist,
         setWishlist,
         wishlistdata,
+        getWishlist,
         AddToCart,
         RemoveFromCart,
         cart,
         setcart,
         cartdata,
         createOrder,
+        getAllCategory
       }}
     >
       {children}
