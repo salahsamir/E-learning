@@ -23,7 +23,6 @@ const NavigationHeader = ({ data }) => {
         : "",
     },
   ];
-  console.log(list);
   return <CustomBreadcrumbs sx={{ mt: "-8px", mb: "16px" }} list={list} />;
 };
 

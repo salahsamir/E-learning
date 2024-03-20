@@ -59,7 +59,7 @@ export const theme = (mode) =>
       },
       text: {
         primary: mode === "light" ? "#343434" : "#F5F5F5",
-        secondary: mode === "light" ? "#808080" : "#FEFEFE",
+        secondary: mode === "light" ? "#868686" : "#c7cbc5",
       },
     },
     components: {

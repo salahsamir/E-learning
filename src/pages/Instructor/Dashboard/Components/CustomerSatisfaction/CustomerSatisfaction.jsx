@@ -28,7 +28,7 @@ const CustomerSatisfaction = () => {
           name: {
             show: true,
             fontSize: "14px",
-            color: theme.palette.grey[500],
+            color: theme.palette.text.secondary,
             offsetY: 50,
           },
           value: {
