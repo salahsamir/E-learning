@@ -47,6 +47,9 @@ function MainScreen() {
         overflow="hidden"
         position="relative"
         height="calc(100vh - 199px)"
+        sx={{
+          border: (theme) => `1px solid ${theme.palette.divider}`,
+        }}
       >
         <AllowAudio />
         {videoTracks.remote.length === 0 ? (

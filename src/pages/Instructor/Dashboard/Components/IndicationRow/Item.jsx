@@ -17,7 +17,7 @@ const Item = ({ title, value, change, symbol }) => {
   return (
     <Box flex="1" display="flex" justifyContent="center">
       <Box>
-        <Typography variant="body2" color="grey.500">
+        <Typography variant="body2" color="text.secondary">
           {title}
         </Typography>
         <Typography variant="h5" fontWeight="600">

@@ -16,6 +16,7 @@ const IconButtonModified = ({ icon, active = false, onClick }) => {
         px: "1.1em",
         height: "35px",
         borderRadius: "2.2em",
+        border: (theme) => `1px solid ${theme.palette.divider}`,
         "&:hover": {
           bgcolor: (theme) => theme.palette.primary.main,
           " & svg": {
@@ -26,12 +27,7 @@ const IconButtonModified = ({ icon, active = false, onClick }) => {
     >
       <SvgIcon
         sx={{
-          color: (theme) =>
-            theme.palette.mode === "dark"
-              ? "text.primary"
-              : active
-              ? "white"
-              : "text.primary",
+          color: active ? "grey.100" : "text.secondary",
           height: "0.9em",
         }}
       >
@@ -73,6 +69,7 @@ function SidePanel() {
           mt: "1em",
           height: "calc(100vh - 151px)",
           borderRadius: "8px",
+          border: (theme) => `1px solid ${theme.palette.divider}`,
         }}
       >
         {currentActive === "chat" && <LiveChat liveChat={liveChat} />}

@@ -26,6 +26,7 @@ function IndicationCard({ eduRoom }) {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
+        border: (theme) => `1px solid ${theme.palette.divider}`,
       }}
     >
       <Box>
