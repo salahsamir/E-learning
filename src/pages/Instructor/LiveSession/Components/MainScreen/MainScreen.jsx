@@ -47,6 +47,8 @@ function MainScreen() {
         overflow="hidden"
         position="relative"
         height="calc(100vh - 199px)"
+        minHeight="calc(480px - 199px)"
+        maxHeight="calc(1080px - 199px)"
         sx={{
           border: (theme) => `1px solid ${theme.palette.divider}`,
         }}
