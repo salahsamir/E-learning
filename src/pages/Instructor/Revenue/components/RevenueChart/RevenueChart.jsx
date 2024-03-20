@@ -53,7 +53,7 @@ function RevenueChart() {
   }
   const series = [
     {
-      name: "total sales",
+      name: "total revenue",
       data: currentData,
     },
   ];

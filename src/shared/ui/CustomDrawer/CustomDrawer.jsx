@@ -21,9 +21,9 @@ const closedMixin = (theme) => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: "hidden",
-  width: `0`,
-  [theme.breakpoints.up("sm")]: {
-    width: 0,
+  width: 0,
+  [theme.breakpoints.up("md")]: {
+    width: "65px",
   },
 });
 

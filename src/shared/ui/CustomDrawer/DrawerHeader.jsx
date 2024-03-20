@@ -13,7 +13,9 @@ const StyledDrawerHeader = styled(Box)(() => ({
 
 const DrawerHeader = ({ open, toggleOpenDrawer }) => {
   return (
-    <StyledDrawerHeader sx={{ display: open ? "flex" : "none" }}>
+    <StyledDrawerHeader
+      sx={{ display: { xs: open ? "flex" : "none", md: "flex" } }}
+    >
       <ListItem
         disablePadding
         sx={{
@@ -35,7 +37,7 @@ const DrawerHeader = ({ open, toggleOpenDrawer }) => {
             sx={{
               height: "65px",
               width: "65px",
-              display: "flex",
+              display: { xs: open ? "flex" : "none", md: "flex" },
               alignItems: "center",
               justifyContent: "center",
             }}
@@ -53,6 +55,7 @@ const DrawerHeader = ({ open, toggleOpenDrawer }) => {
             component="p"
             sx={{
               color: (theme) => theme.palette.primary.main,
+              display: open ? "flex" : "none",
             }}
           >
             Eduvation

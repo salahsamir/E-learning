@@ -9,7 +9,9 @@ const RevenueStatistics = () => {
       sx={{
         display: "flex",
         justifyContent: "space-between",
+        flexDirection: { xs: "column", sm: "row" },
         alignItems: "center",
+        gap: "16px",
         padding: "16px",
         borderRadius: "8px",
         backgroundColor: "background.b1",
