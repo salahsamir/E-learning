@@ -1,6 +1,7 @@
 import { useLocalParticipant } from "@livekit/components-react";
 import {
   BackHand,
+  CallEnd,
   Mic,
   MicOff,
   MoreHoriz,
@@ -10,7 +11,7 @@ import {
   Videocam,
   VideocamOff,
 } from "@mui/icons-material";
-import { Box, IconButton, Button } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import { useState } from "react";
 function openFullscreen(elem) {
   if (elem.requestFullscreen) {
@@ -26,7 +27,6 @@ function openFullscreen(elem) {
 function handleDisconnect() {
   console.log("disconnected");
 }
-
 function StreamController() {
   const {
     isCameraEnabled,
@@ -34,7 +34,7 @@ function StreamController() {
     isScreenShareEnabled,
     localParticipant,
   } = useLocalParticipant();
-  const [controlbarPined, setControlbarPined] = useState(false);
+  const [controlbarPined, setControlbarPined] = useState(true);
   let raiseHand;
   if (localParticipant?.metadata) {
     raiseHand = JSON.parse(localParticipant.metadata)?.raiseHand;
@@ -42,17 +42,21 @@ function StreamController() {
   const handleRaiseHand = () => {
     localParticipant.setMetadata(JSON.stringify({ raiseHand: !raiseHand }));
   };
+  const iconStyle = {
+    color: "white",
+    height: { xs: "18px", sm: "24px" },
+    width: { xs: "18px", sm: "24px" },
+  };
   return (
     <Box
       sx={{
         position: "absolute",
-        height: "60px",
-        width: "500px",
+        padding: "0.25em 0.5em",
+        width: { xs: "100%", sm: "500px" },
         borderRadius: "2em",
         bottom: "0.5em",
         left: "50%",
         transform: "translateX(-50%)",
-        p: "1em",
         backgroundColor: "rgba(0,0,0,0.4)",
         backdropFilter: "blur(3px)",
         display: "flex",
@@ -69,18 +73,22 @@ function StreamController() {
         <IconButton onClick={() => setControlbarPined((old) => !old)}>
           <PushPin
             sx={{
-              color: (theme) =>
-                controlbarPined ? theme.palette.primary.main : "white",
+              ...iconStyle,
+              color: controlbarPined ? "primary.main" : "white",
             }}
           />
         </IconButton>
       </Box>
-      <Box>
+      <Box
+        sx={{
+          display: "flex",
+        }}
+      >
         <IconButton onClick={() => handleRaiseHand()}>
           <BackHand
             sx={{
-              color: (theme) =>
-                raiseHand ? theme.palette.primary.main : "white",
+              ...iconStyle,
+              color: raiseHand ? "primary.main" : "white",
             }}
           />
         </IconButton>
@@ -90,31 +98,30 @@ function StreamController() {
           }
         >
           {isMicrophoneEnabled ? (
-            <Mic sx={{ color: "white" }} />
+            <Mic sx={iconStyle} />
           ) : (
-            <MicOff sx={{ color: "white" }} />
+            <MicOff sx={iconStyle} />
           )}
         </IconButton>
-        <Button
+        <IconButton
           onClick={() => handleDisconnect()}
           sx={{
+            mx: { xs: "0", sm: "0.5em" },
             backgroundColor: "error.main",
-            color: "white",
-            borderRadius: "2em",
             "&:hover": {
               backgroundColor: "error.dark",
             },
           }}
         >
-          End Meeting
-        </Button>
+          <CallEnd sx={iconStyle} />
+        </IconButton>
         <IconButton
           onClick={() => localParticipant.setCameraEnabled(!isCameraEnabled)}
         >
           {isCameraEnabled ? (
-            <Videocam sx={{ color: "white" }} />
+            <Videocam sx={iconStyle} />
           ) : (
-            <VideocamOff sx={{ color: "white" }} />
+            <VideocamOff sx={iconStyle} />
           )}
         </IconButton>
         <IconButton
@@ -123,15 +130,15 @@ function StreamController() {
           }
         >
           {isScreenShareEnabled ? (
-            <ScreenShare sx={{ color: "white" }} />
+            <ScreenShare sx={iconStyle} />
           ) : (
-            <StopScreenShare sx={{ color: "white" }} />
+            <StopScreenShare sx={iconStyle} />
           )}
         </IconButton>
       </Box>
       <Box>
         <IconButton>
-          <MoreHoriz sx={{ color: "white" }} />
+          <MoreHoriz sx={iconStyle} />
         </IconButton>
       </Box>
     </Box>

@@ -1,5 +1,5 @@
 import { Send } from "@mui/icons-material";
-import { Box, IconButton, TextField } from "@mui/material";
+import { Box, IconButton, TextField, darken, lighten } from "@mui/material";
 import { useEffect, useState } from "react";
 
 export const ControlBar = ({ sendMessage }) => {
@@ -35,11 +35,20 @@ export const ControlBar = ({ sendMessage }) => {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         sx={{
+          border: (theme) => `1px solid ${theme.palette.divider}`,
+          borderTopLeftRadius: "4px",
+          borderBottomLeftRadius: "4px",
           "& .MuiInputBase-root": {
             padding: "0.5em",
-            backgroundColor: (theme) => theme.palette.background.default,
+            backgroundColor: (theme) =>
+              theme.palette.mode === "dark"
+                ? lighten(theme.palette.background.b1, 0.03)
+                : darken(theme.palette.background.b1, 0.03),
             fontSize: "0.8em",
-            minHeight: "34px",
+            minHeight: "32px",
+            maxHeight: "100px",
+            overflowY: "auto",
+            py: "0.5em",
           },
           "& fieldset": {
             border: "0 !important",

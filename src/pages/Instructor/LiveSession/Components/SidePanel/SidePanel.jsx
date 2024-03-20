@@ -67,7 +67,9 @@ function SidePanel() {
         sx={{
           backgroundColor: (theme) => theme.palette.background.b1,
           mt: "1em",
-          height: "calc(100vh - 151px)",
+          height: "calc(100vh - 155px)",
+          minHeight: "calc(480px - 155px)",
+          maxHeight: "calc(1080px - 155px)",
           borderRadius: "8px",
           border: (theme) => `1px solid ${theme.palette.divider}`,
         }}
