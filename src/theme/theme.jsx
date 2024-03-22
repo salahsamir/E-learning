@@ -68,7 +68,7 @@ export const theme = (mode) =>
           body: {
             "*::-webkit-scrollbar-thumb, &::-webkit-scrollbar-thumb": {
               backgroundColor:
-                mode === "light" ? "#A9A9A9 !important" : "#626585 !important",
+                mode === "light" ? "#A9A9A9 !important" : "#4b4e51 !important",
             },
           },
         },
