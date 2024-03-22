@@ -27,6 +27,11 @@ function openFullscreen(elem) {
 function handleDisconnect() {
   console.log("disconnected");
 }
+const iconStyle = {
+  color: "white",
+  height: { xs: "18px", sm: "24px" },
+  width: { xs: "18px", sm: "24px" },
+};
 function StreamController() {
   const {
     isCameraEnabled,
@@ -42,17 +47,13 @@ function StreamController() {
   const handleRaiseHand = () => {
     localParticipant.setMetadata(JSON.stringify({ raiseHand: !raiseHand }));
   };
-  const iconStyle = {
-    color: "white",
-    height: { xs: "18px", sm: "24px" },
-    width: { xs: "18px", sm: "24px" },
-  };
+
   return (
     <Box
       sx={{
         position: "absolute",
-        padding: "0.25em 0.5em",
-        width: { xs: "100%", sm: "500px" },
+        padding: "0.25em",
+        width: { xs: "95%", sm: "500px" },
         borderRadius: "2em",
         bottom: "0.5em",
         left: "50%",
