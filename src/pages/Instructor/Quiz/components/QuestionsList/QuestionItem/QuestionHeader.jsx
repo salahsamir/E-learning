@@ -3,12 +3,17 @@ import React from "react";
 import DeleteQuestion from "./DeleteQuestion";
 import UploadImage from "./UploadImage";
 import { useFormik } from "formik";
-import { useUpdateQuestion } from "api/instructor/quiz.tsx";
+import {
+  useDeleteQuestionImage,
+  useUpdateQuestion,
+} from "api/instructor/quiz.tsx";
 import { get_obj_diff } from "util/common.ts";
 import { Close } from "@mui/icons-material";
 
 const QuestionHeader = ({ item, isExpanded, questionIndex, dragging }) => {
   const { mutate: updateQuestion } = useUpdateQuestion();
+  const { mutate: deleteQuestionImage } = useDeleteQuestionImage();
+
   const formik = useFormik({
     initialValues: {
       text: item.text,
@@ -22,10 +27,7 @@ const QuestionHeader = ({ item, isExpanded, questionIndex, dragging }) => {
     },
   });
   const handleDeleteImage = () => {
-    updateQuestion({
-      questionId: item.id,
-      data: { imageUrl: null, image: null },
-    });
+    deleteQuestionImage(item.id);
   };
   return (
     <Box display="flex" justifyContent="space-between" gap="4px">

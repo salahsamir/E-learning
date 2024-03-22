@@ -1,16 +1,12 @@
 import { Close } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
-import { useUpdateOption } from "api/instructor/quiz.tsx";
+import { useDeleteOptionImage } from "api/instructor/quiz.tsx";
 import React from "react";
 
 const OptionImage = ({ isExpanded, item, questionId }) => {
-  const { mutate: updateOption } = useUpdateOption();
+  const { mutate: deleteOptionImage } = useDeleteOptionImage();
   const handleDeleteImage = () => {
-    updateOption({
-      questionId,
-      optionId: item.id,
-      data: { imageUrl: null, image: "" },
-    });
+    deleteOptionImage({ questionId, optionId: item.id });
   };
   return (
     <Box
