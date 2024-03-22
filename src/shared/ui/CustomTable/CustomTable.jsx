@@ -213,7 +213,14 @@ function LoadingSkeleton() {
     </Box>
   );
 }
-function CustomTable({ headCells, rows, showCheckbox, loading, error }) {
+function CustomTable({
+  headCells,
+  rows,
+  showCheckbox,
+  loading,
+  error,
+  sx = {},
+}) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("");
   const [selected, setSelected] = React.useState([]);
@@ -278,7 +285,13 @@ function CustomTable({ headCells, rows, showCheckbox, loading, error }) {
   );
   return (
     <Paper
-      sx={{ width: "100%", mb: 2, borderRadius: "8px", overflow: "hidden" }}
+      sx={{
+        width: "100%",
+        mb: 2,
+        borderRadius: "8px",
+        overflow: "hidden",
+        ...sx,
+      }}
     >
       <TableContainer sx={{ position: "relative" }}>
         <EnhancedToolbar
@@ -288,7 +301,6 @@ function CustomTable({ headCells, rows, showCheckbox, loading, error }) {
         />
         <Table
           sx={{
-            minWidth: 750,
             backgroundColor: (theme) => theme.palette.background.b1,
             position: "relative",
             zIndex: 1,
