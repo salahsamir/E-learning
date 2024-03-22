@@ -1,9 +1,13 @@
 import { Wallet } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { Box, Typography, alpha } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import CashoutDialog from "./CashoutDialog";
+import { useGetRevenue } from "api/instructor/revenue.tsx";
 
 const RevenueStatistics = () => {
+  const [dialogOpened, setDialogOpened] = useState(false);
+  const { data: revenue } = useGetRevenue();
   return (
     <Box
       sx={{
@@ -23,7 +27,7 @@ const RevenueStatistics = () => {
           Total Revenue
         </Typography>
         <Typography variant="h5" component="p" fontWeight="600">
-          $1500
+          ${revenue?.totalRevenue || 0}
         </Typography>
         <Typography
           color="text.secondary"
@@ -44,7 +48,7 @@ const RevenueStatistics = () => {
             fontWeight="600"
             variant="body2"
           >
-            $200.21
+            ${revenue?.totalPaidOut || 0}
           </Typography>
         </Typography>
       </Box>
@@ -63,13 +67,23 @@ const RevenueStatistics = () => {
             Current Balance
           </Typography>
           <Typography variant="h6" component="p" fontWeight="600">
-            $1300
+            ${revenue?.currentBalance || 0}
           </Typography>
         </Box>
         <Box>
-          <LoadingButton variant="outlined">Withdraw</LoadingButton>
+          <LoadingButton
+            variant="outlined"
+            onClick={() => setDialogOpened(true)}
+          >
+            Withdraw
+          </LoadingButton>
         </Box>
       </Box>
+      <CashoutDialog
+        open={dialogOpened}
+        setOpen={setDialogOpened}
+        balance={revenue?.currentBalance || 0}
+      />
     </Box>
   );
 };
