@@ -194,6 +194,47 @@ export function useUploadQuestionImage({
   });
   return mutation;
 }
+
+export function useDeleteQuestionImage({
+  onSuccess,
+  onError,
+}: MutationFnProps = {}) {
+  const queryClient = useQueryClient();
+  const params = useGetParams();
+  const mutation = useMutation({
+    mutationFn: async (questionId: string) => {
+      const response = await axios.patch(
+        `quiz/${params[0]}/question/${questionId}?delete=image`
+      );
+      return response.data;
+    },
+    onSuccess: (res, questionId) => {
+      queryClient.setQueryData(
+        ["quiz", params[0]],
+        (oldQuiz: {
+          questions: {
+            id: string;
+          }[];
+        }) => {
+          const newQuestions = oldQuiz.questions.map((ele) =>
+            ele.id === questionId ? { ...ele, imageUrl: null } : ele
+          );
+          const newQuiz = { ...oldQuiz, questions: newQuestions };
+          return newQuiz;
+        }
+      );
+      onSuccess && onSuccess(res);
+    },
+    onError: (error: any) => {
+      const message =
+        error.response?.data.message || "Failed to delete the image";
+      toast.error(message);
+      onError && onError(error);
+    },
+  });
+  return mutation;
+}
+
 export function useUpdateQuestion({
   onSuccess,
   onError,
@@ -511,6 +552,57 @@ export function useUploadOptionImage({
     onError: (error: any) => {
       const message =
         error.response?.data.message || "Failed to upload the image";
+      toast.error(message);
+      onError && onError(error);
+    },
+  });
+  return mutation;
+}
+
+export function useDeleteOptionImage({
+  onSuccess,
+  onError,
+}: MutationFnProps = {}) {
+  const queryClient = useQueryClient();
+  const params = useGetParams();
+  const mutation = useMutation({
+    mutationFn: async ({
+      questionId,
+      optionId,
+    }: {
+      questionId: string;
+      optionId: string;
+    }) => {
+      const response = await axios.patch(
+        `quiz/${params[0]}/question/${questionId}/option/${optionId}?delete=image`
+      );
+      return response.data;
+    },
+    onSuccess: (res, { questionId, optionId }) => {
+      queryClient.setQueryData(
+        ["quiz", params[0]],
+        (oldQuiz: { questions: { id: string; options?: any[] }[] }) => {
+          const newQuestions = oldQuiz.questions.map((ele) =>
+            ele.id === questionId
+              ? {
+                  ...ele,
+                  options: ele.options?.map((option) =>
+                    option.id === optionId
+                      ? { ...option, imageUrl: null }
+                      : option
+                  ),
+                }
+              : ele
+          );
+          const newQuiz = { ...oldQuiz, questions: newQuestions };
+          return newQuiz;
+        }
+      );
+      onSuccess && onSuccess(res);
+    },
+    onError: (error: any) => {
+      const message =
+        error.response?.data.message || "Failed to delete the image";
       toast.error(message);
       onError && onError(error);
     },

@@ -31,6 +31,8 @@ const QuestionFooter = ({ item }) => {
       sx={{
         display: "flex",
         justifyContent: "space-between",
+        flexDirection: { xs: "column", sm: "row" },
+        gap: "1em",
         alignItems: "center",
         marginTop: "1em",
         paddingTop: "1em",
@@ -43,7 +45,7 @@ const QuestionFooter = ({ item }) => {
         placeholder="points"
         size="small"
         sx={{
-          width: "100px",
+          width: { xs: "100%", sm: "100px" },
         }}
         onChange={formik.handleChange}
         onBlur={formik.handleSubmit}
@@ -65,6 +67,7 @@ const QuestionFooter = ({ item }) => {
                 formik.handleSubmit();
               }}
               checked={formik.values.multiple || false}
+              value={formik.values.multiple || false}
             />
           }
           label="Multiple Choice"
@@ -74,6 +77,7 @@ const QuestionFooter = ({ item }) => {
             <Switch
               id="required"
               checked={formik.values.required || false}
+              value={formik.values.required || false}
               onChange={(event) => {
                 formik.handleChange(event);
                 formik.handleSubmit();
