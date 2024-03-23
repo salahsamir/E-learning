@@ -19,6 +19,11 @@ const headCells = [
     disablePadding: false,
     label: "Total Revenue",
   },
+  {
+    id: "averagePrice",
+    disablePadding: false,
+    label: "Average Price",
+  },
 ];
 const CoursesRevenue = () => {
   const {
@@ -32,6 +37,7 @@ const CoursesRevenue = () => {
     courseName: course.title,
     totalSales: course.numberOfStudents,
     totalRevenue: course.revenue,
+    averagePrice: course.price,
   }));
   return (
     <Box>

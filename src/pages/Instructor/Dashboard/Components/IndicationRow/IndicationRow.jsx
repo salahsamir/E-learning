@@ -35,12 +35,12 @@ const IndicationRow = () => {
         flexDirection={{ xs: "column", md: "row" }}
         gap={1}
       >
-        <Item title="Total Sales" value="37" change={41.25} />
+        <Item title="Watched Hours" value="37" change={41.25} />
         <ResponsiveDivider
           horizontal={{ xs: "flex", md: "none" }}
           vertical={{ xs: "none", md: "flex" }}
         />
-        <Item title="Total Revenue" value="570" symbol={"$"} change={37.21} />
+        <Item title="Total Revenue" value="570" symbol={"£"} change={37.21} />
       </Box>
     </Box>
   );

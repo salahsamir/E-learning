@@ -4,6 +4,7 @@ import { Box, Typography, alpha } from "@mui/material";
 import React, { useState } from "react";
 import CashoutDialog from "./CashoutDialog";
 import { useGetRevenue } from "api/instructor/revenue.tsx";
+import toast from "react-hot-toast";
 
 const RevenueStatistics = () => {
   const [dialogOpened, setDialogOpened] = useState(false);
@@ -27,7 +28,7 @@ const RevenueStatistics = () => {
           Total Revenue
         </Typography>
         <Typography variant="h5" component="p" fontWeight="600">
-          ${revenue?.totalRevenue || 0}
+          {revenue?.totalRevenue || 0} EGP
         </Typography>
         <Typography
           color="text.secondary"
@@ -48,7 +49,7 @@ const RevenueStatistics = () => {
             fontWeight="600"
             variant="body2"
           >
-            ${revenue?.totalPaidOut || 0}
+            {revenue?.totalPaidOut || 0} EGP
           </Typography>
         </Typography>
       </Box>
@@ -67,13 +68,19 @@ const RevenueStatistics = () => {
             Current Balance
           </Typography>
           <Typography variant="h6" component="p" fontWeight="600">
-            ${revenue?.currentBalance || 0}
+            {revenue?.currentBalance || 0} EGP
           </Typography>
         </Box>
         <Box>
           <LoadingButton
             variant="outlined"
-            onClick={() => setDialogOpened(true)}
+            onClick={() => {
+              if (+revenue?.currentBalance < 200) {
+                toast.error("Minimum amount to withdraw is 200 EGP");
+                return;
+              }
+              setDialogOpened(true);
+            }}
           >
             Withdraw
           </LoadingButton>
