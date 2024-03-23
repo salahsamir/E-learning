@@ -33,14 +33,19 @@ const ModifiedInput = ({ label, id, formik }) => {
   );
 };
 const CashoutDialog = ({ open, setOpen, balance }) => {
-  const { mutate: withdrawRevenue } = useWithdrawRevenue();
+  const { mutate: withdrawRevenue, isPending: loadingWithdraw } =
+    useWithdrawRevenue({
+      onSuccess: () => {
+        setOpen(false);
+      },
+    });
   const formik = useFormik({
     initialValues: {
       paypalEmail: "",
       confirmPaypalEmail: "",
     },
     onSubmit: (values) => {
-      if (balance < 200) {
+      if (+balance < 200) {
         toast.error("Minimum amount to withdraw is 200 EGP");
         return;
       }
@@ -75,7 +80,7 @@ const CashoutDialog = ({ open, setOpen, balance }) => {
             <Typography variant="h6">Paypal</Typography>
             <Typography variant="body2">Paypal Transfer </Typography>
           </Box>
-          <Typography variant="h6">${balance} EGP</Typography>
+          <Typography variant="h6">£{balance} EGP</Typography>
         </Box>
         <Box
           display="flex"
@@ -95,8 +100,12 @@ const CashoutDialog = ({ open, setOpen, balance }) => {
             id="confirmPaypalEmail"
             formik={formik}
           />
-          <LoadingButton variant="contained" type="submit">
-            Transfer {balance}$
+          <LoadingButton
+            variant="contained"
+            type="submit"
+            loading={loadingWithdraw}
+          >
+            Transfer {balance} EGP
           </LoadingButton>
           <Typography variant="body2" color="text.secondary">
             Once you transfer the amount, it will be reflected in your Paypal
