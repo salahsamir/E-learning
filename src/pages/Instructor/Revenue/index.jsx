@@ -10,7 +10,7 @@ const Revenue = () => {
   return (
     <Box>
       <RevenueStatistics />
-      <Grid2 container spacing={3} mt="16px">
+      <Grid2 container spacing={"16px"} mt="8px">
         <Grid2 xs={12} md={8} display="flex" flexDirection="column" gap="16px">
           <RevenueChart />
           <CoursesRevenue />
