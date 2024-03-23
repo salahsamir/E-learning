@@ -1,4 +1,4 @@
-import { Box, Chip, Typography, Button } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import React from "react";
 
 const LatestTransactions = () => {
@@ -40,6 +40,7 @@ const LatestTransactions = () => {
         padding: "16px",
         borderRadius: "8px",
         border: (theme) => `1px solid ${theme.palette.divider}`,
+        minHeight: "200px",
       }}
     >
       <Typography variant="h6" mb="8px">
@@ -78,6 +79,11 @@ const LatestTransactions = () => {
           <Button variant="contained" color="primary">
             View All
           </Button>
+        )}
+        {transactions.length === 0 && (
+          <Typography variant="body2" color="text.secondary">
+            No transactions yet.
+          </Typography>
         )}
       </Box>
     </Box>
