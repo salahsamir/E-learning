@@ -69,7 +69,7 @@ const CustomerSatisfaction = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        border: (theme) => `1px solid ${theme.palette.primary.border}`,
+        border: (theme) => `1px solid ${theme.palette.divider}`,
       }}
     >
       <Chart
