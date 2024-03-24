@@ -22,25 +22,15 @@ const drawerItems = [
 export default function Layout() {
   const drawerRef = useRef(null);
   return (
-    <Box sx={{ pt: "0.5em" }}>
+    <>
       <CustomDrawer ref={drawerRef} drawerItems={drawerItems} />
-      <NavbarCompact
-        onMenuClick={() => drawerRef.current?.toggleOpenDrawer()}
-        visibleIcons={{
-          wishlist: true,
-          notification: true,
-          cart: true,
-          avatar: true,
-          themeMode: true,
-        }}
-      />
+
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           position: "relative",
-          pt: "calc(60px + 1em)",
           mr: "1em",
           ml: {
             xs: "1em",
@@ -49,10 +39,27 @@ export default function Layout() {
           },
         }}
       >
-        <Box width="100%" maxWidth="1400px" position="relative">
+        <Box
+          width="100%"
+          maxWidth="1400px"
+          position="relative"
+          display="flex"
+          flexDirection="column"
+          gap="16px"
+        >
+          <NavbarCompact
+            onMenuClick={() => drawerRef.current?.toggleOpenDrawer()}
+            visibleIcons={{
+              wishlist: true,
+              notification: true,
+              cart: true,
+              avatar: true,
+              themeMode: true,
+            }}
+          />
           <Outlet />
         </Box>
       </Box>
-    </Box>
+    </>
   );
 }

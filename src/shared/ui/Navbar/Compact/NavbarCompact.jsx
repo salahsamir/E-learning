@@ -17,33 +17,20 @@ function NavbarCompact({
     <Box
       component="header"
       sx={{
-        height: "60px",
-        position: "fixed",
-        width: {
-          xs: "calc(100vw - 2em)",
-          md: "calc(100vw - 65px - 2em)",
-          lg: "calc(100vw - 240px - 2em)",
-        },
-        maxWidth: "1400px",
-        transform: "translateX(-50%)",
-        left: {
-          xs: "50%",
-          md: "calc(50% + 32.5px)",
-          lg: "calc(50% + 120px)",
-        },
+        position: "sticky",
+        top: "0",
         zIndex: 101,
+        pt: "0.5em",
       }}
     >
       <Box
         sx={{
-          position: "fixed",
-          top: "-0.5em",
-          left: "0",
           width: "100%",
-          height: "0.9em",
+          height: "1em",
           backgroundColor: (theme) => alpha(theme.palette.background.b1, 0.1),
           backdropFilter: "blur(3px)",
-          zIndex: 100,
+          position: "absolute",
+          top: 0,
         }}
       />
       <Box
@@ -58,7 +45,7 @@ function NavbarCompact({
           px: "0.5em",
           borderRadius: "8px",
           gap: "1em",
-          border: (theme) => `1px solid ${theme.palette.primary.border}`,
+          border: (theme) => `1px solid ${theme.palette.divider}`,
         }}
       >
         <SearchBar />

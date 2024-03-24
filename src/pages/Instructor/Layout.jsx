@@ -29,25 +29,14 @@ const drawerItems = [
 function Layout() {
   const drawerRef = useRef(null);
   return (
-    <Box sx={{ pt: "0.5em" }}>
+    <>
       <CustomDrawer ref={drawerRef} drawerItems={drawerItems} />
-      <NavbarCompact
-        onMenuClick={() => drawerRef.current?.toggleOpenDrawer()}
-        visibleIcons={{
-          wishlist: false,
-          notification: true,
-          cart: false,
-          avatar: true,
-          themeMode: true,
-        }}
-      />
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           position: "relative",
-          pt: "calc(60px + 1em)",
           mr: "1em",
           ml: {
             xs: "1em",
@@ -56,7 +45,25 @@ function Layout() {
           },
         }}
       >
-        <Box width="100%" maxWidth="1400px" position="relative">
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: "1400px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "16px",
+          }}
+        >
+          <NavbarCompact
+            onMenuClick={() => drawerRef.current?.toggleOpenDrawer()}
+            visibleIcons={{
+              wishlist: false,
+              notification: true,
+              cart: false,
+              avatar: true,
+              themeMode: true,
+            }}
+          />
           {!localStorage.getItem("token") && <Error401 />}
           {localStorage.getItem("token") && (
             <>
@@ -66,7 +73,7 @@ function Layout() {
           )}
         </Box>
       </Box>
-    </Box>
+    </>
   );
 }
 
