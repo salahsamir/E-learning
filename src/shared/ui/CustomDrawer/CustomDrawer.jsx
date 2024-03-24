@@ -107,6 +107,7 @@ function CustomDrawer(props, ref) {
               url={item.url}
               icon={item.icon}
               open={open}
+              setOpen={setOpen}
             />
           ))}
         </List>
