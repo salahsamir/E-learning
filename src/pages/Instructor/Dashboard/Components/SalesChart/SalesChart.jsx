@@ -116,7 +116,7 @@ function SalesChart() {
   return (
     <Box
       sx={{
-        border: (theme) => `1px solid ${theme.palette.primary.border}`,
+        border: (theme) => `1px solid ${theme.palette.divider}`,
         borderRadius: "8px",
         padding: "16px",
         backgroundColor: (theme) => theme.palette.background.b1,

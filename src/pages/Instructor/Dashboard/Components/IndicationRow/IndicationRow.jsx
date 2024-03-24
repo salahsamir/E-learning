@@ -8,7 +8,7 @@ const IndicationRow = () => {
       sx={{
         display: "flex",
         backgroundColor: "background.b1",
-        border: (theme) => `1px solid ${theme.palette.primary.border}`,
+        border: (theme) => `1px solid ${theme.palette.divider}`,
         borderRadius: "16px",
         padding: "16px",
         // flexDirection: { xs: "column", sm: "row" },
