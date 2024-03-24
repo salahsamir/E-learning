@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-function DarwerItem({ text, url, icon, open }) {
+function DarwerItem({ text, url, icon, open, setOpen }) {
   const currentPath = useLocation().pathname;
   const itemIsActive = currentPath.endsWith(url);
   const navigate = useNavigate();
@@ -18,7 +18,10 @@ function DarwerItem({ text, url, icon, open }) {
     >
       <ListItemButton
         selected={itemIsActive}
-        onClick={() => navigate(url)}
+        onClick={() => {
+          navigate(url);
+          window.innerWidth < 1200 && setOpen(false);
+        }}
         sx={{
           minHeight: 48,
           justifyContent: open ? "initial" : "center",
