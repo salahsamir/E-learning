@@ -1,4 +1,4 @@
-import { Box, Grid, TextField, Typography } from "@mui/material";
+import { Grid, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import React from "react";
 import AttachedFiles from "../AttachedFiles/AttachedFiles";
@@ -7,7 +7,6 @@ import { BaseApi } from "util/BaseApi";
 import useGetParams from "hooks/useGetParams";
 import { LoadingButton } from "@mui/lab";
 import TextEditor from "features/TextEditor";
-import { MediaPlayer } from "@vidstack/react";
 import VideoPlayer from "features/VideoPlayer";
 
 function VideoForm({ video }) {
@@ -66,13 +65,8 @@ function VideoForm({ video }) {
         /> */}
         <VideoPlayer
           src={video.url}
-          // controls
-          // style={{
-          //   width: "100%",
-          //   height: "100%",
-          //   objectFit: "cover",
-          //   borderRadius: "8px",
-          // }}
+          poster={video.thumbnail}
+          title={video.title}
         />
       </Grid>
       <Grid item xs={12}>
