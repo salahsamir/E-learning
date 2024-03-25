@@ -48,8 +48,6 @@ function BackgroundUpload() {
           ...uploadedData.curriculum,
           id: uploadedData.curriculum._id,
         };
-        if (oldData === undefined || oldData.curriculum.length === 0)
-          return [newTopic];
         return { ...oldData, curriculum: [...oldData.curriculum, newTopic] };
       });
     }

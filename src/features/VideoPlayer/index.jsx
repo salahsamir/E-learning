@@ -16,9 +16,31 @@ export default function VideoPlayer({
 }) {
   return (
     <MediaPlayer title={title} src={src}>
-      <MediaProvider />
+      <MediaProvider
+        style={{
+          borderRadius: "0px",
+        }}
+      />
       <Poster src={poster} />
-      <PlyrLayout thumbnails={thumbnails} icons={plyrLayoutIcons} />
+      <PlyrLayout
+        thumbnails={thumbnails}
+        icons={plyrLayoutIcons}
+        style={{
+          borderRadius: "0px",
+        }}
+        invertTime={false}
+        controls={[
+          "play-large",
+          "play",
+          "progress",
+          "current-time",
+          "duration",
+          "settings",
+          "mute",
+          // "volume",
+          "fullscreen",
+        ]}
+      />
       {subtitles?.map((subtitle) => (
         <Track
           src={subtitle.src}
