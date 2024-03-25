@@ -1,22 +1,18 @@
 import { Box, CircularProgress, Typography } from "@mui/material";
 import React from "react";
-import VideoForm from "./Components/VideoForm/VideoForm";
 import { Helmet } from "react-helmet";
-import useGetParams from "hooks/useGetParams";
-import useGetVideo from "api/instructor/video.tsx";
+import { useGetVideo } from "api/instructor/video.tsx";
 import NavigationHeader from "./Components/NavigationHeader/NavigationHeader";
+import VideoPlayer from "features/VideoPlayer";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+import VideoTabs from "./Components/VideoTabs";
 
 function Video() {
-  const params = useGetParams();
-  const { data: topicData, isLoading: loadingTopic } = useGetVideo(
-    params[3],
-    params[2],
-    params[0]
-  );
+  const { data: video, isLoading: loadingVideo } = useGetVideo();
   return (
     <>
       <Helmet>
-        <title>{topicData?.title || "Edit Video"} | Eduvation</title>
+        <title>{video?.title || "Edit Video"} | Eduvation</title>
       </Helmet>
       <Box>
         <Box
@@ -30,18 +26,34 @@ function Video() {
             Edit Video
           </Typography>
         </Box>
-        <NavigationHeader data={topicData} />
+        <NavigationHeader data={video} />
         <Box
           sx={{
-            backgroundColor: (theme) => theme.palette.background.b1,
-            padding: "1em",
             borderRadius: "8px",
+            display: "flex",
+            justifyContent: "center",
+            mb: "1em",
           }}
         >
-          {loadingTopic ? (
+          {loadingVideo ? (
             <CircularProgress />
           ) : (
-            <VideoForm video={topicData} />
+            <Grid2 container width={{ xs: "100%", md: "70%" }}>
+              <Grid2
+                xs={12}
+                sx={{
+                  borderTopRightRadius: "8px",
+                  borderTopLeftRadius: "8px",
+                  overflow: "hidden",
+                  display: "flex",
+                }}
+              >
+                <VideoPlayer src={video.url} />
+              </Grid2>
+              <Grid2 xs={12}>
+                <VideoTabs video={video} />
+              </Grid2>
+            </Grid2>
           )}
         </Box>
       </Box>
