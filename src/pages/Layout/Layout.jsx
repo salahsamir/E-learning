@@ -22,7 +22,7 @@ export default function Layout() {
       <Navbar />
       <Box py={"40px"}>
         {/* Conditionally render TopBar based on the route */}
-        {!isAuthRoute && !hasRedirectQuery && <TopBar display={{ xs: "none", sm: "flex" }} />}
+        {/* {!isAuthRoute && !hasRedirectQuery && <TopBar display={{ xs: "none", sm: "flex" }} />} */}
         <Outlet />
       </Box>
       <Footer />
