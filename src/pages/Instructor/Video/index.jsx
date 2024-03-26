@@ -3,7 +3,7 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { useGetVideo } from "api/instructor/video.tsx";
 import NavigationHeader from "./Components/NavigationHeader/NavigationHeader";
-import VideoPlayer from "features/VideoPlayer";
+import VideoPlayer from "features/VideoPlayer/index.tsx";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import VideoTabs from "./Components/VideoTabs";
 
