@@ -26,6 +26,7 @@ export default function VideoPlayer({
       onContextMenu={(e) => {
         e.preventDefault();
       }}
+      playsInline
     >
       <MediaProvider
         style={{
