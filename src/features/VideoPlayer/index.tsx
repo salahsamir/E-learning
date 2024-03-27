@@ -20,7 +20,13 @@ export default function VideoPlayer({
   thumbnails,
 }) {
   return (
-    <MediaPlayer title={title} src={src}>
+    <MediaPlayer
+      title={title}
+      src={src}
+      onContextMenu={(e) => {
+        e.preventDefault();
+      }}
+    >
       <MediaProvider
         style={{
           borderRadius: "0px",
