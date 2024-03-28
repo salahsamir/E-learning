@@ -3,7 +3,7 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import React from "react";
 import { Link } from "react-router-dom";
 
-const WorkshopItem = () => {
+const WorkshopItem = ({ title, image, days, time }) => {
   return (
     <Grid2 xs={12} sm={6} md={4} lg={3} component={Link} to="1">
       <Box
@@ -22,8 +22,7 @@ const WorkshopItem = () => {
       >
         <img
           src="https://miro.medium.com/v2/resize:fit:720/format:webp/1*dEo8x5swSiuFVp4VYsCGKg.jpeg"
-          alt=""
-          srcset=""
+          alt={title}
           style={{
             width: "100%",
             height: "200px",
@@ -36,7 +35,6 @@ const WorkshopItem = () => {
           </Typography>
           <Box
             display="flex"
-            alignItems="center"
             justifyContent="space-between"
             color={"text.secondary"}
           >
