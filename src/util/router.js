@@ -67,6 +67,10 @@ const InstructorRevenue = lazy(() =>
 const StudentLayout = lazy(() => import("../pages/Student/Layout.jsx"));
 const StudentHome = lazy(() => import("../pages/Student/Home/Home.jsx"));
 const UserSettings = lazy(() => import("../pages/Student/Settings/index.jsx"));
+const StudentWorkshops = lazy(() =>
+  import("../pages/Student/Workshops/index.jsx")
+);
+
 // let ProtectedRouter = (props) => {
 //   if (localStorage.getItem("token") == null) {
 //     return <Navigate to="/signin" />;
@@ -315,6 +319,14 @@ const router = createBrowserRouter([
         element: (
           <SuspenseWrapper>
             <MyCourses />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "workshops",
+        element: (
+          <SuspenseWrapper>
+            <StudentWorkshops />
           </SuspenseWrapper>
         ),
       },

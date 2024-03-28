@@ -1,6 +1,7 @@
 import { Box, Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 import DetailsTab from "./Details";
+import Attached from "./Attached";
 
 const VideoTabs = ({ video }) => {
   const [currentTab, setCurrentTab] = useState("Details");
@@ -8,7 +9,7 @@ const VideoTabs = ({ video }) => {
     Details: <DetailsTab video={video} />,
     Questions: "Questions",
     Comments: "Comments",
-    Attached: "Attached",
+    Attached: <Attached />,
     Subtitles: "Subtitles",
   };
   return (
@@ -19,6 +20,10 @@ const VideoTabs = ({ video }) => {
         width: "100%",
         borderBottomLeftRadius: "8px",
         borderBottomRightRadius: "8px",
+        "& .MuiTabs-scroller": {
+          display: "flex",
+          alignItems: "center",
+        },
       }}
     >
       <Tabs
@@ -28,6 +33,7 @@ const VideoTabs = ({ video }) => {
         }}
         value={currentTab}
         onChange={(_, newValue) => setCurrentTab(newValue)}
+        variant="scrollable"
       >
         {Object.keys(tabs).map((tab) => (
           <Tab label={tab} key={tab} value={tab} />
