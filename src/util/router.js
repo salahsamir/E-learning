@@ -70,6 +70,7 @@ const UserSettings = lazy(() => import("../pages/Student/Settings/index.jsx"));
 const StudentWorkshops = lazy(() =>
   import("../pages/Student/Workshops/index.jsx")
 );
+const StudentBilling = lazy(() => import("../pages/Student/Billing/index.jsx"));
 
 // let ProtectedRouter = (props) => {
 //   if (localStorage.getItem("token") == null) {
@@ -327,6 +328,14 @@ const router = createBrowserRouter([
         element: (
           <SuspenseWrapper>
             <StudentWorkshops />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "billing",
+        element: (
+          <SuspenseWrapper>
+            <StudentBilling />
           </SuspenseWrapper>
         ),
       },
