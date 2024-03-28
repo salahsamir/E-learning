@@ -61,6 +61,12 @@ export const theme = (mode) =>
         primary: mode === "light" ? "#343434" : "#F5F5F5",
         secondary: mode === "light" ? "#868686" : "#c7cbc5",
       },
+      elevation: {
+        1:
+          mode === "light"
+            ? `0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12)`
+            : `0px 3px 3px -2px rgba(255,255,255,0.2),0px 3px 4px 0px rgba(255,255,255,0.14),0px 1px 8px 0px rgba(255,255,255,0.12)`,
+      },
     },
     components: {
       MuiCssBaseline: {
