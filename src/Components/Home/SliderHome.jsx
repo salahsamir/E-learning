@@ -5,10 +5,13 @@ import Slider from 'react-slick';
 export default function SliderHome() {
   const sliderItems = [
     {
-      img: process.env.PUBLIC_URL + '/HomeSlider/_41f6e389-9301-4690-8414-e85bd7cb6a9e.jpg',
+      img: 'https://img.freepik.com/free-photo/closeup-freelancer-learning-online-while-using-laptop-office_637285-6405.jpg?w=740&t=st=1711430131~exp=1711430731~hmac=ae33478cacb509f087f73a981027aec9e764adf7bae5165ee7f4db4a430dcdcd',
     },
     {
-      img: process.env.PUBLIC_URL + '/HomeSlider/_aa4af19d-73bf-4e67-8aa1-7bdb77db397a.jpg',
+      img: 'https://img.freepik.com/free-photo/close-up-woman-class_23-2148888812.jpg?size=626&ext=jpg&ga=GA1.1.176326301.1702315654&semt=ais',
+    },
+    {
+      img: 'https://img.freepik.com/premium-photo/online-course-elearning-online-education_493343-48172.jpg?size=626&ext=jpg&ga=GA1.1.176326301.1702315654&semt=ais',
     }
   ];
       var settings = {
@@ -27,18 +30,19 @@ export default function SliderHome() {
 
 <Slider {...settings}>
       {sliderItems.map((ele, index) => (
-        <Stack key={index} textAlign={'center'} m={'auto'} alignContent={'center'} >
-          <Box position={'relative'}>
-           
+        <Stack key={index} width='100%' height='100%' >
+          <Box >
+              
+
+      
             <Avatar
               variant='rounded'
               src={ele.img}
               sx={{
-                width: '100vw', 
-                height: '100vh', 
+                width: '100%', 
+                height: '100%', 
                 backgroundSize: 'cover',
-                backgroundPosition: '100%',
-                position: 'relative',
+                backgroundPosition: 'center',
               }}
             />
       

@@ -66,3 +66,34 @@ h2 {
     }
   }
 }
+.PerentHomeSection {
+  background-color: rgb(153, 154, 155);
+  height: 300px;
+  position: relative;
+  overflow: hidden;
+  transition: ease 1s;
+}
+
+.PerentHomeSection:hover {
+  background-color:#27c985;
+}
+
+.HomeSection {
+  position: absolute;
+  bottom: -20%;;
+  right: -50%;
+  color: rgba(252, 244, 244, 0.5);
+  transform: rotate(-10deg);
+  transition: ease 1s;
+}
+.PerentHomeSection:hover .HomeSection{
+  transform: rotate(-50deg);
+}
+.WhoAvatar{
+ 
+  transition:  ease 1s;
+}
+.WhoAvatar :hover{
+  transform: scale(1.2);
+  
+}

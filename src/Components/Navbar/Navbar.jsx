@@ -23,7 +23,7 @@ export default function Navbar() {
       }}
     >
       <Box display='flex'>
-        <Typography variant="h1" mx={2} fontSize={{ xs: "1.5em", sm: "2em" }}>
+        <Typography variant="h3" mx={1}  fontSize={{ xs: "1.7em", sm: "2em" }}>
           <Link
             to={"/"}
             component={RouterLink}
