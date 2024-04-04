@@ -23,13 +23,13 @@ export default function MyCourses() {
         <div className="row py-2">
           {course?.map((item) => {
             return (
-              <div className="col-sm-6 col-md-3">
-                <Box sx={{ height: "280px" ,backgroundColor:"#090000"}}  display={"flex"} gap={2} my={2} flexDirection={"column"} justifyContent={"space-between"}>
+              <div className="col-sm-6 col-md-3" onClick={() => nav(`/Chapter/${item._id}`)}>
+                <Box sx={{ height: "280px"}}  display={"flex"} gap={2} my={2} flexDirection={"column"} justifyContent={"space-between"}>
 
                   <Avatar
                     src={item.coverImageUrl}
                     alt="img"
-                    style={{ width: "100%",height: "140px" }}
+                    style={{ width: "100%",height: "200px" }}
                     variant="rounded"
                   />
                   <Typography px={2} variant="p">{item.title}</Typography>

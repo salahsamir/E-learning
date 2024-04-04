@@ -227,13 +227,16 @@ import { Avatar, Button, Rating, Stack, Tooltip, Typography } from '@mui/materia
 import CheckIcon from '@mui/icons-material/Check';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { allContext } from "../../Context/Context.jsx";
+import { useNavigate } from 'react-router-dom';
+import useMediaQuery from '@mui/material/useMediaQuery'; 
 export default function SubcategoryDetails({id,subCategory}) {
   let { AddToWishlist, AddToCart } = useContext(allContext);
+  const isSmallScreen = useMediaQuery('(max-width:600px)');
+  let nav=useNavigate()
+  let [course, setCourse] = useState([]);
   if(subCategory===undefined){
     subCategory=''
-    
   }
-    let [course, setCourse] = useState([]);
   const getAllCourse = async () => {
     try {
       const response = await axios.get(
@@ -241,49 +244,62 @@ export default function SubcategoryDetails({id,subCategory}) {
       );
 
       setCourse(response.data.courses);
-      console.log(response.data.courses);
+      
     } catch (error) {
       console.log(error);
     }
   };
    
-
+  let GoToCourse = (id) => {
+    nav(`/courseDetails/${id}`);
+  };
+ 
   useEffect(() => {
     getAllCourse();
   },[id,subCategory])
   return (
    <>
  <Stack spacing={2} my={2}>
+ 
+ {course.length?
  <div className="row">
-    {course?.map((ele, index) => (
- <Tooltip title={<div width={'500px'} >
-  <Typography variant='h5' color="primary" my={1}>{ele.title}</Typography>
-  <Typography variant='h6' fontSize={'16px'} my={1}> level: {ele.level}</Typography>
-  {ele.tags.map((tag, index) => (
-  <Typography key={index}  my={1} fontSize={'16px'}><CheckIcon color='primary'/>  {tag} </Typography>
-   
+ {course?.map((ele, index) => (
+<Tooltip title={
+<div width={'500px'} sx={{ display: isSmallScreen ? 'none' : 'block' }} >
+<Typography variant='h5' color="primary" my={1}>{ele.title}</Typography>
+<Typography variant='h6' fontSize={'16px'} my={1}> level: {ele.level}</Typography>
+{ele.tags.map((tag, index) => (
+<Typography key={index}  my={1} fontSize={'16px'}><CheckIcon color='primary'/>  {tag} </Typography>
+
 ))}
-<div >
+<div className='d-flex' >
 <Button variant='contained' onClick={() => AddToCart(ele._id)}  sx={{ width: '50%', mx: 2 }}>Buy Now</Button>
 <Button variant='outlined' onClick={() => AddToWishlist(ele._id)}><FavoriteIcon /></Button>
 </div>
- </div>} placement="right-start">
- <div className="col-md-3  col-sm-4" key={index}>
-   <Avatar src={ele.coverImageUrl} variant="rounded" sx={{ height: "200px", width: "100%" }} />
-   <Typography color="primary" fontSize={'16px'}>{ele.title}</Typography>
-   <Typography fontSize={'16px'}>
-     {ele.rating}
-     <span style={{ paddingLeft: '5px', paddingTop: '5px' }}>
-       <Rating value={ele.rating} size="small" precision={0.5} />
-     </span>
-     ( {ele.numberOfRatings} )
-   </Typography>
-   <Typography fontSize={'16px'}>Price: {ele.price}$</Typography>
- </div>
+</div>
+} placement="right-start">
+<div className="col-md-3  col-sm-4" onClick={() => GoToCourse(ele._id)}  key={index}>
+<Avatar src={ele.coverImageUrl} variant="rounded" sx={{ height: "200px", width: "100%" }} />
+<Typography color="primary" fontSize={'16px'}>{ele.title}</Typography>
+<Typography fontSize={'16px'}>
+  {ele.rating}
+  <span style={{ paddingLeft: '5px', paddingTop: '5px' }}>
+    <Rating value={ele.rating} size="small" precision={0.5} />
+  </span>
+  ( {ele.numberOfRatings} )
+</Typography>
+<Typography fontSize={'16px'}>Price: {ele.price}$</Typography>
+</div>
 </Tooltip>
-     
-    ))}
-   </div>
+  
+ ))}
+</div>
+:
+<div width={'100%'} height={'100%'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+<span class="loader"></span>
+
+</div>
+}
    
  </Stack>
    

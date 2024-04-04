@@ -1,86 +1,110 @@
-import {  Box, Button, CircularProgress, Container, Stack, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, CircularProgress, Container, Stack, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { BaseApi } from '../../util/BaseApi.js';
-function CircularProgressWithLabel(props) {
-  return (
-    <Box
-      sx={{
-        position: "relative",
-    
-        display: "inline-flex",
-        padding: "5px",
-      }}
-    >
-      <CircularProgress variant="determinate" size={50} value={"100%"} />
-      <Box
-        sx={{
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-          position: "absolute",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Typography variant="h6" color="text.secondary">
-          {props.value}
-        </Typography>
-      </Box>
-    </Box>
-  );
-}
+
 export default function Chapter() {
-  const[chapter,setChapter]=useState([]);
-    const {id}=useParams();
-    let navigate=useNavigate();
-    let getAllChapter = async () => {
-      try {
-        const response = await axios.get(`${BaseApi}/course/${id}/chapter`);
-        if (response && response.data) {
-          setChapter(response.data.chapters)
-        }
-      } catch (error) {
-        console.log(error);
+  const [chapter, setChapter] = useState([]);
+  const [parts, setParts] = useState([]);
+  const [chapterid, setChapterId] = useState('');
+
+  const [loading, setLoading] = useState(true); // Added loading state
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getAllChapter();
+  }, []);
+
+  const getAllChapter = async () => {
+    try {
+      const response = await axios.get(`${BaseApi}/course/${id}/chapter`);
+      if (response && response.data) {
+        setChapter(response.data.chapters);
+        setLoading(false); // Set loading to false after fetching chapters
       }
-    };
-   let Parts=async(chapter)=>{
-    navigate(`/part/${id}/${chapter}`)
-    
-   }
-   useEffect(()=>{
-    getAllChapter()
-   },[])
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getAllParts = async (chapterId) => {
+    try {
+      const response = await axios.get(`${BaseApi}/course/${id}/chapter/${chapterId}/curriculum/`);
+      if (response && response.data) {
+        setParts(response.data.curriculum);
+       setChapterId(chapterId)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  let goToVideo=(curriculum)=>{
+    navigate(`/video/${id}/${chapterid}/${curriculum}`)
+}
+  const [expanded, setExpanded] = useState(false);
+
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+    if (isExpanded) {
+      setParts([]); // Reset parts to an empty array when accordion is collapsed
+    }
+  };
+
   return (
-    <>
-      <Stack spacing={2} my={2} py={5}>
-        <Container>
-        <Typography variant="h3" p={1} color={"primary"} textAlign="center">Chapters</Typography>
-        {chapter ? (
-  <div className="row">
-  
-    {chapter.map((item) => {
-      return (
-        <div key={item.id} className="col-md-4 my-2 ">
-         <Box display="flex"  onClick={()=>Parts(item._id)} justifyContent="space-between" width="100%" alignItems="center" border={"1px solid "} borderRadius={"10px"} borderColor={"secondary.main"} p={2} gap="1em">
-         <CircularProgressWithLabel color="secondary" value={item.order} />
-          <Typography variant="style1">{item.title}</Typography>
-          <Button variant="outlined"  ><ArrowForwardIcon/></Button>
-         </Box>
-        </div>
-      );
-    })}
-  </div>
-) : null}
-        </Container>
-        
+    <Container>
+      <Stack spacing={2} my={1} >
+        <Typography variant="h3" py={1} color="primary" textAlign="center">
+          Chapters
+        </Typography>
+        {loading ? (
+           <div
+           width={"100%"}
+           height={"100%"}
+           display={"flex"}
+           justifyContent={"center"}
+           alignItems={"center"}
+         >
+           <span class="loader"></span>
+         </div> // Display loading indicator while fetching data
+        ) : (
+          <Box width="100%" display="flex" justifyContent="center" alignItems="center">
+            <div>
+              {chapter.map((item) => (
+                <Accordion
+                  key={item._id}
+                  expanded={expanded === item._id}
+                  onChange={handleChange(item._id)}
+                  
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls={`panel${item._id}-content`}
+                    id={`panel${item._id}-header`}
+                    onClick={() => getAllParts(item._id)}
+                  >
+                    <Typography variant="h5" sx={{ flexShrink: 0 ,width:'100%' }}>
+                      {item.title}
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    {parts && parts.map((part) => (
+                      <div key={part._id} onClick={() => goToVideo(part._id)}>
+                        <Button>
+                          <Typography variant="style">{part.title}</Typography>
+                        </Button>
+                      </div>
+                    ))}
+                  </AccordionDetails>
+                </Accordion>
+              ))}
+            </div>
+          </Box>
+        )}
       </Stack>
-  
-    </>
+    </Container>
   );
 }
