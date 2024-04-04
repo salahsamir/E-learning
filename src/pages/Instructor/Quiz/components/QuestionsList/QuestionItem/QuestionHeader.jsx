@@ -40,10 +40,16 @@ const QuestionHeader = ({ item, isExpanded, questionIndex, dragging }) => {
           >{`${questionIndex}. `}</Typography>
           <Typography
             variant="h6"
+
             contentEditable={isExpanded}
             suppressContentEditableWarning
             className="bottom-line-animation"
             tabIndex={0}
+
+            contentEditable
+            suppressContentEditableWarning
+            className="bottom-line-animation"
+
             onBlur={(event) => {
               formik.setFieldValue("text", event.target.innerText);
               formik.handleSubmit();
@@ -53,8 +59,10 @@ const QuestionHeader = ({ item, isExpanded, questionIndex, dragging }) => {
               position: "relative",
               wordBreak: "break-all",
               "&::after": {
+
                 backgroundColor: (theme) =>
                   isExpanded ? theme.palette.primary.main : "transparent",
+
               },
             }}
           >

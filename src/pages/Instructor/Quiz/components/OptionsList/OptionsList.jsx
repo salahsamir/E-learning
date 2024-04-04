@@ -11,7 +11,10 @@ import { SortableContext } from "@dnd-kit/sortable";
 import React from "react";
 import OptionItem from "./OptionItem/OptionItem";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+
 import { useReorderOptions } from "api/instructor/quiz.tsx";
+
+
 
 function OptionsList({ items, questionId, isExpanded }) {
   const { mutate: reorderOptions } = useReorderOptions();
@@ -30,11 +33,13 @@ function OptionsList({ items, questionId, isExpanded }) {
       },
     });
   };
+
   const mouseSensor = useSensor(MouseSensor);
   const touchSensor = useSensor(TouchSensor);
   const keyboardSensor = useSensor(KeyboardSensor);
 
   const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
+
   const imgOptionsCount =
     items.reduce((acc, curr) => {
       return (acc += curr.imageUrl ? 1 : 0);

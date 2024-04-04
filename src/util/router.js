@@ -10,7 +10,7 @@ import ConfirmCode from "../pages/Forget_password/ConfirmCode/ConfirmCode";
 import UpdatePasswordForm from "../pages/Forget_password/UpdatePasswordForm/UpdatePasswordForm";
 import SendEmail from "../pages/Forget_password/SendEmail/SendEmail.jsx";
 import NotFound from "../pages/NotFound/NotFound.jsx";
-import CoursesPage from "../pages/Courses/CoursesPage.jsx";
+import CoursesPage from "../pages/SubCategory/CoursesPage.jsx";
 import Video from "../pages/Videos/Video.jsx";
 import Chapter from "../Components/Chapters/Chapter.jsx";
 import Assignment from "../pages/Assignment/Assignment.jsx";

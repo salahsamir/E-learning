@@ -210,37 +210,55 @@ function ActionsRight({ cartVisible }) {
             vertical: "top",
             horizontal: "left",
           }}
-          sx={{ marginTop: 3 }}
+          sx={{ marginTop: 3}}
+          
         >
-          {wishlistdata ? (
+           <Stack p={2}>
+           <Typography variant="h5" color="primary" >Your WishList</Typography>
+          {wishlistdata.length ? (
             <>
-              <Stack spacing={1} p={1}   onClick={handleClose}>
-                {wishlistdata.map((item) => (
-                  <>
-                    <Box
-                      sx={{ display: "flex",alignItems: "center", justifyContent: "space-between",background:"#262F40",cursor:"pointer" }}
-                      p={3}
-                      boxShadow={2}
-                      borderRadius={"5px"}
-                      onClick={() => navigate(`/courseDetails/${item._id}`)}
-                      
+             <Stack spacing={1} p={1} onClick={handleClose}>
+              
+  {wishlistdata.map((item) => (
+    <React.Fragment key={item._id}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          background: "#262F40",
+          cursor: "pointer"
+        }}
+        p={3}
+        boxShadow={2}
+        borderRadius={"5px"}
+       
+      >
+        
+        <div  onClick={() => navigate(`/courseDetails/${item._id}`)} className="d-flex justify-content-between" style={{ width: "100%" }}>
+        <div className="d-flex align-items-center " >
+        <Avatar sx={{ width: 60, height: 60 }} src={item.coverImageUrl} variant="rounded" alt="img" />
+        <Typography variant="body1 "px={'10px'} color={"primary"}>
+          {item.title}
+        </Typography>
+        </div>
+       
+        </div>
+        <Button onClick={() => RemoveFromWishlist(item._id)}>
+          <HeartBrokenIcon color="error" fontSize="large" />
+        </Button>
+      </Box>
+     
+      <Divider />
+    </React.Fragment>
+  ))}
+</Stack>
 
-                    >
-                      <Typography variant="body1" color={"primary"}>
-                        {item.title}
-                      </Typography>
-                      <Button onClick={() => RemoveFromWishlist(item._id)}>
-                        <HeartBrokenIcon color="error" fontSize="large" />
-                      </Button>
-                    </Box>
-                    <Divider />
-                  </>
-                ))}
-              </Stack>
             </>
           ) : (
-            ""
+            "no element in Your Wishlist"
           )}
+           </Stack>
        
         </Menu>
 

@@ -5,6 +5,7 @@ import { AppBar, Box, Typography } from "@mui/material";
 import SearchBar from "./SearchBar/SearchBar";
 import ActionsRight from "./ActionsRight/ActionsRight";
 import Link from "@mui/material/Link";
+import Category from "./Category.jsx";
 
 export default function Navbar() {
   return (
@@ -21,8 +22,8 @@ export default function Navbar() {
         backgroundColor: (theme) => theme.palette.background.default,
       }}
     >
-      <Box>
-        <Typography variant="h1" fontSize={{ xs: "1.5em", sm: "2em" }}>
+      <Box display='flex'>
+        <Typography variant="h3" mx={1}  fontSize={{ xs: "1.7em", sm: "2em" }}>
           <Link
             to={"/"}
             component={RouterLink}
@@ -36,6 +37,8 @@ export default function Navbar() {
             Eduvation
           </Link>
         </Typography>
+
+      <Category/>
       </Box>
       <SearchBar />
       <ActionsRight cartVisible={true} />

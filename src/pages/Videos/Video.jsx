@@ -9,6 +9,7 @@ import HtmlText from "../../util/HtmlText.js";
 
 export default function Video() {
   let { id, chapter, curriculum } = useParams();
+ 
   let [video, setVideo] = useState({});
   let [article, setArticle] = useState({});
   let [parts, setParts] = useState([]);

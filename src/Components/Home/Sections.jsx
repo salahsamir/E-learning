@@ -13,6 +13,8 @@ import {
   Rating,
   Container,
 } from "@mui/material";
+import HouseSidingIcon from '@mui/icons-material/HouseSiding';
+import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
 import React from "react";
 import Slider from "react-slick";
 import SectionCourses from "./SectionCourses.jsx";
@@ -20,6 +22,7 @@ import StarIcon from "@mui/icons-material/Star";
 import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import WhoSection from "./WhoSection.jsx";
 function CircularProgressWithLabel(props) {
   return (
     <Box
@@ -66,44 +69,7 @@ export default function Sections() {
   }, []);
   return (
     <Container>
-      <Stack m={"20px"} spacing={1} py={4}>
-        <Typography
-          data-aos="zoom-in"
-          variant="h2"
-          color={"primary"}
-          textAlign={"center"}
-        >
-          Who are we{" "}
-        </Typography>
-        <Divider color={"yellow"}></Divider>
-        <Grid spacing={3} container>
-          <Grid item sm={6}>
-            <Stack
-              justifyContent={"center"}
-              sx={{ width: "90%", height: "100%" }}
-              data-aos="fade-right"
-              color='secondary.main'
-            >
-              <Typography variant="h6">
-             <Typography fontWeight={'bold'} variant="h5"> Our Vision</Typography>
-We envision a future where education is not confined to traditional boundaries but extends beyond classrooms, reaching every corner of the globe. We believe in a world where learning is personalized, inclusive.
-<Typography fontWeight={'bold'} variant="h5">Our Mission</Typography>
-
-Our mission is to harness the power of innovation to redefine education for the 21st century. We strive to create dynamic learning experiences that inspire curiosity.
-              </Typography>
-            </Stack>
-          </Grid>
-          <Grid item sm={6}>
-            <Avatar
-              data-aos="fade-left"
-              variant="rounded"
-              sx={{ width: "90%", height: "100%" }}
-              alt="Remy Sharp"
-              src="https://pinlearn.com/wp-content/uploads/2020/11/Group-Webinar-Class-1536x946.png"
-            />
-          </Grid>
-        </Grid>
-      </Stack>
+    <WhoSection/>
       <Divider>
         <Button variant="contained"></Button>
       </Divider>
