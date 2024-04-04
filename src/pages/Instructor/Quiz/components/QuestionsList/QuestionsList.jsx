@@ -18,14 +18,9 @@ import { useReorderQuestions } from "api/instructor/quiz.tsx";
 
 function QuestionsList({ items }) {
   const [expandedQuestion, setExpandedQuestion] = useState(null);
-<<<<<<< HEAD
-<<<<<<< HEAD
+
   const { mutate: reorderQuestions } = useReorderQuestions();
-=======
->>>>>>> 7910483 (finished basic quiz structure)
-=======
-  const { mutate: reorderQuestions } = useReorderQuestions();
->>>>>>> ff1c6d6 (added sorting to questions and options)
+
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (!over) return;

@@ -11,14 +11,10 @@ import { SortableContext } from "@dnd-kit/sortable";
 import React from "react";
 import OptionItem from "./OptionItem/OptionItem";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 import { useReorderOptions } from "api/instructor/quiz.tsx";
-=======
->>>>>>> 7910483 (finished basic quiz structure)
-=======
-import { useReorderOptions } from "api/instructor/quiz.tsx";
->>>>>>> ff1c6d6 (added sorting to questions and options)
+
+
 
 function OptionsList({ items, questionId, isExpanded }) {
   const { mutate: reorderOptions } = useReorderOptions();
@@ -37,20 +33,13 @@ function OptionsList({ items, questionId, isExpanded }) {
       },
     });
   };
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 3a03c61 (solved drag and drop touch issue)
+
   const mouseSensor = useSensor(MouseSensor);
   const touchSensor = useSensor(TouchSensor);
   const keyboardSensor = useSensor(KeyboardSensor);
 
   const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
-<<<<<<< HEAD
-=======
->>>>>>> 7910483 (finished basic quiz structure)
-=======
->>>>>>> 3a03c61 (solved drag and drop touch issue)
+
   const imgOptionsCount =
     items.reduce((acc, curr) => {
       return (acc += curr.imageUrl ? 1 : 0);
