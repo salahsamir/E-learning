@@ -8,45 +8,39 @@ import {
   Typography,
 } from "@mui/material";
 import { useSearchUser } from "api/global/profile.tsx";
-import React from "react";
+import React, { useState } from "react";
 
-const InstructorsInput = ({ formik }) => {
+const SearchButton = () => {
   const {
     mutate: searchUser,
     data: usersList,
     isPending: loadingUsers,
   } = useSearchUser();
-  const selectedInstructors = formik.values.instructors || [];
-  const setSelectedInstructors = (value) => {
-    formik.setFieldValue("instructors", value);
-  };
-  const options = Array.isArray(usersList)
-    ? [...usersList, ...selectedInstructors]
-    : [...selectedInstructors];
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const options = Array.isArray(usersList) ? [...usersList] : [];
   return (
     <Autocomplete
-      id="search-instructor"
-      sx={{ width: 300 }}
+      id="search-user"
       options={options}
       autoComplete
       autoHighlight
-      multiple
-      clearOnBlur={false}
+      clearOnBlur={true}
       loading={loadingUsers}
-      includeInputInList
+      freeSolo
       filterSelectedOptions
-      value={selectedInstructors}
+      value={selectedUser}
       noOptionsText="no users found"
       disableClearable
       getOptionLabel={(option) => option?.userName}
       onChange={(event, newValue) => {
-        setSelectedInstructors(newValue);
+        setSelectedUser(newValue);
       }}
       onInputChange={(event, newInputValue) => {
         searchUser(newInputValue);
       }}
       renderInput={(params) => (
-        <TextField {...params} label="Add instructor" fullWidth />
+        <TextField {...params} placeholder="search.." fullWidth size="small" />
       )}
       renderOption={(props, option) => (
         <Box
@@ -83,4 +77,4 @@ const InstructorsInput = ({ formik }) => {
   );
 };
 
-export default InstructorsInput;
+export default SearchButton;
