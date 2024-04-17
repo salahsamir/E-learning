@@ -1,11 +1,8 @@
-import {
-  ImageOutlined,
-  MicOutlined,
-  Send,
-  SentimentSatisfiedOutlined,
-} from "@mui/icons-material";
+import { AttachFile, MicOutlined, Send } from "@mui/icons-material";
 import { Box, IconButton, TextField, darken, lighten } from "@mui/material";
 import { useEffect, useState } from "react";
+import EmojPicker from "./EmojPicker";
+
 const CustomIconButton = ({ children, ...props }) => {
   return (
     <IconButton
@@ -35,6 +32,9 @@ const ControlBar = () => {
     //   setMessage("");
     // });
   }
+  const insertEmoji = (emoji) => {
+    setMessage((prev) => prev + emoji);
+  };
   return (
     <Box
       sx={{
@@ -90,15 +90,12 @@ const ControlBar = () => {
           <CustomIconButton>
             <MicOutlined fontSize="small" />
           </CustomIconButton>
+          <EmojPicker insertEmoji={insertEmoji} />
           <CustomIconButton>
-            <SentimentSatisfiedOutlined fontSize="small" />
-          </CustomIconButton>
-          <CustomIconButton>
-            <ImageOutlined fontSize="small" />
+            <AttachFile fontSize="small" />
           </CustomIconButton>
         </Box>
       </Box>
-
       {/* **************** Send Button ***************** */}
       <IconButton
         disableRipple

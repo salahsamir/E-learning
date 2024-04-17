@@ -17,7 +17,7 @@ const Messages = () => {
       <Grid2 xs={4} maxHeight="100%">
         <SidePanel />
       </Grid2>
-      <Grid2 xs={8}>
+      <Grid2 xs={8} maxHeight="100%">
         <MessagesBox />
       </Grid2>
     </Grid2>

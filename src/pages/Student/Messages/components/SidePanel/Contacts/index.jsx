@@ -56,8 +56,7 @@ const Contacts = () => {
   return (
     <Box
       sx={{
-        minHeight: "100px",
-        overflowY: "scroll",
+        overflowY: "auto",
         display: "flex",
         flexDirection: "column",
         gap: "8px",
