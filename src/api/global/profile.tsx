@@ -117,8 +117,16 @@ export function useDeleteAccount({ onSuccess, onError }: MutationFnProps = {}) {
 
 export function useSearchUser({ onSuccess, onError }: MutationFnProps = {}) {
   const mutatation = useMutation({
-    mutationFn: async (userName: string) => {
-      const response = await axios.get(`user/instructor/search?q=${userName}`);
+    mutationFn: async ({
+      userName,
+      type,
+    }: {
+      userName: string;
+      type: string;
+    }) => {
+      const response = await axios.get(
+        `user/search?q=${userName}&type=${type}`
+      );
       return response.data?.matchedData || [];
     },
     onSuccess: (data) => {

@@ -43,7 +43,7 @@ const InstructorsInput = ({ formik }) => {
         setSelectedInstructors(newValue);
       }}
       onInputChange={(event, newInputValue) => {
-        searchUser(newInputValue);
+        searchUser({ userName: newInputValue, type: "instructor" });
       }}
       renderInput={(params) => (
         <TextField {...params} label="Add instructor" fullWidth />

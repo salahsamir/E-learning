@@ -1,54 +1,14 @@
 import { Box } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Message from "./Message";
+import { useGetChat } from "api/global/messages.tsx";
+import useGetParams from "hooks/useGetParams";
 
 const MessagesList = () => {
-  const messages = [
-    {
-      from: { isLocal: true },
-      message: "Hello",
-    },
-    {
-      from: { isLocal: false },
-      message: "Hi",
-    },
-    {
-      from: { isLocal: true },
-      message: "How are you?",
-    },
-    {
-      from: { isLocal: false },
-      message: "I'm good",
-    },
-    {
-      from: { isLocal: true },
-      message: "That's great",
-    },
-    {
-      from: { isLocal: false },
-      message: "Yeah",
-    },
-    {
-      from: { isLocal: true },
-      message: "What are you doing?",
-    },
-    {
-      from: { isLocal: false },
-      message: "Nothing much",
-    },
-    {
-      from: { isLocal: true },
-      message: "Okay",
-    },
-    {
-      from: { isLocal: false },
-      message: "What about you?",
-    },
-    {
-      from: { isLocal: true },
-      message: "Just chilling",
-    },
-  ];
+  const params = useGetParams();
+  const { data: chat } = useGetChat({ id: params[0] });
+  console.log(chat);
+
   return (
     <Box
       sx={{
@@ -64,7 +24,7 @@ const MessagesList = () => {
         },
       }}
     >
-      {messages?.map((message, index) => (
+      {chat?.messages?.map((message, index) => (
         <Message key={"mm" + index} message={message} />
       ))}
     </Box>

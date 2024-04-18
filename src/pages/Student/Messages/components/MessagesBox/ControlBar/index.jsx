@@ -1,37 +1,44 @@
-import { AttachFile, MicOutlined, Send } from "@mui/icons-material";
-import { Box, IconButton, TextField, darken, lighten } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Send } from "@mui/icons-material";
+import {
+  Box,
+  IconButton,
+  TextField,
+  Typography,
+  darken,
+  lighten,
+} from "@mui/material";
+import { useState } from "react";
 import EmojPicker from "./EmojPicker";
-
-const CustomIconButton = ({ children, ...props }) => {
-  return (
-    <IconButton
-      sx={{
-        padding: "4px",
-      }}
-      {...props}
-    >
-      {children}
-    </IconButton>
-  );
+import { useSendMessage } from "api/global/messages.tsx";
+import useGetParams from "hooks/useGetParams";
+import AttachFile from "./AttachFile";
+import VoiceRecorder from "./VoiceRecorder";
+const initialRecordInfo = {
+  isRecording: false,
+  timer: { id: null, time: 0 },
+  recordedFile: null,
 };
 const ControlBar = () => {
   const [message, setMessage] = useState("");
-  const [sending, setSending] = useState(false);
-  useEffect(() => {
-    if (sending) {
-      setTimeout(() => {
-        setSending(false);
-      }, 500);
-    }
-  }, [sending]);
+  const [recordInfo, setRecordInfo] = useState(initialRecordInfo);
+  const params = useGetParams();
+  console.log(recordInfo);
+  const { mutate: sendMessage, isPending: sending } = useSendMessage({
+    onSuccess: () => {
+      setMessage("");
+    },
+  });
+  if (recordInfo.recordedFile) {
+    sendMessage({ chatId: params[0], media: recordInfo.recordedFile });
+    setRecordInfo(initialRecordInfo);
+  }
   function handleSendMessage() {
     if (message === "") return;
-    setSending(true);
-    // sendMessage(message).then(() => {
-    //   setMessage("");
-    // });
+    sendMessage({ chatId: params[0], message });
   }
+  const handleAttachFile = (media) => {
+    sendMessage({ chatId: params[0], media });
+  };
   const insertEmoji = (emoji) => {
     setMessage((prev) => prev + emoji);
   };
@@ -40,7 +47,6 @@ const ControlBar = () => {
       sx={{
         display: "flex",
         height: "fit-content",
-        alignItems: "flex-end",
         padding: "16px",
       }}
     >
@@ -56,7 +62,7 @@ const ControlBar = () => {
             theme.palette.mode === "dark"
               ? lighten(theme.palette.background.b1, 0.03)
               : darken(theme.palette.background.b1, 0.03),
-          minHeight: "38px",
+          minHeight: "41px",
         }}
       >
         {/* **************** Textfied ***************** */}
@@ -67,9 +73,11 @@ const ControlBar = () => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           sx={{
+            display: recordInfo.isRecording ? "none" : "block",
             "& .MuiInputBase-root": {
               padding: "0.5em",
               fontSize: "1em",
+              height: "100%",
               maxHeight: "100px",
               overflowY: "auto",
               py: "0.5em",
@@ -79,6 +87,22 @@ const ControlBar = () => {
             },
           }}
         />
+        {/* **************** Record Info ***************** */}
+        <Box
+          sx={{
+            flex: 1,
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Typography sx={{ color: "gray", fontSize: "0.8em", ml: "0.5em" }}>
+            {recordInfo.isRecording
+              ? `Recording ${recordInfo.timer.time}s`
+              : ""}
+          </Typography>
+        </Box>
+
         {/* **************** Buttons Group ***************** */}
         <Box
           sx={{
@@ -87,13 +111,12 @@ const ControlBar = () => {
             height: "38px",
           }}
         >
-          <CustomIconButton>
-            <MicOutlined fontSize="small" />
-          </CustomIconButton>
+          <VoiceRecorder
+            setRecordInfo={setRecordInfo}
+            recordInfo={recordInfo}
+          />
           <EmojPicker insertEmoji={insertEmoji} />
-          <CustomIconButton>
-            <AttachFile fontSize="small" />
-          </CustomIconButton>
+          <AttachFile attachFile={handleAttachFile} />
         </Box>
       </Box>
       {/* **************** Send Button ***************** */}
@@ -101,7 +124,7 @@ const ControlBar = () => {
         disableRipple
         onClick={handleSendMessage}
         sx={{
-          height: "40px",
+          height: "41px",
           backgroundColor: (theme) =>
             sending ? theme.palette.primary.dark : theme.palette.primary.main,
           borderRadius: "4px",

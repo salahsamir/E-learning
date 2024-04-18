@@ -8,7 +8,10 @@ const SidePanel = () => {
   return (
     <Box
       sx={{
-        borderRight: (theme) => `1px solid ${theme.palette.divider}`,
+        borderRight: (theme) => ({
+          xs: "none",
+          sm: `1px solid ${theme.palette.divider}`,
+        }),
         padding: "16px",
         height: "100%",
         display: "flex",

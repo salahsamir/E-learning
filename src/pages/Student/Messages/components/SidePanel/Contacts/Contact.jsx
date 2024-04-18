@@ -4,16 +4,14 @@ import useGetParams from "hooks/useGetParams";
 import React from "react";
 import { useNavigate } from "react-router";
 
-const Contact = ({ id, name, message, avatar }) => {
+const Contact = ({ chat }) => {
   const navigate = useNavigate();
   const params = useGetParams();
-  console.log(params);
   const handleNavigation = () => {
-    if (params[0] === id) return;
-    navigate(`/${params[params.length - 2]}/messages/${id}`);
+    if (params[0] === chat._id) return;
+    navigate(`/${params[params.length - 2]}/messages/${chat._id}`);
   };
-  const isActive = params[0] === String(id);
-  console.log(isActive);
+  const isActive = params[0] === String(chat._id);
   return (
     <Box
       sx={{
@@ -35,13 +33,13 @@ const Contact = ({ id, name, message, avatar }) => {
       }}
       onClick={handleNavigation}
     >
-      <Avatar src={avatar} />
+      <Avatar src={chat._img} />
       <Box>
         <Typography variant="body1" fontWeight="400">
-          {name}
+          {chat.name}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {message}
+          {chat.messages?.[0]?.text}
         </Typography>
       </Box>
     </Box>

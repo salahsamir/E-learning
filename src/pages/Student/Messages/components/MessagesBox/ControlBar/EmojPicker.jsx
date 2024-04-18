@@ -13,7 +13,7 @@ const EmojPicker = ({ insertEmoji }) => {
       }}
     >
       <IconButton
-        onClick={() => setShowEmojPicker((prev) => !prev)}
+        onClick={() => showEmojPicker === false && setShowEmojPicker(true)}
         sx={{
           padding: "4px",
         }}

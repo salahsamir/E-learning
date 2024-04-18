@@ -7,8 +7,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useQueryClient } from "@tanstack/react-query";
 import { useSearchUser } from "api/global/profile.tsx";
-import React, { useState } from "react";
+import React from "react";
 
 const SearchButton = () => {
   const {
@@ -16,8 +17,10 @@ const SearchButton = () => {
     data: usersList,
     isPending: loadingUsers,
   } = useSearchUser();
-  const [selectedUser, setSelectedUser] = useState(null);
-
+  const queryClient = useQueryClient();
+  const handleSelectUser = (selected) => {
+    console.log(selected);
+  };
   const options = Array.isArray(usersList) ? [...usersList] : [];
   return (
     <Autocomplete
@@ -29,15 +32,14 @@ const SearchButton = () => {
       loading={loadingUsers}
       freeSolo
       filterSelectedOptions
-      value={selectedUser}
       noOptionsText="no users found"
       disableClearable
       getOptionLabel={(option) => option?.userName}
       onChange={(event, newValue) => {
-        setSelectedUser(newValue);
+        handleSelectUser(newValue);
       }}
       onInputChange={(event, newInputValue) => {
-        searchUser(newInputValue);
+        searchUser({ userName: newInputValue, type: "user" });
       }}
       renderInput={(params) => (
         <TextField {...params} placeholder="search.." fullWidth size="small" />
