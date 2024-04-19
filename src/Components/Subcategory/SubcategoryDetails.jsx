@@ -223,7 +223,7 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
 import { BaseApi } from '../../util/BaseApi.js';
-import { Avatar, Button, Rating, Stack, Tooltip, Typography } from '@mui/material';
+import { Avatar, Button, Container, Rating, Stack, Tooltip, Typography } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { allContext } from "../../Context/Context.jsx";
@@ -262,11 +262,11 @@ export default function SubcategoryDetails({id,subCategory}) {
  <Stack spacing={2} my={2}>
  
  {course.length?
- <div className="row">
+ <div className="row g-3">
  {course?.map((ele, index) => (
 <Tooltip title={
 <div width={'500px'} sx={{ display: isSmallScreen ? 'none' : 'block' }} >
-<Typography variant='h5' color="primary" my={1}>{ele.title}</Typography>
+<Typography variant='h5' color="primary" my={2}>{ele.title}</Typography>
 <Typography variant='h6' fontSize={'16px'} my={1}> level: {ele.level}</Typography>
 {ele.tags.map((tag, index) => (
 <Typography key={index}  my={1} fontSize={'16px'}><CheckIcon color='primary'/>  {tag} </Typography>
@@ -278,7 +278,7 @@ export default function SubcategoryDetails({id,subCategory}) {
 </div>
 </div>
 } placement="right-start">
-<div className="col-md-3  col-sm-4" onClick={() => GoToCourse(ele._id)}  key={index}>
+<div className="col-md-3  col-sm-4 g-3" onClick={() => GoToCourse(ele._id)}  key={index}>
 <Avatar src={ele.coverImageUrl} variant="rounded" sx={{ height: "200px", width: "100%" }} />
 <Typography color="primary" fontSize={'16px'}>{ele.title}</Typography>
 <Typography fontSize={'16px'}>

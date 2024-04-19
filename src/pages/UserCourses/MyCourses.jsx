@@ -15,7 +15,7 @@ export default function MyCourses() {
   let { course } = useContext(allContext);
 
   return (
-    <Stack spacing={3} my={3} py={3}>
+    <Stack spacing={3}  py={3}>
       <Container>
         <Typography variant="h3" color={"primary"} textAlign="center">
           My Courses

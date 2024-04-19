@@ -24,6 +24,7 @@ import CourseDetails from "../pages/CourseDetails/CourseDetails.jsx";
 // instructor routes
 import MyCourses from "../pages/UserCourses/MyCourses.jsx";
 import Parts from "../Components/Parts/Parts.jsx";
+import Search from "Components/Search/Search.jsx";
 const InstructorDashboard = lazy(() =>
   import("../pages/Instructor/Dashboard/index.jsx")
 );
@@ -106,6 +107,7 @@ const router = createBrowserRouter([
       { path: "courseDetails/:id", element: <CourseDetails /> },
       { path: "myCourse", element: <MyCourses /> },
       { path: "video/:id/:chapter/:curriculum", element: <Video /> },
+      { path: "search/:title", element: <Search /> },
 
       { path: "*", element: <NotFound /> },
     ],

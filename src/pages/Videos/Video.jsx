@@ -43,9 +43,10 @@ export default function Video() {
         console.log(error);
       }
     };
-
+   
     getAllVideo();
     getAllParts();
+    // console.log(parts)
   }, [id, chapter, curriculum]);
 
   let NextVideo = (curriculum) => {
@@ -53,25 +54,22 @@ export default function Video() {
   };
 
   const handleProgress = (progress) => {
-    // Progress object contains played, playedSeconds, loaded, loadedSeconds, playedPercent, loadedPercent
-    // Update minutesWatched state
+  
     setMinutesWatched(Math.floor(progress.playedSeconds / 60*60));
-    console.log(minutesWatched,Math.floor(progress.playedSeconds));
+  
   };
 
   return (
     <Container>
-      <div className="my-4 py-4">
+      <div className="my-1 py-4">
         <div className="row">
           {video ? (
             <div className="col-md-9">
-              <Typography variant="p" py={2} color={"style2"}>
-                {video.title}
-              </Typography>
+            
               <div className="player__wrapper py-1">
                 <ReactPlayer
                   url={video.url}
-                  style={{ maxWidth: "100%" }}
+                  style={{ maxWidth: "100%",borderRadius: "20px" }}
                   width="100%"
                   height="auto"
                   playing={true}
@@ -80,6 +78,9 @@ export default function Video() {
                   onProgress={handleProgress} // Call handleProgress on video progress
                 />
               </div>
+              <Typography variant="p" py={2} color={"style2"}>
+                {video.title}
+              </Typography>
             </div>
           ) : (
             <div className="col-md-9">
@@ -94,7 +95,7 @@ export default function Video() {
           <div className="col-md-3">
             {parts && (
               <>
-                <Typography variant="h6" color={"third"}>
+                <Typography variant="p" color={"third"}>
                   {parts.length ? parts.length : 0} Lessons
                 </Typography>
                 {parts.map((item) => (
@@ -115,7 +116,8 @@ export default function Video() {
                         p={1}
                       >
                         <Typography
-                          variant="p"
+                          // variant="p"
+                          sx={{fontSize:"14px"}}
                           textAlign="left"
                           color="white"
                         >
@@ -141,9 +143,9 @@ export default function Video() {
         </div>
       </div>
       {/* Display the number of minutes watched */}
-      <Typography variant="p" py={1}>
+      {/* <Typography variant="p" py={1}>
         Minutes Watched: {minutesWatched}
-      </Typography>
+      </Typography> */}
     </Container>
   );
 }

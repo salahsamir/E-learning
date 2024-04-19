@@ -34,23 +34,28 @@ export default function CourseDetail({ id }) {
   }, [id]);
 
   return (
-    <Stack spacing={2} my={1}>
+    <Stack spacing={2} my={1} >
       {data ? (
         <>
           <div className="row my-3">
-            <div className="col-md-9">
-              <Avatar
-                src={data.coverImageUrl}
-                style={{ width: "100%", height: "60%" }}
-                variant="rounded"
-              />
-              <Typography color="secondary" variant="p">
-                description
-              </Typography>
-              <Typography>
-                <HtmlText quillContent={data.description} />
-              </Typography>
-            </div>
+          <div className="col-md-9">
+  <Avatar
+    src={data.coverImageUrl}
+    style={{ width: "90%", height: "50%" }}
+    variant="rounded"
+  />
+  <Typography color="secondary" variant="p">
+    description
+  </Typography>
+  <Typography variant="body1" className="w-75">
+      {/* <HtmlText quillContent={data.description} className="w-75" /> */}
+  </Typography>
+  {/* <Typography variant="body1" className="w-75">
+  
+    {/* {data.description}
+  </Typography> */}
+</div>
+
             <Box className="col-md-3"   borderRadius={2} boxShadow={"0 0 20px 0 rgba(0, 0, 0, 0.4)"}>
               <Box
                 borderRadius={2}

@@ -51,7 +51,7 @@ export const AllProvider = ({ children }) => {
   };
   let getCoursesBought = async () => {
     return await axios
-      .get(`${BaseApi}/user/BoughtCourses`, { headers })
+      .get(`${BaseApi}/user/BoughtCourses?view=course`, { headers })
       .then((res) => res.data)
       .catch((err) => console.log(err));
   };
@@ -59,7 +59,7 @@ export const AllProvider = ({ children }) => {
     try {
       let res = await getCoursesBought();
       if (res?.message == "Done") {
-        setCourse(res.courses.coursesBought);
+        setCourse(res.courses);
       }
       return res;
     } catch (error) {
