@@ -48,6 +48,7 @@ const ControlBar = () => {
         display: "flex",
         height: "fit-content",
         padding: "16px",
+        alignItems: "flex-end",
       }}
     >
       <Box

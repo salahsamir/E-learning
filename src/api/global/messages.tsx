@@ -1,6 +1,7 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useGetProfile } from "./profile.tsx";
 
 interface MutationFnProps {
   onSuccess?: (res: any) => void;
@@ -18,7 +19,13 @@ export function useGetChats() {
   return query;
 }
 
-export function useGetChat({ id }: { id: string }) {
+export function useGetChat({
+  id,
+  user = false,
+}: {
+  id: string;
+  user?: boolean;
+}) {
   const query = useQuery({
     queryKey: ["chat", id],
     queryFn: async () => {
@@ -28,31 +35,80 @@ export function useGetChat({ id }: { id: string }) {
   });
   return query;
 }
-
+export function useGetChatByUser({ onSuccess, onError }: MutationFnProps = {}) {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: async ({ userId }: any) => {
+      const response = await axios.get(`chat/${userId}?user=true`);
+      return response.data.chat;
+    },
+    onSuccess(chat) {
+      console.log(chat);
+      queryClient.setQueryData(["chat", chat._id], chat);
+      queryClient.invalidateQueries({
+        queryKey: ["chats"],
+      });
+      onSuccess && onSuccess(chat);
+    },
+    onError(error: any) {
+      const errorMsg =
+        error.response.data?.ValidationError?.[0]?.message ||
+        error.response.data?.message ||
+        error.message;
+      toast.error(errorMsg);
+      onError && onError(error);
+    },
+  });
+  return mutation;
+}
 export function useSendMessage({ onSuccess, onError }: MutationFnProps = {}) {
+  const queryClient = useQueryClient();
+  const { data: user } = useGetProfile();
   const mutatation = useMutation({
     mutationFn: async (data: {
       chatId: string;
       message?: any;
-      media?: {
-        file: File;
-        name: string;
-        type: string;
-        size: number | string;
-      };
+      media?: File;
     }) => {
       const formData = new FormData();
       Object.entries(data).forEach(([key, value]) => {
-        formData.append(key, value);
+        if (key !== "chatId") {
+          formData.append(key, value);
+        }
       });
-      const response = await axios.post("chat", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.post(
+        `chat/${data.chatId}/messages`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       return response.data.message;
     },
-    onSuccess: (newData) => {
+    onSuccess: (newData, { chatId, message, media }) => {
+      const newMessage = {
+        from: user._id,
+        text: message,
+        media: media && {
+          url: URL.createObjectURL(media),
+          typeOfMedia: media.type.split("/")[0],
+          size: media.size,
+          name: media.name,
+        },
+        time: Date.now(),
+      };
+      queryClient.setQueryData(["chat", chatId], (chat: any) => {
+        console.log(chat);
+        return {
+          ...chat,
+          messages: [...chat.messages, newMessage],
+        };
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["chats"],
+      });
       onSuccess && onSuccess(newData);
     },
     onError: (error: Error | any) => {

@@ -1,9 +1,25 @@
 import { MoreHoriz } from "@mui/icons-material";
 import { Avatar, IconButton, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import { useGetChat } from "api/global/messages.tsx";
+import { useGetProfile } from "api/global/profile.tsx";
+import useGetParams from "hooks/useGetParams";
 import React from "react";
 
 const Header = () => {
+  const params = useGetParams();
+  const { data: chat } = useGetChat({ id: params[0] });
+  const user = useGetProfile();
+  let chatName = chat?.name;
+  let chatImage = chat?._img;
+  if (chat?.type === "private") {
+    chat.participants.forEach((participant) => {
+      if (participant._id !== user._id) {
+        chatName = participant.userName;
+        chatImage = participant?.profilePic?.url;
+      }
+    });
+  }
   return (
     <Box
       sx={{
@@ -22,13 +38,17 @@ const Header = () => {
           gap: "8px",
         }}
       >
-        <Avatar />
+        <Avatar src={chatImage} />
         <Typography variant="body1" fontWeight="600">
-          Osama Safwat
+          {chatName}
         </Typography>
       </Box>
       <Box>
-        <IconButton>
+        <IconButton
+          sx={{
+            padding: "4px",
+          }}
+        >
           <MoreHoriz />
         </IconButton>
       </Box>

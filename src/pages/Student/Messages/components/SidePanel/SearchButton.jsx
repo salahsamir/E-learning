@@ -7,24 +7,42 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useQueryClient } from "@tanstack/react-query";
+import { useGetChatByUser } from "api/global/messages.tsx";
 import { useSearchUser } from "api/global/profile.tsx";
-import React from "react";
+import useGetParams from "hooks/useGetParams";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SearchButton = () => {
+  const navigate = useNavigate();
+  const params = useGetParams();
+  const [searchValue, setSearchValue] = useState(null);
   const {
     mutate: searchUser,
     data: usersList,
     isPending: loadingUsers,
   } = useSearchUser();
-  const queryClient = useQueryClient();
+  const { mutate: getChat } = useGetChatByUser({
+    onSuccess: (chat) => {
+      console.log(chat);
+      navigate(
+        `/${
+          params[params.length - 2] === "instructor" ? "instructor" : "student"
+        }/messages/${chat._id}`
+      );
+      setSearchValue(null);
+    },
+  });
   const handleSelectUser = (selected) => {
-    console.log(selected);
+    if (selected) {
+      getChat({ userId: selected._id });
+    }
   };
   const options = Array.isArray(usersList) ? [...usersList] : [];
   return (
     <Autocomplete
       id="search-user"
+      value={searchValue}
       options={options}
       autoComplete
       autoHighlight

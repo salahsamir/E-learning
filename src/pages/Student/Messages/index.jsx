@@ -3,10 +3,12 @@ import React from "react";
 import SidePanel from "./components/SidePanel";
 import MessagesBox from "./components/MessagesBox";
 import useGetParams from "hooks/useGetParams";
+import { useCheckNewMessages } from "api/socket/chat.tsx";
 
 const Messages = () => {
   const params = useGetParams();
   const chatSelected = params[0] !== "messages";
+  useCheckNewMessages();
   return (
     <Grid2
       container

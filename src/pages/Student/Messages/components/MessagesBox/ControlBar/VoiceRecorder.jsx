@@ -5,11 +5,13 @@ import React, { useState } from "react";
 const VoiceRecorder = ({ recordInfo, setRecordInfo }) => {
   const { isRecording, timer } = recordInfo;
   const [currentMediaRecorder, setCurrentMediaRecorder] = useState(null);
+  const [currentStream, setCurrentStream] = useState(null);
   const handleStartRecording = (stream) => {
     const mediaRecorder = new MediaRecorder(stream);
     mediaRecorder.ondataavailable = (event) => {
       console.log(event);
-      const file = new File([event.data], "audio.mp3", {
+      const fileName = `audio-${Date.now()}.mp3`;
+      const file = new File([event.data], fileName, {
         type: "audio/mp3",
       });
       setRecordInfo((old) => ({ ...old, recordedFile: file }));
@@ -36,6 +38,7 @@ const VoiceRecorder = ({ recordInfo, setRecordInfo }) => {
     navigator.mediaDevices
       .getUserMedia({ audio: true })
       .then((stream) => {
+        setCurrentStream(stream);
         handleStartRecording(stream);
       })
       .catch((err) => {
@@ -50,6 +53,7 @@ const VoiceRecorder = ({ recordInfo, setRecordInfo }) => {
   };
   const handleStopRecording = () => {
     currentMediaRecorder.stop();
+    currentStream.getTracks().forEach((track) => track.stop());
     clearInterval(timer.id);
   };
   if (timer.time / 60 >= 1) handleStopRecording();
