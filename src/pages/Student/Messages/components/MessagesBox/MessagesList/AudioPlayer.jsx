@@ -1,121 +1,140 @@
 import { Pause, PlayArrow } from "@mui/icons-material";
-import { Box, IconButton, LinearProgress, Typography } from "@mui/material";
-import React, { useEffect } from "react";
+import {
+  Box,
+  Button,
+  IconButton,
+  Typography,
+  alpha,
+  darken,
+  useTheme,
+} from "@mui/material";
+import React, { useRef, useState } from "react";
+import { useWavesurfer } from "@wavesurfer/react";
+const formatTime = (time) => {
+  return new Date(time * 1000).toISOString().substr(14, 5);
+};
+const AudioPlayer = ({ item, isLocal }) => {
+  const audioRef = useRef(null);
+  const theme = useTheme();
+  const [currentSpeed, setCurrentSpeed] = useState(1);
 
-const AudioPlayer = ({ item }) => {
-  const [audioInfo, setAudioInfo] = React.useState({
-    audio: new Audio(item.url),
-    playing: false,
-    currentTime: 0,
-    duration: 0,
+  const { currentTime, wavesurfer, isPlaying, isReady } = useWavesurfer({
+    url: item.url,
+    container: audioRef,
+    height: 30,
+    width: "100%",
+    waveColor: isLocal ? "white" : theme.palette.primary.main,
+    progressColor: isLocal
+      ? theme.palette.grey[400]
+      : theme.palette.mode === "light"
+      ? theme.palette.primary[500]
+      : theme.palette.primary[700],
   });
-  useEffect(() => {
-    const audio = new Audio(item.url);
-    audio.onloadedmetadata = (event) => {
-      audio.currentTime = Number.MAX_SAFE_INTEGER;
-      // listen to time position change
-      audio.ontimeupdate = function () {
-        audio.ontimeupdate = function () {};
-        // setting player currentTime back to 0 can be buggy too, set it first to .1 sec
-        audio.currentTime = 0.1;
-        audio.currentTime = 0;
-        setAudioInfo((old) => ({
-          ...old,
-          duration: audio.duration,
-        }));
-      };
-      setAudioInfo((old) => ({
-        ...old,
-        currentTime: audio.currentTime,
-      }));
-    };
-    audio.onended = () => {
-      setAudioInfo((old) => ({
-        ...old,
-        playing: false,
-        duration: audio.duration,
-      }));
-    };
-    audio.onpause = () => {
-      setAudioInfo((old) => ({ ...old, playing: false }));
-    };
-    audio.onplay = () => {
-      setAudioInfo((old) => ({ ...old, playing: true }));
-      audio.ontimeupdate = () => {
-        setAudioInfo((old) => ({ ...old, currentTime: audio.currentTime }));
-      };
-    };
-    audio.preload = "metadata";
-    setAudioInfo((old) => ({ ...old, audio }));
-  }, [item.url]);
 
-  const handlePlayBtnClick = () => {
-    if (audioInfo.playing) {
-      audioInfo.audio.pause();
-    } else {
-      audioInfo.audio.play();
-    }
+  const handleSpeedChange = () => {
+    setCurrentSpeed((prev) => {
+      let newSpeed = prev + 0.25;
+      if (newSpeed > 2) {
+        newSpeed = 1;
+      }
+      wavesurfer?.setPlaybackRate(newSpeed);
+      return newSpeed;
+    });
   };
+
   return (
     <Box
       sx={{
         display: "flex",
         gap: "0.5em",
         alignItems: "center",
-        width: "400px",
-        minWidth: "200px",
-        backgroundColor: "rgba(0,0,0,0.1)",
+        width: {
+          xs: "220px",
+          sm: "300px",
+          md: "350px",
+        },
         borderRadius: "8px",
-        border: (theme) => `1px solid ${theme.palette.divider}`,
         padding: "0.5em",
+        overflow: "hidden",
       }}
     >
       <IconButton
-        onClick={handlePlayBtnClick}
+        onClick={() => {
+          wavesurfer?.playPause();
+        }}
         sx={{
-          backgroundColor: "primary.main",
+          backgroundColor: isLocal ? "white" : "primary.main",
+          "&:hover": {
+            backgroundColor: isLocal ? "grey.200" : "primary.dark",
+          },
         }}
       >
-        {audioInfo.playing ? (
+        {isPlaying ? (
           <Pause
             sx={{
-              color: "white",
+              color: isLocal ? "primary.main" : "white",
             }}
           />
         ) : (
           <PlayArrow
             sx={{
-              color: "white",
+              color: isLocal ? "primary.main" : "white",
             }}
           />
         )}
       </IconButton>
       <Box
+        ref={audioRef}
         sx={{
+          width: "100%",
+          height: "100%",
           flex: 1,
+          flexShrink: 1,
+        }}
+      />
+      <Box
+        sx={{
           display: "flex",
           flexDirection: "column",
           gap: "0.5em",
         }}
       >
-        <LinearProgress
-          value={
-            audioInfo.duration === Infinity
-              ? audioInfo.playing
-                ? 25
-                : 0
-              : (audioInfo.currentTime / audioInfo.duration) * 100
-          }
-          variant="determinate"
-        />
-        <Typography color="text.primary">
-          {audioInfo.playing ||
-          (audioInfo.currentTime > 0 &&
-            audioInfo.currentTime < audioInfo.duration)
-            ? audioInfo.currentTime.toFixed(2)
-            : audioInfo.duration.toFixed(2)}
+        <Typography
+          variant="body1"
+          sx={{
+            color: (theme) =>
+              isLocal
+                ? "white"
+                : theme.palette.mode === "light"
+                ? "black"
+                : "text.primary",
+          }}
+        >
+          {isPlaying ||
+          (currentTime > 0 && currentTime < wavesurfer?.getDuration())
+            ? formatTime(currentTime)
+            : formatTime(wavesurfer?.getDuration() || 0)}
         </Typography>
       </Box>
+      <Button
+        variant="outlined"
+        sx={{
+          minWidth: "auto",
+          padding: "2px 8px",
+          borderRadius: "2px",
+          fontSize: "0.75em",
+          borderWidth: "1.5px",
+          borderColor: isLocal && "white",
+          color: isLocal && "white",
+          "&:hover": {
+            backgroundColor: isLocal && alpha("#fff", 0.1),
+            borderColor: isLocal && darken("#fff", 0.2),
+          },
+        }}
+        onClick={handleSpeedChange}
+      >
+        {`${currentSpeed}x`}
+      </Button>
     </Box>
   );
 };

@@ -75,7 +75,7 @@ const Contact = ({ chat }) => {
       <Box
         sx={{
           display: "flex",
-          gap: "16px",
+          gap: "8px",
           overflow: "clip",
           flexShrink: 10,
           flexGrow: 10,
@@ -88,7 +88,15 @@ const Contact = ({ chat }) => {
             alignItems: "center",
           }}
         >
-          <Avatar src={chatImage} />
+          <Avatar
+            src={chatImage}
+            variant="rounded"
+            sx={{
+              borderRadius: "8px",
+              height: "50px",
+              width: "50px",
+            }}
+          />
         </Box>
         <Box
           sx={{

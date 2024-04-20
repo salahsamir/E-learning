@@ -21,6 +21,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@vidstack/react": "^1.10.9",
+    "@wavesurfer/react": "^1.0.5",
     "aos": "^2.3.4",
     "apexcharts": "^3.45.2",
     "axios": "^1.5.1",

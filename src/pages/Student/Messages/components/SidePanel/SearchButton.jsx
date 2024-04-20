@@ -1,9 +1,11 @@
+import { Search } from "@mui/icons-material";
 import {
   Autocomplete,
   Avatar,
   Box,
   Chip,
   Grid,
+  InputAdornment,
   TextField,
   Typography,
 } from "@mui/material";
@@ -60,7 +62,24 @@ const SearchButton = () => {
         searchUser({ userName: newInputValue, type: "user" });
       }}
       renderInput={(params) => (
-        <TextField {...params} placeholder="search.." fullWidth size="small" />
+        <TextField
+          {...params}
+          placeholder="search.."
+          fullWidth
+          size="small"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment
+                position="start"
+                sx={{
+                  mr: 0,
+                }}
+              >
+                <Search />
+              </InputAdornment>
+            ),
+          }}
+        />
       )}
       renderOption={(props, option) => (
         <Box

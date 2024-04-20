@@ -21,7 +21,7 @@ const Message = ({ message }) => {
     if (!message.media) return null;
     switch (mediaType) {
       case "audio":
-        return <AudioPlayer item={message.media} />;
+        return <AudioPlayer item={message.media} isLocal={isLocal} />;
       case "video":
         return (
           <Box
@@ -75,29 +75,36 @@ const Message = ({ message }) => {
           flexDirection: "column",
           gap: "4px",
           alignItems: isLocal ? "flex-end" : "flex-start",
-          color: isLocal && "white",
+          color: (theme) =>
+            isLocal
+              ? "white"
+              : theme.palette.mode === "light"
+              ? "black"
+              : "text.primary",
           backgroundColor: (theme) =>
-            !message.text && mediaType !== "document"
+            !message.text && mediaType !== "document" && mediaType !== "audio"
               ? "transparent"
               : isLocal
               ? theme.palette.mode === "light"
                 ? "primary.700"
-                : "primary.500"
+                : "primary.700"
               : theme.palette.mode === "light"
               ? "rgba(0,0,0,0.1)"
               : "rgba(255,255,255,0.1)",
         }}
       >
         {getMedia()}
-        <Typography variant="body2">{message.text}</Typography>
+        <Typography variant="body1">{message.text}</Typography>
         <Typography
           variant="caption"
           color={
-            isLocal && (message.text || mediaType === "document")
+            isLocal &&
+            (message.text || mediaType === "document" || mediaType === "audio")
               ? "#c4edd4"
               : "text.secondary"
           }
         >
+          {!isLocal && sender?.userName + " - "}
           {messageDate.getDay() - new Date().getDay() > 1
             ? messageDate.toLocaleDateString()
             : messageDate.toLocaleTimeString()}
