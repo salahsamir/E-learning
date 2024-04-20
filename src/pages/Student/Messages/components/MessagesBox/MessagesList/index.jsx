@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import Message from "./Message";
 import { useGetMessages } from "api/global/messages.tsx";
 import useGetParams from "hooks/useGetParams";
+import MessageSkelton from "./MessageSkelton";
 
 const MessagesList = () => {
   const params = useGetParams();
@@ -46,6 +47,19 @@ const MessagesList = () => {
           ref={messages?.length === index + 1 ? lastItemRef : null}
         />
       ))}
+      {(isFetchingNextPage || !messages) && (
+        <>
+          {!messages && (
+            <>
+              <MessageSkelton isLocal />
+              <MessageSkelton />
+            </>
+          )}
+          <MessageSkelton isLocal />
+          <MessageSkelton />
+          <MessageSkelton isLocal />
+        </>
+      )}
     </Box>
   );
 };

@@ -56,6 +56,7 @@ const ControlBar = () => {
   ]);
 
   function handleSendMessage() {
+    if (sending) return;
     if (recordInfo.isRecording) {
       recorderRef.current.stopRecording();
       setRecordInfo((old) => ({ ...old, sendSignal: true }));

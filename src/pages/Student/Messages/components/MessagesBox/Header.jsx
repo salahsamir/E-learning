@@ -1,5 +1,5 @@
 import { MoreHoriz } from "@mui/icons-material";
-import { Avatar, IconButton, Typography } from "@mui/material";
+import { Avatar, IconButton, Skeleton, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useGetChat } from "api/global/messages.tsx";
 import { useGetProfile } from "api/global/profile.tsx";
@@ -14,7 +14,7 @@ const Header = () => {
   let chatImage = chat?._img;
   if (chat?.type === "private") {
     chat.participants.forEach((participant) => {
-      if (participant._id !== user._id) {
+      if (participant._id !== user?._id) {
         chatName = participant.userName;
         chatImage = participant?.profilePic?.url;
       }
@@ -38,10 +38,18 @@ const Header = () => {
           gap: "8px",
         }}
       >
-        <Avatar src={chatImage} />
-        <Typography variant="body1" fontWeight="600">
-          {chatName}
-        </Typography>
+        {chat ? (
+          <Avatar src={chatImage} />
+        ) : (
+          <Skeleton variant="circular" width="40px" height="40px" />
+        )}
+        {chat ? (
+          <Typography variant="body1" fontWeight="600">
+            {chatName}
+          </Typography>
+        ) : (
+          <Skeleton variant="text" width="150px" height="20px" />
+        )}
       </Box>
       <Box>
         <IconButton
