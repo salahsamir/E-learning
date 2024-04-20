@@ -2,6 +2,7 @@ import { Pause, PlayArrow } from "@mui/icons-material";
 import {
   Box,
   Button,
+  CircularProgress,
   IconButton,
   Typography,
   alpha,
@@ -11,13 +12,15 @@ import {
 import React, { useRef, useState } from "react";
 import { useWavesurfer } from "@wavesurfer/react";
 const formatTime = (time) => {
-  return new Date(time * 1000).toISOString().substr(14, 5);
+  if (!time || Number.isNaN(+time) || !Number.isFinite(time)) {
+    return "00:00";
+  }
+  return new Date(+time * 1000).toISOString().substr(14, 5);
 };
 const AudioPlayer = ({ item, isLocal }) => {
   const audioRef = useRef(null);
   const theme = useTheme();
   const [currentSpeed, setCurrentSpeed] = useState(1);
-
   const { currentTime, wavesurfer, isPlaying, isReady } = useWavesurfer({
     url: item.url,
     container: audioRef,
@@ -30,7 +33,6 @@ const AudioPlayer = ({ item, isLocal }) => {
       ? theme.palette.primary[500]
       : theme.palette.primary[700],
   });
-
   const handleSpeedChange = () => {
     setCurrentSpeed((prev) => {
       let newSpeed = prev + 0.25;
@@ -60,7 +62,7 @@ const AudioPlayer = ({ item, isLocal }) => {
     >
       <IconButton
         onClick={() => {
-          wavesurfer?.playPause();
+          isReady && wavesurfer?.playPause();
         }}
         sx={{
           backgroundColor: isLocal ? "white" : "primary.main",
@@ -69,7 +71,17 @@ const AudioPlayer = ({ item, isLocal }) => {
           },
         }}
       >
-        {isPlaying ? (
+        {!isReady ? (
+          <CircularProgress
+            style={{
+              height: "24px",
+              width: "24px",
+            }}
+            sx={{
+              color: isLocal ? "primary.main" : "white",
+            }}
+          />
+        ) : isPlaying ? (
           <Pause
             sx={{
               color: isLocal ? "primary.main" : "white",
@@ -113,7 +125,7 @@ const AudioPlayer = ({ item, isLocal }) => {
           {isPlaying ||
           (currentTime > 0 && currentTime < wavesurfer?.getDuration())
             ? formatTime(currentTime)
-            : formatTime(wavesurfer?.getDuration() || 0)}
+            : formatTime(wavesurfer?.getDuration())}
         </Typography>
       </Box>
       <Button

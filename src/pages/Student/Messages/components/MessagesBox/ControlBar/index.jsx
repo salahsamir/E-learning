@@ -7,7 +7,7 @@ import {
   darken,
   lighten,
 } from "@mui/material";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import EmojPicker from "./EmojPicker";
 import { useSendMessage } from "api/global/messages.tsx";
 import useGetParams from "hooks/useGetParams";
@@ -17,25 +17,54 @@ const initialRecordInfo = {
   isRecording: false,
   timer: { id: null, time: 0 },
   recordedFile: null,
+  sendSignal: false,
+};
+const formatTime = (time) => {
+  const minutes = Math.floor(time / 60);
+  const seconds = time % 60;
+  return `${minutes < 10 ? "0" + minutes : minutes}:${
+    seconds < 10 ? "0" + seconds : seconds
+  }`;
 };
 const ControlBar = () => {
   const [message, setMessage] = useState("");
   const [recordInfo, setRecordInfo] = useState(initialRecordInfo);
+  const recorderRef = useRef();
   const params = useGetParams();
-  console.log(recordInfo);
   const { mutate: sendMessage, isPending: sending } = useSendMessage({
     onSuccess: () => {
       setMessage("");
     },
   });
-  if (recordInfo.recordedFile) {
-    sendMessage({ chatId: params[0], media: recordInfo.recordedFile });
+
+  const resetRecordInfo = useCallback(() => {
+    clearInterval(recordInfo.timer.id);
     setRecordInfo(initialRecordInfo);
-  }
+  }, [recordInfo.timer.id]);
+
+  useEffect(() => {
+    if (recordInfo.sendSignal && recordInfo.recordedFile) {
+      sendMessage({ chatId: params[0], media: recordInfo.recordedFile });
+      resetRecordInfo();
+    }
+  }, [
+    recordInfo.sendSignal,
+    recordInfo.recordedFile,
+    sendMessage,
+    params,
+    resetRecordInfo,
+  ]);
+
   function handleSendMessage() {
-    if (message === "") return;
-    sendMessage({ chatId: params[0], message });
+    if (recordInfo.isRecording) {
+      recorderRef.current.stopRecording();
+      setRecordInfo((old) => ({ ...old, sendSignal: true }));
+    } else {
+      if (message === "") return;
+      sendMessage({ chatId: params[0], message });
+    }
   }
+
   const handleAttachFile = (media) => {
     sendMessage({ chatId: params[0], media });
   };
@@ -92,15 +121,13 @@ const ControlBar = () => {
         <Box
           sx={{
             flex: 1,
-            height: "100%",
-            display: "flex",
+            display: recordInfo.isRecording ? "flex" : "none",
             alignItems: "center",
+            alignSelf: "stretch",
           }}
         >
           <Typography sx={{ color: "gray", fontSize: "0.8em", ml: "0.5em" }}>
-            {recordInfo.isRecording
-              ? `Recording ${recordInfo.timer.time}s`
-              : ""}
+            {formatTime(recordInfo.timer.time)}
           </Typography>
         </Box>
 
@@ -115,6 +142,8 @@ const ControlBar = () => {
           <VoiceRecorder
             setRecordInfo={setRecordInfo}
             recordInfo={recordInfo}
+            resetRecordInfo={resetRecordInfo}
+            ref={recorderRef}
           />
           <EmojPicker insertEmoji={insertEmoji} />
           <AttachFile attachFile={handleAttachFile} />
