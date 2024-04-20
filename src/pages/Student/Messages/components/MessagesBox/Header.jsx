@@ -9,7 +9,7 @@ import React from "react";
 const Header = () => {
   const params = useGetParams();
   const { data: chat } = useGetChat({ id: params[0] });
-  const user = useGetProfile();
+  const { data: user } = useGetProfile();
   let chatName = chat?.name;
   let chatImage = chat?._img;
   if (chat?.type === "private") {

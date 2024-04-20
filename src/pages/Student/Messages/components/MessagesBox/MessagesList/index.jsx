@@ -34,9 +34,9 @@ const MessagesList = () => {
         overflowY: "scroll",
         p: "1em",
         height: "100%",
-        "& > :first-of-type": {
-          mt: "auto !important",
-        },
+        // "& > :first-of-type": {
+        //   mt: "auto !important",
+        // },
       }}
     >
       {messages?.map((message, index) => (
