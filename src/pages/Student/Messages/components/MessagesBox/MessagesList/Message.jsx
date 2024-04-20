@@ -3,11 +3,11 @@ import { useGetChat } from "api/global/messages.tsx";
 import { useGetProfile } from "api/global/profile.tsx";
 import VideoPlayer from "features/VideoPlayer/index.tsx";
 import useGetParams from "hooks/useGetParams";
-import React from "react";
+import React, { forwardRef } from "react";
 import Attached from "./Attached";
 import AudioPlayer from "./AudioPlayer";
 
-const Message = ({ message }) => {
+const Message = forwardRef(({ message }, ref) => {
   const { data: currentUser } = useGetProfile();
   const isLocal = currentUser?._id === message.from;
   const params = useGetParams();
@@ -58,6 +58,7 @@ const Message = ({ message }) => {
         justifyContent: isLocal ? "flex-end" : "flex-start",
         alignItems: "flex-end",
       }}
+      ref={ref}
     >
       {!isLocal && (
         <Avatar
@@ -112,6 +113,6 @@ const Message = ({ message }) => {
       </Box>
     </Box>
   );
-};
+});
 
 export default Message;

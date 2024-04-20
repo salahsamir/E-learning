@@ -1,4 +1,4 @@
-import { SettingsOutlined } from "@mui/icons-material";
+import { GroupAddOutlined, SettingsOutlined } from "@mui/icons-material";
 import { Box, IconButton, Typography } from "@mui/material";
 import React from "react";
 
@@ -13,18 +13,32 @@ const Header = () => {
       <Typography variant="h5" fontWeight="600">
         Messages
       </Typography>
-      <IconButton
-        sx={{
-          padding: "4px",
-        }}
-      >
-        <SettingsOutlined
-          fontSize="small"
+      <Box display="flex" gap="4px">
+        <IconButton
           sx={{
-            color: (theme) => theme.palette.text.secondary,
+            padding: "4px",
           }}
-        />
-      </IconButton>
+        >
+          <GroupAddOutlined
+            fontSize="small"
+            sx={{
+              color: (theme) => theme.palette.text.secondary,
+            }}
+          />
+        </IconButton>
+        <IconButton
+          sx={{
+            padding: "4px",
+          }}
+        >
+          <SettingsOutlined
+            fontSize="small"
+            sx={{
+              color: (theme) => theme.palette.text.secondary,
+            }}
+          />
+        </IconButton>
+      </Box>
     </Box>
   );
 };

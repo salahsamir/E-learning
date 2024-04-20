@@ -68,6 +68,7 @@ const SearchButton = () => {
           fullWidth
           size="small"
           InputProps={{
+            ...params.InputProps,
             startAdornment: (
               <InputAdornment
                 position="start"

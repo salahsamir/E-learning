@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useGetProfile } from "./profile.tsx";
@@ -99,12 +104,12 @@ export function useSendMessage({ onSuccess, onError }: MutationFnProps = {}) {
         },
         time: Date.now(),
       };
-      queryClient.setQueryData(["chat", chatId], (chat: any) => {
-        console.log(chat);
-        return {
-          ...chat,
-          messages: [...chat.messages, newMessage],
-        };
+      queryClient.setQueryData(["messages", chatId], (old: any) => {
+        if (!old) return old;
+        const newArr = JSON.parse(JSON.stringify(old));
+        console.log("newArr: ", newArr);
+        newArr.pages[0].unshift(newMessage);
+        return newArr;
       });
       queryClient.invalidateQueries({
         queryKey: ["chats"],
@@ -122,3 +127,24 @@ export function useSendMessage({ onSuccess, onError }: MutationFnProps = {}) {
   });
   return mutatation;
 }
+
+export const useGetMessages = ({ chatId }) => {
+  const query = useInfiniteQuery({
+    queryKey: ["messages", chatId],
+    queryFn: async ({ pageParam }) => {
+      const response = await axios.get(
+        `chat/${chatId}/messages?page=${pageParam}`
+      );
+      return response.data.messages;
+    },
+    getNextPageParam: (lastPage, pages, lastPageParam) => {
+      console.log(lastPage);
+      if (lastPage.length < 15) {
+        return undefined;
+      }
+      return lastPageParam + 1;
+    },
+    initialPageParam: 0,
+  });
+  return query;
+};

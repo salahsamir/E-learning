@@ -9,16 +9,13 @@ export function useCheckNewMessages() {
       queryClient.invalidateQueries({
         queryKey: ["chats"],
       });
-      queryClient.setQueryData(
-        ["chat", message.to],
-        (oldData: { messages: any[] }) => {
-          if (oldData) {
-            return { ...oldData, messages: [...oldData.messages, message] };
-          } else {
-            return null;
-          }
-        }
-      );
+      queryClient.setQueryData(["messages", message.to], (old: any) => {
+        if (!old) return old;
+        const newArr = JSON.parse(JSON.stringify(old));
+        console.log("newArr: ", newArr);
+        newArr.pages[0].unshift(message);
+        return newArr;
+      });
     });
   }, [queryClient]);
 }
