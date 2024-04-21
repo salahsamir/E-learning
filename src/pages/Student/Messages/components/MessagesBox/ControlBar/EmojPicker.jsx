@@ -56,6 +56,7 @@ const EmojPicker = ({ insertEmoji }) => {
               style={{
                 backgroundColor: "inherit",
                 border: "none",
+                zIndex: 1000,
               }}
               onEmojiClick={(emoji) => insertEmoji(emoji.emoji)}
             />

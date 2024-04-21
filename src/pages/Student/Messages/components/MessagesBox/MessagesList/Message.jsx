@@ -6,7 +6,7 @@ import useGetParams from "hooks/useGetParams";
 import React, { forwardRef } from "react";
 import Attached from "./Attached";
 import AudioPlayer from "./AudioPlayer";
-
+let timeOutId = 0;
 const Message = forwardRef(({ message }, ref) => {
   const { data: currentUser } = useGetProfile();
   const isLocal = currentUser?._id === message.from;
@@ -23,6 +23,7 @@ const Message = forwardRef(({ message }, ref) => {
       case "audio":
         return <AudioPlayer item={message.media} isLocal={isLocal} />;
       case "video":
+        const mediaUrl = message.media.url;
         return (
           <Box
             sx={{
@@ -33,7 +34,7 @@ const Message = forwardRef(({ message }, ref) => {
               justifyContent: "flex-end",
             }}
           >
-            <VideoPlayer src={message.media.url} />
+            <VideoPlayer src={mediaUrl} />
           </Box>
         );
       case "image":
@@ -42,6 +43,13 @@ const Message = forwardRef(({ message }, ref) => {
             src={message.media.url}
             alt="media"
             style={{ maxHeight: "200px", maxWidth: "80%" }}
+            onError={(e) => {
+              console.log("error");
+              clearTimeout(timeOutId);
+              timeOutId = setTimeout(() => {
+                e.target.src = e.target.src + "?t=" + new Date().getTime();
+              }, 1000);
+            }}
           />
         );
       default:

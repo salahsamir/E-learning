@@ -93,12 +93,13 @@ export function useSendMessage({ onSuccess, onError }: MutationFnProps = {}) {
       return response.data.message;
     },
     onSuccess: (newData, { chatId, message, media }) => {
+      const typeOfMedia = media?.type.split("/")[0];
       const newMessage = {
         from: user._id,
         text: message,
         media: media && {
-          url: URL.createObjectURL(media),
-          typeOfMedia: media.type.split("/")[0],
+          url: typeOfMedia === "video" ? media : URL.createObjectURL(media),
+          typeOfMedia,
           size: media.size,
           name: media.name,
         },
