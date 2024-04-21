@@ -94,7 +94,7 @@ function EditCourseForm({ course }) {
       subCategory: course.subCategory || "",
       level: course.level || "",
       price: course.price || "",
-      discount: course.discount || "",
+      coupons: course.coupons || [],
       description: course.description || "",
       tags: course.tags || "",
       promotionImage: course.coverImageUrl || "",

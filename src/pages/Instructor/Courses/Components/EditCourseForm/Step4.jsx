@@ -1,5 +1,7 @@
 import { Box, TextField } from "@mui/material";
 import React from "react";
+import CouponsInput from "./Coupons/CouponsInput";
+import CouponsList from "./Coupons/CouponsList";
 
 function Step4({ formik }) {
   return (
@@ -17,21 +19,8 @@ function Step4({ formik }) {
           formik.errors.price && formik.touched.price ? formik.errors.price : ""
         }
       />
-      <TextField
-        id="discount"
-        label="Discount"
-        variant="outlined"
-        sx={{ width: "100%" }}
-        value={formik.values.discount}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        error={formik.errors.discount !== undefined && formik.touched.discount}
-        helperText={
-          formik.errors.discount && formik.touched.discount
-            ? formik.errors.discount
-            : ""
-        }
-      />
+      <CouponsInput coupons={formik.values.coupons} />
+      <CouponsList coupons={formik.values.coupons} />
     </Box>
   );
 }
