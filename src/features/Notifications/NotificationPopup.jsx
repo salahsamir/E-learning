@@ -7,7 +7,7 @@ const registerServiceWorker = async () => {
   if ("serviceWorker" in navigator) {
     try {
       const registration = await navigator.serviceWorker.register(
-        "service-workers/notfications.js"
+        `service-workers/notfications.js?token=${localStorage.getItem("token")}`
       );
       return registration;
     } catch (error) {

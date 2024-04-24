@@ -18,11 +18,19 @@ const urlBase64ToUint8Array = (base64String) => {
 };
 
 const saveSubscription = async (subscription) => {
-  const response = await fetch("http://localhost:4000/save-subscription", {
-    method: "post",
-    headers: { "Content-type": "application/json" },
-    body: JSON.stringify(subscription),
-  });
+  const response = await fetch(
+    "https://education-project.azurewebsites.net/notification/save-subscription",
+    {
+      method: "post",
+      headers: {
+        "Content-type": "application/json",
+        token: new URL(location).searchParams.get("token"),
+      },
+      body: JSON.stringify({
+        popUp: subscription,
+      }),
+    }
+  );
 
   return response.json();
 };
