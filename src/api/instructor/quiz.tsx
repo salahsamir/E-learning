@@ -263,7 +263,6 @@ export function useUpdateQuestion({
         const newQuiz = { ...old, questions: newQuestions };
         return newQuiz;
       });
-      toast.success("Question updated successfully");
       onSuccess && onSuccess(res);
     },
     onError: (error: any) => {

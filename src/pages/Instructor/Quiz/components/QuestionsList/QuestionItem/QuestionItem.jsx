@@ -1,12 +1,5 @@
 import { useSortable } from "@dnd-kit/sortable";
-import {
-  Box,
-  Button,
-  ClickAwayListener,
-  TextField,
-  darken,
-  lighten,
-} from "@mui/material";
+import { Box, Button, ClickAwayListener, TextField } from "@mui/material";
 import { CSS } from "@dnd-kit/utilities";
 import React, { useState } from "react";
 import { DragIndicator } from "@mui/icons-material";
@@ -51,16 +44,10 @@ function QuestionItem({
             padding: "0.5em 1em 1em",
             display: "flex",
             flexDirection: "column",
-            backgroundColor: (theme) =>
-              theme.palette.mode === "dark"
-                ? lighten(theme.palette.background.b1, isExpanded ? 0.02 : 0)
-                : darken(theme.palette.background.b1, isExpanded ? 0.04 : 0),
+            backgroundColor: isExpanded ? "action.hover" : "background.b1",
             transition: "ease 0.25s",
             "&:hover": {
-              backgroundColor: (theme) =>
-                theme.palette.mode === "dark"
-                  ? lighten(theme.palette.background.b1, 0.02)
-                  : darken(theme.palette.background.b1, 0.04),
+              backgroundColor: "action.hover",
               cursor: isExpanded ? "auto" : "pointer",
             },
           }}

@@ -1,5 +1,5 @@
 import { useSortable } from "@dnd-kit/sortable";
-import { Box, darken, lighten } from "@mui/material";
+import { Box } from "@mui/material";
 import { CSS } from "@dnd-kit/utilities";
 import React from "react";
 import { DragIndicator } from "@mui/icons-material";
@@ -14,14 +14,7 @@ const OptionWrapper = ({ children, isExpanded }) => {
         display: "flex",
         p: "0.5em",
         tabIndex: "0",
-        backgroundColor: (theme) =>
-          theme.palette.mode === "dark"
-            ? isExpanded
-              ? lighten(theme.palette.background.b1, 0.02)
-              : "transparent"
-            : isExpanded
-            ? darken(theme.palette.background.b1, 0.04)
-            : "transparent",
+        backgroundColor: "transparent",
         transition: "ease 0.25s",
         "&:focus": {
           outline: "none",
