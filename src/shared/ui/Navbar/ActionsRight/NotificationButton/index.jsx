@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
 import { NotificationsNoneOutlined } from "@mui/icons-material";
 import { Badge, IconButton, Popover } from "@mui/material";
-import NotificationsMenu from "Components/NotificationsMenu/NotificationsMenu";
+import { useGetNotifications } from "api/global/notifications.tsx";
+import Notifications from "features/Notifications";
 import React, { useState } from "react";
 const CustomBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -16,6 +17,7 @@ const CustomBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 const NotificationButton = () => {
+  const { data: notifications } = useGetNotifications();
   const [notifiMenuIsOpen, setNotifiMenuIsOpen] = useState(false);
   const [notifiEl, setNotifiEl] = useState(null);
   function notifiClickHandler(event) {
@@ -27,13 +29,17 @@ const NotificationButton = () => {
       <IconButton
         aria-label="notifications"
         onClick={notifiClickHandler}
-        sx={{ p: "4px" }}
+        sx={{
+          p: "4px",
+        }}
       >
-        <CustomBadge badgeContent={1} color="error">
+        <CustomBadge badgeContent={notifications?.lenght || 0} color="error">
           <NotificationsNoneOutlined
             sx={{
               fontSize: "24px",
-              color: (theme) => theme.palette.primary.svg,
+              color: (theme) =>
+                notifiMenuIsOpen ? "primary.main" : theme.palette.primary.svg,
+              transition: "color 0.3s",
             }}
           />
         </CustomBadge>
@@ -41,14 +47,27 @@ const NotificationButton = () => {
       <Popover
         open={notifiMenuIsOpen}
         anchorEl={notifiEl}
-        sx={{ top: 12 }}
+        slotProps={{
+          paper: {
+            sx: {
+              borderRadius: "12px",
+              overflow: "hidden",
+              backgroundImage: "none",
+              backgroundColor: "transparent",
+            },
+          },
+        }}
+        sx={{
+          top: 20,
+          overflow: "hidden",
+        }}
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "center",
         }}
         onClose={() => setNotifiMenuIsOpen(false)}
       >
-        <NotificationsMenu />
+        <Notifications />
       </Popover>
     </>
   );
