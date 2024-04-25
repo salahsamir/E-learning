@@ -30,7 +30,6 @@ const handleAllowNotifications = () => {
   Notification.requestPermission().then((permission) => {
     if (permission === "granted") {
       document.cookie = `notificationPermission=granted; expires=Thu, 18 Dec 2027 12:00:00 UTC`;
-      registerServiceWorker();
     } else {
       handleDenyNotifications();
     }
@@ -51,10 +50,12 @@ const NotificationPopup = () => {
     };
     window.addEventListener("load", () => {
       check_permision();
+      registerServiceWorker();
     });
     return () => {
       window.removeEventListener("load", () => {
         check_permision();
+        registerServiceWorker();
       });
     };
   }, []);
