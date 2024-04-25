@@ -16,7 +16,10 @@ const WishlistMenu = () => {
             <Typography variant="body1" color={"primary"}>
               {item.title}
             </Typography>
-            <Button onClick={() => RemoveFromWishlist(item._id)}>
+            <Button
+              aria-label="remove from wishlist"
+              onClick={() => RemoveFromWishlist(item._id)}
+            >
               <HeartBroken color="error" />
             </Button>
           </Box>

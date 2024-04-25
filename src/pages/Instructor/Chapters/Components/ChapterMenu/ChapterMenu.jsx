@@ -25,6 +25,7 @@ const ChapterMenu = ({ chapterId, title }) => {
     <Box>
       <IconButton
         id="basic-button"
+        aria-label="more"
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}

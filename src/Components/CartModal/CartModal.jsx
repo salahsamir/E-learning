@@ -61,6 +61,7 @@ function CartModal(props) {
             alignItems={{ xs: "center", sm: "flex-end" }}
           >
             <Button
+              aria-label="checkout"
               variant="contained"
               sx={{ width: "fit-content", fontWeight: 600 }}
               onClick={createOrder}

@@ -30,6 +30,7 @@ export default function NewChapter() {
   return (
     <>
       <Button
+        aria-label="add chapter"
         variant="contained"
         disableElevation
         startIcon={<Add />}
@@ -71,8 +72,11 @@ export default function NewChapter() {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button aria-label="Cancel" onClick={handleClose}>
+            Cancel
+          </Button>
           <LoadingButton
+            aria-label="create chapter"
             onClick={formik.handleSubmit}
             loading={loading}
             disabled={formik.values.title === ""}

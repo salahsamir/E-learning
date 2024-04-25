@@ -60,7 +60,9 @@ export default function DeleteChapter({ chapterId, closeParentMenu }) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button aria-label="cancel" onClick={handleClose}>
+            Cancel
+          </Button>
           <LoadingButton
             onClick={() => deleteChapter(chapterId)}
             color="error"

@@ -36,6 +36,7 @@ function Courses() {
           Courses List
         </Typography>
         <Button
+          aria-label="new course"
           variant="contained"
           color="primary"
           startIcon={<Add />}

@@ -58,6 +58,7 @@ function NavbarCompact({
           }}
         >
           <IconButton
+            aria-label="menu"
             sx={{ display: { xs: "block", md: "none" } }}
             onClick={onMenuClick}
           >
