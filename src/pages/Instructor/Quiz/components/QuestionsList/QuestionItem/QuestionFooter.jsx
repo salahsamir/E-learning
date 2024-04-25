@@ -6,7 +6,6 @@ import { get_obj_diff } from "util/common.ts";
 import * as Yup from "yup";
 const QuestionFooter = ({ item }) => {
   const { mutate: updateQuestion } = useUpdateQuestion();
-  console.log("item: ", item);
   const formik = useFormik({
     initialValues: {
       points: item?.points,
@@ -15,7 +14,6 @@ const QuestionFooter = ({ item }) => {
     },
     enableReinitialize: true,
     onSubmit: (values) => {
-      console.log("values", values);
       const modifiedValues = get_obj_diff(values, item);
       if (Object.keys(modifiedValues).length === 0) return;
       updateQuestion({ questionId: item.id, data: modifiedValues });

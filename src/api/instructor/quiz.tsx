@@ -325,7 +325,6 @@ export function useReorderQuestions({
   return mutation;
 }
 
-
 // options api
 export function useAddOption({ onSuccess, onError }: MutationFnProps = {}) {
   const queryClient = useQueryClient();
@@ -522,7 +521,6 @@ export function useUploadOptionImage({
             options?: any[];
           }[];
         }) => {
-          console.log(URL.createObjectURL(image));
           const newQuestions = oldQuiz.questions.map((ele) =>
             ele.id === questionId
               ? {

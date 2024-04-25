@@ -65,7 +65,6 @@ export function useUploadProfileImage({
     }) => {
       const formData = new FormData();
       formData.append("image", file);
-      console.log(formData.get("image"));
       const response = await axios({
         method: "patch",
         url: "user/profile",

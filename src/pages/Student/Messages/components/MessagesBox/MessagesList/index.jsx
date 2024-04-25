@@ -13,9 +13,7 @@ const MessagesList = () => {
     });
   const messages = data?.pages.flatMap((page) => page);
   const observer = useRef();
-  console.log(messages);
   const lastItemRef = (node) => {
-    console.log(node);
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {

@@ -26,7 +26,6 @@ const SearchButton = () => {
   } = useSearchUser();
   const { mutate: getChat } = useGetChatByUser({
     onSuccess: (chat) => {
-      console.log(chat);
       navigate(
         `/${
           params[params.length - 2] === "instructor" ? "instructor" : "student"

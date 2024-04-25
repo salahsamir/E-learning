@@ -43,12 +43,10 @@ self.addEventListener("activate", async (e) => {
     ),
   });
 
-  const response = await saveSubscription(subscription);
-  console.log(response);
+  await saveSubscription(subscription);
 });
 
 self.onnotificationclick = (event) => {
-  console.log("On notification click: ", event);
   // eslint-disable-next-line no-undef
   clients.openWindow(event.notification.data.url);
 };

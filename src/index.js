@@ -26,9 +26,6 @@ const queryClient = new QueryClient({
 socket.emit("updateSocketId", {
   token: localStorage.getItem("token") || sessionStorage.getItem("token"),
 });
-socket.on("updateSocketId", (data) => {
-  console.log("socket-connected");
-});
 
 // render the app
 root.render(

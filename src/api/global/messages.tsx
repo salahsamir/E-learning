@@ -48,7 +48,6 @@ export function useGetChatByUser({ onSuccess, onError }: MutationFnProps = {}) {
       return response.data.chat;
     },
     onSuccess(chat) {
-      console.log(chat);
       queryClient.setQueryData(["chat", chat._id], chat);
       queryClient.invalidateQueries({
         queryKey: ["chats"],
@@ -108,7 +107,6 @@ export function useSendMessage({ onSuccess, onError }: MutationFnProps = {}) {
       queryClient.setQueryData(["messages", chatId], (old: any) => {
         if (!old) return old;
         const newArr = JSON.parse(JSON.stringify(old));
-        console.log("newArr: ", newArr);
         newArr.pages[0].unshift(newMessage);
         return newArr;
       });
@@ -139,7 +137,6 @@ export const useGetMessages = ({ chatId }) => {
       return response.data.messages;
     },
     getNextPageParam: (lastPage, pages, lastPageParam) => {
-      console.log(lastPage);
       if (lastPage.length < 15) {
         return undefined;
       }
