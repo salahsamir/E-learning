@@ -52,6 +52,7 @@ function StreamController() {
     <Box
       sx={{
         position: "absolute",
+        zIndex: "10001",
         padding: "0.25em",
         width: { xs: "95%", sm: "500px" },
         borderRadius: "2em",

@@ -16,6 +16,8 @@ const NotificationsList = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
+        maxHeight: "350px",
+        overflowY: "auto",
       }}
     >
       {notifications?.map((notification, index) => (

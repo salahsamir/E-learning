@@ -54,7 +54,9 @@ self.addEventListener("push", (e) => {
   const data = e.data.json();
 
   self.registration.showNotification(data.title, {
-    icon: `https://e-learning-azure.vercel.app/favicon.ico`,
+    icon: data.image
+      ? data.image
+      : `https://e-learning-azure.vercel.app/favicon.ico`,
     body: data.body,
     url: data.url,
     data: data,
