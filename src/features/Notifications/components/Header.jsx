@@ -1,9 +1,17 @@
 import { TaskAlt } from "@mui/icons-material";
 import { Box, Button, Typography } from "@mui/material";
+import { useMarkNotificationAsRead } from "api/global/notifications.tsx";
+import { useGetProfile } from "api/global/profile";
 import React from "react";
 
 const MarkAllAsRead = () => {
-  const handleMarkAllAsRead = () => {};
+  const { mutate: markNotification, isPending } = useMarkNotificationAsRead();
+  const { data: user } = useGetProfile();
+  const handleMarkAllAsRead = () => {
+    if (user?.unreadNotifyCount === 0) return;
+    if (isPending) return;
+    markNotification();
+  };
   return (
     <Button
       aria-label="Mark all notifications as read"

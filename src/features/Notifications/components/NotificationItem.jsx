@@ -1,20 +1,29 @@
 import { Avatar, Box, Button, Link, Typography } from "@mui/material";
+import { useMarkNotificationAsRead } from "api/global/notifications.tsx";
 import React from "react";
 import { formatTime } from "util/formatTime.ts";
 
 const MarkReadBtn = ({ isRead, _id }) => {
+  const { mutate: markNotification, isPending } = useMarkNotificationAsRead();
   return (
     <Button
       aria-label="Mark notification as read"
       variant="contained"
       disableElevation
+      onClick={(e) => {
+        e.preventDefault();
+        if (isPending) return;
+        markNotification(_id);
+      }}
       sx={{
+        position: "relative",
         height: "10px",
         width: "10px",
         minWidth: "10px",
         borderRadius: "50%",
         padding: "0",
         display: isRead ? "none" : "block",
+        zIndex: 100000,
       }}
     />
   );
@@ -23,7 +32,7 @@ const NotificationItem = ({ _id, image, title, time, body, isRead, url }) => {
   return (
     <Box
       component={Link}
-      to="/notifications"
+      to={url}
       width="100%"
       sx={{
         display: "flex",

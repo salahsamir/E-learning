@@ -1,5 +1,5 @@
 import { Box, Divider, Typography } from "@mui/material";
-import React from "react";
+import React, { Fragment } from "react";
 import NotificationItem from "./NotificationItem";
 import { useGetNotifications } from "api/global/notifications.tsx";
 import NotificationSkeleton from "./NotificationSkeleton";
@@ -20,8 +20,9 @@ const NotificationsList = () => {
         overflowY: "auto",
       }}
     >
+      {/* ************* case when notifications are loaded ************* */}
       {notifications?.map((notification, index) => (
-        <>
+        <Fragment key={notification._id}>
           {index !== 0 && (
             <Divider
               sx={{
@@ -29,12 +30,13 @@ const NotificationsList = () => {
               }}
             />
           )}
-          <NotificationItem key={notification._id} {...notification} />
-        </>
+          <NotificationItem {...notification} />
+        </Fragment>
       ))}
+      {/* ************* case when loading notifications ************* */}
       {loadingNotifications &&
         [...Array(3)].map((_, index) => (
-          <>
+          <Fragment key={index}>
             {index !== 0 && (
               <Divider
                 sx={{
@@ -42,9 +44,10 @@ const NotificationsList = () => {
                 }}
               />
             )}
-            <NotificationSkeleton key={index} />
-          </>
+            <NotificationSkeleton />
+          </Fragment>
         ))}
+      {/* ************* case when there was an error ************* */}
       {!loadingNotifications && (isError || notifications?.lenght === 0) && (
         <Box
           sx={{
@@ -65,6 +68,7 @@ const NotificationsList = () => {
               Please try again later.
             </Typography>
           )}
+          {/* ************* case when there are no notifications ************* */}
           {!isError && notifications?.length === 0 && (
             <Typography variant="body2" color="text.secondary">
               No notifications to show.

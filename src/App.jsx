@@ -13,8 +13,10 @@ import { AllProvider } from "./Context/Context.jsx";
 import { useThemeContext } from "Context/theme-context.tsx";
 import axios from "axios";
 import { BaseApi } from "util/BaseApi";
+import { useCheckNotifications } from "api/socket/notifications.tsx";
 
 function App() {
+  useCheckNotifications();
   const themeMode = useThemeContext().theme;
   useEffect(() => {
     AOS.init();
