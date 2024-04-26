@@ -1,7 +1,7 @@
 import { TaskAlt } from "@mui/icons-material";
 import { Box, Button, Typography } from "@mui/material";
 import { useMarkNotificationAsRead } from "api/global/notifications.tsx";
-import { useGetProfile } from "api/global/profile";
+import { useGetProfile } from "api/global/profile.tsx";
 import React from "react";
 
 const MarkAllAsRead = () => {
