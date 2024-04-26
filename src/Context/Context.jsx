@@ -23,7 +23,7 @@ export const AllProvider = ({ children }) => {
       console.log(err);
     });
     setCategory(response.data.category);
-    // console.log(category);
+    
   };
 
   //////////////////////User//////////////
@@ -32,6 +32,7 @@ export const AllProvider = ({ children }) => {
   let [course, setCourse] = useState([]);
 
   async function getUser() {
+    
     return await axios
       .get(`${BaseApi}/user/profile`, { headers })
       .then((res) => res.data)
@@ -40,6 +41,7 @@ export const AllProvider = ({ children }) => {
   let getUserData = async () => {
     try {
       let res = await getUser();
+      
       if (res?.message == "Done") {
         setUserdata(res.newUser);
         setImage(res.newUser.profilePic?.url);
@@ -200,7 +202,7 @@ export const AllProvider = ({ children }) => {
     }
   }
   async function RemoveFromCart(id) {
-    console.log(id);
+    
     try {
       await axios.patch(`${BaseApi}/cart/remove/${id}`, {}, { headers });
       toast.success("Successfully  removed", {
@@ -234,6 +236,7 @@ export const AllProvider = ({ children }) => {
     }
   };
   useEffect(() => {
+    console.log(headers.token);
     if (headers.token) {
       getUserData();
       CourseBought();
