@@ -9,26 +9,29 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function Opetions({ onOptionSelect }) {
+export default function Opetions({ onOptionSelect,id }) {
   const [options, setOptions] = useState([]);
   const [selected, setSelected] = useState();
-
+ 
+ 
   useEffect(() => {
-    async function getallCategory() {
+    async function getallSubCategory(id) {
       try {
-        const response = await axios.get(`${BaseApi}/category`);
-        setOptions(response.data.category);
+        const response = await axios.get(`${BaseApi}/category/${id}/subCategory`);
+        setOptions(response.data.subCategory);
         options.unshift({ name: 'All', id: '' });
-        if (response.data.category.length > 0) {
+        if (response.data.subCategory.length > 0) {
           setSelected(options[0]);
-         
+          
         }
+       
       } catch (error) {
         console.log(error);
       }
     }
-    getallCategory();
-  }, []);
+  
+    getallSubCategory(id);
+  }, [id]);
 
   return (
     <>

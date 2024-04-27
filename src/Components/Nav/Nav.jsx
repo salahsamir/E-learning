@@ -8,6 +8,7 @@ import { DarkModeOutlined, LightModeOutlined } from '@mui/icons-material'
 import { allContext } from 'Context/Context'
 import CartItems from './CartItems'
 import Items from './Items'
+import CoursesOpetion from './CoursesOpetion'
 
 
 function classNames(...classes) {
@@ -22,7 +23,7 @@ export default function Nav() {
     useContext(allContext);
     const navigation = [
         { name: 'Home', href: '/', current: false },
-        { name: 'Cources', href: '/course', current: false }
+      
       ]
       
       const Icons = [
@@ -110,6 +111,7 @@ export default function Nav() {
                         {item.name}
                       </Link>
                     ))}
+                    <CoursesOpetion />
                 <div  >
                 <Paper
      
