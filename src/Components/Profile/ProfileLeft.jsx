@@ -8,10 +8,7 @@ export default function ProfileLeft() {
 
 
   const {userdata,image}=useContext(allContext)
-<<<<<<< HEAD
-  console.log(userdata,image)
-=======
->>>>>>> 9f6edc7748097ca6798d5703e8178498a7fe8757
+ 
  
   return (
     <Stack spacing={2}  width="100%" height="100%" textAlign="center" m="auto">

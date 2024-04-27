@@ -26,8 +26,9 @@ useEffect(() => {
 <>
 {data.length > 0 ? (
     
-<<<<<<< HEAD
-    <div className='mx-auto max-w-2xl px-4 py-3 sm:px-6 sm:py-16 lg:max-w-7xl lg:px-8'>
+  <>
+  
+  <div className='mx-auto max-w-2xl px-4 py-3 sm:px-6 sm:py-16 lg:max-w-7xl lg:px-8'>
     <div className='mt-2 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'>
       {data.map((ele) => (
         <div key={ele.id} className='group relative' onClick={()=>{nav(`/courseDetails/${ele._id}`)}}>
@@ -46,7 +47,7 @@ useEffect(() => {
       ))}
     </div>
   </div>
-=======
+
     <Box py={5}>
     <div className="row  g-2" >
       {data.map((ele, index) => (
@@ -66,7 +67,9 @@ useEffect(() => {
     
     
     </Box>
->>>>>>> 9f6edc7748097ca6798d5703e8178498a7fe8757
+  
+  </>
+
 )
 
 :<Typography variant="h5">No Data Found</Typography>

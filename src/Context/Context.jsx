@@ -23,11 +23,6 @@ export const AllProvider = ({ children }) => {
       console.log(err);
     });
     setCategory(response.data.category);
-<<<<<<< HEAD
-    
-=======
-    // console.log(category);
->>>>>>> 9f6edc7748097ca6798d5703e8178498a7fe8757
   };
 
   //////////////////////User//////////////
@@ -36,10 +31,7 @@ export const AllProvider = ({ children }) => {
   let [course, setCourse] = useState([]);
 
   async function getUser() {
-<<<<<<< HEAD
-    
-=======
->>>>>>> 9f6edc7748097ca6798d5703e8178498a7fe8757
+
     return await axios
       .get(`${BaseApi}/user/profile`, { headers })
       .then((res) => res.data)
@@ -48,10 +40,7 @@ export const AllProvider = ({ children }) => {
   let getUserData = async () => {
     try {
       let res = await getUser();
-<<<<<<< HEAD
-      
-=======
->>>>>>> 9f6edc7748097ca6798d5703e8178498a7fe8757
+
       if (res?.message == "Done") {
         setUserdata(res.newUser);
         setImage(res.newUser.profilePic?.url);
@@ -212,11 +201,7 @@ export const AllProvider = ({ children }) => {
     }
   }
   async function RemoveFromCart(id) {
-<<<<<<< HEAD
-    
-=======
-    console.log(id);
->>>>>>> 9f6edc7748097ca6798d5703e8178498a7fe8757
+
     try {
       await axios.patch(`${BaseApi}/cart/remove/${id}`, {}, { headers });
       toast.success("Successfully  removed", {
@@ -250,10 +235,7 @@ export const AllProvider = ({ children }) => {
     }
   };
   useEffect(() => {
-<<<<<<< HEAD
-    console.log(headers.token);
-=======
->>>>>>> 9f6edc7748097ca6798d5703e8178498a7fe8757
+
     if (headers.token) {
       getUserData();
       CourseBought();

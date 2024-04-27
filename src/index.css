@@ -1,10 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
-<<<<<<< HEAD
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-=======
->>>>>>> 9f6edc7748097ca6798d5703e8178498a7fe8757
 a {
   text-decoration: none !important;
 }

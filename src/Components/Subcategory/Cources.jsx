@@ -19,17 +19,19 @@ export default function Cources() {
     }
     getAllCources();
   }, []);
-   let GetReverceCources=async()=>{
-    let response =await axios.get(`${BaseApi}/course/all-courses?sort=reverse`).catch((err)=>console.log(err))
-    setCources(response.data.courses)
-   }
+  
   const handleOptionSelect = async (selectedOption) => {
     let response =await axios.get(`${BaseApi}/course/category/${selectedOption._id}/subCategory/`).catch((err)=>console.log(err))
     setCources(response.data.courses)
      
    
   };
-
+  let GetReverceCources=async()=>{
+   // Create a copy of the current state array before reversing it
+  const reversedCources = [...cources].reverse();
+  // Update the state with the reversed array
+  setCources(reversedCources);
+   }
   return (
     <>
       {cources.length > 0 ? (
