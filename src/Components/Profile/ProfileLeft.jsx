@@ -9,6 +9,7 @@ export default function ProfileLeft() {
 
   const {userdata,image}=useContext(allContext)
  
+ 
   return (
     <Stack spacing={2}  width="100%" height="100%" textAlign="center" m="auto">
       <Typography variant="h2" color="primary" fontWeight="bold">
