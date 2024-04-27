@@ -1,5 +1,12 @@
+import styled from "@emotion/styled";
 import { useEffect, useRef } from "react";
 
+const Video = styled("video")(({ theme }) => ({
+  width: "100%",
+  height: "100%",
+  backgroundColor: "transparent",
+  objectFit: "contain",
+}));
 const VideoTrack = ({ track, style }) => {
   const videoRef = useRef();
   useEffect(() => {
@@ -7,17 +14,6 @@ const VideoTrack = ({ track, style }) => {
       track?.attach(videoRef.current);
     }
   }, [track, videoRef]);
-  return (
-    <video
-      autoPlay
-      ref={videoRef}
-      style={{
-        width: "100%",
-        height: "100%",
-        objectFit: "cover",
-        ...style,
-      }}
-    />
-  );
+  return <Video autoPlay ref={videoRef} style={style} />;
 };
 export default VideoTrack;

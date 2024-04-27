@@ -3,7 +3,7 @@ import DragButton from "./DragButton";
 import { Paper } from "@mui/material";
 import useLocalVideoTracks from "../../hooks/useLocalVideoTracks";
 import MinimizeBtn from "./MinimizeBtn";
-import VideoTrack from "../VideoTrack";
+import UserTracksBox from "../UserTracksBox";
 
 const initialPosition = {
   x:
@@ -46,24 +46,7 @@ const CurrentStreamBox = () => {
         setPosition={setCurrentPosition}
       />
       {!minimized && (
-        <>
-          <VideoTrack track={screenTrack ? screenTrack : cameraTrack} />
-          {screenTrack && cameraTrack && (
-            <VideoTrack
-              track={cameraTrack}
-              style={{
-                position: "absolute",
-                bottom: "0px",
-                right: "0px",
-                width: "40%",
-                height: "40%",
-                objectFit: "cover",
-                borderTop: "1px solid  rgba(255, 255, 255, 0.12)",
-                borderLeft: "1px solid  rgba(255, 255, 255, 0.12)",
-              }}
-            />
-          )}
-        </>
+        <UserTracksBox camera={cameraTrack} screen={screenTrack} />
       )}
     </Paper>
   );
