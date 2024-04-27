@@ -51,6 +51,7 @@ export default function ErrorDialog({ open, setOpen, title, description }) {
         </Typography>
 
         <Button
+          aria-label="try again"
           variant="contained"
           onClick={() => setOpen(false)}
           color="error"

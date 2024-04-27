@@ -31,7 +31,6 @@ const CoursesRevenue = () => {
     isLoading: loadingCourses,
     isError: errorCourses,
   } = useGetRevenue();
-  console.log(revenue?.courses);
   const rows = revenue?.courses?.map((course) => ({
     id: course.courseId,
     courseName: course.title,

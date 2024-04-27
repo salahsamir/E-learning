@@ -51,7 +51,7 @@ function ParticipantsGrid() {
   }, [containerRef, currentParticipants.length]);
 
   const cards = [];
-  currentParticipants.every((participant) => {
+  currentParticipants?.every((participant) => {
     cards.push(<MemberCard key={participant.sid} participant={participant} />);
     if (cards.length >= containerProp.maxItems) {
       return false;

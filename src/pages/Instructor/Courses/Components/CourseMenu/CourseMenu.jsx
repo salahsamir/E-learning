@@ -26,6 +26,7 @@ const CourseMenu = ({ id, setCoursesList }) => {
   return (
     <Box>
       <IconButton
+        aria-label="more"
         id="basic-button"
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"

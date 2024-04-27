@@ -69,6 +69,7 @@ const InstructorRevenue = lazy(() =>
 const StudentLayout = lazy(() => import("../pages/Student/Layout.jsx"));
 const StudentHome = lazy(() => import("../pages/Student/Home/Home.jsx"));
 const UserSettings = lazy(() => import("../pages/Student/Settings/index.jsx"));
+const UserMessages = lazy(() => import("../pages/Student/Messages/index.jsx"));
 const StudentWorkshops = lazy(() =>
   import("../pages/Student/Workshops/index.jsx")
 );
@@ -283,6 +284,24 @@ const router = createBrowserRouter([
         ],
       },
       {
+        path: "messages",
+        element: (
+          <SuspenseWrapper>
+            <UserMessages />
+          </SuspenseWrapper>
+        ),
+        children: [
+          {
+            path: ":userId",
+            element: (
+              <SuspenseWrapper>
+                <UserMessages />
+              </SuspenseWrapper>
+            ),
+          },
+        ],
+      },
+      {
         path: "settings",
         element: (
           <SuspenseWrapper>
@@ -349,6 +368,24 @@ const router = createBrowserRouter([
             <StudentBilling />
           </SuspenseWrapper>
         ),
+      },
+      {
+        path: "messages",
+        element: (
+          <SuspenseWrapper>
+            <UserMessages />
+          </SuspenseWrapper>
+        ),
+        children: [
+          {
+            path: ":userId",
+            element: (
+              <SuspenseWrapper>
+                <UserMessages />
+              </SuspenseWrapper>
+            ),
+          },
+        ],
       },
       {
         path: "settings",

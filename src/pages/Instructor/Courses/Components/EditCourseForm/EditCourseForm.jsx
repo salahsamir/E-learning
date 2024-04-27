@@ -94,7 +94,7 @@ function EditCourseForm({ course }) {
       subCategory: course.subCategory || "",
       level: course.level || "",
       price: course.price || "",
-      discount: course.discount || "",
+      coupons: course.coupons || [],
       description: course.description || "",
       tags: course.tags || "",
       promotionImage: course.coverImageUrl || "",
@@ -181,6 +181,7 @@ function EditCourseForm({ course }) {
                   }}
                 >
                   <StepButton
+                    aria-label={"Edit Step" + item.name}
                     color="inherit"
                     onClick={() => setActiveStep(index)}
                   >
@@ -194,6 +195,7 @@ function EditCourseForm({ course }) {
           {activeStep !== 4 && (
             <Box display="flex" justifyContent="flex-end" gap="1em" pt="2em">
               <Button
+                aria-label="cancel editing"
                 variant="contained"
                 color="error"
                 onClick={() => navigate("/instructor/courses/" + course._id)}
@@ -201,6 +203,7 @@ function EditCourseForm({ course }) {
                 Cancel
               </Button>
               <LoadingButton
+                aria-label="save course"
                 variant="contained"
                 type="submit"
                 loading={formLoading}

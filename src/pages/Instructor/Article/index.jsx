@@ -40,6 +40,7 @@ function Article() {
       >
         <Typography variant="h5">{article?.title || "Edit Article"}</Typography>
         <LoadingButton
+          aria-label="save article"
           variant="contained"
           startIcon={<SaveOutlined />}
           loading={formLoading || articleLoading}

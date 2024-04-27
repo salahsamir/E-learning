@@ -25,21 +25,27 @@ function ParticipantCard({ participant }) {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          gap: "8px",
           borderRadius: "8px",
           padding: "1em",
           "&:hover": {
-            bgcolor: (theme) =>
-              theme.palette.mode === "dark"
-                ? "rgba(255, 255, 255, 0.1)"
-                : "rgba(0, 0, 0, 0.04)",
+            bgcolor: "action.hover",
           },
         }}
       >
-        <Box display="flex" gap="8px" alignItems="center">
+        <Box
+          display="flex"
+          gap="8px"
+          alignItems="center"
+          flexShrink={1}
+          overflow="hidden"
+        >
           <BeatingAvatar beating={participant.isSpeaking}>
             {userInfo?.userName?.slice(0, 1).toUpperCase()}
           </BeatingAvatar>
           <Typography
+            flexShrink={1}
+            noWrap
             sx={{
               "&:hover": {
                 cursor: "default",
@@ -49,7 +55,7 @@ function ParticipantCard({ participant }) {
             {userInfo?.userName}
           </Typography>
         </Box>
-        <Box>
+        <Box display="flex" flexWrap="nowrap" gap="4px">
           {participant.isMicrophoneEnabled ? (
             <Mic fontSize="small" />
           ) : (

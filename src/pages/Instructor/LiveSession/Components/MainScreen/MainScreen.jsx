@@ -1,47 +1,31 @@
 import { Box } from "@mui/material";
 import StreamController from "./StreamController";
-import { useEffect, useMemo, useRef } from "react";
-import { RoomAudioRenderer, useTracks } from "@livekit/components-react";
-import ParticipantsGrid from "../ParticipantsGrid/ParicipantsGrid";
-import styled from "@emotion/styled";
+import { RoomAudioRenderer } from "@livekit/components-react";
+import ParticipantsGrid from "../ParticipantsGrid";
 import AllowAudio from "../AllowAudio/AllowAudio";
-const Video = styled("video")(({ theme }) => ({
-  backgroundColor: theme.palette.background.b1,
-  width: "100%",
-  height: "100%",
-  objectFit: "cover",
-}));
+import CurrentStreamBox from "../CurrentStreamBox";
+import { useRoomContext } from "../../context/room-ctx";
+import FocusLayout from "./FocusLayout";
+import { useRef, useState } from "react";
+import ConnectionQuality from "./ConnectionQuality";
+import FullScreenBtn from "./FullScreenBtn";
 function MainScreen() {
-  const videoElement = useRef(null);
-  const tracks = useTracks();
-  const videoTracks = useMemo(() => {
-    let localTracks = [];
-    let remoteTracks = [];
-    tracks.forEach((track) => {
-      if (track.source !== "microphone") {
-        const data = {
-          participant: track.participant?.participantInfo,
-          track: track.publication.track,
-        };
-        if (track.participant?.isLocal) {
-          localTracks.push(data);
-        } else {
-          remoteTracks.push(data);
-        }
-      }
-    });
-    return { local: localTracks, remote: remoteTracks };
-  }, [tracks]);
-
-  useEffect(() => {
-    if (videoTracks.remote.length > 0) {
-      videoTracks.remote[0].track.attach(videoElement.current);
+  const { focusedParticipant } = useRoomContext();
+  const [showFullScreen, setShowFullScreen] = useState(false);
+  const containerRef = useRef(null);
+  const toggleFullScreen = () => {
+    if (showFullScreen) {
+      document.exitFullscreen();
+    } else {
+      containerRef.current?.requestFullscreen();
     }
-  }, [videoTracks]);
+    setShowFullScreen((old) => !old);
+  };
   return (
     <>
       <RoomAudioRenderer />
       <Box
+        ref={containerRef}
         mt="1em"
         borderRadius="8px"
         overflow="hidden"
@@ -54,13 +38,15 @@ function MainScreen() {
         }}
       >
         <AllowAudio />
-        {videoTracks.remote.length === 0 ? (
-          <ParticipantsGrid />
+        {focusedParticipant ? (
+          <FocusLayout showFullScreen={showFullScreen} />
         ) : (
-          <Video ref={videoElement} />
+          <ParticipantsGrid />
         )}
-
-        <StreamController videoElement={videoElement} />
+        <StreamController />
+        <CurrentStreamBox />
+        <FullScreenBtn toggleFullScreen={toggleFullScreen} />
+        <ConnectionQuality />
       </Box>
     </>
   );

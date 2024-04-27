@@ -35,7 +35,7 @@ function Quiz() {
       ) : (
         <>
           <NavigationHeader data={quiz} />
-          <Box maxWidth="800px" mx="auto" pb="100px">
+          <Box maxWidth="800px" mx="auto" pb="100px" width="100%">
             <QuizHeader quiz={quiz} />
             <QuestionsList items={quiz.questions || []} />
             <AddQuestion />

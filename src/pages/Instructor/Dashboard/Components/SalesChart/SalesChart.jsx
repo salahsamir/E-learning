@@ -144,10 +144,20 @@ function SalesChart() {
           value={choosenYear}
           onChange={(event) => setChoosenYear(event.target.value)}
           label="Year"
+          aria-label="Sales Year"
+          slotProps={{
+            input: { "aria-label": "Sales Year" },
+          }}
         >
-          <MenuItem value="2024">2024</MenuItem>
-          <MenuItem value="2023">2023</MenuItem>
-          <MenuItem value="2022">2022</MenuItem>
+          <MenuItem value="2024" aria-label="2024">
+            2024
+          </MenuItem>
+          <MenuItem value="2023" aria-label="2023">
+            2023
+          </MenuItem>
+          <MenuItem value="2022" aria-label="2022">
+            2022
+          </MenuItem>
         </Select>
       </Box>
       <Chart series={series} type="bar" options={options} height={"300px"} />

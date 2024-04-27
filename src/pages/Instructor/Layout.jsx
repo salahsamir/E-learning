@@ -16,6 +16,7 @@ import CustomDrawer from "shared/ui/CustomDrawer/CustomDrawer.jsx";
 import UploadContextProvider from "./shared/context/upload-context.tsx";
 import BackgroundUpload from "./shared/Components/BackgroundUpload/BackgroundUpload";
 import Error401 from "./Error/Error401.jsx";
+import NotificationPopup from "features/Notifications/NotificationPopup.jsx";
 const drawerItems = [
   { text: "Dashboard", icon: <Dashboard />, url: "/instructor" },
   { text: "Courses", icon: <VideoLibrary />, url: "courses" },
@@ -30,6 +31,7 @@ function Layout() {
   const drawerRef = useRef(null);
   return (
     <>
+      <NotificationPopup />
       <CustomDrawer ref={drawerRef} drawerItems={drawerItems} />
       <Box
         sx={{

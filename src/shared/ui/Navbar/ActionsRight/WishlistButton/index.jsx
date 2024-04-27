@@ -29,7 +29,7 @@ const WishlistButton = () => {
 
   return (
     <>
-      <IconButton sx={{ p: "4px" }} onClick={handleClick}>
+      <IconButton aria-label="wishlist" sx={{ p: "4px" }} onClick={handleClick}>
         <CustomBadge badgeContent={wishlist} color="primary">
           <FavoriteBorder
             sx={{

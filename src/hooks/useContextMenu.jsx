@@ -5,8 +5,10 @@ function useContextMenu() {
   const [showMenu, setShowMenu] = useState(false);
 
   const handleContextMenu = (e) => {
+    const activeCtxMenu = document.querySelector(".active-ctx-menu");
+    if (activeCtxMenu) activeCtxMenu.classList.remove("active-ctx-menu");
     e.preventDefault();
-    setPoints([e.pageX, e.pageY]);
+    setPoints([e.clientX, e.clientY]);
     setShowMenu(true);
   };
 
@@ -19,7 +21,7 @@ function useContextMenu() {
       document.removeEventListener("click", handleClick);
     };
   }, [showMenu]);
-  return { points, showMenu, handleContextMenu };
+  return { points, showMenu, setShowMenu, handleContextMenu };
 }
 
 export default useContextMenu;

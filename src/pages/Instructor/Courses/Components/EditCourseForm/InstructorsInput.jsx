@@ -25,7 +25,7 @@ const InstructorsInput = ({ formik }) => {
     : [...selectedInstructors];
   return (
     <Autocomplete
-      id="google-map-demo"
+      id="search-instructor"
       sx={{ width: 300 }}
       options={options}
       autoComplete
@@ -43,7 +43,7 @@ const InstructorsInput = ({ formik }) => {
         setSelectedInstructors(newValue);
       }}
       onInputChange={(event, newInputValue) => {
-        searchUser(newInputValue);
+        searchUser({ userName: newInputValue, type: "instructor" });
       }}
       renderInput={(params) => (
         <TextField {...params} label="Add instructor" fullWidth />

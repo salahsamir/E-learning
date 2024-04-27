@@ -81,8 +81,11 @@ export default function EditChapter({ chapterId, title, closeParentMenu }) {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button aria-label="Cancel" onClick={handleClose}>
+            Cancel
+          </Button>
           <LoadingButton
+            aria-label="save chapter"
             onClick={formik.handleSubmit}
             loading={saving}
             disabled={formik.values.chapterTitle === ""}

@@ -6,6 +6,7 @@ import MainScreen from "./Components/MainScreen/MainScreen";
 import { LiveKitRoom } from "@livekit/components-react";
 import { Box, CircularProgress } from "@mui/material";
 import { useGetSession, useJoinSession } from "api/instructor/session-live.tsx";
+import { RoomContextProvider } from "./context/room-ctx";
 
 function LiveSessions() {
   const { data: eduRoom } = useGetSession();
@@ -33,22 +34,20 @@ function LiveSessions() {
             autoJoin: true,
             autoSubscribe: true,
             dominantSpeaker: true,
+            adaptiveStream: true,
           }}
         >
-          <Grid2 container spacing={2}>
-            <Grid2 xs={12} md={9}>
-              <IndicationCard eduRoom={eduRoom} />
-              <MainScreen />
-              <Grid2 container spacing={2}>
-                <Grid2 xs={12} md={4}></Grid2>
-                <Grid2 xs={12} md={4}></Grid2>
-                <Grid2 xs={12} md={4}></Grid2>
+          <RoomContextProvider>
+            <Grid2 container spacing={2}>
+              <Grid2 xs={12} md={9}>
+                <IndicationCard eduRoom={eduRoom} />
+                <MainScreen />
+              </Grid2>
+              <Grid2 xs={12} md={3}>
+                <SidePanel />
               </Grid2>
             </Grid2>
-            <Grid2 xs={12} md={3}>
-              <SidePanel />
-            </Grid2>
-          </Grid2>
+          </RoomContextProvider>
         </LiveKitRoom>
       )}
     </>

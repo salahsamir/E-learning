@@ -263,7 +263,6 @@ export function useUpdateQuestion({
         const newQuiz = { ...old, questions: newQuestions };
         return newQuiz;
       });
-      toast.success("Question updated successfully");
       onSuccess && onSuccess(res);
     },
     onError: (error: any) => {
@@ -324,7 +323,6 @@ export function useReorderQuestions({
   });
   return mutation;
 }
-
 
 // options api
 export function useAddOption({ onSuccess, onError }: MutationFnProps = {}) {
@@ -522,7 +520,6 @@ export function useUploadOptionImage({
             options?: any[];
           }[];
         }) => {
-          console.log(URL.createObjectURL(image));
           const newQuestions = oldQuiz.questions.map((ele) =>
             ele.id === questionId
               ? {

@@ -13,17 +13,7 @@ import {
 } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
 import { useState } from "react";
-function openFullscreen(elem) {
-  if (elem.requestFullscreen) {
-    elem.requestFullscreen();
-  } else if (elem.webkitRequestFullscreen) {
-    /* Safari */
-    elem.webkitRequestFullscreen();
-  } else if (elem.msRequestFullscreen) {
-    /* IE11 */
-    elem.msRequestFullscreen();
-  }
-}
+
 function handleDisconnect() {
   console.log("disconnected");
 }
@@ -52,13 +42,14 @@ function StreamController() {
     <Box
       sx={{
         position: "absolute",
+        zIndex: "10001",
         padding: "0.25em",
         width: { xs: "95%", sm: "500px" },
         borderRadius: "2em",
         bottom: "0.5em",
         left: "50%",
         transform: "translateX(-50%)",
-        backgroundColor: "rgba(0,0,0,0.4)",
+        backgroundColor: "rgba(0,0,0,0.35)",
         backdropFilter: "blur(3px)",
         display: "flex",
         alignItems: "center",

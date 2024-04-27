@@ -13,7 +13,10 @@ import { AllProvider } from "./Context/Context.jsx";
 import { useThemeContext } from "Context/theme-context.tsx";
 import axios from "axios";
 import { BaseApi } from "util/BaseApi";
+import { useCheckNotifications } from "api/socket/notifications.tsx";
+
 function App() {
+  useCheckNotifications();
   const themeMode = useThemeContext().theme;
   useEffect(() => {
     AOS.init();
@@ -23,7 +26,6 @@ function App() {
   axios.defaults.headers.common["Content-Type"] = "application/json";
   axios.defaults.withCredentials = true;
   axios.defaults.headers.common["cookieId"] = getCookie("cookieId");
-
   return (
     <ThemeProvider theme={theme(themeMode)}>
       <CssBaseline />
@@ -43,10 +45,10 @@ function getCookie(cname) {
   let ca = decodedCookie.split(";");
   for (let i = 0; i < ca.length; i++) {
     let c = ca[i];
-    while (c.charAt(0) == " ") {
+    while (c.charAt(0) === " ") {
       c = c.substring(1);
     }
-    if (c.indexOf(name) == 0) {
+    if (c.indexOf(name) === 0) {
       return c.substring(name.length, c.length);
     }
   }

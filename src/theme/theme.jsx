@@ -8,9 +8,9 @@ export const theme = (mode) =>
         main: "#A69494",
       },
       primary: {
-        main: mode === "light" ? colors.primary[7] : colors.primary[4],
-        dark: mode === "light" ? colors.primary[6] : colors.primary[5],
-        light: mode === "light" ? colors.primary[6] : colors.primary[5],
+        main: mode === "light" ? colors.primary[6] : colors.primary[4],
+        dark: mode === "light" ? colors.primary[5] : colors.primary[5],
+        light: mode === "light" ? colors.primary[5] : colors.primary[5],
         border: mode === "light" ? "rgb(241, 243, 244)" : "rgb(46, 50, 54)",
         border2:
           mode === "light"

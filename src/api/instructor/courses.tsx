@@ -75,7 +75,77 @@ export function useUpdateCourse({ onSuccess, onError }: MutationFnProps = {}) {
   });
   return mutation;
 }
-
+export function useAddCoupon({ onSuccess, onError }: MutationFnProps = {}) {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: async ({
+      courseId,
+      discount,
+      expireAt,
+    }: {
+      courseId: string;
+      discount: number;
+      expireAt: string;
+    }) => {
+      const response = await axios.post(`coupon`, {
+        courseId,
+        discount,
+        expireAt,
+      });
+      return response.data.coupon;
+    },
+    onSuccess(res, { courseId }) {
+      try {
+        queryClient.setQueryData(["course", courseId], (old: any) => {
+          if (!old.coupons) {
+            return { ...old, coupons: [res] };
+          }
+          return { ...old, coupons: [...old.coupons, res] };
+        });
+      } catch (error) {
+        console.log(error);
+      }
+      onSuccess && onSuccess(res);
+    },
+    onError(error: any) {
+      toast.error(error.response.data?.message || "Failed to add coupon");
+      onError && onError(error);
+    },
+  });
+  return mutation;
+}
+export function useDeleteCoupon({ onSuccess, onError }: MutationFnProps = {}) {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: async ({
+      courseId,
+      couponId,
+    }: {
+      courseId: string;
+      couponId: string;
+    }) => {
+      const response = await axios.delete(`coupon/${couponId}`);
+      return response.data;
+    },
+    onSuccess(res, { courseId, couponId }) {
+      queryClient.setQueryData(["course", courseId], (old: any) => {
+        return {
+          ...old,
+          coupons: old.coupons.filter(
+            (coupon: { _id: string }) => coupon._id !== couponId
+          ),
+        };
+      });
+      toast.success("Coupon deleted successfully");
+      onSuccess && onSuccess(res);
+    },
+    onError(error: any) {
+      toast.error(error.response.data?.message || "Failed to delete coupon");
+      onError && onError(error);
+    },
+  });
+  return mutation;
+}
 export function useDeleteCourse({ onSuccess, onError }: MutationFnProps = {}) {
   const queryClient = useQueryClient();
   const mutation = useMutation({

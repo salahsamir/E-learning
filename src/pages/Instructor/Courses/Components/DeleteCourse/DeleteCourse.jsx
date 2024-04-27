@@ -45,8 +45,15 @@ export default function DeleteCourse({ open, setOpen, id }) {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <LoadingButton onClick={handleDelete} color="error" loading={loading}>
+        <Button aria-label="Cancel" onClick={handleClose}>
+          Cancel
+        </Button>
+        <LoadingButton
+          aria-label="Delete course"
+          onClick={handleDelete}
+          color="error"
+          loading={loading}
+        >
           Delete
         </LoadingButton>
       </DialogActions>
