@@ -33,7 +33,7 @@ export function useMarkNotificationAsRead({
     onSuccess: (res, notificationId) => {
       queryClient.setQueryData(["notifications"], (oldData: any) => {
         return oldData.map((notification: any) => {
-          if (notificationId === "") {
+          if (notificationId === "" || notificationId === undefined) {
             return { ...notification, isRead: true };
           } else {
             if (notification._id === notificationId) {
@@ -45,7 +45,11 @@ export function useMarkNotificationAsRead({
       });
       queryClient.setQueryData(["profile"], (oldData: any) => {
         let newUnreadNotifyCount = oldData.unreadNotifyCount - 1;
-        if (notificationId === "" || newUnreadNotifyCount <= 0) {
+        if (
+          notificationId === "" ||
+          notificationId === undefined ||
+          newUnreadNotifyCount <= 0
+        ) {
           newUnreadNotifyCount = 0;
         }
         return { ...oldData, unreadNotifyCount: newUnreadNotifyCount };

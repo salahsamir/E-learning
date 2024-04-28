@@ -3,8 +3,7 @@ import { useMarkNotificationAsRead } from "api/global/notifications.tsx";
 import React from "react";
 import { formatTime } from "util/formatTime.ts";
 
-const MarkReadBtn = ({ isRead, _id }) => {
-  const { mutate: markNotification, isPending } = useMarkNotificationAsRead();
+const MarkReadBtn = ({ isRead, _id, markNotification, isPending }) => {
   return (
     <Button
       aria-label="Mark notification as read"
@@ -29,11 +28,17 @@ const MarkReadBtn = ({ isRead, _id }) => {
   );
 };
 const NotificationItem = ({ _id, image, title, time, body, isRead, url }) => {
+  const { mutate: markNotification, isPending } = useMarkNotificationAsRead();
+  const handleNotificationClick = () => {
+    if (!isRead) markNotification(_id);
+  };
   return (
     <Box
       component={Link}
       to={url}
       width="100%"
+      onClick={handleNotificationClick}
+      target="_blank"
       sx={{
         display: "flex",
         gap: "1em",
@@ -56,7 +61,12 @@ const NotificationItem = ({ _id, image, title, time, body, isRead, url }) => {
           }}
         >
           <Typography variant="body1">{title}</Typography>
-          <MarkReadBtn isRead={isRead} _id={_id} />
+          <MarkReadBtn
+            isRead={isRead}
+            _id={_id}
+            isPending={isPending}
+            markNotification={markNotification}
+          />
         </Box>
         <Typography variant="caption" color="text.secondary" display="block">
           {formatTime(new Date(time), "time passed")}

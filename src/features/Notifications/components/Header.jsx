@@ -20,14 +20,17 @@ const MarkAllAsRead = () => {
       disableFocusRipple
       disableRipple
       disableTouchRipple
+      disabled={isPending}
       onClick={handleMarkAllAsRead}
       sx={{
         display: "flex",
         gap: "0.5em",
         color: "text.secondary",
         "&:hover": {
-          color: "text.primary",
           backgroundColor: "transparent",
+        },
+        "&:hover:not(:disabled)": {
+          color: "text.primary",
         },
       }}
     >
