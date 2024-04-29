@@ -20,12 +20,15 @@ import Loading from "../pages/Loading/Loading.jsx";
 import InstructorLayout from "../pages/Instructor/Layout.jsx";
 import Setting from "../pages/Setting/Setting.jsx";
 import CourseDetails from "../pages/CourseDetails/CourseDetails.jsx";
-
-// instructor routes
 import MyCourses from "../pages/UserCourses/MyCourses.jsx";
 import Search from "Components/Search/Search.jsx";
 import Settings from "../pages/Setting/Setting.jsx";
 
+// global routes
+const WorkshopsRoot = lazy(() => import("../pages/Root/Workshops/index.jsx"));
+const WorkshopRoot = lazy(() => import("../pages/Root/Workshop/index.jsx"));
+
+// instructor routes
 const InstructorDashboard = lazy(() =>
   import("../pages/Instructor/Dashboard/index.jsx")
 );
@@ -118,9 +121,30 @@ const router = createBrowserRouter([
       { path: "video/:id/:chapter/:curriculum", element: <Video /> },
       { path: "search/:title", element: <Search /> },
 
+      {
+        path: "workshops",
+        children: [
+          {
+            index: true,
+            element: (
+              <SuspenseWrapper>
+                <WorkshopsRoot />
+              </SuspenseWrapper>
+            ),
+          },
+          {
+            path: ":workshopId",
+            element: (
+              <SuspenseWrapper>
+                <WorkshopRoot />
+              </SuspenseWrapper>
+            ),
+          },
+        ],
+      },
+
       { path: "*", element: <NotFound /> },
     ],
-    
   },
 
   // instructor routes
