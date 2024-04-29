@@ -31,6 +31,7 @@ const MessagesList = () => {
         flexDirection: "column-reverse",
         gap: "0.5em",
         overflowY: "scroll",
+        overflowX: "hidden",
         p: "1em",
         height: "100%",
         // "& > :first-of-type": {

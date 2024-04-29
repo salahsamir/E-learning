@@ -13,6 +13,7 @@ const Contacts = () => {
         display: "flex",
         flexDirection: "column",
         gap: "8px",
+        overflowX: "visible",
       }}
     >
       {chats?.map((chat) => (
