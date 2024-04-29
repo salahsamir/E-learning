@@ -30,6 +30,7 @@ const MarkReadBtn = ({ isRead, _id, markNotification, isPending }) => {
 const NotificationItem = ({ _id, image, title, time, body, isRead, url }) => {
   const { mutate: markNotification, isPending } = useMarkNotificationAsRead();
   const handleNotificationClick = () => {
+    if (isPending) return;
     if (!isRead) markNotification(_id);
   };
   return (
