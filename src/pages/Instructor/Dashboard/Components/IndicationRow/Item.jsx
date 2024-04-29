@@ -7,11 +7,13 @@ const Item = ({ title, value, change, symbol }) => {
     const interval = setInterval(() => {
       setValueCounter((prev) => {
         if (prev < value) {
-          return prev + Math.ceil(value / 250);
+          const newVal = Math.ceil(prev + value / 50);
+          if (newVal >= value) return value;
+          return newVal;
         }
         return value;
       });
-    }, Math.ceil(500 / value));
+    }, 20);
     return () => clearInterval(interval);
   }, [value]);
   return (
