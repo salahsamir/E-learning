@@ -7,8 +7,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
 
 const SearchBar = () => {
+  const [searchValue, setSearchValue] = useState("");
   return (
     <Box
       sx={{
@@ -22,13 +24,16 @@ const SearchBar = () => {
       <Autocomplete
         freeSolo
         id="search-bar"
-        options={searchData.map((option) => option.name)}
+        options={
+          searchValue === "" ? [] : searchData.map((option) => option.name)
+        }
         disableClearable
         clearIcon={null}
         renderInput={(params) => (
           <TextField
+            onChange={(e) => setSearchValue(e.target.value)}
             {...params}
-            placeholder="Search input"
+            placeholder="Search"
             sx={{
               "& .MuiOutlinedInput-root": {
                 "& fieldset": {
