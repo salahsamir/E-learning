@@ -31,19 +31,19 @@ export const AllProvider = ({ children }) => {
   let [course, setCourse] = useState([]);
 
   async function getUser() {
-
+   
     return await axios
-      .get(`${BaseApi}/user/profile`, { headers })
-      .then((res) => res.data)
+      .get(`${BaseApi}/user/profile`,{ headers} )
+      .then((res) => res)
       .catch((err) => console.log(err));
   }
   let getUserData = async () => {
     try {
       let res = await getUser();
-
-      if (res?.message == "Done") {
-        setUserdata(res.newUser);
-        setImage(res.newUser.profilePic?.url);
+      
+      if (res?.data.message == "Done") {
+        setUserdata(res.data.newUser);
+        setImage(res.data.newUser.profilePic?.url);
       }
       return res;
     } catch (error) {

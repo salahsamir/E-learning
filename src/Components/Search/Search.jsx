@@ -1,4 +1,4 @@
-import { Avatar, Box, Container, Typography } from '@mui/material';
+import { Avatar, Box, Container, Rating, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -30,43 +30,31 @@ useEffect(() => {
   
   <div className='mx-auto max-w-2xl px-4 py-3 sm:px-6 sm:py-16 lg:max-w-7xl lg:px-8'>
     <div className='mt-2 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'>
-      {data.map((ele) => (
-        <div key={ele.id} className='group relative' onClick={()=>{nav(`/courseDetails/${ele._id}`)}}>
-          <div className='aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80'>
-            <img src={ele.coverImageUrl} alt={ele.title} className='h-full w-full object-cover object-center lg:h-full lg:w-full' />
-          </div>
-          <div className='mt-4 flex justify-between'>
-            <div>
-              <h3 className='text-sm text-gray-700'>
-                <Typography color='primary'>{ele.title}</Typography>
-              </h3>
-            </div>
-            <p className='text-sm font-medium text-gray-200'>{ele.price}</p>
-          </div>
-        </div>
-      ))}
+    {data.map((ele) => (
+                  <div key={ele.id} className='group relative' onClick={()=>{nav(`/courseDetails/${ele._id}`)}}>
+                   
+                    <div className='mt-2   '>
+                      
+                      <img src={ele.coverImageUrl} alt={ele.title} className='h-40 w-full object-cover object-center rounded-tr-3xl' />
+                     
+                      <div>
+                        
+                          <Typography variant='p' py={4} color='primary'>{ele.title}</Typography>
+                        
+                       <div className='flex pt-3 '>
+                       <Typography color='thrid' px-4 >{ele.rating}</Typography>
+                       <div className='pt-1 px-2'> <Rating size='small' color='secondary'  name="read-only" value={ele.rating} readOnly /></div>
+                       </div>
+
+                      </div>
+                      <Typography color='thrid' className='text-sm font-medium'>${ele.price}</Typography>
+                    </div>
+                  </div>
+                ))}
     </div>
   </div>
 
-    <Box py={5}>
-    <div className="row  g-2" >
-      {data.map((ele, index) => (
-        <div
-          p={"5px"}
-          key={index}
-          data-aos="zoom-in-down"
-          background={"#fff"}
-          className={` col-md-4 `}
-          onClick={()=>{nav(`/courseDetails/${ele._id}`)}}
-        >
-            <Avatar variant="rounded" src={ele.coverImageUrl} sx={{height:"180px",width:"100%",backgroundSize:"cover",backgroundPosition:"center"}}/>
-         <Typography variant="h5" color={"primary"} py={2}>{ele.title}</Typography>
-    </div>
-      ))}
-    </div>
     
-    
-    </Box>
   
   </>
 

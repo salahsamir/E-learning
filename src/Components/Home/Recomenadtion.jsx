@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { BaseApi } from "util/BaseApi";
 import Slider from "react-slick";
 
-export default function SectionCourses() {
+export default function Recomandtions() {
   let nav = useNavigate();
   let [cources,setCourses]=useState([])
   let [key, setKey] = useState('');
@@ -14,13 +14,12 @@ export default function SectionCourses() {
   });
   let getCources=async()=>{
     let res= await axios
-    .get(`${BaseApi}/recommendation/becauseYouWishlsted`,{ headers })
+    .get(`${BaseApi}/recommendation/becauseYouViewed`,{ headers })
     .catch((err) => console.log(err));
     if(res.data.message==="Done"){
       setCourses(res.data.recommendations.recommendations)
       setKey(res.data.recommendations.key)
     }
-
 }
 
 useEffect(()=>{

@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
-import ReactPlayer from "react-player";
-import { Button, Typography, Box, Container } from "@mui/material";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
-import { BaseApi } from "../../util/BaseApi.js";
-import HtmlText from "../../util/HtmlText.js";
+import React, { useEffect, useState } from 'react'
+import Content from './Content'
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
+import { BaseApi } from 'util/BaseApi';
+import ReactPlayer from 'react-player';
 
 export default function Video() {
   let { id, chapter, curriculum } = useParams();
@@ -14,7 +12,7 @@ export default function Video() {
   let [article, setArticle] = useState({});
   let [parts, setParts] = useState([]);
   let nav = useNavigate();
-  let [minutesWatched, setMinutesWatched] = useState(0); // State to track minutes watched
+
 
   useEffect(() => {
     const getAllVideo = async () => {
@@ -52,100 +50,67 @@ export default function Video() {
   let NextVideo = (curriculum) => {
     nav(`/video/${id}/${chapter}/${curriculum}`);
   };
-
-  const handleProgress = (progress) => {
-  
-    setMinutesWatched(Math.floor(progress.playedSeconds / 60*60));
-  
-  };
-
+ 
   return (
-    <Container>
-      <div className="my-1 py-4">
-        <div className="row">
-          {video ? (
-            <div className="col-md-9">
-            
-              <div className="player__wrapper py-1">
+<>
+ 
+<div className="container py-4">
+  <div className="grid grid-cols-4 gap-4">
+    <div className="col-span-3">
+      {video?<>
+        <h6 className='text-1xl font-bold py-1 '>{video.title}</h6>
+      
+        <div className="player__wrapper py-1">
                 <ReactPlayer
                   url={video.url}
-                  style={{ maxWidth: "100%",borderRadius: "20px" }}
+                  style={{ maxWidth: "100%",borderRadius: "50px" }}
                   width="100%"
                   height="auto"
                   playing={true}
                   controls={true}
                   onError={(e) => console.log("Error:", e)}
-                  onProgress={handleProgress} // Call handleProgress on video progress
+                   // Call handleProgress on video progress
                 />
               </div>
-              <Typography variant="p" py={2} color={"style2"}>
-                {video.title}
-              </Typography>
-            </div>
-          ) : (
-            <div className="col-md-9">
-              <div className="py-1">
-                <HtmlText quillContent={article.quillContent} />
-              </div>
-              <Typography variant="h5" py={1} color={"primary"}>
-                {article.title}
-              </Typography>
-            </div>
-          )}
-          <div className="col-md-3">
-            {parts && (
-              <>
-                <Typography variant="p" color={"third"}>
-                  {parts.length ? parts.length : 0} Lessons
-                </Typography>
-                {parts.map((item) => (
-                  <Box
-                    key={item._id}
-                    cursor="pointer"
-                    width="100%"
-                    onClick={() => NextVideo(item._id)}
-                    display="flex"
-                    justifyContent="space-between"
-                    my={1}
-                  >
-                    {video?.curriculum === item._id ||
-                    article?.curriculum === item._id ? (
-                      <Button
-                        variant="contained"
-                        sx={{ width: "300px" }}
-                        p={1}
-                      >
-                        <Typography
-                          // variant="p"
-                          sx={{fontSize:"14px"}}
-                          textAlign="left"
-                          color="white"
-                        >
-                          {item.title}
-                        </Typography>
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="outlined"
-                        sx={{ width: "300px" }}
-                        p={1}
-                      >
-                        <Typography textAlign="left" color="white">
-                          {item.title}
-                        </Typography>
-                      </Button>
+      
+      </>:""}
+
+
+    </div>
+    <div className="">
+      {parts?<>
+        <p className='text-1xl  p-2 '> {parts.length ? parts.length : 0} Lessons (45 m)</p>
+        {parts.map((ele) => (
+          <div key={ele._id}   onClick={() => NextVideo(ele._id)}>
+            {video?.curriculum === ele._id ||
+                    article?.curriculum === ele._id ? (
+                      <div className="flex justify-between rounded-md p-1 cursor-pointer bg-slate-400 bg-opacity-30" >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" />
+</svg>
+     <h6>{ele.title.slice(5, 15)}</h6>
+     <p>12:30</p>
+                      </div>
+                      
+                    ): (
+                      <div className="flex justify-between p-1 cursor-pointer" >
+                      
+   <h6>{ele.title.slice(5,20)}</h6>
+   <p>12:30</p>
+                    </div>
                     )}
-                  </Box>
-                ))}
-              </>
-            )}
           </div>
-        </div>
-      </div>
-      {/* Display the number of minutes watched */}
-      {/* <Typography variant="p" py={1}>
-        Minutes Watched: {minutesWatched}
-      </Typography> */}
-    </Container>
-  );
+        ))}
+
+        
+      </>:""}
+    </div>
+
+  </div>
+</div>
+
+
+
+</>
+  )
 }

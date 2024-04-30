@@ -1,18 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Opetions from './Opations';
 import axios from 'axios';
 import { BaseApi } from 'util/BaseApi';
-import { Button, Typography } from '@mui/material';
+import { Button, Rating, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { allContext } from 'Context/Context';
 
 export default function Cources({id}) {
   const [cources, setCources] = useState([]);
+  const {category,getAllCategory}=useContext(allContext)
+  useEffect(() => {
+    getAllCategory()
+  },[])
    let nav=useNavigate()
   useEffect(() => {
     async function getAllCources(id) {
       try {
         const response = await axios.get(`${BaseApi}/course/category/${id}/subCategory`);
         setCources(response.data.courses);
+       
       } catch (error) {
         console.log(error);
       }
@@ -37,43 +43,75 @@ export default function Cources({id}) {
   setCources(reversedCources);
    }
   return (
-    <>
+    <div className="container">
+     
+     <div className="header">
+    <div className="img relative">
+    <img class="h-80 w-full rounded-lg" src="https://cdn.pixabay.com/photo/2015/07/17/22/42/library-849797_640.jpg" alt="image description"/>
+    <div className=" absolute h-full w-full top-0 bg-gray-900 bg-opacity-60 flex justify-center items-center">
+   <div className="w-3/4">
+   <h2 className=" text-4xl text-gray-200 ">You Can Learn Anything</h2>
+      <p className=" text-1xl text-gray-300 ">"A comprehensive list of available courses covering various subjects, topics, and skill levels. Users can browse through the catalog to find courses that match their interests and learning goals."</p>
+   </div>
+      
+      </div> 
+    </div>     
+    
+
+     </div>
+
+  <div className="flex my-3 w-full m-auto">
+    
+  {category.map((item)=>{
+         return (
+           <div className="" >
+            <p className='px-2 mx-1 hover:text-green-700'  style={{fontSize:'calc(10px + .6vw)',cursor:'pointer'}}>{item.name}</p>
+           </div>
+         )
+       })}
+  </div>
+
+    
       {cources.length > 0 ? (
-        <div className='container'>
-          <div className='flex justify-between'>
-            <Opetions onOptionSelect={(selectedOption)=>handleOptionSelect(selectedOption._id,id)} id={id}/>
-            <Button onClick={() => {GetReverceCources()}}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
-</svg>
-</Button>
-          </div>
-          <div className=''>
-            <div className='mx-auto max-w-2xl px-4 py-3 sm:px-6 sm:py-16 lg:max-w-7xl lg:px-8'>
-              <div className='mt-2 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'>
+        <div className='my-3'>
+            <div className='mx-auto max-w-2xl p py-3  sm:py-16 lg:max-w-7xl'>
+              <div className='mt-2 grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8'>
                 {cources.map((ele) => (
-                  <div key={ele.id} className='group relative' onClick={()=>{nav(`/courseDetails/${ele._id}`)}}>
-                    <div className='aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80'>
-                      <img src={ele.coverImageUrl} alt={ele.title} className='h-full w-full object-cover object-center lg:h-full lg:w-full' />
-                    </div>
-                    <div className='mt-4 flex justify-between'>
-                      <div>
-                        <h3 className='text-sm text-gray-700'>
-                          <Typography color='primary'>{ele.title}</Typography>
-                        </h3>
+                  <div key={ele.id} className='group relative shadow-lg' onClick={()=>{nav(`/courseDetails/${ele._id}`)}}>
+                    <div className='mt-2   '>
+                     <div className='relative'>
+                     <img src='https://cdn.pixabay.com/photo/2016/06/01/06/26/open-book-1428428_640.jpg' alt={ele.title} className='h-40 w-full object-cover object-center rounded-lg' />
+                     <div className='absolute bottom-2 right-2 bg-black opacity-60 p-1 rounded-md '> Best</div>
+                     </div>
+                      <div className='p-3'>
+                        
+                         <div className="flex justify-between">
+                         <h6 className='text-1xl font-medium'>{ele.title}</h6>
+                          <div className='pt-1 px-2'> <Rating size='small' color='secondary'  name="read-only" value={ele.rating} readOnly /></div>
+                         </div>
+                        
+                        <div className="flex justify-between my-3">
+                        <div className="flex">
+                          
+                          <img class="rounded-full w-10 h-10" src="https://cdn.pixabay.com/photo/2024/03/29/17/55/ai-generated-8663328_640.png" alt="image description"/>
+                          <p className='pt-1 px-2' style={{fontSize:'14px'}}>John Doe</p>
+                          
+                                                   </div>
+                               <h6 className='pt-1 px-2'>{ele.price} EGP</h6>
+                        </div>
                       </div>
-                      <p className='text-sm font-medium text-gray-200'>{ele.price}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
           </div>
-        </div>
+      
       ) : (
         <div width={'100%'} height={'100%'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
           <span class='loader'></span>
         </div>
       )}
-    </>
+    </div>
   );
 }
