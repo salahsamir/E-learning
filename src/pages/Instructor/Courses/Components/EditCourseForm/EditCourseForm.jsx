@@ -65,8 +65,7 @@ function getStepStatus(step, formik) {
       else return "draft";
     case 3:
       if (formik.errors.price || formik.errors.discount) return "error";
-      else if (formik.values.price !== "" && formik.values.discount !== "")
-        return "completed";
+      else if (formik.values.price !== "") return "completed";
       else return "draft";
 
     case 4:
@@ -118,7 +117,7 @@ function EditCourseForm({ course }) {
             subCategory: yup.string().required("Subcategory is required"),
             level: yup.string().required("Level is required"),
             price: yup.number().required("Enter valid number"),
-            discount: yup.number().required("Enter valid number"),
+            discount: yup.array().required("Enter valid number"),
             tags: yup.string().required("Tags is required"),
             promotionImage: yup
               .string()

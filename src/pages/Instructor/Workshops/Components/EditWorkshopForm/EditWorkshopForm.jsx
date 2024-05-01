@@ -78,7 +78,7 @@ function getStepStatus(step, formik) {
     case 2:
       return check_status("promotionImage", "promotionVideo");
     case 3:
-      return check_status("price", "discount");
+      return check_status("price");
 
     case 4:
       return check_status(
@@ -109,7 +109,7 @@ function EditWorkshopForm({ workshop }) {
       subCategoryId: workshop.subCategoryId || "",
       level: workshop.level || "",
       price: workshop.price || "",
-      discount: workshop.discount || "",
+      coupons: workshop.coupons || [],
       description: workshop.description || "",
       tags: workshop.tags || [],
       promotionImage: workshop.promotionImage || "",
@@ -139,7 +139,7 @@ function EditWorkshopForm({ workshop }) {
             level: yup.string().required("Level is required"),
             tags: yup.array().required("Tags is required"),
             price: yup.number().required("Enter valid number"),
-            discount: yup.number().required("Enter valid number"),
+            coupons: yup.array().required("Enter valid number"),
             promotionImage: yup
               .object()
               .required("Promotion Image is required"),

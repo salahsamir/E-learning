@@ -40,7 +40,12 @@ const IndicationRow = () => {
           horizontal={{ xs: "flex", md: "none" }}
           vertical={{ xs: "none", md: "flex" }}
         />
-        <Item title="Total Revenue" value="570" symbol={"£"} change={37.21} />
+        <Item
+          title="Total Revenue"
+          value="105700"
+          symbol={"£"}
+          change={37.21}
+        />
       </Box>
     </Box>
   );

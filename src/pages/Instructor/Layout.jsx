@@ -21,9 +21,9 @@ const drawerItems = [
   { text: "Dashboard", icon: <Dashboard />, url: "/instructor" },
   { text: "Courses", icon: <VideoLibrary />, url: "courses" },
   { text: "Workshops", icon: <Groups />, url: "workshops" },
-  { text: "Analytics", icon: <Analytics />, url: "analytics" },
+  // { text: "Analytics", icon: <Analytics />, url: "analytics" },
   { text: "Messages", icon: <Email />, url: "messages" },
-  { text: "Comments", icon: <Comment />, url: "comments" },
+  // { text: "Comments", icon: <Comment />, url: "comments" },
   { text: "Revenue", icon: <AttachMoney />, url: "revenue" },
   { text: "Settings", icon: <Settings />, url: "settings" },
 ];

@@ -20,7 +20,6 @@ import {
   MenuList,
   Paper,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import { useGetProfile } from "api/global/profile.tsx";
 
 const SolidDvider = styled(Divider)(({ theme }) => ({
@@ -33,31 +32,31 @@ const listItems = [
     icon: <SchoolOutlined />,
     url: "/student/courses",
   },
-  {
-    title: "Wishlist",
-    icon: <FavoriteBorder />,
-    url: "/student/wishlist",
-  },
+  // {
+  //   title: "Wishlist",
+  //   icon: <FavoriteBorder />,
+  //   url: "/student/wishlist",
+  // },
   {
     title: "Messages",
     icon: <MailOutlineOutlined />,
     url: "/student/messages",
   },
+  // {
+  //   title: "My schedule",
+  //   icon: <ScheduleOutlined />,
+  //   url: "/student/schedule",
+  // },
   {
-    title: "My schedule",
-    icon: <ScheduleOutlined />,
-    url: "/student/schedule",
+    title: "Payment",
+    icon: <PaymentOutlined />,
+    url: "/student/payment",
   },
   "divider",
   {
     title: "Settings",
     icon: <SettingsOutlined />,
     url: "/student/settings",
-  },
-  {
-    title: "Payment",
-    icon: <PaymentOutlined />,
-    url: "/student/payment",
   },
   {
     title: "Support",
@@ -77,16 +76,7 @@ const listItems = [
   },
 ];
 function UserMenu() {
-  let navigate = useNavigate();
   const { data: user } = useGetProfile();
-
-  const signoutHandler = () => {
-    // setImage("")
-    localStorage.removeItem("token");
-    localStorage.removeItem("cart");
-    navigate("/signin", { replace: true });
-  };
-
   return (
     <Paper
       sx={{
@@ -111,7 +101,7 @@ function UserMenu() {
               fontWeight: "600",
             }}
           >
-            {(user?.firstName || "profile") + " " + user?.lastName}
+            {user?.userName || "profile"}
           </ListItemText>
         </MenuItem>
         <SolidDvider />
@@ -127,9 +117,6 @@ function UserMenu() {
                 "&:hover": {
                   color: "text.primary",
                 },
-              }}
-              onClick={() => {
-                if (item.url === "/signout") signoutHandler();
               }}
             >
               <ListItemIcon>{item.icon}</ListItemIcon>

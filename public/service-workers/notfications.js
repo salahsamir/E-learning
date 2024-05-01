@@ -36,6 +36,8 @@ const saveSubscription = async (subscription) => {
 };
 
 self.addEventListener("activate", async (e) => {
+  if (new URL(location).searchParams.get("notificationAllowed") === "false")
+    return;
   const subscription = await self.registration.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey: urlBase64ToUint8Array(

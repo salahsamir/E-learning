@@ -7,7 +7,9 @@ const registerServiceWorker = async () => {
   if ("serviceWorker" in navigator) {
     try {
       const registration = await navigator.serviceWorker.register(
-        `service-workers/notfications.js?token=${localStorage.getItem("token")}`
+        `/service-workers/notfications.js?notificationAllowed=${
+          Notification.permission === "granted"
+        }&token=${localStorage.getItem("token")}`
       );
       return registration;
     } catch (error) {
@@ -23,10 +25,6 @@ const handleDenyNotifications = () => {
 };
 
 const handleAllowNotifications = () => {
-  if (!("Notification" in window)) {
-    return alert("This browser does not support desktop notification");
-  }
-
   Notification.requestPermission().then((permission) => {
     if (permission === "granted") {
       document.cookie = `notificationPermission=granted; expires=Thu, 18 Dec 2027 12:00:00 UTC`;

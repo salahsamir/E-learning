@@ -59,6 +59,7 @@ const Contact = ({ chat }) => {
         gap: "16px",
         borderRadius: "8px",
         padding: "8px",
+        maxWidth: "100%",
         backgroundColor: isActive
           ? (theme) => theme.palette.action.selected
           : "transparent",
@@ -79,7 +80,9 @@ const Contact = ({ chat }) => {
           overflow: "clip",
           flexShrink: 10,
           flexGrow: 10,
+          maxWidth: "100%",
           textOverflow: "ellipsis",
+          minWidth: 0,
         }}
       >
         <Box

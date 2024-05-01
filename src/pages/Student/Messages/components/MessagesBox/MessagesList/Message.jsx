@@ -103,7 +103,14 @@ const Message = forwardRef(({ message }, ref) => {
         }}
       >
         {getMedia()}
-        <Typography variant="body1">{message.text}</Typography>
+        <Typography
+          variant="body1"
+          sx={{
+            wordBreak: "break-word",
+          }}
+        >
+          {message.text}
+        </Typography>
         <Typography
           variant="caption"
           color={

@@ -4,9 +4,10 @@ import { socket } from "./socket.ts";
 export const useCheckNotifications = () => {
   const queryClient = useQueryClient();
   socket.on("notification", (notification) => {
+    console.log(notification);
     queryClient.setQueryData(["notifications"], (oldData: any) => {
       if (!oldData) {
-        return [notification];
+        return;
       }
       return [notification, ...oldData];
     });

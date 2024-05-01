@@ -82,10 +82,12 @@ export function useAddCoupon({ onSuccess, onError }: MutationFnProps = {}) {
       courseId,
       discount,
       expireAt,
+      isWorkshop = false,
     }: {
       courseId: string;
       discount: number;
       expireAt: string;
+      isWorkshop: boolean;
     }) => {
       const response = await axios.post(`coupon`, {
         courseId,
@@ -94,14 +96,17 @@ export function useAddCoupon({ onSuccess, onError }: MutationFnProps = {}) {
       });
       return response.data.coupon;
     },
-    onSuccess(res, { courseId }) {
+    onSuccess(res, { courseId, isWorkshop }) {
       try {
-        queryClient.setQueryData(["course", courseId], (old: any) => {
-          if (!old.coupons) {
-            return { ...old, coupons: [res] };
+        queryClient.setQueryData(
+          [isWorkshop ? "workshop" : "course", courseId],
+          (old: any) => {
+            if (!old.coupons) {
+              return { ...old, coupons: [res] };
+            }
+            return { ...old, coupons: [...old.coupons, res] };
           }
-          return { ...old, coupons: [...old.coupons, res] };
-        });
+        );
       } catch (error) {
         console.log(error);
       }

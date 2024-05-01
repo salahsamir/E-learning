@@ -11,7 +11,9 @@ function Workshops() {
     data: workshopsList,
     isLoading: workshopsLoading,
     isError: workshopsError,
-  } = useGetWorkshops();
+  } = useGetWorkshops({
+    view: "instructor",
+  });
   if (workshopsError?.response?.status < 500) {
     return <ErrorPage error={workshopsError} redirectTo="/instructor" />;
   }

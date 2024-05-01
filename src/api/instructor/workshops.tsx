@@ -6,11 +6,26 @@ interface FunctionProps {
   onSuccess?: (res: any) => void;
   onError?: (error: Error) => void;
 }
-export default function useGetWorkshops() {
+export default function useGetWorkshops({
+  search,
+  category,
+  subCategory,
+  view,
+}: {
+  search?: string;
+  category?: string;
+  subCategory?: string;
+  view: "all" | "instructor";
+}) {
+  const queryKey = ["workshops"];
+  view && queryKey.push(view);
+  search && queryKey.push(search);
+  category && queryKey.push(category);
+  subCategory && queryKey.push(subCategory);
   const query = useQuery({
-    queryKey: ["workshops"],
+    queryKey,
     queryFn: async () => {
-      const data = await axios.get("workshop?view=instructor");
+      const data = await axios.get(`workshop?view=${view}`);
       return data.data.results;
     },
   });
@@ -36,9 +51,14 @@ export function useAddWorkshop({ onSuccess, onError }: FunctionProps = {}) {
       return response.data;
     },
     onSuccess(res) {
-      queryClient.setQueryData(["workshops"], (old: any) => {
-        return [...old, res.results];
-      });
+      try {
+        queryClient.setQueryData(["workshops", "instructor"], (old: any) => {
+          console.log(old);
+          return [...old, res.results];
+        });
+      } catch (err) {
+        console.error(err);
+      }
       toast.success("Workshop added successfully");
       onSuccess && onSuccess(res);
     },
@@ -60,7 +80,7 @@ export function useUpdateWorkshop({ onSuccess, onError }: FunctionProps = {}) {
     },
     onSuccess(res) {
       queryClient.setQueryData(["workshop", params[1]], res);
-      queryClient.invalidateQueries({ queryKey: ["workshops"] });
+      queryClient.invalidateQueries({ queryKey: ["workshops", "instructor"] });
       toast.success("Workshop updated successfully");
       onSuccess && onSuccess(res);
     },
@@ -80,7 +100,7 @@ export function useDeleteWorkshop({ onSuccess, onError }: FunctionProps = {}) {
       return response.data;
     },
     onSuccess(res, variables) {
-      queryClient.setQueryData(["workshops"], (old: any) => {
+      queryClient.setQueryData(["workshops", "instructor"], (old: any) => {
         return old.filter(
           (workshop: { _id: string }) =>
             workshop._id !== (variables as unknown as string)

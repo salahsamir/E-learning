@@ -1,5 +1,5 @@
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import React from "react";
+import React, { useEffect } from "react";
 import IndicationCard from "./Components/IndicationCard/IndicationCard";
 import SidePanel from "./Components/SidePanel/SidePanel";
 import MainScreen from "./Components/MainScreen/MainScreen";
@@ -11,6 +11,15 @@ import { RoomContextProvider } from "./context/room-ctx";
 function LiveSessions() {
   const { data: eduRoom } = useGetSession();
   const { data: token } = useJoinSession();
+
+  // show warning before leaving the site
+  useEffect(() => {
+    window.onbeforeunload = () => {
+      return true;
+    };
+    return () => (window.onbeforeunload = null);
+  }, []);
+
   return (
     <>
       {!token && (
