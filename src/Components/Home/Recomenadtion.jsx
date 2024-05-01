@@ -1,76 +1,97 @@
-import { Divider, Rating, Typography } from "@mui/material";
+import { Button, Rating, Typography } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BaseApi } from "util/BaseApi";
 import Slider from "react-slick";
 
 export default function Recomandtions() {
   let nav = useNavigate();
-  let [cources,setCourses]=useState([])
-  let [key, setKey] = useState('');
+  let [courses, setCourses] = useState([]);
+  let [key, setKey] = useState("Recommended For You");
   const [headers, setHeaders] = useState({
     token: localStorage.getItem("token"),
   });
-  let getCources=async()=>{
-    let res= await axios
-    .get(`${BaseApi}/recommendation/becauseYouViewed`,{ headers })
-    .catch((err) => console.log(err));
-    if(res.data.message==="Done"){
-      setCourses(res.data.recommendations.recommendations)
-      setKey(res.data.recommendations.key)
-    }
-}
 
-useEffect(()=>{
-  getCources()
-},[])
-var settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 4,
-  slidesToScroll: 1,
-};
+  let getCourses = async () => {
+    let res = await axios
+      .get(`${BaseApi}/recommendation/recommendedForYou`, { headers })
+      .catch((err) => console.log(err));
+    if (res.data.message === "Done") {
+      setCourses(res.data.recommendations);
+    }
+  };
+
+  useEffect(() => {
+    getCourses();
+  }, []);
 
   return (
-    <div className="py-5">
-     {cources?
-    <>
-    
-    <Typography variant="h6" color="primary">{key}</Typography>
-  
-      <div className="mx-auto max-w-2xl  py-4 sm:px-6 sm:py-16 lg:max-w-7xl lg:px-8">
-       
-        <Slider {...settings}>
-        {cources.map((ele) => (
-                  <div key={ele.course.id} className='group relative px-2' onClick={()=>{nav(`/courseDetails/${ele.course._id}`)}}>
-                   
-                    <div className='mt-2   '>
-                      
-                      <img src={ele.coverImageUrl} alt={ele.title} className='h-40 w-full object-cover object-center rounded-tr-3xl' />
-                     
-                      <div>
-                        
-                          <Typography variant='body' py={4} color='primary'>{ele.course.title}</Typography>
-                        
-                       <div className='flex pt-3 '>
-                       <Typography color='thrid' px-4 >{ele.course.rating}</Typography>
-                       <div className='pt-1 px-2'> <Rating size='small' color='secondary'  name="read-only" value={ele.course.rating} readOnly /></div>
-                       </div>
+    <Fragment>
+      <div className="container py-5">
+        <Typography
+          color="primary"
+          variant="h4"
+          className="text-2xl font-bold tracking-tight sm:text-1xl"
+        >
+          {key}
+        </Typography>
 
-                      </div>
-                      <Typography color='thrid' className='text-sm font-medium'>${ele.course.price}</Typography>
-                    </div>
+        <div className="course py-4">
+          <Slider
+            infinite={true}
+            speed={500}
+            slidesToShow={3} // Default to 3 slides
+            slidesToScroll={1}
+            responsive={[
+              {
+                breakpoint: 768,
+                settings: {
+                  slidesToShow: 2,
+                },
+              },
+              {
+                breakpoint: 480,
+                settings: {
+                  slidesToShow: 1,
+                },
+              },
+            ]}
+          >
+            {courses?.map((ele) => (
+              <div
+                key={ele.course._id}
+                className="group relative cursor-pointer"
+                onClick={() => {
+                  nav(`/courseDetails/${ele.course._id}`);
+                }}
+              >
+                <div className="p-4 flex flex-col">
+                  <img
+                    src="https://cdn.pixabay.com/photo/2016/06/01/06/26/open-book-1428428_640.jpg"
+                    alt={ele.course.title}
+                    className="h-40 w-full object-cover object-center rounded-lg"
+                  />
+                  <span className="pt-1 :hover:text-green-500" style={{ fontSize: "15px" }}>
+                    {ele.course.title}
+                  </span>
+                  <span className="py-1  text-gray-400 " style={{ fontSize: "13px" }}>
+                    Dr:John Doe
+                  </span>
+                  <span className="py-1" style={{ fontSize: "13px" }}>
+                    {ele.course.price} EGP
+                  </span>
+                  <div className=" flex">
+                    <p style={{ fontSize: "12px", paddingRight: "10px" }}>{ele.course.rating}</p>{" "}
+                    <Rating size="small" color="secondary" name="read-only" value={ele.course.rating} readOnly />
                   </div>
-                ))}
-        </Slider>
-       
+               
+                </div>
+              </div>
+            ))}
+          </Slider>
+        </div>
       </div>
-    </> 
-    
- :""    
-    }
-    </div>
-  )
+    </Fragment>
+  );
 }
