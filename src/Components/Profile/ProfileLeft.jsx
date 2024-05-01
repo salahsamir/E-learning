@@ -5,10 +5,7 @@ import { BaseApi } from "../../util/BaseApi.js";
 import { allContext } from "../../Context/Context.jsx";
 
 export default function ProfileLeft() {
-
-
   const {userdata,image}=useContext(allContext)
- 
  
   return (
     <Stack spacing={2}  width="100%" height="100%" textAlign="center" m="auto">

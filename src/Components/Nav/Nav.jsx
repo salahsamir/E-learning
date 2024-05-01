@@ -21,6 +21,7 @@ export default function Nav() {
     const { theme: themeMode, toggleTheme } = useThemeContext();
     const { image, wishlist, cart } =
     useContext(allContext);
+  
     const navigation = [
         { name: 'Home', href: '/', current: false },
       
@@ -72,7 +73,7 @@ export default function Nav() {
     nav('/signin')
    }
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="bg-gray-900">
       {({ open }) => (
         <> 
        
@@ -193,8 +194,9 @@ export default function Nav() {
                           <span className="sr-only">Open user menu</span>
                           <img
                             className="h-8 w-8 rounded-full"
-                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            alt=""
+                            // src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                            // alt=""
+                            src={image}
                           />
                         </Menu.Button>
                       </div>

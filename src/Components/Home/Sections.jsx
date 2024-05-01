@@ -25,6 +25,7 @@ import "aos/dist/aos.css";
 import WhoSection from "./WhoSection.jsx";
 import Blog from "./Blog.jsx";
 import Leader from "./Leader.jsx";
+import Recomandtions from "./Recomenadtion.jsx";
 function CircularProgressWithLabel(props) {
   return (
     <Box
@@ -75,149 +76,15 @@ export default function Sections() {
       <Divider>
         <Button variant="contained"></Button>
       </Divider>
-      <SectionCourses />
-      <Stack mx={"10px"} spacing={1} pb={"20px"}>
-        <Typography
-          textAlign={"center"}
-          data-aos="zoom-in"
-          variant="h2"
-          color="primary"
-        >
-          Step by step with you
-        </Typography>
-        <Divider color={"yellow"}></Divider>
-
-        <Grid container>
-          <Grid item xs={6} sm={4}>
-            <Box width={"95%"} data-aos="zoom-in-right">
-              <CircularProgressWithLabel color="secondary" value={"1"} />
-
-              <Avatar
-                variant="rounded"
-                sx={{ width: "100%", height: "50%" }}
-                src="https://t3.ftcdn.net/jpg/03/70/47/40/240_F_370474000_Ie0F7Piq7uBYXrrEz2UuaPAQuFeNix8r.jpg"
-              />
-              <Typography variant="body" color="secondary">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
-                aliquid dolore placeat? Alias tempora distinctio exercitationem
-                dignissimos eos sit ratione.
-              </Typography>
-            </Box>
-          </Grid>
-
-          <Grid item xs={6} sm={4}>
-            <Box width={"95%"} data-aos="zoom-in">
-              <CircularProgressWithLabel color="secondary" value={"2"} />
-
-              <Avatar
-                variant="rounded"
-                sx={{ width: "100%", height: "50%" }}
-                src="https://t3.ftcdn.net/jpg/03/46/14/92/240_F_346149288_n1vwzR3hrrpr7eoyHQe6vhlwCuvTi7jL.jpg"
-              />
-              <Typography variant="body" color="secondary">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
-                aliquid dolore placeat? Alias tempora distinctio exercitationem
-                dignissimos eos sit ratione.
-              </Typography>
-            </Box>
-          </Grid>
-
-          <Grid item xs={6} sm={4}>
-            <Box width={"95%"} data-aos="zoom-in-left">
-              <CircularProgressWithLabel color="secondary" value={"3"} />
-
-              <Avatar
-                variant="rounded"
-                sx={{ width: "100%", height: "50%" }}
-                src="https://t4.ftcdn.net/jpg/03/73/34/59/240_F_373345944_fBsiOQneRX06wr7vrTwaIJjq7i9RPOhv.jpg"
-              />
-              <Typography variant="body" color="secondary">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
-                aliquid dolore placeat? Alias tempora distinctio exercitationem
-                dignissimos eos sit ratione.
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
-      </Stack>
+      {/* <SectionCourses /> */}
+      
+      {/* <Divider>
+        <Button variant="contained"></Button>
+      </Divider> */}
+      <Recomandtions/>
       <Divider>
         <Button variant="contained"></Button>
       </Divider>
-      {/* <Stack mx={"10px"} spacing={1} pb={"20px"}>
-        <Typography
-          data-aos="zoom-in"
-          textAlign={"center"}
-          variant="h2"
-          color={"primary"}
-        >
-          Dedicated Mentorship
-        </Typography>
-        <Divider color={"yellow"}></Divider>
-        <Stack spacing={3} p={"20px"} m={"30px"} textAlign={"center"}>
-         <div className="row">
-          <div className="col-md-4 my-1">
-          <Card sx={{ maxWidth: 350 }}>
-              <CardMedia
-                component="img"
-                height="194"
-                image="https://t4.ftcdn.net/jpg/04/83/72/03/240_F_483720331_euzEQRP2Qd33TTk4mQqunpIIHRyMKIQJ.jpg"
-                alt="Paella dish"
-              />
-              <CardContent>
-                <Typography variant="h5" color="primary">
-                  salah
-                </Typography>
-                <Typography variant="body2" color="secondary">
-                  This impressive paella is a perfect party dish and a fun meal
-                  to cook
-                </Typography>
-              </CardContent>
-            </Card>
-          
-          </div>
-          <div className="col-md-4 my-1">
-          <Card sx={{ maxWidth: 350 }}>
-              <CardMedia
-                component="img"
-                height="194"
-                image="https://t4.ftcdn.net/jpg/04/83/72/03/240_F_483720331_euzEQRP2Qd33TTk4mQqunpIIHRyMKIQJ.jpg"
-                alt="Paella dish"
-              />
-              <CardContent>
-                <Typography variant="h5" color="primary">
-                  salah
-                </Typography>
-                <Typography variant="body2" color="secondary">
-                  This impressive paella is a perfect party dish and a fun meal
-                  to cook
-                </Typography>
-              </CardContent>
-            </Card>
-
-         </div>
-         <div className="col-md-4 my-1">
-          <Card sx={{ maxWidth: 350 }}>
-              <CardMedia
-                component="img"
-                height="194"
-                image="https://t4.ftcdn.net/jpg/04/83/72/03/240_F_483720331_euzEQRP2Qd33TTk4mQqunpIIHRyMKIQJ.jpg"
-                alt="Paella dish"
-              />
-              <CardContent>
-                <Typography variant="h5" color="primary">
-                  salah
-                </Typography>
-                <Typography variant="body2" color="secondary">
-                  This impressive paella is a perfect party dish and a fun meal
-                  to cook
-                </Typography>
-              </CardContent>
-            </Card>
-            
-         </div>
-         </div>
-        </Stack>
-      </Stack> */}
       <Leader/>
       <Divider>
         <Button variant="contained"></Button>
