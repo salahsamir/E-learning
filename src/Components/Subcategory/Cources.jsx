@@ -64,8 +64,8 @@ export default function Cources({id}) {
     
   {category.map((item)=>{
          return (
-           <div className="" >
-            <p className='px-2 mx-1 hover:text-green-700'  style={{fontSize:'calc(10px + .6vw)',cursor:'pointer'}}>{item.name}</p>
+           <div className=" w-100 text-center " >
+            <p className='pr-2  hover:text-green-700'  style={{fontSize:'calc(.6rem + .4vw)',whiteSpace: 'nowrap',cursor:'pointer'}}>{item.name}</p>
            </div>
          )
        })}
