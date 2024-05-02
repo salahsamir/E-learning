@@ -12,7 +12,7 @@ import SendEmail from "../pages/Forget_password/SendEmail/SendEmail.jsx";
 import NotFound from "../pages/NotFound/NotFound.jsx";
 import CoursesPage from "../pages/SubCategory/CoursesPage.jsx";
 import Video from "../pages/Videos/Video.jsx";
-import Chapter from "../Components/Chapters/Chapter.jsx";
+import Chapter from "../pages/Chapters/Chapter.jsx";
 import Assignment from "../pages/Assignment/Assignment.jsx";
 // import Profile from "../page/Profile/Profile.jsx";
 import Profile from "../pages/Profile/Profile.jsx";
@@ -107,7 +107,7 @@ const router = createBrowserRouter([
       // { path: "course/:id", element: <CoursesPage /> },
       { path: "course", element: <CoursesPage /> },
       { path: "assignment", element: <Assignment /> },
-      { path: "Chapter/:id", element: <Chapter /> },
+      { path: "Chapter/:id", element: <Chapter/> },
       { path: "profile", element: <Profile /> },
       { path: "setting", element: <Settings /> },
       { path: "course/:id", element: <CoursesPage /> },

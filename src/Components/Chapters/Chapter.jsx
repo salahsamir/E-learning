@@ -1,110 +1,83 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, CircularProgress, Container, Stack, Typography } from '@mui/material';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { BaseApi } from '../../util/BaseApi.js';
+import { Divider } from '@mui/material';
+import { useState } from 'react';
+const data=[
+  {name :"Get Started",
+  Sections:['introdaction','what the react js',"what the type script"]
 
-export default function Chapter() {
-  const [chapter, setChapter] = useState([]);
-  const [parts, setParts] = useState([]);
-  const [chapterid, setChapterId] = useState('');
+},
+{name :"Section 2",
+Sections:['introdaction','what the react js',"what the type script"]
 
-  const [loading, setLoading] = useState(true); // Added loading state
-  const { id } = useParams();
-  const navigate = useNavigate();
+},
+{name :"Section 3",
+Sections:['introdaction','what the react js',"what the type script"]
 
-  useEffect(() => {
-    getAllChapter();
-  }, []);
+},
+]
+export default function ChapterContent() {
+  const [activeAccordion, setActiveAccordion] = useState(null);
 
-  const getAllChapter = async () => {
-    try {
-      const response = await axios.get(`${BaseApi}/course/${id}/chapter`);
-      if (response && response.data) {
-        setChapter(response.data.chapters);
-        setLoading(false); // Set loading to false after fetching chapters
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getAllParts = async (chapterId) => {
-    try {
-      const response = await axios.get(`${BaseApi}/course/${id}/chapter/${chapterId}/curriculum/`);
-      if (response && response.data) {
-        setParts(response.data.curriculum);
-       setChapterId(chapterId)
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  let goToVideo=(curriculum)=>{
-    navigate(`/video/${id}/${chapterid}/${curriculum}`)
-}
-  const [expanded, setExpanded] = useState(false);
-
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-    if (isExpanded) {
-      setParts([]); // Reset parts to an empty array when accordion is collapsed
-    }
+  const toggleAccordion = (index) => {
+    setActiveAccordion(activeAccordion === index ? null : index);
   };
 
   return (
-    <Container>
-      <Stack spacing={2} my={1} >
-        <Typography variant="h3" py={1} color="primary" textAlign="center">
-          Chapters
-        </Typography>
-        {loading ? (
-           <div
-           width={"100%"}
-           height={"100%"}
-           display={"flex"}
-           justifyContent={"center"}
-           alignItems={"center"}
-         >
-           <span class="loader"></span>
-         </div> // Display loading indicator while fetching data
-        ) : (
-          <Box width="100%" display="flex" justifyContent="center" alignItems="center">
-            <div>
-              {chapter.map((item) => (
-                <Accordion
-                  key={item._id}
-                  expanded={expanded === item._id}
-                  onChange={handleChange(item._id)}
-                  
-                >
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls={`panel${item._id}-content`}
-                    id={`panel${item._id}-header`}
-                    onClick={() => getAllParts(item._id)}
-                  >
-                    <Typography variant="h5" sx={{ flexShrink: 0 ,width:'100%' }}>
-                      {item.title}
-                    </Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    {parts && parts.map((part) => (
-                      <div key={part._id} onClick={() => goToVideo(part._id)}>
-                        <Button>
-                          <Typography variant="style">{part.title}</Typography>
-                        </Button>
-                      </div>
-                    ))}
-                  </AccordionDetails>
-                </Accordion>
-              ))}
+    <div  id="accordion-collapse" data-accordion="collapse">
+      {data.map((item, index) => (
+        <div key={index}>
+          <h6 id={`accordion-collapse-heading-${index}`}>
+            <div
+             
+              onClick={() => toggleAccordion(index)}
+              className="flex items-center justify-between w-full p-2  font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-md    dark:border-gray-700 dark:text-gray-500  dark:hover:bg-gray-800 gap-3"
+              aria-expanded={activeAccordion === index ? 'true' : 'false'}
+              aria-controls={`accordion-collapse-body-${index}`}
+            >
+              <span className="text-gray-300">{item.name}</span>
+
+           <div className="flex py-2 ">
+            <p className="text-gray-400 mx-2" style={{fontSize:"14px"}}>3 leactures - 23 min</p>
+           <svg
+                data-accordion-icon
+                className={`w-3 h-3 rotate-${activeAccordion === index ? '180' : '0'} shrink-0`}
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 10 6"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M9 5 5 1 1 5"
+                />
+              </svg>
+           </div>
+
             </div>
-          </Box>
-        )}
-      </Stack>
-    </Container>
+          </h6>
+          <div
+            id={`accordion-collapse-body-${index}`}
+            className={` px-2 rounded-md bg-slate-800 mb-1 border border-gray-200 ${
+              activeAccordion === index ? '' : 'hidden'
+            }`}
+            aria-labelledby={`accordion-collapse-heading-${index}`}
+          >
+            {item.Sections.map((section, i) => (
+          <div className="mt-2">
+             <div className="my-y flex justify-between  cursor-pointer">
+               <p key={i} className=" text-gray-100 dark:text-gray-400">
+                {section}
+              </p>
+              <p className=" text-gray-400">12:00</p>
+           </div>
+           <Divider style={{ backgroundColor: '#E5E7EB' }} />
+          </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
   );
 }
