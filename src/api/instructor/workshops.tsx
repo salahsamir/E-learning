@@ -6,26 +6,12 @@ interface FunctionProps {
   onSuccess?: (res: any) => void;
   onError?: (error: Error) => void;
 }
-export default function useGetWorkshops({
-  search,
-  category,
-  subCategory,
-  view,
-}: {
-  search?: string;
-  category?: string;
-  subCategory?: string;
-  view: "all" | "instructor";
-}) {
-  const queryKey = ["workshops"];
-  view && queryKey.push(view);
-  search && queryKey.push(search);
-  category && queryKey.push(category);
-  subCategory && queryKey.push(subCategory);
+export default function useGetWorkshops() {
+  const queryKey = ["workshops", "instructor"];
   const query = useQuery({
     queryKey,
     queryFn: async () => {
-      const data = await axios.get(`workshop?view=${view}`);
+      const data = await axios.get(`workshop?view=instructor`);
       return data.data.results;
     },
   });
@@ -34,9 +20,9 @@ export default function useGetWorkshops({
 
 export function useGetWorkshop(id: string) {
   const query = useQuery({
-    queryKey: ["workshop", id],
+    queryKey: ["workshop", "instructor", id],
     queryFn: async () => {
-      const data = await axios.get(`workshop/${id}`);
+      const data = await axios.get(`workshop/${id}?view=instructor`);
       return data.data.results;
     },
   });
@@ -79,7 +65,7 @@ export function useUpdateWorkshop({ onSuccess, onError }: FunctionProps = {}) {
       return response.data.results;
     },
     onSuccess(res) {
-      queryClient.setQueryData(["workshop", params[1]], res);
+      queryClient.setQueryData(["workshop", "instructor", params[1]], res);
       queryClient.invalidateQueries({ queryKey: ["workshops", "instructor"] });
       toast.success("Workshop updated successfully");
       onSuccess && onSuccess(res);
@@ -126,7 +112,7 @@ export function usePublishWorkshop({ onSuccess, onError }: FunctionProps = {}) {
       return response.data.results;
     },
     onSuccess(res) {
-      queryClient.setQueryData(["workshop", params[0]], res);
+      queryClient.setQueryData(["workshop", "instructor", params[0]], res);
       toast.success("Workshop published successfully");
       onSuccess && onSuccess(res);
     },

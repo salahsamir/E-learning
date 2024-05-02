@@ -1,60 +1,36 @@
-import { Box, MenuItem, Select, Typography, useTheme } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import React, { useMemo } from "react";
 import Chart from "react-apexcharts";
 
-const get_last_month_days = () => {
-  let result = [];
-  for (let i = 0; i < 30; i++) {
-    const d = new Date();
-    d.setDate(d.getDate() - i);
-    const dateArr = d.toString().split(" ");
-    result.push(dateArr[0] + " " + dateArr[2]);
-  }
-  return result;
+const getLast30days = () => {
+  const days = Array.from({ length: 30 }).map((ele, index) => {
+    const date = new Date();
+    date.setDate(date.getDate() - index);
+    return date.toLocaleString("en-us", {
+      month: "short",
+      day: "2-digit",
+    });
+  });
+  days.reverse();
+  return days;
 };
-const get_last_12_months = () => {
-  let result = [];
-  for (let i = 0; i < 12; i++) {
-    let d = new Date();
-    d.setMonth(d.getMonth() - i);
-    const dateArr = d.toString().split(" ");
-    result.push(dateArr[1] + " " + dateArr[3]);
-  }
-  return result;
+const getLast30daysSales = (data) => {
+  const sales = Array.from({ length: 30 }).map((ele, index) => {
+    const date = new Date();
+    date.setDate(date.getDate() - index);
+    return data[date.getDate()] || 0;
+  });
+  sales.reverse();
+  return sales;
 };
-function RevenueChart() {
-  const muitheme = useTheme();
-  const [choosenYear, setChoosenYear] = React.useState("last-week");
-  let currentData = [10, 20, 25, 30, 40, 50];
 
-  let xCateg;
-  switch (choosenYear) {
-    case "last-week":
-      currentData = [10, 20, 25, 30, 40, 50, 20];
-      xCateg = get_last_month_days().slice(0, 7).reverse();
-      break;
-    case "last-month":
-      currentData = [
-        54, 89, 22, 117, 96, 15, 73, 42, 106, 11, 67, 30, 80, 45, 110, 61, 10,
-        99, 35, 75, 51, 114, 7, 69, 28, 83, 58, 23, 109, 40,
-      ];
-      xCateg = get_last_month_days();
-      break;
-    case "last-6-months":
-      xCateg = get_last_12_months().slice(0, 6).reverse();
-      currentData = [10, 20, 20, 30, 40, 10];
-      break;
-    case "last-year":
-      xCateg = get_last_12_months();
-      currentData = [10, 20, 25, 30, 40, 50, 20, 5, 5, 25, 10, 100];
-      break;
-    default:
-      break;
-  }
+function RevenueChart({ revenueArray }) {
+  const muitheme = useTheme();
+
   const series = [
     {
       name: "total revenue",
-      data: currentData,
+      data: getLast30daysSales(revenueArray),
     },
   ];
   const options = useMemo(() => {
@@ -84,7 +60,7 @@ function RevenueChart() {
         lineCap: "round",
       },
       xaxis: {
-        categories: xCateg,
+        categories: getLast30days(),
         sorted: true,
         axisBorder: {
           color: muitheme.palette.grey[500],
@@ -147,7 +123,6 @@ function RevenueChart() {
     muitheme.palette.primary.main,
     muitheme.palette.text.primary,
     muitheme.palette.text.secondary,
-    xCateg,
   ]);
   return (
     <Box
@@ -171,21 +146,9 @@ function RevenueChart() {
         <Box>
           <Typography variant="h6">Revenue</Typography>
           <Typography variant="body2" color="text.secondary">
-            +30% than last month
+            last 30 days revenue
           </Typography>
         </Box>
-        <Select
-          sx={{ height: 30 }}
-          id="choosenYear"
-          value={choosenYear}
-          onChange={(event) => setChoosenYear(event.target.value)}
-          label="Year"
-        >
-          <MenuItem value="last-week">Last 7 days</MenuItem>
-          <MenuItem value="last-month">last month</MenuItem>
-          <MenuItem value="last-6-months">last 6 months</MenuItem>
-          <MenuItem value="last-year">last year</MenuItem>
-        </Select>
       </Box>
       <Chart series={series} type="area" options={options} height={"300px"} />
     </Box>

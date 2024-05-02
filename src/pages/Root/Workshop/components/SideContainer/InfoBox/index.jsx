@@ -7,6 +7,7 @@ import {
   WorkspacePremiumOutlined,
 } from "@mui/icons-material";
 import { Box, Button, TextField, Typography } from "@mui/material";
+
 import React from "react";
 const ListItem = ({ icon, title }) => {
   return (
@@ -29,7 +30,7 @@ const ListItem = ({ icon, title }) => {
     </Typography>
   );
 };
-const InfoBox = () => {
+const InfoBox = ({ info }) => {
   return (
     <Box
       sx={{
@@ -50,7 +51,7 @@ const InfoBox = () => {
         }}
       >
         <Typography variant="h4" color="text.primary" fontWeight="600">
-          350 EGP
+          {info.price} EGP
         </Typography>
       </Box>
       {/* ******************** Workshop Includes ******************** */}

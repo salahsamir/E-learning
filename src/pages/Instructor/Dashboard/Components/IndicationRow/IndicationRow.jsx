@@ -2,7 +2,8 @@ import { Box, Divider } from "@mui/material";
 import React from "react";
 import Item from "./Item";
 
-const IndicationRow = () => {
+const IndicationRow = ({ analysis }) => {
+  const { totalStudents, totalViews, watchedHours, totalRevenue } = analysis;
   return (
     <Box
       sx={{
@@ -21,12 +22,12 @@ const IndicationRow = () => {
         flexDirection={{ xs: "column", md: "row" }}
         gap={1}
       >
-        <Item title="Total Students" value="100" change={10} />
+        <Item title="Total Students" value={totalStudents || 0} change={100} />
         <ResponsiveDivider
           horizontal={{ xs: "flex", md: "none" }}
           vertical={{ xs: "none", md: "flex" }}
         />
-        <Item title="Total Views" value="123" change={-25.23} />
+        <Item title="Total Views" value={totalViews || 0} change={100} />
       </Box>
       <Divider orientation="vertical" flexItem />
       <Box
@@ -35,16 +36,16 @@ const IndicationRow = () => {
         flexDirection={{ xs: "column", md: "row" }}
         gap={1}
       >
-        <Item title="Watched Hours" value="37" change={41.25} />
+        <Item title="Watched Hours" value={watchedHours || 0} change={100} />
         <ResponsiveDivider
           horizontal={{ xs: "flex", md: "none" }}
           vertical={{ xs: "none", md: "flex" }}
         />
         <Item
           title="Total Revenue"
-          value="105700"
+          value={totalRevenue || 0}
           symbol={"£"}
-          change={37.21}
+          change={100}
         />
       </Box>
     </Box>

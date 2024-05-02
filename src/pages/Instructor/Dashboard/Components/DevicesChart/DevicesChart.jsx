@@ -1,10 +1,16 @@
 import { Box, useTheme } from "@mui/material";
 import React from "react";
 import Chart from "react-apexcharts";
-const DevicesChart = () => {
+const DevicesChart = ({ usage }) => {
+  let allEqualZero = true;
+  const usageArray = usage.map((ele) => {
+    if (ele.usagePercentage > 0) allEqualZero = false;
+    return ele.usagePercentage;
+  });
   const theme = useTheme();
+
   const options = {
-    series: [67, 13, 20],
+    series: allEqualZero ? [100 / 3, 100 / 3, 100 / 3] : usageArray,
     labels: ["Computer", "Tablet", "Mobile"],
     plotOptions: {
       pie: {
