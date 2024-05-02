@@ -3,15 +3,7 @@ import { Box, Divider, Paper, Typography } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 
-const WorkshopCard = () => {
-  const data = {
-    title: "How to start a business",
-    image:
-      "https://www.companywebcast.com/wp-content/uploads/unlimited-online-audience.jpg?x59338",
-    instructor: "Ali Mohamed",
-    startDate: "July 20, 2024",
-    time: "03:30 PM",
-  };
+const WorkshopCard = ({ workshop }) => {
   return (
     <Box
       sx={{
@@ -28,8 +20,8 @@ const WorkshopCard = () => {
       }}
     >
       <img
-        src={data.image}
-        alt={data.title}
+        src={workshop.promotionImage?.url}
+        alt={workshop.title}
         style={{
           width: "100%",
           height: "220px",
@@ -54,6 +46,7 @@ const WorkshopCard = () => {
           variant="h6"
           color="text.primary"
           component={Link}
+          to={workshop._id}
           sx={{
             transition: "color ease 0.3s",
             "&:hover": {
@@ -61,10 +54,10 @@ const WorkshopCard = () => {
             },
           }}
         >
-          {data.title}
+          {workshop.title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          A workshop by {data.instructor}
+          A workshop by {workshop.instructor?.userName}
         </Typography>
         <Divider
           sx={{
@@ -95,7 +88,11 @@ const WorkshopCard = () => {
                 width: "16px",
               }}
             />
-            {data.startDate}
+            {new Date(workshop.startDay).toLocaleString("en-us", {
+              month: "short",
+              day: "2-digit",
+              year: "numeric",
+            })}
           </Typography>
           <Typography
             color="text.secondary"
@@ -112,7 +109,10 @@ const WorkshopCard = () => {
                 width: "16px",
               }}
             />
-            {data.time}
+            {new Date(workshop.sessionTime).toLocaleString("en-us", {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
           </Typography>
         </Box>
       </Paper>

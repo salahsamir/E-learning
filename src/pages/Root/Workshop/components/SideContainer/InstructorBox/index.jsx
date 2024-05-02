@@ -8,6 +8,7 @@ import {
 import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import AvatarBox from "../../AvatarBox";
+
 const ListItem = ({ icon, title }) => {
   return (
     <Typography
@@ -29,7 +30,7 @@ const ListItem = ({ icon, title }) => {
     </Typography>
   );
 };
-const InstructorBox = () => {
+const InstructorBox = ({ instructor }) => {
   return (
     <Box
       color="text.secondary"
@@ -64,12 +65,15 @@ const InstructorBox = () => {
         </Button>
       </Box>
       {/* ************************ Avatar Box ************************ */}
-      <AvatarBox />
+      <AvatarBox
+        name={instructor?.userName}
+        image={instructor?.profilePic?.url}
+        occupation={instructor?.occupation}
+      />
       <Typography variant="body2" my="8px">
-        I'm a passionate software engineer with a keen interest in leveraging
-        technology to solve real-world problems. With 5 years of experience in
-        the field, I've cultivated a deep understanding of software development
-        principles and best practices.
+        {instructor.about?.length > 313
+          ? instructor.about?.slice(0, 313) + "..."
+          : instructor.about}
       </Typography>
       {/* ************************ achievements list ************************ */}
       <Box
@@ -82,10 +86,22 @@ const InstructorBox = () => {
           gap: "8px",
         }}
       >
-        <ListItem icon={<Star />} title="4.8 instructor rating" />
-        <ListItem icon={<Verified />} title="800 Reviews" />
-        <ListItem icon={<PeopleAlt />} title="4500 Students" />
-        <ListItem icon={<PlayCircle />} title="7 Courses" />
+        <ListItem
+          icon={<Star />}
+          title={(instructor.rating || 5) + " instructor rating"}
+        />
+        <ListItem
+          icon={<Verified />}
+          title={(instructor.reviews || 0) + " Reviews"}
+        />
+        <ListItem
+          icon={<PeopleAlt />}
+          title={(instructor.totalNumberOfStudents || 0) + " Students"}
+        />
+        <ListItem
+          icon={<PlayCircle />}
+          title={(instructor.totalNumberOfCourses || 0) + " Courses"}
+        />
       </Box>
     </Box>
   );
