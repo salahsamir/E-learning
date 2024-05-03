@@ -11,6 +11,7 @@ import {
   Settings,
   VideoLibrary,
 } from "@mui/icons-material";
+import Footer from "Components/Footer/Footer";
 const drawerItems = [
   { text: "Dashboard", icon: <Dashboard />, url: "/student" },
   { text: "Courses", icon: <VideoLibrary />, url: "courses" },
@@ -58,7 +59,10 @@ export default function Layout() {
               themeMode: true,
             }}
           />
-          <Outlet />
+          <Box flex="1">
+            <Outlet />
+          </Box>
+          <Footer />
         </Box>
       </Box>
     </>

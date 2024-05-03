@@ -1,7 +1,38 @@
+import { Box } from "@mui/material";
 import React from "react";
+import { Helmet } from "react-helmet";
+import IndicationRow from "./components/IndicationRow";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+import MyProgress from "./components/MyProgress";
+import StudyStatics from "./components/StudyStatics";
+import RecentEnrolledCourses from "./components/RecentEnrolledCourses";
+import RecentEnrolledWorkshops from "./components/RecentEnrolledWorkshops";
 
 const Home = () => {
-  return <div>Home</div>;
+  return (
+    <>
+      <Helmet>
+        <title>Dashboard | Eduvation</title>
+      </Helmet>
+      <Box>
+        <IndicationRow />
+        <Grid2 container my="16px" spacing={2}>
+          <Grid2 xs={12} md={7}>
+            <StudyStatics data={{ 2: 10 }} />
+          </Grid2>
+          <Grid2 xs={12} md={5}>
+            <MyProgress status={[20, 50, 30]} />
+          </Grid2>
+          <Grid2 xs={12}>
+            <RecentEnrolledCourses />
+          </Grid2>
+          <Grid2 xs={12}>
+            <RecentEnrolledWorkshops />
+          </Grid2>
+        </Grid2>
+      </Box>
+    </>
+  );
 };
 
 export default Home;
