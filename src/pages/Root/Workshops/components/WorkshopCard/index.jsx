@@ -43,7 +43,8 @@ const WorkshopCard = ({ workshop }) => {
         }}
       >
         <Typography
-          variant="h6"
+          variant="subtitle1"
+          fontWeight="600"
           color="text.primary"
           component={Link}
           to={workshop._id}

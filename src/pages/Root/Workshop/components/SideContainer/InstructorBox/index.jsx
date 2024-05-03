@@ -88,19 +88,19 @@ const InstructorBox = ({ instructor }) => {
       >
         <ListItem
           icon={<Star />}
-          title={(instructor.rating || 5) + " instructor rating"}
+          title={(instructor.rating || "unkown") + " instructor rating"}
         />
         <ListItem
           icon={<Verified />}
-          title={(instructor.reviews || 0) + " Reviews"}
+          title={(instructor.reviews || "unknown") + " Reviews"}
         />
         <ListItem
           icon={<PeopleAlt />}
-          title={(instructor.totalNumberOfStudents || 0) + " Students"}
+          title={(instructor.totalNumberOfStudents || "unkown") + " Students"}
         />
         <ListItem
           icon={<PlayCircle />}
-          title={(instructor.totalNumberOfCourses || 0) + " Courses"}
+          title={(instructor.totalNumberOfCourses || "unkown") + " Courses"}
         />
       </Box>
     </Box>

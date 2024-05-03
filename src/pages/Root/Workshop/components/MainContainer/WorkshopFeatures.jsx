@@ -35,7 +35,7 @@ const Item = ({ icon, title, value }) => {
           }}
         >
           {icon}
-          {value}
+          {value || "unkown"}
         </Typography>
       </Box>
     </Grid2>
@@ -43,7 +43,7 @@ const Item = ({ icon, title, value }) => {
 };
 const WorkshopFeatures = ({ workshop }) => {
   return (
-    <Grid2 container spacing={2} mt={"16px"}>
+    <Grid2 container spacing={2} my={"16px"}>
       <Grid2 xs={12}>
         <Typography variant="h6" color="text.primary">
           Features
@@ -70,7 +70,11 @@ const WorkshopFeatures = ({ workshop }) => {
         title={"Skill Level"}
         value={workshop.level}
       />
-      <Item icon={<VisibilityOutlined />} title={"Views"} value={"12,620"} />
+      <Item
+        icon={<VisibilityOutlined />}
+        title={"Views"}
+        value={workshop.views}
+      />
     </Grid2>
   );
 };

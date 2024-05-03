@@ -6,6 +6,8 @@ import IndicationRow from "./Components/IndicationRow/IndicationRow";
 import CustomerSatisfaction from "./Components/CustomerSatisfaction/CustomerSatisfaction";
 import DevicesChart from "./Components/DevicesChart/DevicesChart";
 import { useGetAnalysis } from "api/instructor/analysis.tsx";
+import LoadingSpinner from "Components/LoadingSpinner";
+import ErrorBox from "Components/ErrorBox";
 
 function Dashboard() {
   const { data: analysis, isLoading, isError } = useGetAnalysis();
@@ -15,9 +17,9 @@ function Dashboard() {
         <title>Dashboard | Eduvation</title>
       </Helmet>
       {isLoading ? (
-        ""
+        <LoadingSpinner />
       ) : isError ? (
-        ""
+        <ErrorBox />
       ) : (
         <Grid2 container spacing={2}>
           <Grid2 xs={12}>

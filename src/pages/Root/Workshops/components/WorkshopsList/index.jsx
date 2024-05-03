@@ -3,7 +3,8 @@ import React from "react";
 import WorkshopCard from "../WorkshopCard";
 import { useGetWorkshops } from "api/global/workshops.tsx";
 import { useSearchParams } from "react-router-dom";
-import { Skeleton, Typography } from "@mui/material";
+import { Skeleton } from "@mui/material";
+import ErrorBox from "Components/ErrorBox";
 
 const WorkshopsList = () => {
   const [searchParams] = useSearchParams();
@@ -31,7 +32,7 @@ const WorkshopsList = () => {
         ))}
       {!isLoading && isError && (
         <Grid2 xs={12}>
-          <Typography>There was an error!</Typography>
+          <ErrorBox />
         </Grid2>
       )}
       {workshops.map((workshop) => (

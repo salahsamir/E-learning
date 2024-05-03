@@ -17,7 +17,7 @@ const SideContainer = ({ workshop }) => {
       <InfoBox info={{ price: workshop.price }} />
       {/* <RatingBox /> */}
       <InstructorBox instructor={workshop.instructor || {}} />
-      <PopularCourses />
+      <PopularCourses category={workshop.categoryId?._id} />
     </Box>
   );
 };
