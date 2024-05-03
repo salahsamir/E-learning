@@ -6,6 +6,7 @@ const Requirement = ({ text }) => {
   return (
     <Box
       component="li"
+      color="text.secondary"
       sx={{
         display: "flex",
         alignItems: "center",
@@ -14,7 +15,7 @@ const Requirement = ({ text }) => {
       }}
     >
       <Check fontSize="small" />
-      <Typography color="text.prmary" variant="subtitle1" fontSize="18px">
+      <Typography variant="subtitle1" fontSize="18px">
         {text}
       </Typography>
     </Box>
