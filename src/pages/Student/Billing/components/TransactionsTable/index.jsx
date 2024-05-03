@@ -8,34 +8,15 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  alpha,
 } from "@mui/material";
+import { useRefund } from "api/student/billing.tsx";
 import React from "react";
 
-const TransactionsTable = () => {
-  const items = [
-    {
-      title: "Introduction To Algorithms",
-      amount: 100,
-      date: "2021-10-01",
-      paymentMethod: "Credit Card",
-      status: "Success",
-    },
-    {
-      title: "Introduction To Algorithms",
-      amount: 100,
-      date: "2021-10-01",
-      paymentMethod: "Credit Card",
-      status: "Success",
-    },
-    {
-      title: "Introduction To Algorithms",
-      amount: 100,
-      date: "2021-10-01",
-      paymentMethod: "Credit Card",
-      status: "Success",
-    },
-  ];
+const TransactionsTable = ({ transactions }) => {
+  const { mutate: refund, isPending: loadingRefund } = useRefund();
+  const handleRefund = (transactionId) => {
+    refund({ transactionId });
+  };
   return (
     <TableContainer
       component={Paper}
@@ -65,7 +46,7 @@ const TransactionsTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {items.map((item, index) => (
+          {transactions.map((item, index) => (
             <TableRow
               key={index}
               sx={{
@@ -77,14 +58,23 @@ const TransactionsTable = () => {
                 },
               }}
             >
-              <TableCell>{item.title}</TableCell>
-              <TableCell>{item.amount}</TableCell>
-              <TableCell>{item.date}</TableCell>
-              <TableCell>{item.paymentMethod}</TableCell>
+              <TableCell>{item.courses?.name}</TableCell>
+              <TableCell>{item.price + "EGP"}</TableCell>
+              <TableCell>
+                {new Date(item.updatedAt).toLocaleString("en-us", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                })}
+              </TableCell>
+              <TableCell>Credit Card</TableCell>
               <TableCell>{item.status}</TableCell>
               <TableCell>
                 <LoadingButton
                   variant="contained"
+                  aria-label="refund"
+                  onClick={() => handleRefund(item._id)}
+                  loading={loadingRefund}
                   sx={{
                     borderRadius: "20px",
                   }}
@@ -96,7 +86,7 @@ const TransactionsTable = () => {
           ))}
         </TableBody>
       </Table>
-      {items.length === 0 && (
+      {transactions.length === 0 && (
         <Box
           sx={{
             display: "flex",

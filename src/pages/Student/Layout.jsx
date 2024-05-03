@@ -46,6 +46,7 @@ export default function Layout() {
           display="flex"
           flexDirection="column"
           gap="16px"
+          minHeight="100vh"
         >
           <NavbarCompact
             onMenuClick={() => drawerRef.current?.toggleOpenDrawer()}

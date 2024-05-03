@@ -16,7 +16,7 @@ import Chapter from "../pages/Chapters/Chapter.jsx";
 import Assignment from "../pages/Assignment/Assignment.jsx";
 // import Profile from "../page/Profile/Profile.jsx";
 import Profile from "../pages/Profile/Profile.jsx";
-import Loading from "../pages/Loading/Loading.jsx";
+import Loading from "../Components/LoadingSpinner/index.jsx";
 import InstructorLayout from "../pages/Instructor/Layout.jsx";
 import Setting from "../pages/Setting/Setting.jsx";
 import CourseDetails from "../pages/CourseDetails/CourseDetails.jsx";
@@ -70,7 +70,7 @@ const InstructorRevenue = lazy(() =>
 
 // student routes
 const StudentLayout = lazy(() => import("../pages/Student/Layout.jsx"));
-const StudentHome = lazy(() => import("../pages/Student/Home/Home.jsx"));
+const StudentHome = lazy(() => import("../pages/Student/Dashboard/index.jsx"));
 const UserSettings = lazy(() => import("../pages/Student/Settings/index.jsx"));
 const UserMessages = lazy(() => import("../pages/Student/Messages/index.jsx"));
 const StudentWorkshops = lazy(() =>
@@ -107,7 +107,7 @@ const router = createBrowserRouter([
       // { path: "course/:id", element: <CoursesPage /> },
       { path: "course", element: <CoursesPage /> },
       { path: "assignment", element: <Assignment /> },
-      { path: "Chapter/:id", element: <Chapter/> },
+      { path: "Chapter/:id", element: <Chapter /> },
       { path: "profile", element: <Profile /> },
       { path: "setting", element: <Settings /> },
       { path: "course/:id", element: <CoursesPage /> },

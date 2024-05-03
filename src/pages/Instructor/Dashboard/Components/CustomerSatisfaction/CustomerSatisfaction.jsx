@@ -6,7 +6,7 @@ const CustomerSatisfaction = ({ percentage }) => {
   const theme = useTheme();
 
   const chartOptions = {
-    series: [percentage],
+    series: [(+percentage).toFixed(0)],
     colors: [theme.palette.primary.main],
     plotOptions: {
       radialBar: {

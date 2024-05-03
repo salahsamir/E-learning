@@ -44,7 +44,7 @@ const IndicationRow = ({ analysis }) => {
         <Item
           title="Total Revenue"
           value={totalRevenue || 0}
-          symbol={"£"}
+          symbol={" EGP "}
           change={100}
         />
       </Box>

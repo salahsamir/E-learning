@@ -142,7 +142,7 @@ const QuizSettings = ({ data: quiz }) => {
                 Shuffle Answers
               </CustomInput>
               <CustomInput formik={formik} id="allowedToReturn" type="switch">
-                Get Responses back
+                Instantaneous Results
               </CustomInput>
               <CustomInput formik={formik} id="maxAttempts" type="number">
                 Maximum quiz attempts

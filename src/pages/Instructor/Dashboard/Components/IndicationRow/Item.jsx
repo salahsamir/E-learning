@@ -23,8 +23,8 @@ const Item = ({ title, value, change, symbol }) => {
           {title}
         </Typography>
         <Typography variant="h5" fontWeight="600">
-          {symbol}
           {valueCounter}
+          {symbol}
         </Typography>
         <Box display="flex" alignItems="center" gap={1}>
           <Box
