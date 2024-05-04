@@ -80,7 +80,13 @@ const CashoutDialog = ({ open, setOpen, balance }) => {
             <Typography variant="h6">Paypal</Typography>
             <Typography variant="body2">Paypal Transfer </Typography>
           </Box>
-          <Typography variant="h6">£{balance} EGP</Typography>
+          <Typography variant="h6">
+            {(+balance).toLocaleString("en-us", {
+              notation: "compact",
+              maximumFractionDigits: 2,
+            })}{" "}
+            EGP
+          </Typography>
         </Box>
         <Box
           display="flex"

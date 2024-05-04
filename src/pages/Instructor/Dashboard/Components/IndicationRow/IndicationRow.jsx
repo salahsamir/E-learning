@@ -2,6 +2,24 @@ import { Box, Divider } from "@mui/material";
 import React from "react";
 import Item from "./Item";
 
+const formatNumber = (input) => {
+  const num = +input;
+  if (num >= 1000000)
+    return {
+      num: (num / 1000000).toFixed(2),
+      symbol: "M",
+    };
+  else if (num >= 1000)
+    return {
+      num: (num / 1000).toFixed(2),
+      symbol: "K",
+    };
+  else
+    return {
+      num,
+      symbol: "",
+    };
+};
 const IndicationRow = ({ analysis }) => {
   const { totalStudents, totalViews, watchedHours, totalRevenue } = analysis;
   return (
@@ -43,8 +61,8 @@ const IndicationRow = ({ analysis }) => {
         />
         <Item
           title="Total Revenue"
-          value={totalRevenue || 0}
-          symbol={" EGP "}
+          value={formatNumber(totalRevenue || 0).num}
+          symbol={formatNumber(totalRevenue || 0).symbol + " EGP "}
           change={100}
         />
       </Box>

@@ -35,8 +35,14 @@ const CoursesRevenue = () => {
     id: course.courseId,
     courseName: course.title,
     totalSales: course.numberOfStudents,
-    totalRevenue: course.revenue,
-    averagePrice: course.price,
+    totalRevenue: (+course.revenue).toLocaleString("en-us", {
+      notation: "compact",
+      maximumFractionDigits: 2,
+    }),
+    averagePrice: (+course.price).toLocaleString("en-us", {
+      notation: "compact",
+      maximumFractionDigits: 2,
+    }),
   }));
   return (
     <Box>
