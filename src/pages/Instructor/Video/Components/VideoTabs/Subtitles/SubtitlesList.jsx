@@ -16,6 +16,7 @@ const Item = ({ item }) => {
         borderColor: "primary.main",
         padding: "8px 16px",
         borderRadius: "100px",
+        userSelect: "none",
       }}
     >
       <Typography variant="body1" color="primary.main" fontWeight="600">

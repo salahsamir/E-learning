@@ -24,10 +24,8 @@ const UploadForm = () => {
       if (isPending) return;
       if (values.language === "" || values.language === null) return;
       if (!values.file) return;
-      const formData = new FormData();
-      formData.append("subtitles", values.file);
-      formData.append("subtitleslanguage", values.language);
-      uploadSubtitle({ data: formData });
+
+      uploadSubtitle({ file: values.file, language: values.language });
     },
   });
   return (

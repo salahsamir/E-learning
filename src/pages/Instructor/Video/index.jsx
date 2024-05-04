@@ -52,7 +52,7 @@ function Video() {
                   display: "flex",
                 }}
               >
-                <VideoPlayer src={video.url} />
+                <VideoPlayer src={video.url} thumbnails={video.vttUrl} />
               </Grid2>
               <Grid2 xs={12}>
                 <VideoTabs video={video} />

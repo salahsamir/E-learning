@@ -42,10 +42,8 @@ const AddButton = () => {
               toast.error("File Size must be lower than 100MB");
               return;
             }
-            const formData = new FormData();
-            formData.append("resources", file);
             attachFile({
-              data: formData,
+              file,
               getProgress: (prog) => setProgress(prog),
             });
           }}

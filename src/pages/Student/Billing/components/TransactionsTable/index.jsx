@@ -41,6 +41,7 @@ const DataRow = ({ item }) => {
       <TableCell>{item.status}</TableCell>
       <TableCell>
         <LoadingButton
+          disabled={item.status === "Refunded"}
           variant="contained"
           aria-label="refund"
           onClick={() => handleRefund(item._id)}

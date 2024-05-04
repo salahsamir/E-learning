@@ -50,17 +50,23 @@ export function useUpdateVideo({ onSuccess, onError }: MutationFnProps = {}) {
 
 export function useUploadSubtitle() {
   const params = useGetParams();
+  const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async ({
-      data,
+      file,
+      language,
       getProgress,
     }: {
-      data: any;
+      file: File;
+      language: string;
       getProgress?: (progress: number) => void;
     }) => {
+      const formData = new FormData();
+      formData.append("subtitles", file);
+      formData.append("subtitleslanguage", language);
       const res = await axios.patch(
         `course/${params[3]}/chapter/${params[2]}/curriculum/${params[0]}/video?upload=subtitles`,
-        data,
+        formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -72,6 +78,15 @@ export function useUploadSubtitle() {
       );
       return res.data;
     },
+    onSuccess: (res, { file, language }) => {
+      const newSubtitle = {
+        language: language,
+        url: URL.createObjectURL(file),
+      };
+      queryClient.setQueryData(["video", params[0]], (old: any) => {
+        return { ...old, subtitles: [newSubtitle, ...old.subtitles] };
+      });
+    },
     onError: (err) => {
       toast.error(err.message);
     },
@@ -81,6 +96,7 @@ export function useUploadSubtitle() {
 
 export function useDeleteVideoSubtitle() {
   const params = useGetParams();
+  const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async ({ subtitleId }: { subtitleId: string }) => {
       const res = await axios.patch(
@@ -90,6 +106,14 @@ export function useDeleteVideoSubtitle() {
         }
       );
       return res.data;
+    },
+    onSuccess: (res, { subtitleId }) => {
+      queryClient.setQueryData([params[1], params[0]], (old: any) => {
+        const newSubtitles = old.subtitles.filter(
+          (ele) => ele._id !== subtitleId
+        );
+        return { ...old, subtitles: newSubtitles };
+      });
     },
     onError: (err) => {
       toast.error(err.message);
