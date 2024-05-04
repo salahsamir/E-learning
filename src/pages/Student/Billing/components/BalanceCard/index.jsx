@@ -1,11 +1,9 @@
 import { Wallet } from "@mui/icons-material";
 import { Box, Typography, alpha } from "@mui/material";
 import React from "react";
-import { useGetRevenue } from "api/instructor/revenue.tsx";
 import RedeemButton from "./RedeemButton";
 
-const BalanceCard = () => {
-  const { data: revenue } = useGetRevenue();
+const BalanceCard = ({ balance, spentAmount, points }) => {
   return (
     <Box
       sx={{
@@ -26,7 +24,7 @@ const BalanceCard = () => {
           Current Balance
         </Typography>
         <Typography variant="h5" component="p" fontWeight="600">
-          {revenue?.totalRevenue || 0} EGP
+          {balance || 0} EGP
         </Typography>
         <Typography
           color="text.secondary"
@@ -47,7 +45,7 @@ const BalanceCard = () => {
             fontWeight="600"
             variant="body2"
           >
-            5000 EGP
+            {spentAmount || 0} EGP
           </Typography>
         </Typography>
       </Box>
@@ -66,11 +64,11 @@ const BalanceCard = () => {
             Your Points
           </Typography>
           <Typography variant="h6" component="p" fontWeight="600">
-            5000
+            {points || 0}
           </Typography>
         </Box>
         <Box>
-          <RedeemButton points={30} />
+          <RedeemButton points={points || 0} />
         </Box>
       </Box>
     </Box>

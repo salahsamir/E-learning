@@ -8,34 +8,55 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  alpha,
 } from "@mui/material";
+import { useRefund } from "api/student/billing.tsx";
 import React from "react";
 
-const TransactionsTable = () => {
-  const items = [
-    {
-      title: "Introduction To Algorithms",
-      amount: 100,
-      date: "2021-10-01",
-      paymentMethod: "Credit Card",
-      status: "Success",
-    },
-    {
-      title: "Introduction To Algorithms",
-      amount: 100,
-      date: "2021-10-01",
-      paymentMethod: "Credit Card",
-      status: "Success",
-    },
-    {
-      title: "Introduction To Algorithms",
-      amount: 100,
-      date: "2021-10-01",
-      paymentMethod: "Credit Card",
-      status: "Success",
-    },
-  ];
+const DataRow = ({ item }) => {
+  const { mutate: refund, isPending: loadingRefund } = useRefund();
+  const handleRefund = (transactionId) => {
+    refund({ transactionId });
+  };
+  return (
+    <TableRow
+      sx={{
+        "& td": {
+          borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
+        },
+        "&:last-child td": {
+          border: 0,
+        },
+      }}
+    >
+      <TableCell>{item._id}</TableCell>
+      <TableCell>{item.price + " EGP"}</TableCell>
+      <TableCell>
+        {new Date(item.updatedAt).toLocaleString("en-us", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        })}
+      </TableCell>
+      <TableCell>Credit Card</TableCell>
+      <TableCell>{item.status}</TableCell>
+      <TableCell>
+        <LoadingButton
+          disabled={item.status === "Refunded"}
+          variant="contained"
+          aria-label="refund"
+          onClick={() => handleRefund(item._id)}
+          loading={loadingRefund}
+          sx={{
+            borderRadius: "20px",
+          }}
+        >
+          Refund
+        </LoadingButton>
+      </TableCell>
+    </TableRow>
+  );
+};
+const TransactionsTable = ({ transactions }) => {
   return (
     <TableContainer
       component={Paper}
@@ -56,7 +77,7 @@ const TransactionsTable = () => {
               },
             }}
           >
-            <TableCell>Title</TableCell>
+            <TableCell>Order Id</TableCell>
             <TableCell>Amount</TableCell>
             <TableCell>Date</TableCell>
             <TableCell>Payment Method</TableCell>
@@ -65,38 +86,12 @@ const TransactionsTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {items.map((item, index) => (
-            <TableRow
-              key={index}
-              sx={{
-                "& td": {
-                  borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
-                },
-                "&:last-child td": {
-                  border: 0,
-                },
-              }}
-            >
-              <TableCell>{item.title}</TableCell>
-              <TableCell>{item.amount}</TableCell>
-              <TableCell>{item.date}</TableCell>
-              <TableCell>{item.paymentMethod}</TableCell>
-              <TableCell>{item.status}</TableCell>
-              <TableCell>
-                <LoadingButton
-                  variant="contained"
-                  sx={{
-                    borderRadius: "20px",
-                  }}
-                >
-                  Refund
-                </LoadingButton>
-              </TableCell>
-            </TableRow>
+          {transactions.map((item, index) => (
+            <DataRow key={item._id} item={item} />
           ))}
         </TableBody>
       </Table>
-      {items.length === 0 && (
+      {transactions.length === 0 && (
         <Box
           sx={{
             display: "flex",

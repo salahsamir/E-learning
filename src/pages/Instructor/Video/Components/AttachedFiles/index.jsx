@@ -4,26 +4,7 @@ import React from "react";
 import AttachedItem from "./AttachedItem";
 import AddButton from "./AddButton";
 
-const Attached = () => {
-  const attachedFiles = [
-    {
-      id: 1,
-      type: "PDF",
-      name: "File Name",
-      size: "50MB",
-    },
-    {
-      id: 2,
-      type: "RAR",
-      name: "File 12",
-      size: "70MB",
-    },
-    {
-      id: 3,
-      type: "URL",
-      name: "File 13",
-    },
-  ];
+const AttachedFiles = ({ attachedFiles }) => {
   return (
     <Box>
       {/* Header */}
@@ -39,11 +20,11 @@ const Attached = () => {
       {/* Attached Files Box */}
       <Grid2 container spacing="16px">
         {attachedFiles.map((item) => (
-          <AttachedItem item={item} key={item.id} />
+          <AttachedItem item={item} key={item._id} />
         ))}
       </Grid2>
     </Box>
   );
 };
 
-export default Attached;
+export default AttachedFiles;

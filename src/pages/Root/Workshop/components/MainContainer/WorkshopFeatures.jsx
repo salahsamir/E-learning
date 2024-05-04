@@ -35,28 +35,46 @@ const Item = ({ icon, title, value }) => {
           }}
         >
           {icon}
-          {value}
+          {value || "unkown"}
         </Typography>
       </Box>
     </Grid2>
   );
 };
-const WorkshopFeatures = () => {
+const WorkshopFeatures = ({ workshop }) => {
   return (
-    <Grid2 container spacing={2} mt={"16px"}>
+    <Grid2 container spacing={2} my={"16px"}>
       <Grid2 xs={12}>
         <Typography variant="h6" color="text.primary">
           Features
         </Typography>
       </Grid2>
-      <Item icon={<Event />} title={"Start Day"} value={"May, 28"} />
-      <Item icon={<AccessTime />} title={"Duration"} value={"8 Weeks"} />
+      <Item
+        icon={<Event />}
+        title={"Start Day"}
+        value={new Date(workshop.startDay)
+          .toLocaleString("en-us", {
+            month: "short",
+            day: "2-digit",
+          })
+          .split(" ")
+          .join(", ")}
+      />
+      <Item
+        icon={<AccessTime />}
+        title={"Duration"}
+        value={workshop.durationInWeek + " weeks"}
+      />
       <Item
         icon={<SignalCellularAltOutlined />}
         title={"Skill Level"}
-        value={"Beginner"}
+        value={workshop.level}
       />
-      <Item icon={<VisibilityOutlined />} title={"Views"} value={"12,620"} />
+      <Item
+        icon={<VisibilityOutlined />}
+        title={"Views"}
+        value={workshop.views}
+      />
     </Grid2>
   );
 };

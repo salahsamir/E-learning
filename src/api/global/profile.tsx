@@ -101,7 +101,7 @@ export function useDeleteAccount({ onSuccess, onError }: MutationFnProps = {}) {
   const navigate = useNavigate();
   const mutatation = useMutation({
     mutationFn: async () => {
-      const response = await axios.delete("user/delete");
+      const response = await axios.delete("user");
       return response.data;
     },
     onSuccess: (data) => {

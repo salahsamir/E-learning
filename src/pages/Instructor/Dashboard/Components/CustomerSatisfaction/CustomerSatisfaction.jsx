@@ -2,11 +2,11 @@ import { SentimentSatisfiedAlt } from "@mui/icons-material";
 import { Box, alpha, useTheme } from "@mui/material";
 import React from "react";
 import Chart from "react-apexcharts";
-const CustomerSatisfaction = () => {
+const CustomerSatisfaction = ({ percentage }) => {
   const theme = useTheme();
 
   const chartOptions = {
-    series: [90],
+    series: [(+percentage).toFixed(0)],
     colors: [theme.palette.primary.main],
     plotOptions: {
       radialBar: {

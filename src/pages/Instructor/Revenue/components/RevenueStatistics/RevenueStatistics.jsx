@@ -28,7 +28,11 @@ const RevenueStatistics = () => {
           Total Revenue
         </Typography>
         <Typography variant="h5" component="p" fontWeight="600">
-          {revenue?.totalRevenue || 0} EGP
+          {(revenue?.totalRevenue || 0).toLocaleString("en-us", {
+            notation: "compact",
+            maximumFractionDigits: 2,
+          })}{" "}
+          EGP
         </Typography>
         <Typography
           color="text.secondary"
@@ -49,7 +53,11 @@ const RevenueStatistics = () => {
             fontWeight="600"
             variant="body2"
           >
-            {revenue?.totalPaidOut || 0} EGP
+            {(revenue?.totalPaidOut || 0).toLocaleString("en-us", {
+              notation: "compact",
+              maximumFractionDigits: 2,
+            })}{" "}
+            EGP
           </Typography>
         </Typography>
       </Box>
@@ -68,7 +76,11 @@ const RevenueStatistics = () => {
             Current Balance
           </Typography>
           <Typography variant="h6" component="p" fontWeight="600">
-            {revenue?.currentBalance || 0} EGP
+            {(+revenue?.currentBalance || 0).toLocaleString("en-us", {
+              notation: "compact",
+              maximumFractionDigits: 2,
+            })}{" "}
+            EGP
           </Typography>
         </Box>
         <Box>

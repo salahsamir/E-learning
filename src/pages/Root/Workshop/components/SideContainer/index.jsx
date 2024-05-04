@@ -5,7 +5,7 @@ import RatingBox from "./RatingBox";
 import InstructorBox from "./InstructorBox";
 import PopularCourses from "./PopularCourses";
 
-const SideContainer = () => {
+const SideContainer = ({ workshop }) => {
   return (
     <Box
       sx={{
@@ -14,10 +14,10 @@ const SideContainer = () => {
         gap: "16px",
       }}
     >
-      <InfoBox />
-      <RatingBox />
-      <InstructorBox />
-      <PopularCourses />
+      <InfoBox info={{ price: workshop.price }} />
+      {/* <RatingBox /> */}
+      <InstructorBox instructor={workshop.instructor || {}} />
+      <PopularCourses category={workshop.categoryId?._id} />
     </Box>
   );
 };

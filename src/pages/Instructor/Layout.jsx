@@ -17,6 +17,7 @@ import UploadContextProvider from "./shared/context/upload-context.tsx";
 import BackgroundUpload from "./shared/Components/BackgroundUpload/BackgroundUpload";
 import Error401 from "./Error/Error401.jsx";
 import NotificationPopup from "features/Notifications/NotificationPopup.jsx";
+import Footer from "Components/Footer/Footer.jsx";
 const drawerItems = [
   { text: "Dashboard", icon: <Dashboard />, url: "/instructor" },
   { text: "Courses", icon: <VideoLibrary />, url: "courses" },
@@ -54,6 +55,7 @@ function Layout() {
             display: "flex",
             flexDirection: "column",
             gap: "16px",
+            minHeight: "100vh",
           }}
         >
           <NavbarCompact
@@ -70,9 +72,12 @@ function Layout() {
           {localStorage.getItem("token") && (
             <>
               <BackgroundUpload />
-              <Outlet />
+              <Box flex="1">
+                <Outlet />
+              </Box>
             </>
           )}
+          <Footer />
         </Box>
       </Box>
     </>

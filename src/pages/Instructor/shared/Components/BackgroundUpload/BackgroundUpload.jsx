@@ -60,7 +60,7 @@ function BackgroundUpload() {
   useEffect(() => {
     if (uploadList.current) {
       startUploading(
-        uploadList.current.path + "?generateHLS=true&generateVtt=true",
+        uploadList.current.path,
         uploadList.current.method,
         uploadList.current.body
       );

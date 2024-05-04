@@ -16,7 +16,7 @@ import Chapter from "../pages/Chapters/Chapter.jsx";
 import Assignment from "../pages/Assignment/Assignment.jsx";
 // import Profile from "../page/Profile/Profile.jsx";
 import Profile from "../pages/Profile/Profile.jsx";
-import Loading from "../pages/Loading/Loading.jsx";
+import Loading from "../Components/LoadingSpinner/index.jsx";
 import InstructorLayout from "../pages/Instructor/Layout.jsx";
 import Setting from "../pages/Setting/Setting.jsx";
 import CourseDetails from "../pages/CourseDetails/CourseDetails.jsx";
@@ -27,6 +27,7 @@ import Settings from "../pages/Setting/Setting.jsx";
 // global routes
 const WorkshopsRoot = lazy(() => import("../pages/Root/Workshops/index.jsx"));
 const WorkshopRoot = lazy(() => import("../pages/Root/Workshop/index.jsx"));
+const Logout = lazy(() => import("../pages/Root/Logout/index.jsx"));
 
 // instructor routes
 const InstructorDashboard = lazy(() =>
@@ -70,7 +71,7 @@ const InstructorRevenue = lazy(() =>
 
 // student routes
 const StudentLayout = lazy(() => import("../pages/Student/Layout.jsx"));
-const StudentHome = lazy(() => import("../pages/Student/Home/Home.jsx"));
+const StudentHome = lazy(() => import("../pages/Student/Dashboard/index.jsx"));
 const UserSettings = lazy(() => import("../pages/Student/Settings/index.jsx"));
 const UserMessages = lazy(() => import("../pages/Student/Messages/index.jsx"));
 const StudentWorkshops = lazy(() =>
@@ -103,11 +104,18 @@ const router = createBrowserRouter([
       { path: "sendEmail", element: <SendEmail /> },
       { path: "sendCode", element: <ConfirmCode /> },
       { path: "updatePassword", element: <UpdatePasswordForm /> },
-
+      {
+        path: "logout",
+        element: (
+          <SuspenseWrapper>
+            <Logout />
+          </SuspenseWrapper>
+        ),
+      },
       // { path: "course/:id", element: <CoursesPage /> },
       { path: "course", element: <CoursesPage /> },
       { path: "assignment", element: <Assignment /> },
-      { path: "Chapter/:id", element: <Chapter/> },
+      { path: "Chapter/:id", element: <Chapter /> },
       { path: "profile", element: <Profile /> },
       { path: "setting", element: <Settings /> },
       { path: "course/:id", element: <CoursesPage /> },

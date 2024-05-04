@@ -5,6 +5,8 @@ import AvatarBox from "../AvatarBox";
 import styled from "@emotion/styled";
 import { FavoriteBorderOutlined, ShareOutlined } from "@mui/icons-material";
 import WorkshopFeatures from "./WorkshopFeatures";
+import Requirements from "./Requirements";
+import toast from "react-hot-toast";
 
 const TextButton = styled(Button)(({ theme }) => ({
   color: theme.palette.text.primary,
@@ -14,7 +16,12 @@ const TextButton = styled(Button)(({ theme }) => ({
     color: theme.palette.primary.light,
   },
 }));
-const MainContainer = () => {
+const MainContainer = ({ workshop }) => {
+  const instructor = workshop.instructor;
+  const handleShare = () => {
+    navigator.clipboard.writeText([window.location.href]);
+    toast.success("Link copied to clipboard successfully");
+  };
   return (
     <Box
       sx={{
@@ -23,7 +30,7 @@ const MainContainer = () => {
       }}
     >
       <Box borderRadius="16px" overflow="hidden">
-        <VideoPlayer src="https://www.youtube.com/watch?v=cljOD7vb2lk&ab_channel=Afforestt" />
+        <VideoPlayer src={workshop.promotionVideo?.url} />
       </Box>
       <Box
         display="flex"
@@ -31,12 +38,16 @@ const MainContainer = () => {
         alignItems="flex-start"
         my="16px"
       >
-        <AvatarBox />
+        <AvatarBox
+          name={instructor?.userName}
+          image={instructor?.profilePic?.url}
+          occupation={instructor?.occupation}
+        />
         <Box display="flex" alignItems="center" gap="4px">
           <TextButton variant="text">
-            <FavoriteBorderOutlined /> 982
+            <FavoriteBorderOutlined /> {workshop.likes || "unknown"}
           </TextButton>
-          <TextButton variant="text">
+          <TextButton variant="text" onClick={handleShare}>
             <ShareOutlined /> Share
           </TextButton>
         </Box>
@@ -45,23 +56,15 @@ const MainContainer = () => {
         <Typography variant="h6" color="text.primary" my="8px">
           Description
         </Typography>
-        <Typography variant="bod2" color="text.secondary">
-          Join this bestselling MongoDB course to learn all about this extremely
-          popular database and query language from the ground up, in great
-          detail and with many practical examples! - MongoDB is one of the most
-          important NoSQL databases you can work with. It's extremely popular
-          and MongoDB developers are in high demand! No matter if you're
-          building web applications, mobile applications or any other kind of
-          application or if you're a data scientist - you'll need to work with
-          data. Storing data, querying it efficiently and minimizing
-          complexities whilst optimizing performance are crucial tasks. MongoDB
-          makes working with data simple - it's built on a philosophy that
-          prioritizes performance and efficiency. In this course, you learn all
-          about MongoDB from scratch. No prior MongoDB or database experience is
-          required!
-        </Typography>
+        <Typography
+          variant="bod2"
+          color="text.secondary"
+          component={"div"}
+          dangerouslySetInnerHTML={{ __html: workshop.description }}
+        />
       </Box>
-      <WorkshopFeatures />
+      <WorkshopFeatures workshop={workshop} />
+      <Requirements requirements={workshop.requirements || []} />
     </Box>
   );
 };

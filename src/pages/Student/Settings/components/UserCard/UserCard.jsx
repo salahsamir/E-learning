@@ -34,7 +34,7 @@ const UserCard = () => {
           py="16px"
         >
           <Typography variant="body2">Finished Courses</Typography>
-          <Typography variant="body2">4</Typography>
+          <Typography variant="body2">0</Typography>
         </Box>
         <Divider />
         <Box
@@ -44,7 +44,7 @@ const UserCard = () => {
           py="16px"
         >
           <Typography variant="body2">Reward Points</Typography>
-          <Typography variant="body2">100</Typography>
+          <Typography variant="body2">0</Typography>
         </Box>
         <Divider />
         <Box
@@ -54,7 +54,7 @@ const UserCard = () => {
           py="16px"
         >
           <Typography variant="body2">badges earned</Typography>
-          <Typography variant="body2">5</Typography>
+          <Typography variant="body2">0</Typography>
         </Box>
       </Box>
       <Divider />

@@ -1,27 +1,34 @@
-import { Box, MenuItem, Select, Typography, useTheme } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import React from "react";
 import Chart from "react-apexcharts";
-const monthsNames = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
-function SalesChart() {
+const getLast30days = () => {
+  const days = Array.from({ length: 30 }).map((ele, index) => {
+    const date = new Date();
+    date.setDate(date.getDate() - index);
+    return date.toLocaleString("en-us", {
+      month: "short",
+      day: "2-digit",
+    });
+  });
+  days.reverse();
+  return days;
+};
+const getLast30daysSales = (data) => {
+  const sales = Array.from({ length: 30 }).map((ele, index) => {
+    const date = new Date();
+    date.setDate(date.getDate() - index);
+    return data[date.getDate()] || 0;
+  });
+  sales.reverse();
+  return sales;
+};
+function SalesChart({ data }) {
+  const sales = getLast30daysSales(data);
   const muitheme = useTheme();
-  const [choosenYear, setChoosenYear] = React.useState("2024");
   const series = [
     {
       name: "total sales",
-      data: [10, 20, 25, 30, 40, 50],
+      data: sales,
     },
   ];
   const options = {
@@ -58,7 +65,7 @@ function SalesChart() {
       lineCap: "round",
     },
     xaxis: {
-      categories: monthsNames,
+      categories: getLast30days(),
       axisBorder: {
         color: muitheme.palette.grey[500],
         strokeWidth: 4,
@@ -135,30 +142,9 @@ function SalesChart() {
         <Box>
           <Typography variant="h6">Sales</Typography>
           <Typography variant="body2" color="text.secondary">
-            +30% than last month
+            last 30 days sales
           </Typography>
         </Box>
-        <Select
-          sx={{ height: 30 }}
-          id="choosenYear"
-          value={choosenYear}
-          onChange={(event) => setChoosenYear(event.target.value)}
-          label="Year"
-          aria-label="Sales Year"
-          slotProps={{
-            input: { "aria-label": "Sales Year" },
-          }}
-        >
-          <MenuItem value="2024" aria-label="2024">
-            2024
-          </MenuItem>
-          <MenuItem value="2023" aria-label="2023">
-            2023
-          </MenuItem>
-          <MenuItem value="2022" aria-label="2022">
-            2022
-          </MenuItem>
-        </Select>
       </Box>
       <Chart series={series} type="bar" options={options} height={"300px"} />
     </Box>

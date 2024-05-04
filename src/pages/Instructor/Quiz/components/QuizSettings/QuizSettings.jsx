@@ -66,7 +66,7 @@ const QuizSettings = ({ data: quiz }) => {
       timeLimit: quiz?.timeLimit || 0,
       shuffleQuestions: quiz?.shuffleQuestions || false,
       shuffleAnswers: quiz?.shuffleAnswers || false,
-      showCorrectAnswer: quiz?.showCorrectAnswer || false,
+      allowedToReturn: quiz?.allowedToReturn || false,
       maxAttempts: quiz?.maxAttempts || 0,
       maxQuestionsInPage: quiz?.maxQuestionsInPage || 0,
       lockdown: quiz?.lockdown || false,
@@ -141,8 +141,8 @@ const QuizSettings = ({ data: quiz }) => {
               <CustomInput formik={formik} id="shuffleAnswers" type="switch">
                 Shuffle Answers
               </CustomInput>
-              <CustomInput formik={formik} id="showCorrectAnswer" type="switch">
-                Show Correct Answer
+              <CustomInput formik={formik} id="allowedToReturn" type="switch">
+                Instantaneous Results
               </CustomInput>
               <CustomInput formik={formik} id="maxAttempts" type="number">
                 Maximum quiz attempts

@@ -94,3 +94,72 @@ export function useReorderTopic({ onSuccess, onError }: MutationFnProps = {}) {
   });
   return mutation;
 }
+
+export function useAttachFile() {
+  const params = useGetParams();
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: async ({
+      getProgress,
+      file,
+    }: {
+      getProgress: (progress: Number) => void;
+      file: File;
+    }) => {
+      const formData = new FormData();
+      formData.append("resources", file);
+      const res = await axios.patch(
+        `course/${params[3]}/chapter/${params[2]}/curriculum/${params[0]}/resources`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          onUploadProgress(progressEvent) {
+            getProgress(progressEvent.progress);
+          },
+        }
+      );
+      return res.data;
+    },
+    onSuccess: (res, { file }) => {
+      const newResource = {
+        title: file.name,
+        size: file.size,
+        url: URL.createObjectURL(file),
+      };
+      queryClient.setQueryData([params[1], params[0]], (old: any) => {
+        return { ...old, resources: [newResource, ...old.resources] };
+      });
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
+  return mutation;
+}
+
+export function useDeleteAttachedFile() {
+  const params = useGetParams();
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: async ({ resourceId }: { resourceId: string }) => {
+      const res = await axios.delete(
+        `course/${params[3]}/chapter/${params[2]}/curriculum/${params[0]}/resources/${resourceId}`
+      );
+      return res;
+    },
+    onSuccess: (res, { resourceId }) => {
+      queryClient.setQueryData([params[1], params[0]], (old: any) => {
+        const newResources = old.resources.filter(
+          (ele) => ele._id !== resourceId
+        );
+        return { ...old, resources: newResources };
+      });
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
+  return mutation;
+}

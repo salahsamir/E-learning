@@ -2,8 +2,13 @@ import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import Course from "./Course";
 import { ChevronRight } from "@mui/icons-material";
+import { useGetPopularCoursesInCateg } from "api/global/recommendation.tsx";
 
 const PopularCourses = () => {
+  const { data: coursesList } = useGetPopularCoursesInCateg({
+    categoryId: "65ece04d661c66c97548d956",
+  });
+  console.log(coursesList);
   return (
     <Box
       sx={{
