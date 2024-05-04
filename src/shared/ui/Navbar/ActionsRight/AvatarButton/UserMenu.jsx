@@ -72,7 +72,7 @@ const listItems = [
   {
     title: "Sign Out",
     icon: <LogoutOutlined />,
-    url: "/signout",
+    url: "/logout",
   },
 ];
 function UserMenu() {

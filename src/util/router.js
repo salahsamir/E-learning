@@ -27,6 +27,7 @@ import Settings from "../pages/Setting/Setting.jsx";
 // global routes
 const WorkshopsRoot = lazy(() => import("../pages/Root/Workshops/index.jsx"));
 const WorkshopRoot = lazy(() => import("../pages/Root/Workshop/index.jsx"));
+const Logout = lazy(() => import("../pages/Root/Logout/index.jsx"));
 
 // instructor routes
 const InstructorDashboard = lazy(() =>
@@ -103,7 +104,14 @@ const router = createBrowserRouter([
       { path: "sendEmail", element: <SendEmail /> },
       { path: "sendCode", element: <ConfirmCode /> },
       { path: "updatePassword", element: <UpdatePasswordForm /> },
-
+      {
+        path: "logout",
+        element: (
+          <SuspenseWrapper>
+            <Logout />
+          </SuspenseWrapper>
+        ),
+      },
       // { path: "course/:id", element: <CoursesPage /> },
       { path: "course", element: <CoursesPage /> },
       { path: "assignment", element: <Assignment /> },
