@@ -1,66 +1,99 @@
-import { useContext } from 'react'
+import { Fragment, useContext } from 'react'
+import { Menu, Transition } from '@headlessui/react'
 
+import { Badge, Divider } from '@mui/material'
+import { Link } from 'react-router-dom'
 import { allContext } from 'Context/Context'
 
-import { useNavigate } from 'react-router-dom'
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
 
+export default function WishlistItems() {
+  const {wishlist}=useContext(allContext)
+  // console.log(cartdata);
+  let cartdata=[
+    {img:"https://source.unsplash.com/random",
+      name:"Reactjs+typescript+redux",
+      instructor:"john Deo",
+      price:"$100.00",
 
+    },
+    {img:"https://source.unsplash.com/random",
+    name:"Reactjs+typescript+redux",
+    instructor:"john Deo",
+    price:"$100.00",
 
-export default function Wishlist() {
-   let nav=useNavigate()
-   let {wishlistdata,RemoveFromWishlist}=useContext(allContext)
+  },
+  {img:"https://source.unsplash.com/random",
+  name:"Reactjs+typescript+redux",
+  instructor:"john Deo",
+  price:"$100.00",
+
+}
+  ]
   return (
-  <>
-
-   <div className="my-4">
-       <div className="flow-root">
-                          <ul role="list" className="-my-6 divide-y divide-gray-200">
-                            {wishlistdata.map((ele) => (
-                              <li key={ele._id} className="flex py-6">
-                                <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                  <img
-                                    src={ele.coverImageUrl}
-                                    alt={ele.title}
-                                    className="h-full w-full object-cover object-center"
-                                  />
-                                </div>
-
-                                <div className="ml-6 flex flex-1 flex-col">
-                                  <div onClick={()=>{nav(`/courseDetails/${ele._id}`)}}>
-                                    <div className="flex justify-between text-base font-medium text-white-700">
-                                      <div className='w-56'>
-                                      <h3>
-                                        <a >{ele.title}</a>
-                                      </h3>
-                                      </div>
-                                      <p className="ml-4">{ele.price}</p>
-                                    </div>
-                                  
-                                  </div>
-                                  <div className="flex flex-1 items-end justify-between text-sm">
-                                    
-
-                                    <div className="flex">
-                                      <button
-                                        type="button"
-                                        onClick={() => RemoveFromWishlist(ele._id)}
-                                        className="font-medium text-indigo-600 hover:text-indigo-500"
-                                      >
-                                        Remove
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
+    <Menu as="div" className="relative inline-block text-left ">
+      <div>
+      <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md  text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 ">
+      <Badge badgeContent={wishlist} color="primary">
+                    <div 
+                   
+                    className={classNames(
+                      'text-gray-300 hover:bg-gray-700   hover:text-white',
+                      'rounded-md  sm:px-2  text-sm font-medium'
+                    )}
                   
+                  >
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+        </svg>
+                  </div>
+                    </Badge>
+          
+        </Menu.Button>
+      
+      </div>
 
-                
-  
-  
-  </>
+      <Transition
+        as={Fragment}
+        enter="transition ease-out duration-100"
+        enterFrom="transform opacity-0 scale-95"
+        enterTo="transform opacity-100 scale-100"
+        leave="transition ease-in duration-75"
+        leaveFrom="transform opacity-100 scale-100"
+        leaveTo="transform opacity-0 scale-95"
+      >
+        <Menu.Items className="absolute right-0 z-10 mt-2 w-80 p-2 origin-top-right rounded-md bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <div className="py-1">
+          
+            {cartdata?.map((ele, index) => (
+  <div key={index}>
+    <Menu.Item>
+      <div className='shadow-lg p-2'>
+      <div className='flex gap-x-2 py-2 '>
+        <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+          <img src={ele.img} alt="Random" className="h-20 w-20 flex-1 rounded-md object-cover object-center" />
+        </div>
+        <div className='flex-2'>
+          <p className="text-md font-medium text-slate-200 m-0">{ele.name}</p>
+          <p className="text-md font-medium text-slate-500 py-1 m-0">{ele.instructor}</p>
+            <p className="text-sm font-medium text-slate-300 py-1 m-0">{ele.price}</p>
+        </div>
+      </div>
+          <button className="text-md rounded-lg m-auto border border-slate-50 text-slate-100 hover:bg-green-600 w-full   py-1 hover:text-slate-200 cursor-pointer ">Add to cart</button>
+      
+      </div>
+    </Menu.Item>
+    {index < cartdata.length - 1 && <Divider style={{ margin: "5px", backgroundColor: "white" }} />}
+
+  </div>
+))}
+            
+
+          </div>
+        </Menu.Items>
+      </Transition>
+    </Menu>
   )
 }
