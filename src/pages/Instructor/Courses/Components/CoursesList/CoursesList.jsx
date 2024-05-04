@@ -18,7 +18,7 @@ const headCells = [
   {
     id: "videoCount",
     disablePadding: false,
-    label: "Video Count",
+    label: "Total Content",
   },
   {
     id: "studentCount",
@@ -74,8 +74,8 @@ function CoursesList({
       item._id,
       item.title,
       item.videoCount || 0,
-      item.studentCount || 0,
-      item.rating || 0,
+      item.numberOfStudents || 0,
+      (+item.rating).toFixed(1) || 0,
       item.status || "Draft"
     );
   });

@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React from "react";
 import { Helmet } from "react-helmet";
 import { useGetVideo } from "api/instructor/video.tsx";
@@ -6,9 +6,11 @@ import NavigationHeader from "./Components/NavigationHeader/NavigationHeader";
 import VideoPlayer from "features/VideoPlayer/index.tsx";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import VideoTabs from "./Components/VideoTabs";
+import LoadingSpinner from "Components/LoadingSpinner";
+import ErrorBox from "Components/ErrorBox";
 
 function Video() {
-  const { data: video, isLoading: loadingVideo } = useGetVideo();
+  const { data: video, isLoading: loadingVideo, isError } = useGetVideo();
   return (
     <>
       <Helmet>
@@ -36,7 +38,9 @@ function Video() {
           }}
         >
           {loadingVideo ? (
-            <CircularProgress />
+            <LoadingSpinner />
+          ) : isError ? (
+            <ErrorBox />
           ) : (
             <Grid2 container width={{ xs: "100%", md: "70%" }}>
               <Grid2

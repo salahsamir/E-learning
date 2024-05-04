@@ -47,3 +47,53 @@ export function useUpdateVideo({ onSuccess, onError }: MutationFnProps = {}) {
   });
   return mutation;
 }
+
+export function useUploadSubtitle() {
+  const params = useGetParams();
+  const mutation = useMutation({
+    mutationFn: async ({
+      data,
+      getProgress,
+    }: {
+      data: any;
+      getProgress?: (progress: number) => void;
+    }) => {
+      const res = await axios.patch(
+        `course/${params[3]}/chapter/${params[2]}/curriculum/${params[0]}/video?upload=subtitles`,
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          onUploadProgress: (event) => {
+            getProgress && getProgress(event.progress);
+          },
+        }
+      );
+      return res.data;
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
+  return mutation;
+}
+
+export function useDeleteVideoSubtitle() {
+  const params = useGetParams();
+  const mutation = useMutation({
+    mutationFn: async ({ subtitleId }: { subtitleId: string }) => {
+      const res = await axios.patch(
+        `course/${params[3]}/chapter/${params[2]}/curriculum/${params[0]}/video?delete=subtitles`,
+        {
+          subtitlesId: subtitleId,
+        }
+      );
+      return res.data;
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
+  return mutation;
+}

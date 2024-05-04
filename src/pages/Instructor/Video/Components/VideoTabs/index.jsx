@@ -1,16 +1,17 @@
 import { Box, Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 import DetailsTab from "./Details";
-import Attached from "./Attached";
+import AttachedFiles from "../AttachedFiles";
+import Subtitles from "./Subtitles";
 
 const VideoTabs = ({ video }) => {
   const [currentTab, setCurrentTab] = useState("Details");
   const tabs = {
     Details: <DetailsTab video={video} />,
-    Questions: "Questions",
-    Comments: "Comments",
-    Attached: <Attached />,
-    Subtitles: "Subtitles",
+    // Questions: "Questions",
+    // Comments: "Comments",
+    Attached: <AttachedFiles attachedFiles={video.resources || []} />,
+    Subtitles: <Subtitles subtitles={video.subtitles || []} />,
   };
   return (
     <Box

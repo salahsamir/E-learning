@@ -94,3 +94,53 @@ export function useReorderTopic({ onSuccess, onError }: MutationFnProps = {}) {
   });
   return mutation;
 }
+
+export function useAttachFile() {
+  const params = useGetParams();
+  const mutation = useMutation({
+    mutationFn: async ({
+      getProgress,
+      data,
+    }: {
+      getProgress: (progress: Number) => void;
+      data: any;
+    }) => {
+      const res = await axios.patch(
+        `course/${params[3]}/chapter/${params[2]}/curriculum/${params[0]}/resources`,
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          onUploadProgress(progressEvent) {
+            getProgress(progressEvent.progress);
+          },
+        }
+      );
+      return res.data;
+    },
+    onSuccess: (res) => {
+      console.log(res);
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
+  return mutation;
+}
+
+export function useDeleteAttachedFile() {
+  const params = useGetParams();
+  const mutation = useMutation({
+    mutationFn: async ({ resourceId }: { resourceId: string }) => {
+      const res = await axios.delete(
+        `course/${params[3]}/chapter/${params[2]}/curriculum/${params[0]}/resources/${resourceId}`
+      );
+      return res;
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
+  return mutation;
+}
