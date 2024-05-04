@@ -1,14 +1,15 @@
 import { Fragment, useContext, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Badge, Button, IconButton, InputBase, Paper, Typography } from '@mui/material'
+import { Bars3Icon,  XMarkIcon } from '@heroicons/react/24/outline'
+import { Badge, Button, InputBase, Paper, Typography } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 import { useThemeContext } from 'Context/theme-context.tsx'
-import { DarkModeOutlined, LightModeOutlined } from '@mui/icons-material'
+
 import { allContext } from 'Context/Context'
 import CartItems from './CartItems'
-import Items from './Items'
+
 import CoursesOpetion from './CoursesOpetion'
+import WishlistItems from './Wishlist'
 
 
 function classNames(...classes) {
@@ -19,7 +20,7 @@ export default function Nav() {
     const auth=localStorage.getItem("token")
     const [searchQuery, setSearchQuery] = useState(""); 
     const { theme: themeMode, toggleTheme } = useThemeContext();
-    const { image, wishlist, cart } =
+    const { image } =
     useContext(allContext);
   
     const navigation = [
@@ -27,22 +28,7 @@ export default function Nav() {
       
       ]
       
-      const Icons = [
-          {name:'Notefications', num:0, href: '/',icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
-        </svg> 
-          
-         },
-          {name:'Cart', num:cart,href: '/', icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-        </svg>
-         },
-          {name:'WishList',num:wishlist,  href: '/',icon:<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-        </svg>
-         }
-         
-        ]
+    
       const Auth=[
           {name:'Login',href:'/signin'},
           {name:'Register',href:'/signup'},
@@ -145,7 +131,7 @@ export default function Nav() {
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
              
              
-              <IconButton
+              {/* <IconButton
           
           aria-label="theme mode"
           onClick={() => toggleTheme()}
@@ -162,30 +148,36 @@ export default function Nav() {
         </svg>
         
           )}
-        </IconButton>
-       
+        </IconButton> */}
+         
     
               {auth?
                  <>
                   <div className="hidden sm:ml-4 sm:block " >
-                    <div className="flex">
-                    {Icons.map((item) => (
-                    <Badge badgeContent={item.num} color="primary">
+                    <div className="flex gap-1">
+                   
+                     <CartItems />
+                     <WishlistItems />
+                     <Badge badgeContent={1} color="primary">
                     <Link
-                    onClick={() => {ToggleFunc(item.name)}}
-                    key={item.icon}
+                   
+                    key='notefication'
                     className={classNames(
                       'text-gray-300 hover:bg-gray-700   hover:text-white',
                       'rounded-md  sm:px-2  text-sm font-medium'
                     )}
                   
                   >
-                    {item.icon}
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+        </svg>
                   </Link>
                     </Badge>
-                    ))}
+                 
+                    
+                   
                     </div>
-                    {isOpen && <Items icon={icon} />}
+                    {isOpen}
                     </div>
                       <Menu as="div" className="relative ml-3">
                       <div>
@@ -194,9 +186,8 @@ export default function Nav() {
                           <span className="sr-only">Open user menu</span>
                           <img
                             className="h-8 w-8 rounded-full"
-                            // src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            // alt=""
-                            src={image}
+                            
+                            src='https://source.unsplash.com/random'
                           />
                         </Menu.Button>
                       </div>
@@ -214,9 +205,12 @@ export default function Nav() {
                             {({ active }) => (
                               <Link
                                 to='/profile'
-                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                className={classNames(active ? 'bg-gray-100' : '', ' px-4 py-2 text-sm flex text-gray-700')}
                               >
-                                Your Profile
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-2">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+</svg>
+    Your Profile
                               </Link>
                             )}
                           </Menu.Item>
@@ -224,9 +218,28 @@ export default function Nav() {
                             {({ active }) => (
                               <Link
                                 to='/mycourse'
-                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                className={classNames(active ? 'bg-gray-100' : '', 'flex px-4 py-2 text-sm text-gray-700')}
                               >
-                                My Cources
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+</svg>
+
+                                My Courses
+                              </Link>
+                            )}
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <Link
+                                to='/mycourse'
+                                className={classNames(active ? 'bg-gray-100' : '', 'flex px-4 py-2 text-sm text-gray-700')}
+                              >
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
+</svg>
+
+
+Certification
                               </Link>
                             )}
                           </Menu.Item>
@@ -241,17 +254,7 @@ export default function Nav() {
                             )}
                           </Menu.Item>
                           <div className="border-t border-gray-200 px-4 py-1 sm:px-6"></div>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <Button
-                              
-                                onClick={()=>{signout()}}
-                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                              >
-                                Sign out
-                              </Button>
-                            )}
-                          </Menu.Item>
+                        
                         </Menu.Items>
                       </Transition>
                     </Menu>
