@@ -66,8 +66,8 @@ export default function CartItems() {
       >
         <Menu.Items className="absolute right-0 z-10 mt-2 w-80 p-2 origin-top-right rounded-md bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
-            <h4 className="text-md font-medium text-slate-50 pb-1">Shopping Cart</h4>
-            <Divider style={{ margin: "1px",paddingBottom: "1px", backgroundColor: "white" }} />
+            <h4 className="text-md font-medium text-slate-50 pb-2">Shopping Cart</h4>
+            <Divider style={{ margin: "4px", backgroundColor: "white" }} />
             {cartdata?.map((ele, index) => (
   <div key={index}>
     <Menu.Item>

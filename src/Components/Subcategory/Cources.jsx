@@ -13,11 +13,13 @@ export default function Cources({id}) {
     getAllCategory()
   },[])
    let nav=useNavigate()
+
   useEffect(() => {
     async function getAllCources(id) {
       try {
         const response = await axios.get(`${BaseApi}/course/category/${id}/subCategory`);
         setCources(response.data.courses);
+      //  console.log(response.data.courses)
        
       } catch (error) {
         console.log(error);
@@ -32,16 +34,12 @@ export default function Cources({id}) {
       console.log(err)
     })
     setCources(response.data.courses)
+   
     
      
    
   };
-  let GetReverceCources=async()=>{
-   // Create a copy of the current state array before reversing it
-  const reversedCources = [...cources].reverse();
-  // Update the state with the reversed array
-  setCources(reversedCources);
-   }
+ 
   return (
     <div className="container">
      
