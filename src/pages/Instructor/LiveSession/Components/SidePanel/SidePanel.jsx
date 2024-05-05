@@ -2,10 +2,11 @@ import { Box, IconButton, SvgIcon } from "@mui/material";
 import { useState } from "react";
 import { ReactComponent as MessageSvg } from "./assets/message.svg";
 import { ReactComponent as GroupSvg } from "./assets/group.svg";
-import { ReactComponent as LinkSvg } from "./assets/link.svg";
 import LiveChat from "../LiveChat/LiveChat";
 import ParticipantsPanel from "../ParticipantsPanel/ParticipantsPanel";
 import { useChat } from "@livekit/components-react";
+import { Settings } from "@mui/icons-material";
+import SessionSettings from "../SessionSettings";
 const IconButtonModified = ({ icon, active = false, onClick }) => {
   return (
     <IconButton
@@ -58,7 +59,7 @@ function SidePanel() {
           onClick={() => setCurrentActive("participants")}
         />
         <IconButtonModified
-          icon={<LinkSvg />}
+          icon={<Settings />}
           active={currentActive === "options"}
           onClick={() => setCurrentActive("options")}
         />
@@ -76,7 +77,7 @@ function SidePanel() {
       >
         {currentActive === "chat" && <LiveChat liveChat={liveChat} />}
         {currentActive === "participants" && <ParticipantsPanel />}
-        {currentActive === "options" && <div>Options</div>}
+        {currentActive === "options" && <SessionSettings />}
       </Box>
     </>
   );

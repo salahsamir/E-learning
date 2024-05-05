@@ -6,8 +6,8 @@ import {
 
 const ConnectionIndicator = styled(ConnectionQualityIndicator)(({ theme }) => ({
   position: "absolute",
-  top: 8,
-  left: 8,
+  top: 16,
+  left: 16,
   zIndex: 100,
   "&[data-lk-quality=excellent] svg path": {
     fill: theme.palette.primary.main,

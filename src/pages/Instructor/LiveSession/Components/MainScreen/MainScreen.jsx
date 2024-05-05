@@ -8,7 +8,6 @@ import { useRoomContext } from "../../context/room-ctx";
 import FocusLayout from "./FocusLayout";
 import { useRef, useState } from "react";
 import ConnectionQuality from "./ConnectionQuality";
-import FullScreenBtn from "./FullScreenBtn";
 function MainScreen() {
   const { focusedParticipant } = useRoomContext();
   const [showFullScreen, setShowFullScreen] = useState(false);
@@ -43,9 +42,8 @@ function MainScreen() {
         ) : (
           <ParticipantsGrid />
         )}
-        <StreamController />
+        <StreamController toggleFullScreen={toggleFullScreen} />
         <CurrentStreamBox />
-        <FullScreenBtn toggleFullScreen={toggleFullScreen} />
         <ConnectionQuality />
       </Box>
     </>
