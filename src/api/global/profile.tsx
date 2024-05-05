@@ -106,8 +106,10 @@ export function useDeleteAccount({ onSuccess, onError }: MutationFnProps = {}) {
     },
     onSuccess: (data) => {
       onSuccess(data);
-      localStorage.removeItem("token");
-      navigate("/");
+      toast.success(
+        "Account was deleted successfully. Note that you have 30 days to restore your account."
+      );
+      navigate("/logout");
     },
     onError,
   });

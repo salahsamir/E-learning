@@ -5,25 +5,25 @@ const LatestTransactions = () => {
   const transactions = [
     {
       id: 1,
-      date: "2021-10-10",
+      date: "2024-05-05",
       amount: 100,
       status: "pending",
     },
     {
       id: 2,
-      date: "2021-10-11",
+      date: "2024-05-01",
       amount: 200,
       status: "completed",
     },
     {
       id: 3,
-      date: "2021-10-12",
+      date: "2024-04-30",
       amount: 300,
       status: "pending",
     },
     {
       id: 4,
-      date: "2021-10-13",
+      date: "2024-04-20",
       amount: 400,
       status: "error",
     },

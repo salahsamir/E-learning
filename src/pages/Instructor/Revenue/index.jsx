@@ -11,6 +11,7 @@ import { useGetRevenue } from "api/instructor/revenue.tsx";
 import { Helmet } from "react-helmet";
 import ErrorBox from "Components/ErrorBox";
 import LoadingSpinner from "Components/LoadingSpinner";
+import TotalSales from "./components/TotalSales";
 
 const Revenue = () => {
   const { data: revenue, isLoading, isError } = useGetRevenue();
@@ -34,7 +35,7 @@ const Revenue = () => {
               flexDirection="column"
               gap="16px"
             >
-              <RevenueChart revenueArray={revenue?.revenuePerDay || {}} />
+              <RevenueChart revenueArray={revenue.revenuePerDay || {}} />
               <CoursesRevenue />
             </Grid2>
             <Grid2
@@ -44,8 +45,8 @@ const Revenue = () => {
               flexDirection="column"
               gap="16px"
             >
-              <SuccessfulOrders />
-              <SuccessfulOrders />
+              <TotalSales value={revenue.totalNumberOfStudents || 0} />
+              <SuccessfulOrders percentage={revenue.successRate || 0} />
               <LatestTransactions />
               <CountriesChart />
             </Grid2>

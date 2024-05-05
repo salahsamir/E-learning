@@ -6,7 +6,7 @@ import Chart from "react-apexcharts";
 const CountriesChart = () => {
   const theme = useTheme();
   const options = {
-    series: [67, 13, 20, 40, 14, 48],
+    series: [80, 20],
     labels: ["Egypt", "USA", "Germany", "India", "China", "Others"],
     plotOptions: {
       pie: {
@@ -15,7 +15,7 @@ const CountriesChart = () => {
         },
       },
     },
-    colors: ["#DAB149", "#DA4949", "#53A7CA", "#76885b", "#673f69", "#7e6363"],
+    colors: ["#DA4949", "#DAB149", "#53A7CA", "#76885b", "#673f69", "#7e6363"],
     stroke: {
       colors: [theme.palette.background.paper],
     },
