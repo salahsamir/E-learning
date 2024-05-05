@@ -42,7 +42,7 @@ function LiveSessions() {
             autoSubscribe: true,
             dominantSpeaker: true,
             adaptiveStream: true,
-            publishDefaults: { videoCodec: "h264" },
+            publishDefaults: { videoCodec: "av1" },
           }}
         >
           <RoomContextProvider>
