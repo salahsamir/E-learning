@@ -118,7 +118,7 @@ const router = createBrowserRouter([
       { path: "Chapter/:id", element: <Chapter /> },
       { path: "profile", element: <Profile /> },
       { path: "setting", element: <Settings /> },
-      { path: "course/:id", element: <CoursesPage /> },
+      { path: "courses", element: <CoursesPage /> },
       { path: "assignment", element: <Assignment /> },
       { path: "Chapter/:id", element: <Chapter /> },
       { path: "profile", element: <Profile /> },

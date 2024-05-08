@@ -8,7 +8,7 @@ import { useThemeContext } from 'Context/theme-context.tsx'
 import { allContext } from 'Context/Context'
 import CartItems from './CartItems'
 
-import CoursesOpetion from './CoursesOpetion'
+
 import WishlistItems from './Wishlist'
 
 
@@ -98,7 +98,7 @@ export default function Nav() {
                         {item.name}
                       </Link>
                     ))}
-                    <CoursesOpetion />
+                    <button onClick={()=>{nav('/courses')}}>Courses</button>
                 <div  >
                 <Paper
      
