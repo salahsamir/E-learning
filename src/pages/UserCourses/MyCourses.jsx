@@ -16,15 +16,20 @@ export default function MyCourses() {
     let nav=useNavigate()
   let { course } = useContext(allContext);
 
- 
+  console.log(course);
+
 
   return (
    <Fragment>
-  <div className="container py-2 mt-2">
+  {course.length?
+  <>
+  {course.map((ele)=>{
+    return(
+      <div className="container py-2 mt-2">
     <Typography variant="h6" py={1} color={"primary"} >Recent Enrolled Course </Typography>
-    <div className="grid grid-cols-4 gap-3 py-3">
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 py-3">
          {course?.map((ele) => (
-           <div key={ele._id} onClick={() => nav(`/Chapter/${ele._id}`)} className=" rounded-lg shadow-md cursor-pointer" >
+           <div key={ele._id} onClick={() => nav(`/Chapter/${ele._id}`)} className=" rounded-lg shadow-md cursor-pointer hover:scale-105" >
              <img src={ele.coverImageUrl} alt={ele.title} className="w-full h-40 object-cover rounded-lg" />
             <div className="content px-2">
             <p className="text-gray-500 pt-1 " style={{fontSize:"14px"}}>ACourse By john Deo </p>
@@ -50,6 +55,12 @@ export default function MyCourses() {
         
         </div>  
   </div>
+    )
+  })}
+  
+  </>
+:""
+  }
    </Fragment>
 
     

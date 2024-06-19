@@ -201,3 +201,18 @@ h2 {
     box-shadow: 0.2em -0.2em 0 0 currentcolor;
   }
 }
+
+/* SectionCourses.css */
+.slider-container .slick-slide {
+  transition: transform 0.3s ease;
+}
+
+.slider-container .center-slide {
+  transform: scale(1.4); /* Scale up the center slide */
+}
+
+.slick-slide h3 {
+  background: #181717;
+  /* padding: 30px; */
+  text-align: center;
+}

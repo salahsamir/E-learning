@@ -1,13 +1,31 @@
 import { Rating } from '@mui/material';
-import ChapterContent from 'Components/Chapters/Chapter';
-import React from 'react'
+import ChapterContent from '../../Components/Chapters/Chapter';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
+import { BaseApi } from 'util/BaseApi';
 
 export default function Chapter() {
   const { id } = useParams();
+  let [course,setCourse]=useState()
+  let [chapter,setchapter]=useState()
+
   let nav=useNavigate()
+  let GetCourses=async()=>{
+    let {data} = await axios.get(`${BaseApi}/course/${id}/chapter`);
+    if(data.message=="Done"){
+     
+      setCourse(data.course)
+      setchapter(data.chapters)
+    }
+    
+  }
+  useEffect(()=>{
+    GetCourses()
+  },[])
   return (
     <>
+  {course?
    <div className="container my-2">
    <div className="header py-3">
     <div className="img relative">
@@ -15,7 +33,7 @@ export default function Chapter() {
     <div className=" absolute h-full w-full top-0 bg-gray-900 bg-opacity-60 flex justify-center items-center">
    <div className="">
    <h2 className=" text-1xl text-gray-300 ">Dr john Deo</h2>
-   <h2 className=" text-3xl text-gray-100 ">React js course</h2>
+   <h2 className=" text-3xl text-gray-100 ">{course?.title}</h2>
       <p className=" text-1xl text-gray-300 ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore esse suscipit cum perspiciatis sapiente voluptate.</p>
       <div className="info flex whitespace-normal">
        <div className="level flex">
@@ -53,7 +71,7 @@ export default function Chapter() {
         Courses Overview
       </h3>
       <p className='text-gray-400'>9 sections - 21 lecture - 5h 30m</p>
-        <ChapterContent/>
+        <ChapterContent chapter={chapter}/>
       </div>
       <div className=''>
           <div className=" instructor p-3 rounded-md shadow-md">
@@ -108,7 +126,11 @@ export default function Chapter() {
       </div>
     
    </div>
+
     
+    :""
+
+  }
     
     
     

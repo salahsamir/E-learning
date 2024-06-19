@@ -12,7 +12,7 @@ import SendEmail from "../pages/Forget_password/SendEmail/SendEmail.jsx";
 import NotFound from "../pages/NotFound/NotFound.jsx";
 import CoursesPage from "../pages/SubCategory/CoursesPage.jsx";
 import Video from "../pages/Videos/Video.jsx";
-import Chapter from "../pages/Chapters/Chapter.jsx";
+// import Chapter from "../pages/Chapters/Chapter.js";
 import Assignment from "../pages/Assignment/Assignment.jsx";
 // import Profile from "../page/Profile/Profile.jsx";
 import Profile from "../pages/Profile/Profile.jsx";
@@ -23,6 +23,7 @@ import CourseDetails from "../pages/CourseDetails/CourseDetails.jsx";
 import MyCourses from "../pages/UserCourses/MyCourses.jsx";
 import Search from "Components/Search/Search.jsx";
 import Settings from "../pages/Setting/Setting.jsx";
+import Chapter from "pages/Chapters/Chapter.jsx";
 
 // global routes
 const WorkshopsRoot = lazy(() => import("../pages/Root/Workshops/index.jsx"));

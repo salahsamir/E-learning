@@ -6,6 +6,7 @@ import axios from 'axios'
 import { BaseApi } from 'util/BaseApi'
 import HtmlText from './../../util/HtmlText'
 import { allContext } from 'Context/Context'
+import { log } from '@livekit/components-core'
 
 export default function CourseDetail({id}) {
   let {AddToWishlist,AddToCart}=useContext(allContext)
@@ -29,6 +30,23 @@ export default function CourseDetail({id}) {
       getDate();
     }, []);
 
+    let [coupon,setCoupon]=useState({
+      coupon:""
+    })
+    let handelChange=async(e)=>{
+      setCoupon({...coupon,[e.target.name]:e.target.value})
+      
+          // const response = await axios.patch(`${BaseApi}/cart/${id}?type=workshop&coupon=${coupon.coupon}`, {}, { headers });
+    }
+    let handelSubmit=async(e)=>{
+      e.preventDefault()
+       await axios.patch(`${BaseApi}/cart/${id}?type=workshop&coupon=${coupon.coupon}`, {}, { headers }).then((res)=>{
+        console.log(res)
+       })
+       .catch((err)=>console.log(err))
+      
+    }
+
   return (
     <>
     {course.length!==0?
@@ -42,9 +60,9 @@ export default function CourseDetail({id}) {
   <div className="instractor flex justify-between mt-2">
     <div className='flex '>
       
-<img class="rounded-full w-20 h-20" src={course.createdBy.profilePic.url} alt="image description"/>
+{/* <img class="rounded-full w-20 h-20" src={course.createdBy.profilePic?.url} alt="image description"/> */}
   <div className="flex flex-col mx-2">
-  <Typography color={'primary'} variant={'p'} className=" text-2xl  tracking-tight mx-2">{course.createdBy.userName}</Typography>
+  {/* <Typography color={'primary'} variant={'p'} className=" text-2xl  tracking-tight mx-2">{course.createdBy.userName}</Typography> */}
   {/* <Typography color={'thrid'} variant={'p'} className="  tracking-tight text-1xl">{course.instructor.work}</Typography> */}
   </div>
     </div>
@@ -163,16 +181,16 @@ export default function CourseDetail({id}) {
 
 </Button>
 <div className="AddToCart mt-2">
-<div class="flex mt-2 w-full ">
+<form class="flex mt-2 w-full ">
  
  
-  <input type="text" id="website-admin" class="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Coupon"/>
+  <input type="text" id="coupon" onChange={handelChange} name="coupon" class="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Coupon"/>
  
   
-  <Button variant="contained" className="ms-2">Apply
+  <Button variant="contained" className="ms-2" onClick={handelSubmit}>Apply
 </Button>
 
-</div>
+</form>
 
 </div>
             </div>

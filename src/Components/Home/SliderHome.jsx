@@ -1,4 +1,5 @@
 
+
 const stats = [
   { name: 'Offices worldwide', value: '12' },
   { name: 'Full-time colleagues', value: '300+' },
@@ -6,7 +7,10 @@ const stats = [
   { name: 'Paid time off', value: 'Unlimited' },
 ]
 
+
+
 export default function SliderHome() {
+ ;
   return (
     <div className="relative isolate overflow-hidden bg-gray-900 py-24 sm:py-32">
       <img
@@ -41,6 +45,7 @@ export default function SliderHome() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:mx-0">
           <h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">Learn with us</h2>
+          
           <p className="mt-6 text-lg leading-8 text-gray-300">
             Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet
             fugiat veniam occaecat fugiat aliqua.

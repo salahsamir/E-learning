@@ -1,5 +1,7 @@
 import { Divider } from '@mui/material';
-import { useState } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { BaseApi } from 'util/BaseApi';
 
 const data = [
   {
@@ -16,12 +18,13 @@ const data = [
   },
 ];
 
-export default function ChapterContent() {
+export default function ChapterContent({chapter}) {
   const [activeAccordion, setActiveAccordion] = useState(null);
-
+  
   const toggleAccordion = (index) => {
     setActiveAccordion(activeAccordion === index ? null : index);
   };
+  // console.log(chapter)
 
   return (
     <div id="accordion-collapse" data-accordion="collapse">

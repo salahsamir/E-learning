@@ -61,7 +61,7 @@ const posts = [
         <div className="mx-auto  px-6 lg:px-8">
           <div className="mx-auto  lg:mx-0">
             <Typography color={"primary"} variant={"h2"} className="text-3xl font-bold tracking-tight sm:text-4xl">From the blog</Typography>
-            <p className="mt-2 text-lg leading-8 text-gray-600">
+            <p className="mt-2 text-lg leading-8 text-gray-300">
               Learn how to grow your business with our expert advice.
             </p>
           </div>
@@ -69,7 +69,7 @@ const posts = [
             {posts.map((post) => (
               <article key={post.id} className="flex max-w-xl flex-col items-start justify-between">
                 <div className="flex items-center gap-x-4 text-xs">
-                  <time dateTime={post.datetime} className="text-gray-500">
+                  <time dateTime={post.datetime} className="text-gray-300">
                     {post.date}
                   </time>
                   <a
@@ -85,7 +85,7 @@ const posts = [
                       {post.title}
                    
                   </Typography>
-                  <p className="mt-3 line-clamp-3 text-sm leading-6 text-gray-600">{post.description}</p>
+                  <p className="mt-3 line-clamp-3 text-sm leading-6 text-gray-300">{post.description}</p>
                 </div>
                 <div className="relative mt-8 flex items-center gap-x-4">
                   <img src={post.author.imageUrl} alt="" className="h-10 w-10 rounded-full bg-gray-50" />
@@ -95,7 +95,7 @@ const posts = [
                         {post.author.name}
                      
                     </Typography>
-                    <p className="text-gray-600">{post.author.role}</p>
+                    <p className="text-gray-300">{post.author.role}</p>
                   </div>
                 </div>
               </article>
