@@ -4,9 +4,9 @@ import React from "react";
 import AttachedItem from "./AttachedItem";
 import AddButton from "./AddButton";
 
-const AttachedFiles = ({ attachedFiles }) => {
+const AttachedFiles = ({ attachedFiles, sx }) => {
   return (
-    <Box>
+    <Box sx={sx}>
       {/* Header */}
       <Box
         display="flex"

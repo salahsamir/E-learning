@@ -63,9 +63,12 @@ function Article() {
           <NavigationHeader data={article} />
           <Box
             sx={{
-              backgroundColor: (theme) => theme.palette.background.b1,
+              // backgroundColor: (theme) => theme.palette.background.b1,
               padding: "1em",
               borderRadius: "8px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "16px",
             }}
           >
             <TextField
@@ -76,7 +79,9 @@ function Article() {
               id="title"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              sx={{ mb: "1em" }}
+              sx={{
+                backgroundColor: "background.b1",
+              }}
             />
             <TextEditor
               sx={{ height: "500px" }}
@@ -85,7 +90,14 @@ function Article() {
               value={formik.values.quillContent}
               onChange={(value) => formik.setFieldValue("quillContent", value)}
             />
-            <AttachedFiles attachedFiles={[]} />
+            <AttachedFiles
+              attachedFiles={article.resources || []}
+              sx={{
+                backgroundColor: "background.b1",
+                borderRadius: "16px",
+                padding: "16px",
+              }}
+            />
           </Box>
         </Box>
       )}

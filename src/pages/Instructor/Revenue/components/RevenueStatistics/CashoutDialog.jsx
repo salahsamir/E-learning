@@ -111,11 +111,16 @@ const CashoutDialog = ({ open, setOpen, balance }) => {
             type="submit"
             loading={loadingWithdraw}
           >
-            Transfer {balance} EGP
+            Transfer{" "}
+            {balance.toLocaleString("en-us", {
+              notation: "compact",
+              maximumFractionDigits: 2,
+            })}{" "}
+            EGP
           </LoadingButton>
           <Typography variant="body2" color="text.secondary">
             Once you transfer the amount, it will be reflected in your Paypal
-            account within 24 hours.
+            account within 24 hours. Note that the website takes 30% fees.
           </Typography>
           <Typography variant="body2" color="text.secondary">
             You can't cancel the transfer once you initiate it.

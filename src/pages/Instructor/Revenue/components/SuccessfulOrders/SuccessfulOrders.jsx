@@ -8,8 +8,7 @@ import {
 } from "@mui/material";
 import React from "react";
 
-const SuccessfulOrders = () => {
-  const percentage = 70;
+const SuccessfulOrders = ({ percentage }) => {
   return (
     <Box
       sx={{

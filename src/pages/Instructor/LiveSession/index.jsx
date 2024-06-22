@@ -4,13 +4,18 @@ import IndicationCard from "./Components/IndicationCard/IndicationCard";
 import SidePanel from "./Components/SidePanel/SidePanel";
 import MainScreen from "./Components/MainScreen/MainScreen";
 import { LiveKitRoom } from "@livekit/components-react";
-import { Box, CircularProgress } from "@mui/material";
 import { useGetSession, useJoinSession } from "api/instructor/session-live.tsx";
 import { RoomContextProvider } from "./context/room-ctx";
+import LoadingSpinner from "Components/LoadingSpinner";
+import ErrorBox from "Components/ErrorBox";
 
 function LiveSessions() {
   const { data: eduRoom } = useGetSession();
-  const { data: token } = useJoinSession();
+  const {
+    data: token,
+    isLoading: loadingJoinSession,
+    isError: errorJoiningSession,
+  } = useJoinSession();
 
   // show warning before leaving the site
   useEffect(() => {
@@ -22,18 +27,11 @@ function LiveSessions() {
 
   return (
     <>
-      {!token && (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <CircularProgress />
-        </Box>
-      )}
-      {token && (
+      {loadingJoinSession ? (
+        <LoadingSpinner />
+      ) : errorJoiningSession ? (
+        <ErrorBox />
+      ) : (
         <LiveKitRoom
           token={token}
           serverUrl={process.env.REACT_APP_LIVEKIT_SERVER_URL}
@@ -44,6 +42,7 @@ function LiveSessions() {
             autoSubscribe: true,
             dominantSpeaker: true,
             adaptiveStream: true,
+            publishDefaults: { videoCodec: "vp9" },
           }}
         >
           <RoomContextProvider>

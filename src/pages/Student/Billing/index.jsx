@@ -21,7 +21,11 @@ const Billing = () => {
         <ErrorBox />
       ) : (
         <Box>
-          <BalanceCard />
+          <BalanceCard
+            spentAmount={billing.spent || 0}
+            balance={billing.currentBalance || 0}
+            points={billing.points || 0}
+          />
           <TransactionsTable transactions={billing.orders} />
         </Box>
       )}

@@ -1,10 +1,10 @@
-import { useLocalParticipant } from "@livekit/components-react";
+import { useLocalParticipant, useRoomContext } from "@livekit/components-react";
 import {
   BackHand,
   CallEnd,
+  Fullscreen,
   Mic,
   MicOff,
-  MoreHoriz,
   PushPin,
   ScreenShare,
   StopScreenShare,
@@ -13,16 +13,17 @@ import {
 } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
-function handleDisconnect() {
-  console.log("disconnected");
-}
 const iconStyle = {
   color: "white",
   height: { xs: "18px", sm: "24px" },
   width: { xs: "18px", sm: "24px" },
 };
-function StreamController() {
+function StreamController({ toggleFullScreen }) {
+  const room = useRoomContext();
+  const navigate = useNavigate();
   const {
     isCameraEnabled,
     isMicrophoneEnabled,
@@ -37,7 +38,11 @@ function StreamController() {
   const handleRaiseHand = () => {
     localParticipant.setMetadata(JSON.stringify({ raiseHand: !raiseHand }));
   };
-
+  function handleDisconnect() {
+    room.disconnect().then(() => {
+      navigate("/");
+    });
+  }
   return (
     <Box
       sx={{
@@ -86,7 +91,11 @@ function StreamController() {
         </IconButton>
         <IconButton
           onClick={() =>
-            localParticipant.setMicrophoneEnabled(!isMicrophoneEnabled)
+            localParticipant
+              .setMicrophoneEnabled(!isMicrophoneEnabled)
+              .catch((err) => {
+                toast.error(err.message);
+              })
           }
         >
           {isMicrophoneEnabled ? (
@@ -108,7 +117,11 @@ function StreamController() {
           <CallEnd sx={iconStyle} />
         </IconButton>
         <IconButton
-          onClick={() => localParticipant.setCameraEnabled(!isCameraEnabled)}
+          onClick={() =>
+            localParticipant.setCameraEnabled(!isCameraEnabled).catch((err) => {
+              toast.error(err.message);
+            })
+          }
         >
           {isCameraEnabled ? (
             <Videocam sx={iconStyle} />
@@ -118,7 +131,11 @@ function StreamController() {
         </IconButton>
         <IconButton
           onClick={() =>
-            localParticipant.setScreenShareEnabled(!isScreenShareEnabled)
+            localParticipant
+              .setScreenShareEnabled(!isScreenShareEnabled)
+              .catch((err) => {
+                toast.error(err.message);
+              })
           }
         >
           {isScreenShareEnabled ? (
@@ -129,8 +146,8 @@ function StreamController() {
         </IconButton>
       </Box>
       <Box>
-        <IconButton>
-          <MoreHoriz sx={iconStyle} />
+        <IconButton aria-label="fullscreen" onClick={toggleFullScreen}>
+          <Fullscreen sx={iconStyle} />
         </IconButton>
       </Box>
     </Box>
