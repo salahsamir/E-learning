@@ -1,8 +1,11 @@
 
 import axios from 'axios';
+import Articles from 'pages/Articles/Articles';
+
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { BaseApi } from 'util/BaseApi';
+import HtmlText from 'util/HtmlText';
 
 export default function Content() {
     const { id,chapter,curriculum ,curriculumTitle,chapterTitle} = useParams();
@@ -29,16 +32,22 @@ export default function Content() {
       fetchCourses();
     
     }, []);
-    console.log(content);
+    
   return (
-    <div>
+    <div className='container my-2  m-auto'>
         {
             content?
             <>
-            <div className="flex justify-center">
+            <div className="flex justify-center ">
           <h2 className='text-center text-1xl text-green-500  mb-3  cursor-pointer' onClick={()=>nav(`/chapter/${id}`)}>{chapterTitle}   ->   </h2>
           <h2 className='text-center text-1xl text-green-500  mb-3  cursor-pointer' onClick={()=>nav(`/curriculum/${id}/${chapter}/${chapterTitle}`)}>   {curriculumTitle}</h2>
           </div>
+          {/* <Articles article={content.quillContent} />
+           */}
+           <div className='text-start mt-2'>
+          <HtmlText description={content.quillContent} />
+         
+        </div>
             
             
             

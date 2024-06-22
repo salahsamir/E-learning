@@ -5,45 +5,20 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { BaseApi } from 'util/BaseApi';
 import HtmlText from 'util/HtmlText';
 
-export default function Articles() {
-    const { id,chapter,curriculum ,curriculumTitle,chapterTitle} = useParams();
-    const [article, setArticle] = useState();
+export default function Articles(props) {
    
-    const [activeAccordion, setActiveAccordion] = useState(null);
-    let nav=useNavigate()
-
-  
-    const fetchCourses = async () => {
-
-      const { data } = await axios.get(`${BaseApi}/course/${id}/chapter/${chapter}/curriculum/${curriculum}`,{
-        headers: {
-            token: localStorage.getItem("token"),
-        },
-      })
-      if (data.message === "Done") {
-       
-        setArticle(data.article);
-      }
-    };
-  
-    useEffect(() => {
-      fetchCourses();
-    
-    }, []);
+   console.log(props)
+   
   return (
     <div className='container my-2  m-auto'>
-        {article?
-        <div className=' m-auto'>
-          <div className="flex justify-center">
-          <h2 className='text-center text-1xl text-green-500  mb-3  cursor-pointer' onClick={()=>nav(`/chapter/${id}`)}>{chapterTitle}   ->   </h2>
-          <h2 className='text-center text-1xl text-green-500  mb-3  cursor-pointer' onClick={()=>nav(`/curriculum/${id}/${chapter}/${chapterTitle}`)}>   {curriculumTitle}</h2>
-          </div>
-          <HtmlText description={article.quillContent} />
-          {/* <Buttons bgColor='bg-green-500'>End</Buttons> */}
+        {/* {article?
+         <div className='text-start'>
+          <HtmlText description={article} />
+         
         </div>
 
 
-        :""
+        :"" */}
         }
     </div>
   )
