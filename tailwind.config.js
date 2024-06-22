@@ -6,7 +6,14 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        customGreen: '#007d53',
+      }
+    },
+    container:{
+      center: true
+    }
   },
   plugins: [
     require('@tailwindcss/aspect-ratio'),

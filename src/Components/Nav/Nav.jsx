@@ -2,14 +2,15 @@ import { Fragment, useContext, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon,  XMarkIcon } from '@heroicons/react/24/outline'
 import { Badge, Button, InputBase, Paper, Typography } from '@mui/material'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useThemeContext } from 'Context/theme-context.tsx'
 
 import { allContext } from 'Context/Context'
 import CartItems from './CartItems'
 
-import CoursesOpetion from './CoursesOpetion'
+
 import WishlistItems from './Wishlist'
+import Usermenu from './Usermenu'
 
 
 function classNames(...classes) {
@@ -18,14 +19,14 @@ function classNames(...classes) {
 
 export default function Nav() {
     const auth=localStorage.getItem("token")
+    const nav=useNavigate()
     const [searchQuery, setSearchQuery] = useState(""); 
     const { theme: themeMode, toggleTheme } = useThemeContext();
-    const { image } =
-    useContext(allContext);
+    const { image } =useContext(allContext);
   
     const navigation = [
-        { name: 'Home', href: '/', current: false },
-      
+        { name: 'Home', href: '/' },
+        { name: 'Courses', href: '/courses' },
       ]
       
     
@@ -34,7 +35,7 @@ export default function Nav() {
           {name:'Register',href:'/signup'},
       
       ]
-     let nav=useNavigate()
+    
      const [isOpen, setIsOpen] = useState(false)
      const [icon, seticon] = useState('')
 
@@ -53,11 +54,7 @@ export default function Nav() {
     setIsOpen(!isOpen) 
     seticon(item)
    }
-   let signout=()=>{
-    localStorage.removeItem('token')
-    // localStorage.removeItem('cart')
-    nav('/signin')
-   }
+   
   return (
     <Disclosure as="nav" className="bg-gray-900">
       {({ open }) => (
@@ -83,44 +80,32 @@ export default function Nav() {
                  <Typography variant="h5"  color={'primary.main'} >Eduvation</Typography>
                 </div>
                 <div className="hidden sm:ml-4 sm:block">
-                  <div className="flex  flex-row justify-between  space-x-4">
+                  <div className="flex  flex-row justify-between items-center  space-x-8">
                     {navigation.map((item) => (
                        
-                      <Link
+                      <NavLink
                         key={item.name}
                         to={item.href}
-                        className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'rounded-md px-3 py-2 text-sm font-medium'
-                        )}
-                        aria-current={item.current ? 'page' : undefined}
+                        className={({ isActive }) => (isActive ? 'text-white' : 'text-gray-300') + ' p-2 rounded-md  font-medium '}
                       >
                         {item.name}
-                      </Link>
+                      </NavLink>
                     ))}
-                    <CoursesOpetion />
-                <div  >
-                <Paper
-     
-     component="form"
-     onSubmit={(e) => { e.preventDefault(); handleSearchSubmit(); }} // Handle form submit
-     sx={{ alignItems: 'center',borderRadius: '15px',mx:10 }}
-   >
-   
-     <InputBase
-       sx={{ px:5 }}
-       placeholder="Search...."
-       inputProps={{ 'aria-label': 'search google maps', value: searchQuery, onChange: handleInputChange }}
-     />
- 
-     {/* <IconButton type="submit" aria-label="search">
-     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-  <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-</svg>
+                    
+                    <div className=''>
+    <Paper
+        component="form"
+        onSubmit={(e) => { e.preventDefault(); handleSearchSubmit(); }} // Handle form submit
+        sx={{ alignItems: 'center', borderRadius: '15px', mx: 10 }}
+    >
+        <InputBase
+            sx={{ px:'2rem'}}
+            placeholder="Search...."
+            inputProps={{ 'aria-label': 'search google maps', value: searchQuery, onChange: handleInputChange }}
+        />
+    </Paper>
 
-     </IconButton> */}
-   </Paper>
-                </div>
+</div>
 
                   </div>
               
@@ -179,124 +164,24 @@ export default function Nav() {
                     </div>
                     {isOpen}
                     </div>
-                      <Menu as="div" className="relative ml-3">
-                      <div>
-                        <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                          <span className="absolute -inset-1.5" />
-                          <span className="sr-only">Open user menu</span>
-                          <img
-                            className="h-8 w-8 rounded-full"
-                            
-                            src='https://source.unsplash.com/random'
-                          />
-                        </Menu.Button>
-                      </div>
-                      <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-100"
-                        enterFrom="transform opacity-0 scale-95"
-                        enterTo="transform opacity-100 scale-100"
-                        leave="transition ease-in duration-75"
-                        leaveFrom="transform opacity-100 scale-100"
-                        leaveTo="transform opacity-0 scale-95"
-                      >
-                        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                          <Menu.Item>
-                            {({ active }) => (
-                              <Link
-                                to='/profile'
-                                className={classNames(active ? 'bg-gray-100' : '', ' px-4 py-2 text-sm flex text-slate-50 hover:text-gray-900')}
-                              >
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-2">
-  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-</svg>
-    Your Profile
-                              </Link>
-                            )}
-                          </Menu.Item>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <Link
-                                to='/mycourse'
-                                className={classNames(active ? 'bg-gray-100' : '', 'flex px-4 py-2 text-sm text-slate-50 hover:text-gray-900')}
-                              >
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
-  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
-</svg>
-
-                                My Courses
-                              </Link>
-                            )}
-                          </Menu.Item>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <Link
-                                to='/mycourse'
-                                className={classNames(active ? 'bg-gray-100' : '', 'flex px-4 py-2 text-sm text-slate-50 hover:text-gray-900')}
-                              >
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
-  <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
-</svg>
-
-
-Certification
-                              </Link>
-                            )}
-                          </Menu.Item>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <Link
-                                to="/setting"
-                                className={classNames(active ? 'bg-gray-100' : '', 'flex px-4 py-2 text-sm text-slate-50 hover:text-gray-900')}
-                              >
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 me-2">
-  <path strokeLinecap="round" strokeLinejoin="round" d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 0 1 1.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.559.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.894.149c-.424.07-.764.383-.929.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 0 1-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.398.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 0 1-.12-1.45l.527-.737c.25-.35.272-.806.108-1.204-.165-.397-.506-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.108-1.204l-.526-.738a1.125 1.125 0 0 1 .12-1.45l.773-.773a1.125 1.125 0 0 1 1.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894Z" />
-  <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-</svg>
-
-                                Settings
-                              </Link>
-                            )}
-                          </Menu.Item>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <Link
-                                onClick={() => {
-                                  signout()
-                                }}
-                                className={classNames(active ? 'bg-gray-100' : '', 'flex px-4 py-2 text-sm text-slate-50 hover:text-gray-900')}
-                              >
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
-</svg>
-
-                                
-
-                                Log Out
-                              </Link>
-                            )}
-                          </Menu.Item>
-                          
-                        
-                        </Menu.Items>
-                      </Transition>
-                    </Menu>
+                   
+                   <Usermenu/>
                  </>
                 
                 :
-                    <div className="flex  flex-row  space-x-2">
+                    <div className="flex  flex-row  space-x-1">
                     {Auth.map((item) => (
-                      <Link
+                      <NavLink
                         key={item.name}
                         to={item.href}
                         className={classNames(
-                          'text-slate-50 hover:text-gray-900 hover:bg-gray-700 hover:text-white',
-                          'rounded-md px-4 py-2 text-sm font-medium'
+                          'text-slate-50 ',
+                          'rounded-md px-1 py-3 text-sm font-medium'
                         )}
                       
                       >
                         {item.name}
-                      </Link>
+                      </NavLink>
                     ))}
                     </div>
                     }

@@ -78,10 +78,14 @@ export default function Sections() {
       </Divider>
       {/* <SectionCourses /> */}
       
+      <Divider>
+        <Button variant="contained"></Button>
+      </Divider>
+      {/* <Recomandtions/> */}
       {/* <Divider>
         <Button variant="contained"></Button>
-      </Divider> */}
-      <Recomandtions/>
+      </Divider>
+      <SectionCourses/> */}
       <Divider>
         <Button variant="contained"></Button>
       </Divider>

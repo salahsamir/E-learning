@@ -1,77 +1,40 @@
-import { Divider, Rating, Typography } from "@mui/material";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { BaseApi } from "util/BaseApi";
-import Slider from "react-slick";
+// SectionCourses.js
+import React from 'react';
+import Slider from 'react-slick';
+
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
 
 export default function SectionCourses() {
-  let nav = useNavigate();
-  let [cources,setCourses]=useState([])
-  let [key, setKey] = useState('');
-  const [headers, setHeaders] = useState({
-    token: localStorage.getItem("token"),
-  });
-  let getCources=async()=>{
-    let res= await axios
-    .get(`${BaseApi}/recommendation/becauseYouWishlsted`,{ headers })
-    .catch((err) => console.log(err));
-    if(res.data.message==="Done"){
-      setCourses(res.data.recommendations.recommendations)
-      setKey(res.data.recommendations.key)
-    }
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    centerMode: true, // Enable center mode
+    centerPadding: "0", // No padding around the center element
+    beforeChange: (current, next) => setCurrentSlide(next),
+  };
 
-}
-
-useEffect(()=>{
-  getCources()
-},[])
-var settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 4,
-  slidesToScroll: 1,
-};
+  const [currentSlide, setCurrentSlide] = React.useState(0);
 
   return (
-    <div className="py-5">
-     {cources?
-    <>
-    
-    <Typography variant="h6" color="primary">{key}</Typography>
-  
-      <div className="mx-auto max-w-2xl  py-4 sm:px-6 sm:py-16 lg:max-w-7xl lg:px-8">
-       
-        <Slider {...settings}>
-        {cources.map((ele) => (
-                  <div key={ele.course.id} className='group relative px-2' onClick={()=>{nav(`/courseDetails/${ele.course._id}`)}}>
-                   
-                    <div className='mt-2   '>
-                      
-                      <img src={ele.coverImageUrl} alt={ele.title} className='h-40 w-full object-cover object-center rounded-tr-3xl' />
-                     
-                      <div>
-                        
-                          <Typography variant='body' py={4} color='primary'>{ele.course.title}</Typography>
-                        
-                       <div className='flex pt-3 '>
-                       <Typography color='thrid' px-4 >{ele.course.rating}</Typography>
-                       <div className='pt-1 px-2'> <Rating size='small' color='secondary'  name="read-only" value={ele.course.rating} readOnly /></div>
-                       </div>
-
-                      </div>
-                      <Typography color='thrid' className='text-sm font-medium'>${ele.course.price}</Typography>
-                    </div>
-                  </div>
-                ))}
-        </Slider>
-       
+   <div className="max-w-7xl mx-auto  my-5">
+     <Slider {...settings} className="slider-container">
+      <div className={currentSlide === 0 ? 'center-slide' : ''}>
+        <img src="https://media.istockphoto.com/id/1457297918/photo/successful-mid-adult-ceos-meeting-in-international-corporation.jpg?s=612x612&w=0&k=20&c=Ulj--fXXdLJb66nAZglnykdabZxN1aVvp2i09UjGTbg=" className='w-68 h-68 p-2' alt="Slide 1" />
       </div>
-    </> 
-    
- :""    
-    }
-    </div>
-  )
+      <div className={currentSlide === 1 ? 'center-slide' : ''}>
+      <img src="https://media.istockphoto.com/id/1457297918/photo/successful-mid-adult-ceos-meeting-in-international-corporation.jpg?s=612x612&w=0&k=20&c=Ulj--fXXdLJb66nAZglnykdabZxN1aVvp2i09UjGTbg=" className='w-68 h-68 p-2' alt="Slide 1" />
+      </div>
+      <div className={currentSlide === 2 ? 'center-slide' : ''}>
+      <img src="https://media.istockphoto.com/id/1457297918/photo/successful-mid-adult-ceos-meeting-in-international-corporation.jpg?s=612x612&w=0&k=20&c=Ulj--fXXdLJb66nAZglnykdabZxN1aVvp2i09UjGTbg=" className='w-68 h-68 p-2' alt="Slide 1" />
+      </div>
+      <div className={currentSlide === 2 ? 'center-slide' : ''}>
+      <img src="https://media.istockphoto.com/id/1457297918/photo/successful-mid-adult-ceos-meeting-in-international-corporation.jpg?s=612x612&w=0&k=20&c=Ulj--fXXdLJb66nAZglnykdabZxN1aVvp2i09UjGTbg=" className='w-68 h-68 p-2' alt="Slide 1" />
+      </div>
+    </Slider>
+   </div>
+  );
 }

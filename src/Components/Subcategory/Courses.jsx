@@ -6,40 +6,37 @@ import { Button, Rating, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { allContext } from 'Context/Context';
 
-export default function Cources({id}) {
-  const [cources, setCources] = useState([]);
+export default function Courses() {
+  let [courses, setCourses] = useState([]);
+  let [num ,setNum]=useState(9)
   const {category,getAllCategory}=useContext(allContext)
   useEffect(() => {
     getAllCategory()
   },[])
    let nav=useNavigate()
+   let GetAllCourses=async()=>{
+        let response =await axios.get(`${BaseApi}/course/all-courses`)
+        setCourses(response.data.courses)
+      
+   }
+ useEffect(()=>{
+  GetAllCourses()
+ },[])
 
-  useEffect(() => {
-    async function getAllCources(id) {
-      try {
-        const response = await axios.get(`${BaseApi}/course/category/${id}/subCategory`);
-        setCources(response.data.courses);
-      //  console.log(response.data.courses)
-       
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    getAllCources(id);
-  }, [id]);
+  const handleOptionSelect = async (selectedOption) => {
   
-  const handleOptionSelect = async (selectedOption,id) => {
 
-    let response=await axios.get(`${BaseApi}/course/category/${id}/subCategory/${selectedOption}`).catch((err)=>{
+    let response=await axios.get(`${BaseApi}/course/category/${selectedOption}/subCategory`).catch((err)=>{
       console.log(err)
     })
-    setCources(response.data.courses)
-   
-    
-     
+    setCourses(response.data.courses)
    
   };
- 
+  courses=courses.slice(0,num)
+  let NeedMore=()=>{
+    setNum(num+3)
+    courses=courses.slice(0,num)
+  }
   return (
     <div className="container">
      
@@ -63,22 +60,22 @@ export default function Cources({id}) {
   {category.map((item)=>{
          return (
            <div className=" w-100 text-center " >
-            <p className='pr-2  hover:text-green-700'  style={{fontSize:'calc(.6rem + .4vw)',whiteSpace: 'nowrap',cursor:'pointer'}}>{item.name}</p>
+            <p className='pr-2  hover:text-green-700'  style={{fontSize:'calc(.6rem + .4vw)',whiteSpace: 'nowrap',cursor:'pointer'}} onClick={()=>handleOptionSelect(item._id)}>{item.name}</p>
            </div>
          )
        })}
   </div>
 
     
-      {cources.length > 0 ? (
-        <div className='my-3'>
-            <div className='mx-auto max-w-2xl p py-3  sm:py-16 lg:max-w-7xl'>
-              <div className='mt-2 grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8'>
-                {cources.map((ele) => (
+      {courses.length > 0 ? (
+        <div className='my-3 text-center'>
+            <div className='mx-auto text-left max-w-2xl p py-3  sm:py-16 lg:max-w-7xl'>
+              <div className='mt-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-6  xl:gap-x-8'>
+                {courses.map((ele) => (
                   <div key={ele.id} className='group relative shadow-lg' onClick={()=>{nav(`/courseDetails/${ele._id}`)}}>
                     <div className='mt-2   '>
                      <div className='relative'>
-                     <img src='https://cdn.pixabay.com/photo/2016/06/01/06/26/open-book-1428428_640.jpg' alt={ele.title} className='h-40 w-full object-cover object-center rounded-lg' />
+                     <img src={ele.coverImageUrl} alt={ele.title} className='h-40 w-full object-cover object-center rounded-lg ' />
                      <div className='absolute bottom-2 right-2 bg-black opacity-60 p-1 rounded-md '> Best</div>
                      </div>
                       <div className='p-3'>
@@ -103,6 +100,9 @@ export default function Cources({id}) {
                 ))}
               </div>
             </div>
+            <button className="my-3 bg-green-600  px-3 py-2  rounded-md" onClick={()=>{
+              NeedMore()
+            }}> Need More</button>
           </div>
       
       ) : (
@@ -110,6 +110,8 @@ export default function Cources({id}) {
           <span class='loader'></span>
         </div>
       )}
+
+     
     </div>
   );
 }
