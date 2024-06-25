@@ -18,7 +18,9 @@ export default function Recomandtions() {
       .get(`${BaseApi}/recommendation/recommendedForYou`, { headers })
       .catch((err) => console.log(err));
     if (res.data.message === "Done") {
+    
       setCourses(res.data.recommendations);
+      
     }
   };
 
@@ -28,7 +30,7 @@ export default function Recomandtions() {
 
   return (
     <Fragment>
-      {/* {courses.length > 0 ?
+    {courses.length > 0 ?
       <div className="container py-5">
       <Typography
         color="primary"
@@ -59,7 +61,7 @@ export default function Recomandtions() {
             },
           ]}
         >
-          {courses?.map((ele) => (
+          {courses.slice(0, 3)?.map((ele) => (
             <div
               key={ele.course._id}
               className="group relative cursor-pointer"
@@ -68,15 +70,15 @@ export default function Recomandtions() {
               }}
             >
               <div className="p-4 flex flex-col">
-                {/* <img
-                  src="https://cdn.pixabay.com/photo/2016/06/01/06/26/open-book-1428428_640.jpg"
+       <img
+                  src={ele.course.coverImageUrl                  }
                   alt={ele.course.title}
                   className="h-40 w-full object-cover object-center rounded-lg"
                 />
                 <span className="pt-1 :hover:text-green-500" style={{ fontSize: "15px" }}>
                   {ele.course.title}
-                </span> */}
-                {/* <span className="py-1  text-gray-400 " style={{ fontSize: "13px" }}>
+                </span>
+                <span className="py-1  text-gray-400 " style={{ fontSize: "13px" }}>
                   Dr:John Doe
                 </span>
                 <span className="py-1" style={{ fontSize: "13px" }}>
@@ -92,7 +94,7 @@ export default function Recomandtions() {
           ))}
         </Slider>
       </div>
-    </div>:"No courses found"} */}
+    </div>:"Loading..........."} 
     </Fragment>
   );
 }

@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-import Articles from 'pages/Articles/Articles';
+
 
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
