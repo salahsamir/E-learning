@@ -30,14 +30,25 @@ export default function Sections() {
       duration: 1500,
     });
   }, []);
+
+
+  
   return (
     <Container py={4} my={5}>
     <WhoSection/>
+      {localStorage.getItem('token')?
+      
+      
+      <>
       <Divider>
         <Button variant="contained"></Button>
       </Divider>
       
       <Recomandtions/>
+      </>
+      :""
+
+      }
     
       <Divider>
         <Button variant="contained"></Button>
