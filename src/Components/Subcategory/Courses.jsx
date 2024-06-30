@@ -59,7 +59,7 @@ export default function Courses() {
     
   {category.map((item)=>{
          return (
-           <div className=" w-100 text-center " >
+           <div className=" w-full text-center m-auto " >
             <p className='pr-2  hover:text-green-700'  style={{fontSize:'calc(.6rem + .4vw)',whiteSpace: 'nowrap',cursor:'pointer'}} onClick={()=>handleOptionSelect(item._id)}>{item.name}</p>
            </div>
          )
