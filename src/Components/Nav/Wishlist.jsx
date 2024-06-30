@@ -16,7 +16,7 @@ export default function WishlistItems() {
   return (
     <Menu as="div" className="relative inline-block text-left ">
       <div>
-      <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md  text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 ">
+      <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md  text-sm font-semibold text-gray-900 shadow-sm  ">
       <Badge badgeContent={wishlist} color="primary">
                     <div 
                    
@@ -49,11 +49,11 @@ export default function WishlistItems() {
           <div className="py-1">
           
             {wishlistdata?.map((ele, index) => (
-  <div key={index} className='cursor-pointer' onClick={()=>{nav(`/courseDetails/${ele._id}`)}}>
+  <div key={index} className='cursor-pointer'>
     <Menu.Item>
       <div className='shadow-lg p-2'>
       <div className='flex gap-x-2 py-2 '>
-        <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+        <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border border-gray-200"  onClick={()=>{nav(`/courseDetails/${ele._id}`)}}>
           <img src={ele.coverImageUrl} alt="Random" className="h-20 w-20 flex-1 rounded-md object-cover object-center" />
         </div>
         <div className='flex-2'>

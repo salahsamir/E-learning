@@ -26,6 +26,8 @@ export default function Nav() {
   
     const navigation = [
         { name: 'Home', href: '/' },
+        { name: 'Instructor', href: '/instructor' },
+
         { name: 'Courses', href: '/courses' },
       ]
       

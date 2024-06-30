@@ -12,9 +12,9 @@ export default function ChapterContent({chapter,id}) {
   };
 
   return (
-    <div id="accordion-collapse" data-accordion="collapse">
+    <div id="accordion-collapse" className='my-3' data-accordion="collapse">
       {chapter.map((item, index)  => (
-        <div key={index} className="cursor-pointer" onClick={()=>nav(`/curriculum/${id}/${item._id}/${item.title}`)}>
+        <div key={index} className="cursor-pointer my-2" onClick={()=>nav(`/curriculum/${id}/${item._id}/${item.title}`)}>
           <h6 id={`accordion-collapse-heading-${index}`}>
           <div
               onClick={() => toggleAccordion(index)}

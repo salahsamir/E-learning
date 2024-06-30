@@ -24,6 +24,7 @@ import WhoSection from "./WhoSection.jsx";
 import Blog from "./Blog.jsx";
 import Leader from "./Leader.jsx";
 import Recomandtions from "./Recomenadtion.jsx";
+import WorkshopItem from "./Workshop.tsx";
 export default function Sections() {
   useEffect(() => {
     AOS.init({
@@ -31,8 +32,6 @@ export default function Sections() {
     });
   }, []);
 
-
-  
   return (
     <Container py={4} my={5}>
     <WhoSection/>
@@ -50,6 +49,13 @@ export default function Sections() {
 
       }
     
+      <Divider>
+        <Button variant="contained"></Button>
+      </Divider>
+    
+
+    < WorkshopItem/>
+      
       <Divider>
         <Button variant="contained"></Button>
       </Divider>
