@@ -47,7 +47,7 @@ const Revenue = () => {
             >
               <TotalSales value={revenue.totalNumberOfStudents || 0} />
               <SuccessfulOrders percentage={revenue.successRate || 0} />
-              <LatestTransactions />
+              <LatestTransactions transactions={revenue.transactions} />
               <CountriesChart />
             </Grid2>
           </Grid2>
