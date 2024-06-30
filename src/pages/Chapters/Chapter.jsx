@@ -119,9 +119,8 @@ export default function Chapter() {
                 <div>
                   <h2 className="text-1xl text-gray-300">Dr john Deo</h2>
                   <h2 className="text-3xl text-gray-100">{course.title}</h2>
-                  <p className="text-1xl text-gray-300">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore
-                    esse suscipit cum perspiciatis sapiente voluptate.
+                  <p className="text-1xl text-gray-300 px-5">
+                  Access the latest resources and technology, including modern classrooms, online learning platforms, and up-to-date study materials, to enhance your learning experience
                   </p>
                   <div className="info flex whitespace-normal">
                     <div className="level flex">
