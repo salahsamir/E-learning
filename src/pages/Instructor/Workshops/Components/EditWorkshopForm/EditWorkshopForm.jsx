@@ -120,7 +120,7 @@ function EditWorkshopForm({ workshop }) {
       schedule: workshop.schedule || [],
       status: workshop.status || "draft",
     },
-
+    enableReinitialize: true,
     validationSchema:
       workshop.status !== "Published"
         ? yup.object().shape({
