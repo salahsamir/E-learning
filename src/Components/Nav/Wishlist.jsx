@@ -2,7 +2,7 @@ import { Fragment, useContext } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 
 import { Badge, Divider } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { allContext } from 'Context/Context'
 
 function classNames(...classes) {
@@ -10,32 +10,13 @@ function classNames(...classes) {
 }
 
 export default function WishlistItems() {
-  const {wishlist}=useContext(allContext)
-  // console.log(cartdata);
-  let cartdata=[
-    {img:"https://source.unsplash.com/random",
-      name:"Reactjs+typescript+redux",
-      instructor:"john Deo",
-      price:"$100.00",
-
-    },
-    {img:"https://source.unsplash.com/random",
-    name:"Reactjs+typescript+redux",
-    instructor:"john Deo",
-    price:"$100.00",
-
-  },
-  {img:"https://source.unsplash.com/random",
-  name:"Reactjs+typescript+redux",
-  instructor:"john Deo",
-  price:"$100.00",
-
-}
-  ]
+  let nav=useNavigate()
+  const {wishlist,wishlistdata,RemoveFromWishlist}=useContext(allContext)
+  //  console.log(wishlistdata)
   return (
     <Menu as="div" className="relative inline-block text-left ">
       <div>
-      <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md  text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 ">
+      <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md  text-sm font-semibold text-gray-900 shadow-sm  ">
       <Badge badgeContent={wishlist} color="primary">
                     <div 
                    
@@ -67,25 +48,27 @@ export default function WishlistItems() {
         <Menu.Items className="absolute right-0 z-10 mt-2 w-80 p-2 origin-top-right rounded-md bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
           
-            {cartdata?.map((ele, index) => (
-  <div key={index}>
+            {wishlistdata?.map((ele, index) => (
+  <div key={index} className='cursor-pointer'>
     <Menu.Item>
       <div className='shadow-lg p-2'>
       <div className='flex gap-x-2 py-2 '>
-        <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-          <img src={ele.img} alt="Random" className="h-20 w-20 flex-1 rounded-md object-cover object-center" />
+        <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border border-gray-200"  onClick={()=>{nav(`/courseDetails/${ele._id}`)}}>
+          <img src={ele.coverImageUrl} alt="Random" className="h-20 w-20 flex-1 rounded-md object-cover object-center" />
         </div>
         <div className='flex-2'>
-          <p className="text-md font-medium text-slate-200 m-0">{ele.name}</p>
-          <p className="text-md font-medium text-slate-500 py-1 m-0">{ele.instructor}</p>
-            <p className="text-sm font-medium text-slate-300 py-1 m-0">{ele.price}</p>
+          <p className="text-md font-medium text-slate-200 m-0">{ele.title}</p>
+          <div className="flex items-center justify-between">
+          <p className="text-sm font-medium text-slate-300 py-1 m-0">{ele.price} EGP</p>
+          <p className="text-sm font-medium text-green-500 hov:text-green-300 py-1 m-0 cursor-pointer " onClick={() => RemoveFromWishlist(ele._id)}>Remove</p>
+          </div>
         </div>
       </div>
           <button className="text-md rounded-lg m-auto border border-slate-50 text-slate-100 hover:bg-green-600 w-full   py-1 hover:text-slate-200 cursor-pointer ">Add to cart</button>
       
       </div>
     </Menu.Item>
-    {index < cartdata.length - 1 && <Divider style={{ margin: "5px", backgroundColor: "white" }} />}
+    {index < wishlistdata.length - 1 && <Divider style={{ margin: "5px", backgroundColor: "white" }} />}
 
   </div>
 ))}

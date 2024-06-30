@@ -8,18 +8,18 @@ import Slider from "react-slick";
 export default function Recomandtions() {
   let nav = useNavigate();
   let [courses, setCourses] = useState([]);
-  let [key, setKey] = useState("Recommended For You");
+  let [key, setKey] = useState("Workshop");
   const [headers, setHeaders] = useState({
     token: localStorage.getItem("token"),
   });
 
   let getCourses = async () => {
     let res = await axios
-      .get(`${BaseApi}/recommendation/recommendedForYou`, { headers })
+      .get(`${BaseApi}/recommendation/best-sell?view=workshop`, { headers })
       .catch((err) => console.log(err));
+     
     if (res.data.message === "Done") {
-    
-      setCourses(res.data.recommendations);
+      setCourses(res.data.workshops);
       
     }
   };
@@ -27,10 +27,11 @@ export default function Recomandtions() {
   useEffect(() => {
     getCourses();
   }, []);
+  console.log(courses);
 
   return (
     <Fragment>
-    {courses.length > 0 ?
+    {courses.length ?
       <div className="container py-5">
       <Typography
         color="primary"
@@ -61,33 +62,33 @@ export default function Recomandtions() {
             },
           ]}
         >
-          {courses.slice(0, 3)?.map((ele) => (
+          {courses?.map((ele) => (
             <div
-              key={ele.course._id}
+              key={ele._id}
               className="group relative cursor-pointer"
               onClick={() => {
-                nav(`/courseDetails/${ele.course._id}`);
+                nav(`/courseDetails/${ele._id}`);
               }}
             >
               <div className="p-4 flex flex-col">
        <img
-                  src={ele.course.coverImageUrl                  }
-                  alt={ele.course.title}
-                  className="h-40 w-full object-cover object-center rounded-lg"
+                  src={ele.promotionImage.url}
+                  alt={ele.title}
+                  className="h-56 w-full object-cover object-center rounded-lg"
                 />
-                <span className="pt-1 :hover:text-green-500" style={{ fontSize: "15px" }}>
-                  {ele.course.title}
+                <span className="pt-2 text-3xl text-green-500 font-bold" style={{ fontSize: "15px" }}>
+                  {ele.title}
                 </span>
-                <span className="py-1  text-gray-400 " style={{ fontSize: "13px" }}>
-                  Dr:John Doe
+                <div className="flex justify-between">
+                <span className="py-1" style={{ fontSize: "15px" }}>
+                  {ele.tags}
                 </span>
-                <span className="py-1" style={{ fontSize: "13px" }}>
-                  {ele.course.price} EGP
+                <span className="py-1" style={{ fontSize: "15px" }}>
+                  {ele.price} EGP
                 </span>
-                <div className=" flex">
-                  <p style={{ fontSize: "12px", paddingRight: "10px" }}>{ele.course.rating}</p>{" "}
-                  <Rating size="small" color="secondary" name="read-only" value={ele.course.rating} readOnly />
                 </div>
+               
+               
              
               </div>
             </div>

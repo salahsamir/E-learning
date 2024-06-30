@@ -1,9 +1,10 @@
 import React from 'react';
 
-const HtmlText = ({ quillContent }) => {
+const HtmlText = ({ description }) => {
   return (
-    <div className="w-75" color='primary' dangerouslySetInnerHTML={{ __html: quillContent }} />
+    <div className="course-description" dangerouslySetInnerHTML={{ __html: description }} />
   );
 }
+
 
 export default HtmlText;

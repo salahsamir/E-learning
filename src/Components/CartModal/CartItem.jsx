@@ -20,7 +20,7 @@ function CartItem(props) {
     rating,
     instructorName,
   } = props.course;
-  // console.log(courseId, name,coverImageUrl, category, price, rating, instructorName);
+
   return (
     <Stack
       direction={{ sm: "row" }}

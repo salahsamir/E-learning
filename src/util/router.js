@@ -11,10 +11,6 @@ import UpdatePasswordForm from "../pages/Forget_password/UpdatePasswordForm/Upda
 import SendEmail from "../pages/Forget_password/SendEmail/SendEmail.jsx";
 import NotFound from "../pages/NotFound/NotFound.jsx";
 import CoursesPage from "../pages/SubCategory/CoursesPage.jsx";
-import Video from "../pages/Videos/Video.jsx";
-import Chapter from "../pages/Chapters/Chapter.jsx";
-import Assignment from "../pages/Assignment/Assignment.jsx";
-// import Profile from "../page/Profile/Profile.jsx";
 import Profile from "../pages/Profile/Profile.jsx";
 import Loading from "../Components/LoadingSpinner/index.jsx";
 import InstructorLayout from "../pages/Instructor/Layout.jsx";
@@ -23,6 +19,9 @@ import CourseDetails from "../pages/CourseDetails/CourseDetails.jsx";
 import MyCourses from "../pages/UserCourses/MyCourses.jsx";
 import Search from "Components/Search/Search.jsx";
 import Settings from "../pages/Setting/Setting.jsx";
+import Chapter from "pages/Chapters/Chapter.jsx";
+import Curriculum from "pages/Curriculum/Curriculum.jsx";
+import Content from "pages/Content/Content.jsx";
 
 // global routes
 const WorkshopsRoot = lazy(() => import("../pages/Root/Workshops/index.jsx"));
@@ -115,19 +114,22 @@ const router = createBrowserRouter([
       },
       // { path: "course/:id", element: <CoursesPage /> },
       { path: "course", element: <CoursesPage /> },
-      { path: "assignment", element: <Assignment /> },
+   
       { path: "Chapter/:id", element: <Chapter /> },
       { path: "profile", element: <Profile /> },
       { path: "setting", element: <Settings /> },
-      { path: "course/:id", element: <CoursesPage /> },
-      { path: "assignment", element: <Assignment /> },
+      { path: "courses", element: <CoursesPage /> },
+      
       { path: "Chapter/:id", element: <Chapter /> },
       { path: "profile", element: <Profile /> },
       { path: "setting", element: <Setting /> },
 
       { path: "courseDetails/:id", element: <CourseDetails /> },
       { path: "myCourse", element: <MyCourses /> },
-      { path: "video/:id/:chapter/:curriculum", element: <Video /> },
+     
+      {path:"curriculum/:id/:chapter/:title",element:<Curriculum />},
+      {path:"article/:id/:chapter/:curriculum/:chapterTitle/:curriculumTitle",element:<Content />},
+
       { path: "search/:title", element: <Search /> },
 
       {

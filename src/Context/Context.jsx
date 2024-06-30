@@ -42,6 +42,7 @@ export const AllProvider = ({ children }) => {
       let res = await getUser();
       
       if (res?.data.message == "Done") {
+        console.log(res.data.newUser);
         setUserdata(res.data.newUser);
         setImage(res.data.newUser.profilePic?.url);
       }
@@ -164,6 +165,7 @@ export const AllProvider = ({ children }) => {
       let res = await getAllCart();
 
       if (res?.message === "Done") {
+       
         setcart(res.courses.length);
         setcartdata(res.courses);
       } else {
@@ -179,7 +181,7 @@ export const AllProvider = ({ children }) => {
   };
   async function AddToCart(id) {
     try {
-      await axios.patch(`${BaseApi}/cart/add/${id}`, {}, { headers });
+      await axios.patch(`${BaseApi}/cart/${id}?type=course`, {}, { headers });
 
       toast.success("Successfully added to Cart!", {
         icon: "👏",
@@ -228,7 +230,7 @@ export const AllProvider = ({ children }) => {
   const createOrder = async () => {
     try {
       const response = await axios.post(`${BaseApi}/order`, {}, { headers });
-
+     
       window.location.href = response.data.result;
     } catch (error) {
       console.log(error);
