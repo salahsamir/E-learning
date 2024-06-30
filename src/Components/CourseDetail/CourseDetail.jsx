@@ -40,7 +40,7 @@ export default function CourseDetail({id}) {
     }
     let handelSubmit=async(e)=>{
       e.preventDefault()
-       await axios.patch(`${BaseApi}/cart/${id}?type=workshop&coupon=${coupon.coupon}`, {}, { headers }).then((res)=>{
+       await axios.patch(`${BaseApi}/cart/${id}?type=course&coupon=${coupon.coupon}`, {}, { headers }).then((res)=>{
         console.log(res)
        })
        .catch((err)=>console.log(err))

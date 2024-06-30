@@ -16,7 +16,7 @@ export default function WishlistItems() {
   return (
     <Menu as="div" className="relative inline-block text-left ">
       <div>
-      <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md  text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 ">
+      <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md  text-sm font-semibold text-gray-900 shadow-sm  ">
       <Badge badgeContent={wishlist} color="primary">
                     <div 
                    
