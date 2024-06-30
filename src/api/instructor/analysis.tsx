@@ -6,7 +6,6 @@ export function useGetAnalysis() {
     queryKey: ["instructor", "analysis"],
     queryFn: async () => {
       const res = await axios.get("user/analysis");
-
       return res.data.analytics;
     },
   });
