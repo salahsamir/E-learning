@@ -1,11 +1,9 @@
 import styled from "@emotion/styled";
 import {
   DashboardOutlined,
-  FavoriteBorder,
   LogoutOutlined,
   MailOutlineOutlined,
   PaymentOutlined,
-  ScheduleOutlined,
   SchoolOutlined,
   SettingsOutlined,
   SupportOutlined,
@@ -50,7 +48,7 @@ const listItems = [
   {
     title: "Payment",
     icon: <PaymentOutlined />,
-    url: "/student/payment",
+    url: "/student/billing",
   },
   "divider",
   {
@@ -61,7 +59,7 @@ const listItems = [
   {
     title: "Support",
     icon: <SupportOutlined />,
-    url: "/student/support",
+    url: "/support",
   },
   {
     title: "Instructor Panel",
