@@ -4,6 +4,20 @@ import { Menu, Transition } from "@headlessui/react";
 import { Badge, Divider } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { allContext } from "Context/Context";
+import styled from "@emotion/styled";
+
+const CustomBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    right: 7,
+    top: 2,
+    fontSize: "0.7em",
+    height: "16px",
+    width: "16px",
+    lineHeight: "16px",
+    minWidth: "16px",
+    padding: 0,
+  },
+}));
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -17,7 +31,7 @@ export default function WishlistItems() {
     <Menu as="div" className="relative inline-block text-left ">
       <div className="flex items-center">
         <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md  text-sm font-semibold text-gray-900 shadow-sm  ">
-          <Badge badgeContent={wishlist} color="primary">
+          <CustomBadge badgeContent={wishlist} color="primary">
             <div
               className={classNames(
                 "text-white hover:bg-gray-700   hover:text-white",
@@ -39,7 +53,7 @@ export default function WishlistItems() {
                 />
               </svg>
             </div>
-          </Badge>
+          </CustomBadge>
         </Menu.Button>
       </div>
 

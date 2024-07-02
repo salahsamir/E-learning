@@ -4,10 +4,24 @@ import { Menu, Transition } from "@headlessui/react";
 import { Badge, Divider } from "@mui/material";
 import { Link } from "react-router-dom";
 import { allContext } from "Context/Context";
+import styled from "@emotion/styled";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+
+const CustomBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    right: 7,
+    top: 2,
+    fontSize: "0.7em",
+    height: "16px",
+    width: "16px",
+    lineHeight: "16px",
+    minWidth: "16px",
+    padding: 0,
+  },
+}));
 
 export default function CartItems() {
   const { cart, cartdata, RemoveFromCart, createOrder } =
@@ -18,7 +32,7 @@ export default function CartItems() {
     <Menu as="div" className="relative inline-block text-left ">
       <div className="flex items-center">
         <Menu.Button className="inline-flex w-full justify-center gap-x-1.5  text-sm font-semibold text-gray-900 shadow-sm  ">
-          <Badge badgeContent={cart} color="primary">
+          <CustomBadge badgeContent={cart} color="primary">
             <div
               className={classNames(
                 "text-white hover:bg-gray-700   hover:text-white",
@@ -40,7 +54,7 @@ export default function CartItems() {
                 />
               </svg>
             </div>
-          </Badge>
+          </CustomBadge>
         </Menu.Button>
       </div>
 
