@@ -7,7 +7,7 @@ import { usePublishWorkshop } from "api/instructor/workshops.tsx";
 import useGetParams from "hooks/useGetParams";
 function Step6({ formik }) {
   const paramList = useGetParams();
-  const { mutate: publishWorkshop } = usePublishWorkshop({
+  const { mutate: publishWorkshop, isPending } = usePublishWorkshop({
     onSuccess: () => formik.setFieldValue("status", "Pending"),
   });
   if (formik.values.status === "Draft") {
@@ -42,6 +42,7 @@ function Step6({ formik }) {
           <LoadingButton
             variant="contained"
             type="button"
+            loading={isPending}
             onClick={() => publishWorkshop(paramList[1])}
           >
             Publish

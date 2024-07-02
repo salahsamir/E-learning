@@ -157,7 +157,8 @@ function EditWorkshopForm({ workshop }) {
       delete updatedValues.promotionImage;
       delete updatedValues.promotionVideo;
       delete updatedValues.coupons;
-      updateWorkshop({ id: workshop._id, data: updatedValues });
+      if (Object.keys(updatedValues).length > 0)
+        updateWorkshop({ id: workshop._id, data: updatedValues });
     },
   });
   const tabsList = [

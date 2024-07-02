@@ -99,7 +99,7 @@ export function useAddCoupon({ onSuccess, onError }: MutationFnProps = {}) {
     onSuccess(res, { courseId, isWorkshop }) {
       try {
         queryClient.setQueryData(
-          [isWorkshop ? "workshop" : "course", courseId],
+          [...(isWorkshop ? ["workshop", "instructor"] : ["course"]), courseId],
           (old: any) => {
             if (!old.coupons) {
               return { ...old, coupons: [res] };
@@ -125,22 +125,27 @@ export function useDeleteCoupon({ onSuccess, onError }: MutationFnProps = {}) {
     mutationFn: async ({
       courseId,
       couponId,
+      isWorkshop = false,
     }: {
       courseId: string;
       couponId: string;
+      isWorkshop: boolean;
     }) => {
       const response = await axios.delete(`coupon/${couponId}`);
       return response.data;
     },
-    onSuccess(res, { courseId, couponId }) {
-      queryClient.setQueryData(["course", courseId], (old: any) => {
-        return {
-          ...old,
-          coupons: old.coupons.filter(
-            (coupon: { _id: string }) => coupon._id !== couponId
-          ),
-        };
-      });
+    onSuccess(res, { courseId, couponId, isWorkshop }) {
+      queryClient.setQueryData(
+        [...(isWorkshop ? ["workshop", "instructor"] : ["course"]), courseId],
+        (old: any) => {
+          return {
+            ...old,
+            coupons: old.coupons.filter(
+              (coupon: { _id: string }) => coupon._id !== couponId
+            ),
+          };
+        }
+      );
       toast.success("Coupon deleted successfully");
       onSuccess && onSuccess(res);
     },

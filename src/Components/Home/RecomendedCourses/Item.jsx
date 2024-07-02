@@ -25,7 +25,7 @@ const Item = ({ course }) => {
       />
       <Box padding="16px">
         <Typography variant="body2" color="text.secondary">
-          A Course By {course?.createdBy?.userNam}
+          A Course By {course?.createdBy?.userName}
         </Typography>
         <Typography
           variant="subtitle1"

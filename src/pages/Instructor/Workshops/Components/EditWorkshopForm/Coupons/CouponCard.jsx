@@ -31,7 +31,7 @@ const DeleteCouponBtn = ({ couponId }) => {
   const params = useGetParams();
   const { mutate: deleteCoupon, isPending: deletingCoupon } = useDeleteCoupon();
   const handleDeleteCoupon = () => {
-    deleteCoupon({ courseId: params[1], couponId: couponId });
+    deleteCoupon({ courseId: params[1], couponId: couponId, isWorkshop: true });
   };
   return (
     <IconButton

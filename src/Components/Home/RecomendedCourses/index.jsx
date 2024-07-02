@@ -72,7 +72,7 @@ const RecomendedCourses = () => {
           ) : isError ? (
             <ErrorBox />
           ) : (
-            courses.map((ele) => (
+            courses?.map((ele) => (
               <Item key={ele.course?._id} course={ele.course} />
             ))
           )}

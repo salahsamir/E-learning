@@ -72,7 +72,7 @@ const TopWorkshops = () => {
           ) : isError ? (
             <ErrorBox />
           ) : (
-            workshops.map((ele) => <Item key={ele._id} workshop={ele} />)
+            workshops?.map((ele) => <Item key={ele._id} workshop={ele} />)
           )}
         </Box>{" "}
       </Box>
