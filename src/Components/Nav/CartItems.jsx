@@ -89,7 +89,7 @@ export default function CartItems() {
                         {ele.name}
                       </p>
                       <p className="text-sm font-medium text-slate-500 py-1 m-0">
-                        John Deo
+                        {ele?.createdBy?.userName}
                       </p>
 
                       <div className="flex items-center justify-between w-52 ">

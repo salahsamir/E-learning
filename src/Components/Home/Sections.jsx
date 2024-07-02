@@ -1,30 +1,15 @@
-import {
-  Avatar,
-  Button,
-  Box,
-  Card,
-  CardContent,
-  CardMedia,
-  CircularProgress,
-  Divider,
-  Grid,
-  Stack,
-  Typography,
-  Rating,
-  Container,
-} from "@mui/material";
-import HouseSidingIcon from '@mui/icons-material/HouseSiding';
-import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
+import { Box, Container } from "@mui/material";
 import React from "react";
-
 import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import WhoSection from "./WhoSection.jsx";
-import Blog from "./Blog.jsx";
-import Leader from "./Leader.jsx";
 import Recomandtions from "./Recomenadtion.jsx";
-import WorkshopItem from "./Workshop.tsx";
+import WorkshopOverview from "./WorkshopOverview.jsx";
+import Footer from "Components/Footer/Footer.jsx";
+import Workshops from "./Workshops.jsx";
+import RecomendedCourses from "./RecomendedCourses/index.jsx";
+import FocusGroups from "./FocusGroups.jsx";
+import TopWorkshops from "./TopWorkshops/index.jsx";
 export default function Sections() {
   useEffect(() => {
     AOS.init({
@@ -33,40 +18,15 @@ export default function Sections() {
   }, []);
 
   return (
-    <Container py={4} my={5}>
-    <WhoSection/>
-      {localStorage.getItem('token')?
-      
-      
-      <>
-      <Divider>
-        <Button variant="contained"></Button>
-      </Divider>
-      
-      <Recomandtions/>
-      </>
-      :""
-
-      }
-    
-      <Divider>
-        <Button variant="contained"></Button>
-      </Divider>
-    
-
-    < WorkshopItem/>
-      
-      <Divider>
-        <Button variant="contained"></Button>
-      </Divider>
-      <Leader/>
-      <Divider>
-        <Button variant="contained"></Button>
-      </Divider>  
-      <Blog/>
-      <Divider>
-        <Button variant="contained"></Button>
-      </Divider>
-    </Container>
+    <Box sx={{ mt: "2em" }}>
+      {/* <WhoSection/> */}
+      <WorkshopOverview />
+      <RecomendedCourses />
+      <FocusGroups />
+      <TopWorkshops />{" "}
+      {/* <Recomandtions />
+      <Workshops /> */}
+      <Footer />
+    </Box>
   );
 }

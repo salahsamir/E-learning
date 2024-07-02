@@ -156,6 +156,7 @@ function EditWorkshopForm({ workshop }) {
       delete updatedValues.status;
       delete updatedValues.promotionImage;
       delete updatedValues.promotionVideo;
+      delete updatedValues.coupons;
       updateWorkshop({ id: workshop._id, data: updatedValues });
     },
   });

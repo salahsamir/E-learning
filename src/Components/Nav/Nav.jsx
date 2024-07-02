@@ -82,7 +82,11 @@ export default function Nav() {
                   className="flex flex-shrink-0 items-center cursor-pointer"
                   onClick={() => nav("/")}
                 >
-                  <Typography variant="h5" color={"primary.main"}>
+                  <Typography
+                    variant="h5"
+                    fontWeight="600"
+                    color={"primary.main"}
+                  >
                     Eduvation
                   </Typography>
                 </div>
