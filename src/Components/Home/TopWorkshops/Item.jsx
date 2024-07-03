@@ -31,7 +31,7 @@ const Item = ({ workshop }) => {
           variant="subtitle1"
           color="text.primary"
           component={Link}
-          to="workshops"
+          to={"workshops/" + workshop._id}
           fontWeight="600"
           sx={{
             transition: "color ease 0.2s",

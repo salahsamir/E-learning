@@ -54,6 +54,7 @@ export default function SigninForm() {
         },
       });
       localStorage.setItem("token", data.BrearerToken);
+      axios.defaults.headers.common["token"] = data.BrearerToken;
       nav("/");
     }
   };
