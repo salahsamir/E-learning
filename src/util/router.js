@@ -21,7 +21,7 @@ import Search from "Components/Search/Search.jsx";
 import Settings from "../pages/Setting/Setting.jsx";
 import Chapter from "pages/Chapters/Chapter.jsx";
 import Curriculum from "pages/Curriculum/Curriculum.jsx";
-import Content from "pages/Content/Content.jsx";
+import Content from "pages/Content/Content.tsx";
 
 // global routes
 const WorkshopsRoot = lazy(() => import("../pages/Root/Workshops/index.jsx"));
@@ -127,7 +127,7 @@ const router = createBrowserRouter([
       { path: "myCourse", element: <MyCourses /> },
      
       {path:"curriculum/:id/:chapter/:title",element:<Curriculum />},
-      {path:"article/:id/:chapter/:curriculum/:chapterTitle/:curriculumTitle",element:<Content />},
+      {path:"content/:type/:id",element:<Content />},
 
       { path: "search/:title", element: <Search /> },
 
