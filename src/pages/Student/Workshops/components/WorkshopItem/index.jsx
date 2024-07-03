@@ -3,9 +3,9 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import React from "react";
 import { Link } from "react-router-dom";
 
-const WorkshopItem = ({ title, image, days, time }) => {
+const WorkshopItem = ({ workshop }) => {
   return (
-    <Grid2 xs={12} sm={6} md={4} lg={3} component={Link} to="1">
+    <Grid2 xs={12} sm={6} md={4} lg={3} component={Link} to={workshop._id}>
       <Box
         sx={{
           border: (theme) => `1px solid ${theme.palette.divider}`,
@@ -21,8 +21,8 @@ const WorkshopItem = ({ title, image, days, time }) => {
         }}
       >
         <img
-          src="https://miro.medium.com/v2/resize:fit:720/format:webp/1*dEo8x5swSiuFVp4VYsCGKg.jpeg"
-          alt={title}
+          src={workshop.promotionImage?.url}
+          alt={workshop.title}
           style={{
             width: "100%",
             height: "200px",
@@ -31,7 +31,7 @@ const WorkshopItem = ({ title, image, days, time }) => {
         />
         <Box padding="8px">
           <Typography variant="body1" fontWeight="600" mb="4px">
-            Introduction To Software Engineering
+            {workshop.title}
           </Typography>
           <Box
             display="flex"
@@ -39,9 +39,14 @@ const WorkshopItem = ({ title, image, days, time }) => {
             color={"text.secondary"}
           >
             <Typography variant="body2">
-              Saturday, Wednesday, <br /> Thursday
+              {workshop.schedule?.join(", ")}
             </Typography>
-            <Typography variant="body2">7AM</Typography>
+            <Typography variant="body2">
+              {new Date(workshop.sessionTime).toLocaleString("en-us", {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </Typography>
           </Box>
         </Box>
       </Box>

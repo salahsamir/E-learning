@@ -14,7 +14,7 @@ const SideContainer = ({ workshop }) => {
         gap: "16px",
       }}
     >
-      <InfoBox info={{ price: workshop.price }} />
+      <InfoBox info={{ price: workshop.price, _id: workshop._id }} />
       {/* <RatingBox /> */}
       <InstructorBox instructor={workshop.instructor || {}} />
       <PopularCourses category={workshop.categoryId?._id} />

@@ -87,8 +87,8 @@ export function useUploadSubtitle() {
         return { ...old, subtitles: [newSubtitle, ...old.subtitles] };
       });
     },
-    onError: (err) => {
-      toast.error(err.message);
+    onError: (error: any) => {
+      toast.error(error.response.data?.message || "There was an error");
     },
   });
   return mutation;
@@ -115,8 +115,8 @@ export function useDeleteVideoSubtitle() {
         return { ...old, subtitles: newSubtitles };
       });
     },
-    onError: (err) => {
-      toast.error(err.message);
+    onError: (error: any) => {
+      toast.error(error.response.data?.message || "There was an error");
     },
   });
   return mutation;

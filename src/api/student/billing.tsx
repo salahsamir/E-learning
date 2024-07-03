@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
+import { checkErrorStatus } from "util/checkErrorStatus.ts";
 
 export function useBilling() {
   const query = useQuery({
@@ -13,7 +14,7 @@ export function useBilling() {
   return query;
 }
 
-export function useRefund() {
+export function useRefund(onSuccess?: () => void, onError?: () => void) {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async ({ transactionId }: { transactionId: string }) => {
@@ -29,8 +30,10 @@ export function useRefund() {
         return { ...old, orders: newOrders };
       });
     },
-    onError: (err) => {
-      toast.error(err.message);
+    onError: (err: AxiosError<{ message: string }>) => {
+      toast.error(err.response?.data?.message || "There was an error");
+      checkErrorStatus(err);
+      onError && onError();
     },
   });
   return mutation;

@@ -7,8 +7,10 @@ import {
   WorkspacePremiumOutlined,
 } from "@mui/icons-material";
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { allContext } from "Context/Context";
 
-import React from "react";
+import React, { useContext, useState } from "react";
+import toast from "react-hot-toast";
 const ListItem = ({ icon, title }) => {
   return (
     <Typography
@@ -31,6 +33,15 @@ const ListItem = ({ icon, title }) => {
   );
 };
 const InfoBox = ({ info }) => {
+  const [coupon, setCoupon] = useState("");
+  const [couponApplied, setCouponApplied] = useState(false);
+  const { AddToCart, AddToWishlist } = useContext(allContext);
+  const handleAddToCart = () => {
+    AddToCart(info._id, "workshop", coupon);
+  };
+  const handleAddToWishlist = () => {
+    AddToWishlist(info._id);
+  };
   return (
     <Box
       sx={{
@@ -90,11 +101,13 @@ const InfoBox = ({ info }) => {
           sx={{
             flex: 1,
           }}
+          onClick={handleAddToCart}
         >
           Add To Cart
         </Button>
         <Button
           variant="outlined"
+          onClick={handleAddToWishlist}
           sx={{
             minHeight: 0,
             minWidth: 0,
@@ -109,6 +122,11 @@ const InfoBox = ({ info }) => {
         <TextField
           placeholder="Enter Coupon"
           fullWidth
+          value={coupon}
+          onChange={(e) => {
+            setCoupon(e.target.value);
+            setCouponApplied(false);
+          }}
           sx={{
             "& .MuiInputBase-root": {
               borderTopRightRadius: 0,
@@ -122,6 +140,12 @@ const InfoBox = ({ info }) => {
         />
         <Button
           variant="contained"
+          disabled={couponApplied}
+          onClick={() =>
+            coupon.length > 3
+              ? setCouponApplied(true)
+              : toast.error("Enter valid coupon")
+          }
           sx={{
             borderTopLeftRadius: 0,
             borderBottomLeftRadius: 0,

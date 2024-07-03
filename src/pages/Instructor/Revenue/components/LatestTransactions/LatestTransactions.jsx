@@ -1,33 +1,7 @@
 import { Box, Typography, Button } from "@mui/material";
 import React from "react";
 
-const LatestTransactions = () => {
-  const transactions = [
-    {
-      id: 1,
-      date: "2024-05-05",
-      amount: 100,
-      status: "pending",
-    },
-    {
-      id: 2,
-      date: "2024-05-01",
-      amount: 200,
-      status: "completed",
-    },
-    {
-      id: 3,
-      date: "2024-04-30",
-      amount: 300,
-      status: "pending",
-    },
-    {
-      id: 4,
-      date: "2024-04-20",
-      amount: 400,
-      status: "error",
-    },
-  ];
+const LatestTransactions = ({ transactions }) => {
   const statusColor = (status) => {
     if (status === "pending") return "warning.main";
     if (status === "completed") return "success.main";
@@ -58,19 +32,29 @@ const LatestTransactions = () => {
               >
                 <Box>
                   <Typography variant="body1" fontWeight="600">
-                    {transaction.amount} EGP
+                    {(+transaction.amount).toLocaleString("en-us", {
+                      notation: "compact",
+                      maximumFractionDigits: 2,
+                    })}{" "}
+                    EGP
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    {transaction.date}
+                    {new Date(+transaction.date).toLocaleString("en-us", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
                   </Typography>
                 </Box>
                 <Typography
                   variant="body2"
                   fontWeight="600"
-                  color={statusColor(transaction.status)}
+                  color={statusColor("completed")}
                   textTransform="capitalize"
                 >
-                  {transaction.status}
+                  Completed
                 </Typography>
               </Box>
             )

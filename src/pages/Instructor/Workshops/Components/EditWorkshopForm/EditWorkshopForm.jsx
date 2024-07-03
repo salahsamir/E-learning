@@ -120,7 +120,7 @@ function EditWorkshopForm({ workshop }) {
       schedule: workshop.schedule || [],
       status: workshop.status || "draft",
     },
-
+    enableReinitialize: true,
     validationSchema:
       workshop.status !== "Published"
         ? yup.object().shape({
@@ -156,7 +156,9 @@ function EditWorkshopForm({ workshop }) {
       delete updatedValues.status;
       delete updatedValues.promotionImage;
       delete updatedValues.promotionVideo;
-      updateWorkshop({ id: workshop._id, data: updatedValues });
+      delete updatedValues.coupons;
+      if (Object.keys(updatedValues).length > 0)
+        updateWorkshop({ id: workshop._id, data: updatedValues });
     },
   });
   const tabsList = [

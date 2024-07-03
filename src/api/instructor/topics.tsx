@@ -132,8 +132,8 @@ export function useAttachFile() {
         return { ...old, resources: [newResource, ...old.resources] };
       });
     },
-    onError: (err) => {
-      toast.error(err.message);
+    onError: (error: any) => {
+      toast.error(error.response.data?.message || "There was an error");
     },
   });
   return mutation;
@@ -157,8 +157,8 @@ export function useDeleteAttachedFile() {
         return { ...old, resources: newResources };
       });
     },
-    onError: (err) => {
-      toast.error(err.message);
+    onError: (error: any) => {
+      toast.error(error.response.data?.message || "There was an error");
     },
   });
   return mutation;

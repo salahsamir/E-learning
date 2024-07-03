@@ -27,6 +27,7 @@ import Content from "pages/Content/Content.tsx";
 const WorkshopsRoot = lazy(() => import("../pages/Root/Workshops/index.jsx"));
 const WorkshopRoot = lazy(() => import("../pages/Root/Workshop/index.jsx"));
 const Logout = lazy(() => import("../pages/Root/Logout/index.jsx"));
+const HomeDemo = lazy(() => import("../pages/Root/Home/index.jsx"));
 
 // instructor routes
 const InstructorDashboard = lazy(() =>
@@ -430,6 +431,14 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  {
+    path: "home-demo",
+    element: (
+      <SuspenseWrapper>
+        <HomeDemo />
+      </SuspenseWrapper>
+    ),
   },
 ]);
 export default router;

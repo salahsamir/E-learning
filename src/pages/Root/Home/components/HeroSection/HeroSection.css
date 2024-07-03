@@ -1,0 +1,24 @@
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes animate-hero-text {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+    /* transform: translateY(5px); */
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+    /* transform: translateY(0px); */
+  }
+}

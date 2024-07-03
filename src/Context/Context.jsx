@@ -15,8 +15,6 @@ export const AllProvider = ({ children }) => {
     });
   }, [localStorage.getItem("token")]);
 
-
-  
   let [category, setCategory] = useState([]);
   let getAllCategory = async () => {
     let response = await axios.get(`${BaseApi}/category`).catch((err) => {
@@ -31,16 +29,15 @@ export const AllProvider = ({ children }) => {
   let [course, setCourse] = useState([]);
 
   async function getUser() {
-   
     return await axios
-      .get(`${BaseApi}/user/profile`,{ headers} )
+      .get(`${BaseApi}/user/profile`, { headers })
       .then((res) => res)
       .catch((err) => console.log(err));
   }
   let getUserData = async () => {
     try {
       let res = await getUser();
-      
+
       if (res?.data.message == "Done") {
         console.log(res.data.newUser);
         setUserdata(res.data.newUser);
@@ -165,7 +162,6 @@ export const AllProvider = ({ children }) => {
       let res = await getAllCart();
 
       if (res?.message === "Done") {
-       
         setcart(res.courses.length);
         setcartdata(res.courses);
       } else {
@@ -179,9 +175,13 @@ export const AllProvider = ({ children }) => {
       return null;
     }
   };
-  async function AddToCart(id) {
+  async function AddToCart(id, type = "course", coupon) {
     try {
-      await axios.patch(`${BaseApi}/cart/${id}?type=course`, {}, { headers });
+      await axios.patch(
+        `${BaseApi}/cart/${id}?type=${type}&coupon=${coupon}`,
+        {},
+        { headers }
+      );
 
       toast.success("Successfully added to Cart!", {
         icon: "👏",
@@ -203,7 +203,6 @@ export const AllProvider = ({ children }) => {
     }
   }
   async function RemoveFromCart(id) {
-
     try {
       await axios.patch(`${BaseApi}/cart/remove/${id}`, {}, { headers });
       toast.success("Successfully  removed", {
@@ -230,14 +229,13 @@ export const AllProvider = ({ children }) => {
   const createOrder = async () => {
     try {
       const response = await axios.post(`${BaseApi}/order`, {}, { headers });
-     
+
       window.location.href = response.data.result;
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
-
     if (headers.token) {
       getUserData();
       CourseBought();
@@ -266,7 +264,7 @@ export const AllProvider = ({ children }) => {
         setcart,
         cartdata,
         createOrder,
-        getAllCategory
+        getAllCategory,
       }}
     >
       {children}
