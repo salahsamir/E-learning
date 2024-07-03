@@ -6,7 +6,7 @@ function Signin() {
   return (
     <AuthTemplate>
       <Typography
-      color="primary.main"
+        color="primary.main"
         variant="h1"
         fontSize={"3em"}
         mt={4}
@@ -14,10 +14,10 @@ function Signin() {
       >
         Eduvation
       </Typography>
-      <Typography variant="h5" color='secondary.main' mt={2} mb={2}>
+      <Typography variant="h5" color="text.secondary" mt={2} mb={2}>
         Welcome back!
       </Typography>
-      <SigninForm  />
+      <SigninForm />
     </AuthTemplate>
   );
 }

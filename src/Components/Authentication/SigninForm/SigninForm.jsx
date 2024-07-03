@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
 import Divider from "@mui/material/Divider";
-import { Link, Stack, Typography } from "@mui/material";
+import { Box, Link, Stack, Typography } from "@mui/material";
 
 import { BaseApi } from "../../../util/BaseApi.js";
 import toast from "react-hot-toast";
@@ -30,16 +30,18 @@ export default function SigninForm() {
 
   const handleSignin = async (values) => {
     setLoading(true);
-    let { data } = await axios.post(`${BaseApi}/auth/Login`, values).catch((err) => {
-      toast.error(err.response.data.message, {
-        style: {
-          borderRadius: "10px",
-          background: "#1B0A26",
-          color: "#F2C791",
-        },
+    let { data } = await axios
+      .post(`${BaseApi}/auth/Login`, values)
+      .catch((err) => {
+        toast.error(err.response.data.message, {
+          style: {
+            borderRadius: "10px",
+            background: "#1B0A26",
+            color: "#F2C791",
+          },
+        });
+        setLoading(false);
       });
-      setLoading(false);
-    });
 
     if (data.message === "Done") {
       setLoading(false);
@@ -68,53 +70,49 @@ export default function SigninForm() {
 
   return (
     <Form onSubmit={formik.handleSubmit} method="post" autoComplete="off">
-      <Stack spacing={1} direction="column" alignItems="center">
-      {SigninData.map((data) => (
-  <React.Fragment key={data.name}>
-    <TextField
-      name={data.name}
-      label={data.label}
-   
-      required
-      error={
-        formik.errors[data.name] &&
-        formik.touched[data.name] !== undefined
-      }
-      helperText={
-        formik.errors[data.name] && formik.touched[data.name]
-          ? formik.errors[data.name]
-          : ""
-      }
-      onChange={formik.handleChange}
-      onBlur={formik.handleBlur}
-      value={formik.values[data.name]}
-      variant="outlined"
-      size="small"
-      sx={{ width: { xs: "90%", sm: "400px" } }}
-    />
-  </React.Fragment>
-))}
+      <Box className="flex flex-col items-center gap-4">
+        {SigninData.map((data) => (
+          <React.Fragment key={data.name}>
+            <TextField
+              name={data.name}
+              label={data.label}
+              type={data.name === "password" ? "password" : "text"}
+              required
+              error={
+                formik.errors[data.name] &&
+                formik.touched[data.name] !== undefined
+              }
+              helperText={
+                formik.errors[data.name] && formik.touched[data.name]
+                  ? formik.errors[data.name]
+                  : ""
+              }
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values[data.name]}
+              variant="outlined"
+              size="small"
+              sx={{ width: { xs: "90%", sm: "400px" } }}
+            />
+          </React.Fragment>
+        ))}
 
-        <Typography py={2} variant="body2" sx={{ float: "right" }}>
+        <Typography variant="body2" sx={{ float: "right" }}>
           <Link to={"/sendEmail"} className="float-end" component={RouterLink}>
             Forget password?
           </Link>
         </Typography>
-         <Buttons bgColor="bg-customGreen">Sign in</Buttons>
-    
+        <Buttons bgColor="bg-customGreen">Sign in</Buttons>
+
         <Divider sx={{ width: { xs: "90%", sm: "400px" } }}>OR</Divider>
 
-        <Typography
-          variant="body1"
-          color="secondary.main"
-          marginY={"20px !important"}
-        >
+        <Typography variant="body1" color="text.secondary">
           Still without account?{" "}
           <Link component={RouterLink} to={"/signup"}>
             Create one
           </Link>
         </Typography>
-      </Stack>
+      </Box>
     </Form>
   );
 }
