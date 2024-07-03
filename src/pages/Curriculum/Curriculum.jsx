@@ -19,8 +19,9 @@ export default function Curriculum() {
         },
       });
       if (data.message === "Done") {
-       
+     
         setcurriculum(data.curriculum);
+        
       }
     };
   
@@ -35,7 +36,7 @@ export default function Curriculum() {
 
 <div id="accordion-collapse" data-accordion="collapse" className="w-1/2 m-auto">
       {curriculum?.map((item, index)  => (
-        <div key={index} className="cursor-pointer" onClick={()=>nav(`/article/${id}/${chapter}/${item._id}/${title}/${item.title}`)}>
+        <div key={index} className="cursor-pointer" onClick={()=>nav(`/content/${item.type}/${item.article||item.video||item.quiz}`)}>
           <h6 id={`accordion-collapse-heading-${index}`}>
           <div
              

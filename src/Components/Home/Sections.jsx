@@ -7,6 +7,7 @@ import Recomandtions from "./Recomenadtion.jsx";
 import WorkshopOverview from "./WorkshopOverview.jsx";
 import Footer from "Components/Footer/Footer.jsx";
 import Workshops from "./Workshops.jsx";
+
 import RecomendedCourses from "./RecomendedCourses/index.jsx";
 import FocusGroups from "./FocusGroups.jsx";
 import TopWorkshops from "./TopWorkshops/index.jsx";
