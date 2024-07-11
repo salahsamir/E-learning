@@ -18,7 +18,9 @@ const Home = () => {
         <IndicationRow />
         <Grid2 container my="16px" spacing={2}>
           <Grid2 xs={12} md={7}>
-            <StudyStatics data={{ 2: 10 }} />
+            <StudyStatics
+              data={{ 5: 3.5, 6: 1, 7: 2, 8: 1.5, 9: 3, 10: 2.5, 11: 0.5 }}
+            />
           </Grid2>
           <Grid2 xs={12} md={5}>
             <MyProgress status={[20, 50, 30]} />

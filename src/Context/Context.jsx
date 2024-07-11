@@ -178,7 +178,9 @@ export const AllProvider = ({ children }) => {
   async function AddToCart(id, type = "course", coupon) {
     try {
       await axios.patch(
-        `${BaseApi}/cart/${id}?type=${type}&coupon=${coupon}`,
+        `${BaseApi}/cart/${id}?type=${type}${
+          coupon ? "&coupon=" + coupon : ""
+        }`,
         {},
         { headers }
       );

@@ -16,6 +16,7 @@ const Item = ({
       sx={{
         flex: 1,
         minWidth: "300px",
+        maxWidth: "330px",
         borderRadius: "8px",
         border: (theme) => `1px solid ${theme.palette.divider}`,
         overflow: "hidden",
@@ -49,35 +50,37 @@ const Item = ({
         >
           {title}
         </Typography>
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          my="8px"
-        >
-          <Typography variant="body2" color="text.primary">
-            {percentage}%
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            <Typography
-              component="span"
-              variant="body2"
-              color="text.primary"
-              fontWeight="600"
-            >
-              {finishedResources + " "}
+        <Box>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            my="8px"
+          >
+            <Typography variant="body2" color="text.primary">
+              {percentage}%
             </Typography>
-            / {allResources} lessons
-          </Typography>
+            <Typography variant="body2" color="text.secondary">
+              <Typography
+                component="span"
+                variant="body2"
+                color="text.primary"
+                fontWeight="600"
+              >
+                {finishedResources + " "}
+              </Typography>
+              / {allResources} lessons
+            </Typography>
+          </Box>
+          <LinearProgress
+            variant="determinate"
+            value={percentage}
+            sx={{
+              borderRadius: "100px",
+              height: "8px",
+            }}
+          />
         </Box>
-        <LinearProgress
-          variant="determinate"
-          value={percentage}
-          sx={{
-            borderRadius: "100px",
-            height: "8px",
-          }}
-        />
       </Box>
     </Box>
   );

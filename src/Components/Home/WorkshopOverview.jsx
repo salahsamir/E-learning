@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
-
+import WorkshopDemo from "assets/images/workshop_screenshot.png";
 const WorkshopOverview = () => {
   return (
     <Box
@@ -25,7 +25,7 @@ const WorkshopOverview = () => {
         </Typography>
       </Box>
       <img
-        src="https://profitbooks.net/wp-content/uploads/2020/04/Zoom-free-software-for-online-meetings.png"
+        src={WorkshopDemo}
         alt="workshop screenshot"
         style={{ maxWidth: "600px", width: "100%" }}
       />

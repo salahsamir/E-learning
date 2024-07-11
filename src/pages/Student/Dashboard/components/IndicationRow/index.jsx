@@ -14,13 +14,13 @@ const IndicationRow = () => {
       <Item
         icon={<SchoolOutlined />}
         title="Completed"
-        value={16}
+        value={1}
         color="#53a7ca"
       />
       <Item
         color="#da4949"
         title="In progress"
-        value={7}
+        value={3}
         icon={<ScheduleOutlined />}
       />
       <Item
@@ -32,7 +32,7 @@ const IndicationRow = () => {
       <Item
         color="#76885b"
         title="Certificates"
-        value={10}
+        value={1}
         icon={<WorkspacePremiumOutlined />}
       />
     </Grid2>

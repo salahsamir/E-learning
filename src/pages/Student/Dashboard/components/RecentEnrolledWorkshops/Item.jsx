@@ -3,7 +3,14 @@ import { Box, Link, Typography } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import React from "react";
 
-const Item = ({ image, title, instructorName, commingDate, sessionTime }) => {
+const Item = ({
+  image,
+  title,
+  instructorName,
+  commingDate,
+  sessionTime,
+  category,
+}) => {
   return (
     <Grid2 xs={12} md={6}>
       <Box
@@ -25,8 +32,13 @@ const Item = ({ image, title, instructorName, commingDate, sessionTime }) => {
       >
         <img src={image} alt={title} />
         <Box flex="1">
-          <Typography variant="body2" color="primary.main" component={Link}>
-            Web Development{" "}
+          <Typography
+            variant="body2"
+            color="primary.main"
+            component={Link}
+            to={"/workshops?category=" + (category?._id || "all")}
+          >
+            {category?.title || "Uncategorized"}
           </Typography>
           <Typography
             variant="body2"
@@ -61,7 +73,7 @@ const Item = ({ image, title, instructorName, commingDate, sessionTime }) => {
           >
             <CalendarToday />
             <span>
-              {new Date().toLocaleString("en-us", {
+              {new Date(commingDate).toLocaleString("en-us", {
                 day: "2-digit",
                 month: "short",
                 year: "numeric",
@@ -73,7 +85,7 @@ const Item = ({ image, title, instructorName, commingDate, sessionTime }) => {
               }}
             />
             <span>
-              {new Date().toLocaleString("en-us", {
+              {new Date(sessionTime).toLocaleString("en-us", {
                 hour: "2-digit",
                 minute: "2-digit",
               })}

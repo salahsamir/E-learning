@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Course = () => {
+const Course = ({ course }) => {
   return (
     <Box
       display="flex"
@@ -19,8 +19,8 @@ const Course = () => {
       }}
     >
       <img
-        src="https://www.classcentral.com/report/wp-content/uploads/2022/06/JavaScript-BCG-Banner-icons.png"
-        alt="title"
+        src={course.coverImageUrl}
+        alt={course.title}
         style={{
           height: "80px",
           width: "140px",
@@ -40,6 +40,7 @@ const Course = () => {
           variant="body1"
           color="text.primary"
           component={Link}
+          to={"/courseDetails/" + course._id}
           sx={{
             transition: "color ease 0.1s",
             "&:hover": {
@@ -47,10 +48,10 @@ const Course = () => {
             },
           }}
         >
-          Javascrip The Full Guide To Build Web Apps
+          {course.title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          By Osama Safwat
+          By {course.createdBy?.userName || "John Doe"}
         </Typography>
       </Box>
     </Box>

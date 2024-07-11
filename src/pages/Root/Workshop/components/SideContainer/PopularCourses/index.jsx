@@ -3,9 +3,14 @@ import React from "react";
 import Course from "./Course";
 import { ChevronRight } from "@mui/icons-material";
 import { useGetPopularCoursesInCateg } from "api/global/recommendation.tsx";
+import { Link } from "react-router-dom";
 
 const PopularCourses = () => {
-  const { data: coursesList } = useGetPopularCoursesInCateg({
+  const {
+    data: coursesList,
+    isLoading,
+    isError,
+  } = useGetPopularCoursesInCateg({
     categoryId: "65ece04d661c66c97548d956",
   });
   console.log(coursesList);
@@ -30,6 +35,8 @@ const PopularCourses = () => {
         </Typography>
         <Button
           aria-label="view all popular courses"
+          LinkComponent={Link}
+          to="/course"
           sx={{
             color: "text.secondary",
             "&:hover": {
@@ -41,9 +48,13 @@ const PopularCourses = () => {
           View All <ChevronRight />
         </Button>
       </Box>
-      {[1, 2, 3].map((ele) => (
-        <Course key={ele} />
-      ))}
+      {isLoading
+        ? [1, 2, 3].map((ele) => <Box key={ele}></Box>)
+        : isError
+        ? ""
+        : coursesList
+            .slice(0, 3)
+            .map((course) => <Course key={course._id} course={course} />)}
     </Box>
   );
 };

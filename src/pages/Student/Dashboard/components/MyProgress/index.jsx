@@ -10,7 +10,7 @@ const MyProgress = ({ status }) => {
   const theme = useTheme();
 
   const options = {
-    series: allEqualZero ? [100 / 3, 100 / 3, 100 / 3] : usageArray,
+    series: allEqualZero ? [1, 3, 6] : usageArray,
     labels: ["Completed", "In Progress", "Not Started"],
     plotOptions: {
       pie: {
